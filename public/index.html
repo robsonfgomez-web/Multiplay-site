@@ -3,149 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MultiPlay | Entretenimento sem Interrupções</title>
+    <title>Multiplay | A Sua Plataforma de Entretenimento</title>
+    <!-- Fontes e Ícones -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <!-- Vinculando o seu arquivo de estilos separado -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Navegação -->
     <header>
-        <div class="logo"><span>▶</span> MULTIPLAY</div>
+        <div class="logo-container">
+            <i class="fa-solid fa-play logo-icone"></i>
+            <span class="logo-texto">Multiplay</span>
+        </div>
         <nav>
-            <a href="#vantagens">Vantagens</a>
-            <a href="#planos">Planos</a>
-            <a href="#depoimentos">Depoimentos</a>
-            <a href="https://wa.me" target="_blank" class="btn-whatsapp-nav">WhatsApp</a>
+            <ul>
+                <li><a href="#vantagens">Vantagens</a></li>
+                <li><a href="#planos">Planos</a></li>
+            </ul>
         </nav>
+        <button class="btn-header">Minha Conta</button>
     </header>
 
-    <!-- Banner Principal -->
     <section class="hero">
-        <p class="tagline">CANAIS • FILMES • SÉRIES • ESPORTES</p>
-        <h1>A melhor estabilidade em transmissão do mercado.</h1>
-        <p>Esqueça os travamentos na hora do futebol ou da sua série favorita. Venha para a melhor estrutura de streaming.</p>
-        <div class="hero-buttons">
-            <a href="#planos" class="btn-primary">Ver Planos e Preços</a>
-            <a href="https://wa.me" target="_blank" class="btn-secondary">Testar Grátis no WhatsApp</a>
+        <div class="hero-conteudo">
+            <div class="hero-tag">Entretenimento do Futuro</div>
+            <h1>A melhor estabilidade em <span>transmissão de canais</span></h1>
+            <p>Esqueça os travamentos na hora do futebol ou da sua série favorita. Venha para a melhor estrutura de streaming de canais ao vivo, filmes e séries reunidos em um só lugar.</p>
+            
+            <div class="hero-botoes">
+                <a href="#planos" class="btn-principal">Ver Planos e Preços</a>
+                <a href="https://wa.me" target="_blank" class="btn-whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i> Testar Grátis no WhatsApp
+                </a>
+            </div>
+
+            <div class="marcas-container">
+                <p class="marcas-titulo">Conteúdo incluso de grandes plataformas:</p>
+                <div class="marcas-grid">
+                    <span class="marca-badge">GloboPlay</span>
+                    <span class="marca-badge">Netflix</span>
+                    <span class="marca-badge">HBO Max</span>
+                    <span class="marca-badge">Telecine</span>
+                    <span class="marca-badge">Paramount+</span>
+                    <span class="marca-badge">Disney+</span>
+                    <span class="marca-badge">Premiere</span>
+                    <span class="marca-badge">Combate</span>
+                    <span class="marca-badge">SporTV</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- BANNER NOVO TOTALMENTE EMBUTIDO POR URL -->
+        <div class="hero-visual">
+            <div class="visual-texto">
+                <h3>Conteúdo Sem Limites</h3>
+                <p>Assista em Smart TVs, Computadores ou Smartphones.</p>
+            </div>
         </div>
     </section>
 
-    <!-- Vantagens -->
-    <section id="vantagens" class="features">
-        <h2>Por que escolher a nossa plataforma?</h2>
-        <div class="features-grid">
-            <div class="feature-item">
-                <span class="icon">💻</span>
+    <section class="vantagens" id="vantagens">
+        <h2 class="secao-titulo">Por que escolher a nossa <span>plataforma?</span></h2>
+        
+        <div class="vantagens-grid">
+            <div class="card-vantagem">
+                <div class="card-icone"><i class="fa-solid fa-tv"></i></div>
                 <h3>Totalmente Compatível</h3>
-                <p>Assista na sua Smart TV, Smartphone Android ou iOS, Computador, TV Box e Tablet.</p>
+                <p>Assista na sua Smart TV, Smartphone Android ou iOS, Computador, TV Box e Tablet com configuração simples e rápida.</p>
             </div>
-            <div class="feature-item">
-                <span class="icon">⚡</span>
+
+            <div class="card-vantagem">
+                <div class="card-icone"><i class="fa-solid fa-bolt"></i></div>
                 <h3>Sem Travamentos</h3>
-                <p>Servidores dedicados de última geração que garantem o sinal rodando liso 24 horas por dia.</p>
+                <p>Servidores dedicados de última geração que garantem o sinal rodando liso e de forma estável 24 horas por dia.</p>
             </div>
-            <div class="feature-item">
-                <span class="icon">🎬</span>
+
+            <div class="card-vantagem">
+                <div class="card-icone"><i class="fa-solid fa-film"></i></div>
                 <h3>Catálogo Completo</h3>
-                <p>Milhares de filmes de cinema, séries atualizadas semanalmente e novelas completas.</p>
-            </div>
-            <div class="feature-item">
-                <span class="icon">🏆</span>
-                <h3>Esportes Ao Vivo</h3>
-                <p>Todos os canais de esportes liberados com qualidade digital em HD e 4K para você torcer.</p>
+                <p>Milhares de filmes de cinema, séries atualizadas semanalmente e novelas completas para maratonar quando quiser.</p>
             </div>
         </div>
     </section>
 
-    <!-- Planos -->
-    <section id="planos" class="pricing-section">
-        <h2>Escolha o seu Plano</h2>
-        <div class="plans-container">
-            <!-- Mensal -->
-            <div class="plan-card">
-                <h3>Plano Mensal</h3>
-                <div class="price">R$ 29,90<span>/mês</span></div>
-                <ul class="plan-features">
-                    <li>Acesso Completo a tudo</li>
-                    <li>Canais, Filmes e Séries</li>
-                    <li>Qualidade HD / Ultra HD</li>
-                    <li>Suporte via WhatsApp</li>
+    <section class="planos" id="planos">
+        <h2 class="secao-titulo">Escolha o seu <span>Plano</span></h2>
+        
+        <div class="planos-grid">
+            <div class="card-plano">
+                <h3 class="plano-nome">Plano Mensal</h3>
+                <div class="plano-preco">R$ 29,90<span>/mês</span></div>
+                <ul class="plano-recursos">
+                    <li><i class="fa-solid fa-check"></i> Acesso Completo a tudo</li>
+                    <li><i class="fa-solid fa-check"></i> Canais, Filmes e Séries</li>
+                    <li><i class="fa-solid fa-check"></i> Qualidade HD / Ultra HD</li>
+                    <li><i class="fa-solid fa-check"></i> Suporte via WhatsApp</li>
                 </ul>
-                <button onclick="iniciarCheckout('Mensal')" class="btn-checkout">Assinar Plano</button>
+                <a href="https://wa.me" target="_blank" class="btn-plano padrao" style="text-align: center; display: block;">Assinar Plano</a>
             </div>
 
-            <!-- Trimestral -->
-            <div class="plan-card destaque">
-                <div class="tag-destaque">Mais Econômico</div>
-                <h3>Plano Trimestral</h3>
-                <div class="price">R$ 79,90<span>/trimestre</span></div>
-                <ul class="plan-features">
-                    <li>Acesso liberado por 90 dias</li>
-                    <li>Mesmos benefícios premium</li>
-                    <li>Desconto no valor total</li>
-                    <li>Suporte prioritário</li>
+            <div class="card-plano destaque">
+                <div class="badge-destaque">Melhor Custo Benefício</div>
+                <h3 class="plano-nome">Plano Anual</h3>
+                <div class="plano-preco">R$ 299,90<span>/ano</span></div>
+                <ul class="plano-recursos">
+                    <li><i class="fa-solid fa-check"></i> 365 dias de acesso VIP</li>
+                    <li><i class="fa-solid fa-check"></i> O maior desconto mensal</li>
+                    <li><i class="fa-solid fa-check"></i> Servidor VIP ultra estável</li>
+                    <li><i class="fa-solid fa-check"></i> Suporte Premium Permanente</li>
                 </ul>
-                <button onclick="iniciarCheckout('Trimestral')" class="btn-checkout">Comprar com Desconto</button>
-            </div>
-
-            <!-- Anual -->
-            <div class="plan-card">
-                <h3>Plano Anual</h3>
-                <div class="price">R$ 299,90<span>/ano</span></div>
-                <ul class="plan-features">
-                    <li>365 dias de acesso VIP</li>
-                    <li>O maior desconto mensal</li>
-                    <li>Servidor VIP ultra estável</li>
-                    <li>Suporte Premium Permanente</li>
-                </ul>
-                <button onclick="iniciarCheckout('Anual')" class="btn-checkout">Garantir Plano Anual</button>
+                <a href="https://wa.me" target="_blank" class="btn-plano destacada" style="text-align: center; display: block;">Garantir Plano Anual</a>
             </div>
         </div>
     </section>
-
-    <!-- Depoimentos de Clientes -->
-    <section id="depoimentos" class="testimonials">
-        <h2>O que nossos clientes dizem</h2>
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <div class="stars">★★★★★</div>
-                <p>"Sensacional! Estava cansado de outros serviços que travavam direto no meio do jogo. Com o MultiPlay eu assisto ao futebol sem delay e sem nenhuma travada. Nota 10!"</p>
-                <div class="user-info">Marcos Silva<span>Cliente há 5 meses</span></div>
-            </div>
-            <div class="testimonial-card">
-                <div class="stars">★★★★★</div>
-                <p>"O catálogo de filmes e séries é perfeito. Tem tudo o que sai no cinema muito rápido. Meus filhos adoram a seção de desenhos. Vale cada centavo cobrado."</p>
-                <div class="user-info">Camila Rodrigues<span>Cliente há 1 ano</span></div>
-            </div>
-            <div class="testimonial-card">
-                <div class="stars">★★★★★</div>
-                <p>"O suporte pelo WhatsApp é muito rápido e atencioso. Precisei de ajuda para configurar na minha TV antiga e eles resolveram em menos de 5 minutos. Recomendo muito!"</p>
-                <div class="user-info">Roberto Souza<span>Cliente há 3 meses</span></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Script do Checkout -->
-    <script>
-        async function iniciarCheckout(nomePlano) {
-            try {
-                const response = await fetch('/api/checkout', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ plan: nomePlano })
-                });
-                const data = await response.json();
-                if (data.checkout_url) {
-                    window.location.href = data.checkout_url;
-                } else {
-                    alert('Erro ao gerar o pagamento: ' + (data.error || 'Verifique o token.'));
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro de conexão com o servidor de pagamentos.');
-            }
-        }
-    </script>
 
 </body>
 </html>
