@@ -2,183 +2,56 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multiplay | A Sua Plataforma de Entretenimento</title>
-    <!-- Fontes e Ícones -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cloudflare.com">
-    <!-- Vinculando o arquivo de estilos que vamos atualizar no próximo passo -->
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <header>
-        <div class="logo-container">
-            <i class="fa-solid fa-play logo-icone"></i>
-            <span class="logo-texto">Multiplay</span>
-        </div>
-        <nav class="menu-desktop">
-            <ul>
-                <li><a href="#vantagens">Vantagens</a></li>
-                <li><a href="#planos">Planos</a></li>
-                <li><a href="#depoimentos">Depoimentos</a></li>
-                <li><a href="#faq">FAQ</a></li>
-            </ul>
+    <header class="navbar">
+        <div class="logo">Multiplay</div>
+        <nav>
+            <a href="#vantagens">Vantagens</a>
+            <a href="#planos">Planos</a>
+            <a href="#depoimentos">Depoimentos</a>
         </nav>
-        <a href="https://whatsapp.com." target="_blank" class="btn-header">Minha Conta</a>
+        <a href="https://wa.me." target="_blank" class="btn-nav">Minha Conta</a>
     </header>
 
     <section class="hero">
-        <div class="hero-conteudo">
-            <div class="hero-tag">Entretenimento do Futuro</div>
-            <h1>A melhor estabilidade em <span>transmissão de canais</span></h1>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="badge">Entretenimento do Futuro</span>
+            <h1>A melhor estabilidade em transmissão de canais</h1>
             <p>Esqueça os travamentos na hora do futebol ou da sua série favorita. Venha para a melhor estrutura de streaming de canais ao vivo, filmes e séries reunidos em um só lugar.</p>
-            
-            <div class="hero-botoes">
-                <a href="#planos" class="btn-principal">Ver Planos e Preços</a>
-                <a href="https://whatsapp.com!" target="_blank" class="btn-whatsapp">
-                    <i class="fa-brands fa-whatsapp"></i> Testar Grátis no WhatsApp
+            <div class="hero-buttons">
+                <a href="#planos" class="btn-primary">Ver Planos e Preços</a>
+                <a href="https://wa.me." target="_blank" class="btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Testar Grátis no WhatsApp
                 </a>
             </div>
-
-            <div class="marcas-container">
-                <p class="marcas-titulo">Conteúdo incluso de grandes plataformas:</p>
-                <div class="marcas-grid">
-                    <span class="marca-badge">GloboPlay</span>
-                    <span class="marca-badge">Netflix</span>
-                    <span class="marca-badge">HBO Max</span>
-                    <span class="marca-badge">Telecine</span>
-                    <span class="marca-badge">Paramount+</span>
-                    <span class="marca-badge">Disney+</span>
-                    <span class="marca-badge">Premiere</span>
-                    <span class="marca-badge">Combate</span>
-                    <span class="marca-badge">SporTV</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="hero-visual">
-            <div class="visual-texto">
-                <h3>Conteúdo Sem Limites</h3>
-                <p>Assista em Smart TVs, Computadores ou Smartphones.</p>
-            </div>
         </div>
     </section>
 
-    <section class="vantagens" id="vantagens">
-        <h2 class="secao-titulo">Por que escolher a nossa <span>plataforma?</span></h2>
-        
-        <div class="vantagens-grid">
-            <div class="card-vantagem">
-                <div class="card-icone"><i class="fa-solid fa-tv"></i></div>
-                <h3>Totalmente Compatível</h3>
-                <p>Assista na sua Smart TV, Smartphone Android ou iOS, Computador, TV Box e Tablet com configuração simples e rápida.</p>
+    <section id="planos" class="plans">
+        <h2>Escolha o seu Plano</h2>
+        <div class="plans-grid">
+            <div class="plan-card">
+                <h3>1 Tela Mensal</h3>
+                <div class="price">R$ 29,90<span>/mês</span></div>
+                <a href="https://wa.me." target="_blank" class="btn-plan">Solicitar Plano</a>
             </div>
-
-            <div class="card-vantagem">
-                <div class="card-icone"><i class="fa-solid fa-bolt"></i></div>
-                <h3>Sem Travamentos</h3>
-                <p>Servidores dedicados de última geração que garantem o sinal rodando liso e de forma estável 24 horas por dia.</p>
-            </div>
-
-            <div class="card-vantagem">
-                <div class="card-icone"><i class="fa-solid fa-film"></i></div>
-                <h3>Catálogo Completo</h3>
-                <p>Milhares de filmes de cinema, séries atualizadas semanalmente e novelas completas para maratonar quando quiser.</p>
+            <div class="plan-card featured">
+                <div class="ribbon">Mais Vendido</div>
+                <h3>2 Telas Mensais</h3>
+                <div class="price">R$ 50,00<span>/mês</span></div>
+                <a href="https://wa.me." target="_blank" class="btn-plan-featured">Solicitar Plano</a>
             </div>
         </div>
     </section>
-
-    <section class="planos" id="planos">
-        <h2 class="secao-titulo">Escolha o seu <span>Plano</span></h2>
-        
-        <div class="planos-grid">
-            <!-- 1 Tela Mensal -->
-            <div class="card-plano">
-                <h3 class="plano-nome">1 Tela Mensal</h3>
-                <div class="plano-preco">R$ 29,90<span>/mês</span></div>
-                <ul class="plano-recursos">
-                    <li><i class="fa-solid fa-check"></i> 1 Acesso Simultâneo</li>
-                    <li><i class="fa-solid fa-check"></i> Canais, Filmes e Séries</li>
-                    <li><i class="fa-solid fa-check"></i> Qualidade HD / Ultra HD</li>
-                    <li><i class="fa-solid fa-check"></i> Suporte via WhatsApp</li>
-                </ul>
-                <a href="https://mpago.la" target="_blank" class="btn-plano padrao">Assinar 1 Tela</a>
-            </div>
-
-            <!-- 2 Telas Mensais -->
-            <div class="card-plano destaque">
-                <div class="badge-destaque">Mais Vendido</div>
-                <h3 class="plano-nome">2 Telas Mensais</h3>
-                <div class="plano-preco">R$ 50,00<span>/mês</span></div>
-                <ul class="plano-recursos">
-                    <li><i class="fa-solid fa-check"></i> 2 Acessos Simultâneos</li>
-                    <li><i class="fa-solid fa-check"></i> Perfeito para a Família</li>
-                    <li><i class="fa-solid fa-check"></i> Qualidade HD / Ultra HD</li>
-                    <li><i class="fa-solid fa-check"></i> Suporte Premium VIP</li>
-                </ul>
-                <a href="https://mpago.la" target="_blank" class="btn-plano destacada">Assinar 2 Telas</a>
-            </div>
-
-            <!-- 1 Tela Anual -->
-            <div class="card-plano">
-                <h3 class="plano-nome">1 Tela Anual</h3>
-                <div class="plano-preco">R$ 299,90<span>/ano</span></div>
-                <ul class="plano-recursos">
-                    <li><i class="fa-solid fa-check"></i> 1 Acesso por 365 dias</li>
-                    <li><i class="fa-solid fa-check"></i> Desconto de 2 meses grátis</li>
-                    <li><i class="fa-solid fa-check"></i> Servidor VIP ultra estável</li>
-                    <li><i class="fa-solid fa-check"></i> Suporte Permanente</li>
-                </ul>
-                <a href="https://mpago.la" target="_blank" class="btn-plano padrao">Garantir Anual 1T</a>
-            </div>
-
-            <!-- 2 Telas Anuais -->
-            <div class="card-plano">
-                <h3 class="plano-nome">2 Telas Anuais</h3>
-                <div class="plano-preco">R$ 499,90<span>/ano</span></div>
-                <ul class="plano-recursos">
-                    <li><i class="fa-solid fa-check"></i> 2 Acessos por 365 dias</li>
-                    <li><i class="fa-solid fa-check"></i> Economia Máxima Familiar</li>
-                    <li><i class="fa-solid fa-check"></i> Servidor VIP ultra estável</li>
-                    <li><i class="fa-solid fa-check"></i> Suporte VIP Permanente</li>
-                </ul>
-                <a href="https://mpago.la" target="_blank" class="btn-plano padrao">Garantir Anual 2T</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="depoimentos" id="depoimentos">
-        <h2 class="secao-titulo">O que nossos <span>clientes dizem</span></h2>
-        
-        <div class="depoimentos-grid">
-            <div class="card-depoimento">
-                <div class="estrelas">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                </div>
-                <p class="texto-depoimento">"Sensacional! Estava cansado de outros serviços que travavam direto no meio do jogo. Com o Multiplay eu assisto ao futebol sem delay e sem nenhuma travada. Nota 10!"</p>
-                <div class="autor-info">
-                    <div class="autor-nome">Marcos Silva</div>
-                    <div class="autor-tempo">Cliente há 5 meses</div>
-                </div>
-            </div>
-
-            <div class="card-depoimento">
-                <div class="estrelas">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                </div>
-                <p class="texto-depoimento">"O catálogo de filmes e séries é fantástico! Minhas filhas adoram os desenhos da Disney e eu maratono minhas séries da HBO e Netflix todo final de semana sem nenhuma dor de cabeça."</p>
-                <div class="autor-info">
-                    <div class="autor-nome">Amanda Oliveira</div>
-                    <div class="autor-tempo">Cliente há 3 meses</div>
-                </div>
-            </div>
-
-            <div class="card-depoimento">
-                <div class="estrelas">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                </div>
-                <p class="texto-depoimento">"Uso na minha Smart TV e no celular quando estou no trabalho. Roda liso até no 4G. O suporte deles me atendeu muito rápido quando precisei renovar o plano."</p>
-                <div class="autor-info">
+    
+    <footer>
+        <p>&copy; 2026 Multiplay. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>
