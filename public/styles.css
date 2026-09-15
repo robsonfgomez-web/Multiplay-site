@@ -20,7 +20,7 @@ body {
     background-color: var(--bg-principal);
     color: var(--texto-claro);
     overflow-x: hidden;
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
 h1, h2, h3, .logo-texto {
@@ -40,8 +40,8 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 8%;
-    background: rgba(6, 7, 19, 0.85);
+    padding: 15px 5%;
+    background: rgba(6, 7, 19, 0.95);
     backdrop-filter: blur(10px);
     position: fixed;
     width: 100%;
@@ -53,11 +53,11 @@ header {
 .logo-container {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .logo-icone {
-    font-size: 2rem;
+    font-size: 1.5rem;
     background: linear-gradient(45deg, var(--neon-azul), var(--neon-rosa));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -65,7 +65,7 @@ header {
 }
 
 .logo-texto {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     background: linear-gradient(to right, #fff, var(--neon-azul));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -74,72 +74,65 @@ header {
 nav ul {
     display: flex;
     list-style: none;
-    gap: 35px;
+    gap: 20px;
 }
 
 nav ul li a {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 500;
     transition: 0.3s;
 }
 
 nav ul li a:hover {
     color: var(--neon-azul);
-    text-shadow: 0 0 10px var(--neon-azul);
 }
 
 .btn-header {
     background: transparent;
-    border: 2px solid var(--neon-azul);
-    padding: 8px 20px;
+    border: 1.5px solid var(--neon-azul);
+    padding: 6px 12px;
     border-radius: 5px;
     font-weight: 600;
-    transition: 0.3s;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    font-size: 0.85rem;
     color: #fff;
-}
-
-.btn-header:hover {
-    background: var(--neon-azul);
-    color: var(--bg-principal);
-    box-shadow: 0 0 25px var(--neon-azul);
     cursor: pointer;
 }
 
 /* --- HERO BANNER --- */
 .hero {
-    margin-top: 80px;
-    min-height: 90vh;
+    margin-top: 70px;
+    min-height: 85vh;
     display: flex;
     align-items: center;
-    padding: 60px 8%;
-    background: radial-gradient(circle at 80% 20%, rgba(112, 0, 255, 0.15), transparent 45%),
-                radial-gradient(circle at 20% 80%, rgba(0, 240, 255, 0.1), transparent 50%);
-    position: relative;
+    justify-content: space-between;
+    padding: 40px 8%;
+    background: radial-gradient(circle at 50% 20%, rgba(112, 0, 255, 0.15), transparent 50%);
+    gap: 40px;
 }
 
 .hero-conteudo {
+    flex: 1;
     max-width: 55%;
     z-index: 2;
 }
 
 .hero-tag {
     display: inline-block;
-    padding: 6px 14px;
+    padding: 4px 12px;
     background: rgba(255, 0, 127, 0.1);
     border: 1px solid var(--neon-rosa);
     color: var(--neon-rosa);
     border-radius: 50px;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-transform: uppercase;
 }
 
 .hero h1 {
-    font-size: 4rem;
-    line-height: 1.1;
-    margin-bottom: 20px;
+    font-size: 3.2rem;
+    line-height: 1.2;
+    margin-bottom: 15px;
     background: linear-gradient(to right, #fff, #b3b8e9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -152,134 +145,113 @@ nav ul li a:hover {
 }
 
 .hero p {
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     color: var(--texto-mutado);
-    margin-bottom: 35px;
-    max-width: 90%;
+    margin-bottom: 25px;
 }
 
 .hero-botoes {
     display: flex;
-    gap: 20px;
-    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.btn-principal, .btn-whatsapp {
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+    min-width: 180px;
 }
 
 .btn-principal {
     background: linear-gradient(135deg, var(--neon-azul), var(--neon-roxo));
     color: white;
-    padding: 15px 35px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 1.1rem;
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
-    transition: 0.3s;
-    display: inline-block;
-}
-
-.btn-principal:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 35px var(--neon-azul);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
 }
 
 .btn-whatsapp {
     background: #25D366;
     color: white;
-    padding: 15px 35px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 1.1rem;
-    transition: 0.3s;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 0 20px rgba(37, 211, 102, 0.3);
+    box-shadow: 0 0 15px rgba(37, 211, 102, 0.2);
 }
 
-.btn-whatsapp:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 35px #25D366;
+.btn-principal:hover, .btn-whatsapp:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
 }
 
-/* --- VITRINE DE MARCAS --- */
+/* VITRINE DE MARCAS */
 .marcas-container {
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
 .marcas-titulo {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--texto-mutado);
     text-transform: uppercase;
-    margin-bottom: 15px;
-    letter-spacing: 2px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
 }
 
 .marcas-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
-    align-items: center;
+    gap: 10px;
 }
 
 .marca-badge {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 8px 16px;
+    padding: 6px 12px;
     border-radius: 6px;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #d1d5db;
-    transition: 0.3s;
-}
-
-.marca-badge:hover {
-    border-color: var(--neon-azul);
-    background: rgba(0, 240, 255, 0.05);
-    color: #fff;
-    transform: scale(1.05);
 }
 
 .hero-visual {
-    position: absolute;
-    right: 8%;
-    width: 35%;
-    height: 480px;
-    background: url('https://unsplash.com') center/cover no-repeat;
-    border-radius: 20px;
-    box-shadow: 0 0 50px rgba(112, 0, 255, 0.3);
-    border: 2px solid rgba(0, 240, 255, 0.3);
+    flex: 1;
+    max-width: 40%;
+    height: 380px;
+    background: linear-gradient(135deg, rgba(13, 15, 38, 0.8), rgba(6, 7, 19, 0.9)), 
+                url('https://unsplash.com') center/cover no-repeat;
+    border-radius: 16px;
+    box-shadow: 0 0 40px rgba(112, 0, 255, 0.2);
+    border: 1px solid rgba(0, 240, 255, 0.2);
     display: flex;
     align-items: flex-end;
-    padding: 30px;
-    overflow: hidden;
-}
-
-.hero-visual::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to top, rgba(13, 15, 38, 0.95), transparent);
-}
-
-.visual-texto {
+    padding: 25px;
     position: relative;
-    z-index: 2;
 }
 
 .visual-texto h3 {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     color: var(--neon-azul);
     margin-bottom: 5px;
 }
 
+.visual-texto p {
+    font-size: 0.9rem;
+    color: var(--texto-mutado);
+}
+
 /* --- VANTAGENS --- */
 .vantagens {
-    padding: 100px 8%;
+    padding: 60px 5%;
     text-align: center;
 }
 
 .secao-titulo {
-    font-size: 2.8rem;
-    margin-bottom: 50px;
+    font-size: 2.2rem;
+    margin-bottom: 40px;
 }
 
 .secao-titulo span {
@@ -288,137 +260,129 @@ nav ul li a:hover {
 
 .vantagens-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
 }
 
 .card-vantagem {
     background: var(--bg-card);
     border: 1px solid var(--borda-glow);
-    padding: 40px 30px;
+    padding: 30px 20px;
     border-radius: 12px;
-    transition: 0.4s;
     text-align: left;
-    position: relative;
-    overflow: hidden;
-}
-
-.card-vantagem::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 4px; height: 100%;
-    background: linear-gradient(to bottom, var(--neon-azul), var(--neon-rosa));
-}
-
-.card-vantagem:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 30px rgba(0, 240, 255, 0.15);
-    border-color: var(--neon-azul);
 }
 
 .card-icone {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: var(--neon-azul);
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .card-vantagem h3 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
 }
 
 .card-vantagem p {
     color: var(--texto-mutado);
+    font-size: 0.95rem;
 }
 
-/* --- PLANOS --- */
+/* --- NOVO GRID DE 4 PLANOS (ORGANIZADO E COMPATÍVEL COM CELULAR) --- */
 .planos {
-    padding: 60px 8% 100px 8%;
+    padding: 60px 5%;
     text-align: center;
 }
 
 .planos-grid {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 40px;
-    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Organiza em 4 colunas no computador e lista um por um no celular */
+    gap: 25px;
+    margin-top: 40px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .card-plano {
     background: var(--bg-card);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 16px;
-    padding: 45px 35px;
-    width: 360px;
+    padding: 35px 20px;
     position: relative;
-    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 400px;
 }
 
 .card-plano.destaque {
     border: 2px solid var(--neon-rosa);
-    box-shadow: 0 0 30px rgba(255, 0, 127, 0.15);
-    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(255, 0, 127, 0.15);
 }
 
 .badge-destaque {
     position: absolute;
-    top: -15px;
+    top: -12px;
     left: 50%;
     transform: translateX(-50%);
     background: var(--neon-rosa);
     color: white;
-    padding: 5px 20px;
+    padding: 4px 15px;
     border-radius: 50px;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
 }
 
 .plano-nome {
-    font-size: 1.8rem;
+    font-size: 1.3rem;
     margin-bottom: 10px;
 }
 
 .plano-preco {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 700;
-    color: var(--texto-claro);
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .plano-preco span {
-    font-size: 1rem;
+    font-size: 0.85rem;
     color: var(--texto-mutado);
 }
 
 .plano-recursos {
     list-style: none;
     text-align: left;
-    margin-bottom: 35px;
+    margin-bottom: 25px;
 }
 
 .plano-recursos li {
-    margin-bottom: 12px;
-    color: #d1d5db;
+    margin-bottom: 10px;
+    font-size: 0.85rem;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .plano-recursos li i {
     color: var(--neon-azul);
 }
 
+.card-plano.destaque .plano-recursos li i {
+    color: var(--neon-rosa);
+}
+
 .btn-plano {
     width: 100%;
-    padding: 14px;
+    padding: 12px;
     border-radius: 8px;
     border: none;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     cursor: pointer;
-    transition: 0.3s;
+    text-align: center;
+    display: block;
 }
 
 .btn-plano.padrao {
@@ -432,14 +396,14 @@ nav ul li a:hover {
     color: var(--bg-principal);
 }
 
-.btn-plano.destacado {
+.btn-plano.destacada {
     background: var(--neon-rosa);
     color: white;
 }
 
-/* --- ESTILOS DA SEÇÃO DE DEPOIMENTOS --- */
+/* --- DEPOIMENTOS --- */
 .depoimentos {
-    padding: 80px 8% 120px 8%;
+    padding: 60px 5%;
     text-align: center;
 }
 
@@ -447,56 +411,81 @@ nav ul li a:hover {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 30px;
-    margin-top: 40px;
+    gap: 20px;
+    margin-top: 30px;
 }
 
 .card-depoimento {
     background: var(--bg-card);
     border: 1px solid rgba(255, 255, 255, 0.03);
-    padding: 35px;
+    padding: 25px;
     border-radius: 12px;
-    width: 45%;
-    min-width: 320px;
+    width: 100%;
+    max-width: 450px;
     text-align: left;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    transition: 0.3s;
-}
-
-.card-depoimento:hover {
-    border-color: var(--neon-rosa);
-    box-shadow: 0 0 25px rgba(255, 0, 127, 0.1);
 }
 
 .estrelas {
     color: #ffc107;
-    margin-bottom: 15px;
-    font-size: 0.95rem;
+    margin-bottom: 10px;
 }
 
 .texto-depoimento {
     color: #d1d5db;
     font-style: italic;
-    margin-bottom: 20px;
-    font-size: 1.05rem;
-}
-
-.autor-info {
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding-top: 15px;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
 }
 
 .autor-nome {
     font-weight: 700;
-    color: var(--texto-claro);
 }
 
 .autor-tempo {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--texto-mutado);
 }
 
-/* --- RESPONSIVIDADE --- */
+/* --- FIX DE RESPONSIVIDADE PARA CELULARES --- */
 @media (max-width: 1024px) {
+    header {
+        padding: 15px 4%;
+    }
+    
+    nav {
+        display: none;
+    }
+
     .hero {
         flex-direction: column;
+        padding: 100px 5% 40px 5%;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .hero-conteudo {
+        max-width: 100%;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-botoes {
+        justify-content: center;
+    }
+
+    .btn-principal, .btn-whatsapp {
+        width: 100%;
+    }
+
+    .marcas-grid {
+        justify-content: center;
+    }
+
+    .hero-visual {
+        max-width: 100%;
+        width: 100%;
+        height: 250px;
+    }
+}
