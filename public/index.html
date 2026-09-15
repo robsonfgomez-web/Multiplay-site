@@ -3,55 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiplay | A Sua Plataforma de Entretenimento</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Multiplay | Canais, Filmes e Séries em um só lugar</title>
+    <!-- Importando fontes e ícones modernos -->
     <link rel="stylesheet" href="https://cloudflare.com">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- CABEÇALHO -->
     <header class="navbar">
-        <div class="logo">Multiplay</div>
-        <nav>
-            <a href="#vantagens">Vantagens</a>
-            <a href="#planos">Planos</a>
-            <a href="#depoimentos">Depoimentos</a>
-        </nav>
-        <a href="https://wa.me." target="_blank" class="btn-nav">Minha Conta</a>
+        <div class="logo">Multi<span>play</span></div>
+        <a href="https://wa.me." target="_blank" class="btn-suporte">
+            <i class="fab fa-whatsapp"></i> Suporte Online
+        </a>
     </header>
 
+    <!-- SEÇÃO PRINCIPAL (HERO) -->
     <section class="hero">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <span class="badge">Entretenimento do Futuro</span>
-            <h1>A melhor estabilidade em transmissão de canais</h1>
-            <p>Esqueça os travamentos na hora do futebol ou da sua série favorita. Venha para a melhor estrutura de streaming de canais ao vivo, filmes e séries reunidos em um só lugar.</p>
-            <div class="hero-buttons">
-                <a href="#planos" class="btn-primary">Ver Planos e Preços</a>
-                <a href="https://wa.me." target="_blank" class="btn-whatsapp">
-                    <i class="fab fa-whatsapp"></i> Testar Grátis no WhatsApp
+            <span class="badge">ENTRETENIMENTO ILIMITADO</span>
+            <h1>Canais, filmes e séries em um só lugar!</h1>
+            <p class="sub-headline">Você encontra tudo isso na <strong>Multi play</strong>. Chega de gastar tanto dinheiro com assinaturas separadas. Venha para a Multi play e veja seu dinheiro render mais!</p>
+            <div class="hero-cta">
+                <a href="#planos" class="btn-primary">Ver Planos</a>
+                <a href="https://wa.me." target="_blank" class="btn-secondary">
+                    <i class="fab fa-whatsapp"></i> Testar Grátis
                 </a>
             </div>
         </div>
     </section>
 
-    <section id="planos" class="plans">
-        <h2>Escolha o seu Plano</h2>
-        <div class="plans-grid">
-            <div class="plan-card">
-                <h3>1 Tela Mensal</h3>
-                <div class="price">R$ 29,90<span>/mês</span></div>
-                <a href="https://wa.me." target="_blank" class="btn-plan">Solicitar Plano</a>
-            </div>
-            <div class="plan-card featured">
-                <div class="ribbon">Mais Vendido</div>
-                <h3>2 Telas Mensais</h3>
-                <div class="price">R$ 50,00<span>/mês</span></div>
-                <a href="https://wa.me." target="_blank" class="btn-plan-featured">Solicitar Plano</a>
-            </div>
+    <!-- SEÇÃO DE LOGOS / PLATAFORMAS -->
+    <section class="marcas">
+        <p>Conteúdo incluso das principais plataformas:</p>
+        <div class="grid-marcas">
+            <div class="marca-item">Netflix</div>
+            <div class="marca-item">Globo Play</div>
+            <div class="marca-item">HBO Max</div>
+            <div class="marca-item">Paramount+</div>
+            <div class="marca-item">Disney+</div>
+            <div class="marca-item">Telecine</div>
+            <div class="marca-item">Premiere</div>
+            <div class="marca-item">ESPN</div>
+            <div class="marca-item">SporTV</div>
+            <div class="marca-item mais">+ Muito Mais</div>
         </div>
     </section>
-    
+
+    <!-- SEÇÃO DE PLANOS -->
+    <section id="planos" class="planos-container">
+        <h2>Escolha o seu Plano</h2>
+        <p class="planos-sub">Sem fidelidade, cancele quando quiser.</p>
+        
+        <div class="grid-planos">
+            <!-- Plano 1 -->
+            <div class="card-plano">
+                <div class="plano-header">
+                    <h3>Plano Individual</h3>
+                    <span class="telas">1 Tela</span>
+                </div>
+                <div class="preco">R$ 29,90<span>/mês</span></div>
+                <ul class="beneficios">
+                    <li><i class="fas fa-check"></i> Canais, Filmes e Séries</li>
+                    <li><i class="fas fa-check"></i> Qualidade Ultra HD / 4K</li>
+                    <li><i class="fas fa-check"></i> Assista no Celular, TV ou PC</li>
+                </ul>
+                <a href="https://wa.me." target="_blank" class="btn-card">Assinar Agora</a>
+            </div>
+
+            <!-- Plano 2 (Destaque) -->
+            <div class="card-plano destaque">
+                <div class="badge-destaque">Mais Vendido</div>
+                <div class="plano-header">
+                    <h3>Plano Familiar</h3>
+                    <span class="telas">2 Telas</span>
+                </div>
+                <div class="preco">R$ 50,00<span>/mês</span></div>
+                <ul class="beneficios">
+                    <li><i class="fas fa-check"></i> 2 Acessos Simultâneos</li>
+                    <li><i class="fas fa-check"></i> Canais, Filmes e Séries</li>
+                    <li><i class="fas fa-check"></i> Qualidade Ultra HD / 4K</li>
+                </ul>
+                <a href="https://wa.me." target="_blank" class="btn-card-destaque">Assinar Agora</a>
+            </div>
+        </div>
+
+        <!-- Chamada para + Telas -->
+        <div class="outros-planos">
+            <h3>Precisa de mais telas?</h3>
+            <p>Para outros planos personalizados, chame no WhatsApp! Nosso time irá lhe atender prontamente!</p>
+            <a href="https://wa.me." target="_blank" class="btn-whatsapp-outros">
+                <i class="fab fa-whatsapp"></i> Conversar com o Time
+            </a>
+        </div>
+    </section>
+
+    <!-- RODAPÉ -->
     <footer>
         <p>&copy; 2026 Multiplay. Todos os direitos reservados.</p>
     </footer>
+
 </body>
 </html>
