@@ -9,183 +9,347 @@
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cloudflare.com">
-    <!-- Vinculando o seu arquivo de estilos separado -->
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    
+    <style>
+        :root {
+            --bg-principal: #060713;
+            --bg-card: #0d0f26;
+            --neon-azul: #00f0ff;
+            --neon-rosa: #ff007f;
+            --neon-roxo: #7000ff;
+            --texto-claro: #ffffff;
+            --texto-mutado: #8a8fbc;
+            --borda-glow: rgba(0, 240, 255, 0.2);
+        }
 
-    <header>
-        <div class="logo-container">
-            <i class="fa-solid fa-play logo-icone"></i>
-            <span class="logo-texto">Multiplay</span>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#vantagens">Vantagens</a></li>
-                <li><a href="#planos">Planos</a></li>
-                <li><a href="#depoimentos">Depoimentos</a></li>
-            </ul>
-        </nav>
-        <!-- LINK REFEITO PARA CELULAR NO SUPORTE -->
-        <a href="whatsapp://send?phone=5541991475644&text=Vim%20pelo%20site%20e%20quero%20saber%20mais!" class="btn-header" style="display: inline-block; text-align: center;">Minha Conta</a>
-    </header>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+        }
 
-    <section class="hero">
-        <div class="hero-conteudo">
-            <div class="hero-tag">Entretenimento do Futuro</div>
-            <h1>A melhor estabilidade em <span>transmissão de canais</span></h1>
-            <p>Esqueça os travamentos na hora do futebol ou da sua série favorita. Venha para a melhor estrutura de streaming de canais ao vivo, filmes e séries reunidos em um só lugar.</p>
-            
-            <div class="hero-botoes">
-                <a href="#planos" class="btn-principal">Ver Planos e Preços</a>
-                <!-- LINK NATIVO QUE FORÇA O CELULAR A ABRIR O APLICATIVO DO WHATSAPP COM A SUA MENSAGEM -->
-                <a href="whatsapp://send?phone=5541991475644&text=Vim%20pelo%20site%20e%20quero%20saber%20mais!" class="btn-whatsapp">
-                    <i class="fa-brands fa-whatsapp"></i> Testar Grátis no WhatsApp
-                </a>
-            </div>
+        body {
+            background-color: var(--bg-principal);
+            color: var(--texto-claro);
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
 
-            <div class="marcas-container">
-                <p class="marcas-titulo">Conteúdo incluso de grandes plataformas:</p>
-                <div class="marcas-grid">
-                    <span class="marca-badge">GloboPlay</span>
-                    <span class="marca-badge">Netflix</span>
-                    <span class="marca-badge">HBO Max</span>
-                    <span class="marca-badge">Telecine</span>
-                    <span class="marca-badge">Paramount+</span>
-                    <span class="marca-badge">Disney+</span>
-                    <span class="marca-badge">Premiere</span>
-                    <span class="marca-badge">Combate</span>
-                    <span class="marca-badge">SporTV</span>
-                </div>
-            </div>
-        </div>
+        h1, h2, h3, .logo-texto {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        <div class="hero-visual">
-            <div class="visual-texto">
-                <h3>Conteúdo Sem Limites</h3>
-                <p>Assista em Smart TVs, Computadores ou Smartphones.</p>
-            </div>
-        </div>
-    </section>
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-    <section class="vantagens" id="vantagens">
-        <h2 class="secao-titulo">Por que escolher a nossa <span>plataforma?</span></h2>
-        
-        <div class="vantagens-grid">
-            <div class="card-vantagem">
-                <div class="card-icone"><i class="fa-solid fa-tv"></i></div>
-                <h3>Totalmente Compatível</h3>
-                <p>Assista na sua Smart TV, Smartphone Android ou iOS, Computador, TV Box e Tablet com configuração simples e rápida.</p>
-            </div>
+        /* --- CABEÇALHO --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: rgba(6, 7, 19, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
 
-            <div class="card-vantagem">
-                <div class="card-icone"><i class="fa-solid fa-bolt"></i></div>
-                <h3>Sem Travamentos</h3>
-                <p>Servidores dedicados de última geração que garantem o sinal rodando liso e de forma estável 24 horas por dia.</p>
-            </div>
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-            <div class="card-vantagem">
-                <div class="card-icone"><i class="fa-solid fa-film"></i></div>
-                <h3>Catálogo Completo</h3>
-                <p>Milhares de filmes de cinema, séries atualizadas semanalmente e novelas completas para maratonar quando quiser.</p>
-            </div>
-        </div>
-    </section>
+        .logo-icone {
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, var(--neon-azul), var(--neon-rosa));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.6));
+        }
 
-    <section class="planos" id="planos">
-        <h2 class="secao-titulo">Escolha o seu <span>Plano</span></h2>
-        
-        <div class="planos-grid">
-            <!-- 1 Tela Mensal -->
-            <div class="card-plano">
-                <h3 class="plano-nome">1 Tela Mensal</h3>
-                <div class="plano-preco">R$ 29,90<span>/mês</span></div>
-                <ul class="plano-recursos">
-                    <li><i class="fa-solid fa-check"></i> 1 Acesso Simultâneo</li>
-                    <li><i class="fa-solid fa-check"></i> Canais, Filmes e Séries</li>
-                    <li><i class="fa-solid fa-check"></i> Qualidade HD / Ultra HD</li>
-                    <li><i class="fa-solid fa-check"></i> Suporte via WhatsApp</li>
-                </ul>
-                <a href="https://mpago.la" target="_blank" class="btn-plano padrao">Assinar 1 Tela</a>
-            </div>
+        .logo-texto {
+            font-size: 1.4rem;
+            background: linear-gradient(to right, #fff, var(--neon-azul));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-            <!-- 2 Telas Mensais -->
-            <div class="card-plano destaque">
-                <div class="badge-destaque">Mais Vendido</div>
-                <h3 class="plano-nome">2 Telas Mensais</h3>
-                <div class="plano-preco">R$ 50,00<span>/mês</span></div>
-                <ul class="plano-recursos">
-                    <li><i class="fa-solid fa-check"></i> 2 Acessos Simultâneos</li>
-                    <li><i class="fa-solid fa-check"></i> Perfeito para a Família</li>
-                    <li><i class="fa-solid fa-check"></i> Qualidade HD / Ultra HD</li>
-                    <li><i class="fa-solid fa-check"></i> Suporte Premium VIP</li>
-                </ul>
-                <a href="https://mpago.la" target="_blank" class="btn-plano destacada">Assinar 2 Telas</a>
-            </div>
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
 
-            <!-- 1 Tela Anual -->
-            <div class="card-plano">
-                <h3 class="plano-nome">1 Tela Anual</h3>
-                <div class="plano-preco">R$ 299,90<span>/ano</span></div>
-                <ul class="plano-recursos">
-                    <li><i class="fa-solid fa-check"></i> 1 Acesso por 365 dias</li>
-                    <li><i class="fa-solid fa-check"></i> Desconto de 2 meses grátis</li>
-                    <li><i class="fa-solid fa-check"></i> Servidor VIP ultra estável</li>
-                    <li><i class="fa-solid fa-check"></i> Suporte Permanente</li>
-                </ul>
-                <a href="https://mpago.la" target="_blank" class="btn-plano padrao">Garantir Anual 1T</a>
-            </div>
+        nav ul li a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: 0.3s;
+        }
 
-            <!-- 2 Telas Anuais -->
-            <div class="card-plano">
-                <h3 class="plano-nome">2 Telas Anuais</h3>
-                <div class="plano-preco">R$ 499,90<span>/ano</span></div>
-                <ul class="plano-recursos">
-                    <li><i class="fa-solid fa-check"></i> 2 Acessos por 365 dias</li>
-                    <li><i class="fa-solid fa-check"></i> Economia Máxima Familiar</li>
-                    <li><i class="fa-solid fa-check"></i> Servidor VIP ultra estável</li>
-                    <li><i class="fa-solid fa-check"></i> Suporte VIP Permanente</li>
-                </ul>
-                <a href="https://mpago.la" target="_blank" class="btn-plano padrao">Garantir Anual 2T</a>
-            </div>
-        </div>
-    </section>
+        nav ul li a:hover {
+            color: var(--neon-azul);
+        }
 
-    <section class="depoimentos" id="depoimentos">
-        <h2 class="secao-titulo">O que nossos <span>clientes dizem</span></h2>
-        
-        <div class="depoimentos-grid">
-            <div class="card-depoimento">
-                <div class="estrelas">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                </div>
-                <p class="texto-depoimento">"Sensacional! Estava cansado de outros serviços que travavam direto no meio do jogo. Com o Multiplay eu assisto ao futebol sem delay e sem nenhuma travada. Nota 10!"</p>
-                <div class="autor-info">
-                    <div class="autor-nome">Marcos Silva</div>
-                    <div class="autor-tempo">Cliente há 5 meses</div>
-                </div>
-            </div>
+        .btn-header {
+            background: transparent;
+            border: 1.5px solid var(--neon-azul);
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #fff;
+            cursor: pointer;
+        }
 
-            <div class="card-depoimento">
-                <div class="estrelas">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                </div>
-                <p class="texto-depoimento">"O catálogo de filmes e séries é fantástico! Minhas filhas adoram os desenhos da Disney e eu maratono minhas séries da HBO e Netflix todo final de semana sem nenhuma dor de cabeça."</p>
-                <div class="autor-info">
-                    <div class="autor-nome">Amanda Oliveira</div>
-                    <div class="autor-tempo">Cliente há 3 meses</div>
-                </div>
-            </div>
-        </div>
-    </section>
+        /* --- HERO BANNER --- */
+        .hero {
+            margin-top: 70px;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 8%;
+            background: radial-gradient(circle at 50% 20%, rgba(112, 0, 255, 0.15), transparent 50%);
+            gap: 40px;
+        }
 
-</body>
-</html>
+        .hero-conteudo {
+            flex: 1;
+            max-width: 55%;
+            z-index: 2;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(255, 0, 127, 0.1);
+            border: 1px solid var(--neon-rosa);
+            color: var(--neon-rosa);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #fff, #b3b8e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(to right, var(--neon-azul), var(--neon-rosa));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            color: var(--texto-mutado);
+            margin-bottom: 25px;
+        }
+
+        .hero-botoes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .btn-principal, .btn-whatsapp {
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+            min-width: 180px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-principal {
+            background: linear-gradient(135deg, var(--neon-azul), var(--neon-roxo));
+            color: white;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.2);
+        }
+
+        .btn-principal:hover, .btn-whatsapp:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        /* VITRINE DE MARCAS */
+        .marcas-container {
+            margin-top: 25px;
+        }
+
+        .marcas-titulo {
+            font-size: 0.8rem;
+            color: var(--texto-mutado);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .marcas-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .marca-badge {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #d1d5db;
+        }
+
+        /* BANNER COM IMAGEM DE FUTEBOL E FILMES EM ALTA DEFINIÇÃO */
+        .hero-visual {
+            flex: 1;
+            max-width: 40%;
+            height: 380px;
+            background: linear-gradient(135deg, rgba(13, 15, 38, 0.7), rgba(6, 7, 19, 0.85)), 
+                        url('https://unsplash.com') center/cover no-repeat;
+            border-radius: 16px;
+            box-shadow: 0 0 40px rgba(112, 0, 255, 0.3);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            display: flex;
+            align-items: flex-end;
+            padding: 25px;
+            position: relative;
+        }
+
+        .visual-texto h3 {
+            font-size: 1.4rem;
+            color: var(--neon-azul);
+            margin-bottom: 5px;
+        }
+
+        .visual-texto p {
+            font-size: 0.9rem;
+            color: var(--texto-mutado);
+        }
+
+        /* --- VANTAGENS --- */
+        .vantagens {
+            padding: 60px 5%;
+            text-align: center;
+        }
+
+        .secao-titulo {
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+        }
+
+        .secao-titulo span {
+            color: var(--neon-azul);
+        }
+
+        .vantagens-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card-vantagem {
+            background: var(--bg-card);
+            border: 1px solid var(--borda-glow);
+            padding: 30px 20px;
+            border-radius: 12px;
+            text-align: left;
+        }
+
+        .card-icone {
+            font-size: 2rem;
+            color: var(--neon-azul);
+            margin-bottom: 15px;
+        }
+
+        .card-vantagem h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .card-vantagem p {
+            color: var(--texto-mutado);
+            font-size: 0.95rem;
+        }
+
+        /* --- GRID DE 4 PLANOS --- */
+        .planos {
+            padding: 60px 5%;
+            text-align: center;
+        }
+
+        .planos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card-plano {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 35px 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 400px;
+        }
+
+        .card-plano.destaque {
+            border: 2px solid var(--neon-rosa);
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.15);
+        }
+
+        .badge-destaque {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--neon-rosa);
+            color: white;
+            padding: 4px 15px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .plano-nome {
+            font-size: 1.3rem;
