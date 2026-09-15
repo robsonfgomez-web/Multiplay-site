@@ -1,10 +1,26 @@
-/* Configurações Gerais */
-body {
-    font-family: Arial, sans-serif;
+/* Reset e Variáveis Globais */
+* {
     margin: 0;
     padding: 0;
-    background-color: #141414;
-    color: #ffffff;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+:root {
+    --bg-principal: #0a0a0c;
+    --bg-card: #16161a;
+    --cor-primaria: #ff003c;
+    --cor-primaria-hover: #d60032;
+    --texto-claro: #ffffff;
+    --texto-mutado: #a0a0aa;
+    --whatsapp: #25d366;
+}
+
+body {
+    background-color: var(--bg-principal);
+    color: var(--texto-claro);
+    line-height: 1.6;
+    overflow-x: hidden;
 }
 
 /* Cabeçalho */
@@ -12,82 +28,311 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background-color: #000000;
+    padding: 20px 5%;
+    background-color: rgba(10, 10, 12, 0.95);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #202024;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--texto-claro);
+}
+
+.logo span {
+    color: var(--cor-primaria);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 nav a {
-    color: #fff;
+    color: var(--texto-mutado);
     text-decoration: none;
-    margin-left: 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--texto-claro);
 }
 
 .btn-whatsapp {
-    background-color: #25d366;
-    padding: 8px 15px;
-    border-radius: 5px;
+    background-color: var(--whatsapp);
+    color: #fff !important;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: 600;
 }
 
-/* Seção Principal (Hero) */
+/* Banner Principal (Hero) */
 .hero {
     text-align: center;
     padding: 100px 20px;
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('multiplay-banner.png') no-repeat center center/cover;
+    background: linear-gradient(180deg, rgba(10,10,12,0.6) 0%, rgba(10,10,12,1) 100%), url('multiplay-banner.png') no-repeat center center/cover;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.tagline {
+    color: var(--cor-primaria);
+    font-weight: 700;
+    letter-spacing: 3px;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
 }
 
 .hero h1 {
     font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.2;
+    max-width: 800px;
     margin-bottom: 20px;
 }
 
-.hero-buttons a {
-    display: inline-block;
-    padding: 12px 30px;
-    margin: 10px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
+.hero p {
+    font-size: 1.2rem;
+    color: var(--texto-mutado);
+    max-width: 600px;
+    margin-bottom: 40px;
 }
 
-.btn-primary { background-color: #e50914; color: #fff; }
-.btn-secondary { background-color: #fff; color: #000; }
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
+}
 
-/* Planos */
-.pricing-section {
-    padding: 50px 20px;
+.hero-buttons a {
+    padding: 14px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--cor-primaria);
+    color: var(--texto-claro);
+}
+
+.btn-primary:hover {
+    background-color: var(--cor-primaria-hover);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--texto-claro);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.disclaimer {
+    font-size: 0.8rem !important;
+    color: #606066 !important;
+}
+
+/* Recursos / Destaques */
+.features {
+    padding: 60px 5%;
     text-align: center;
+    background-color: #0e0e12;
+}
+
+.features h2 {
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-item {
+    background-color: var(--bg-card);
+    padding: 25px;
+    border-radius: 12px;
+    font-weight: 600;
+    border: 1px solid #202024;
+    transition: transform 0.3s;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+}
+
+/* Seção de Planos */
+.pricing-section {
+    padding: 80px 5%;
+    text-align: center;
+}
+
+.pricing-section h2 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+
+.pricing-subtitle {
+    color: var(--texto-mutado);
+    margin-bottom: 50px;
 }
 
 .plans-container {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
     flex-wrap: wrap;
-    margin-top: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .plan-card {
-    background-color: #222;
-    padding: 30px;
-    border-radius: 10px;
-    width: 250px;
-    border: 1px solid #333;
+    background-color: var(--bg-card);
+    padding: 40px 30px;
+    border-radius: 16px;
+    width: 320px;
+    border: 1px solid #202024;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s;
+}
+
+.plan-card.destaque {
+    border-color: var(--cor-primaria);
+    transform: scale(1.05);
+}
+
+.tag-destaque {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--cor-primaria);
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.plan-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
 }
 
 .price {
-    font-size: 1.8rem;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--texto-claro);
+    margin-bottom: 25px;
+}
+
+.price span {
+    font-size: 1rem;
+    color: var(--texto-mutado);
+    font-weight: 400;
+}
+
+.plan-features {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 35px;
+    color: var(--texto-mutado);
+    font-size: 0.95rem;
+}
+
+.plan-features li {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.plan-features li::before {
+    content: "✓";
+    color: var(--cor-primaria);
     font-weight: bold;
-    color: #e50914;
 }
 
 .btn-checkout {
-    background-color: #e50914;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--texto-claro);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
     width: 100%;
-    font-weight: bold;
-    margin-top: 20px;
+    transition: all 0.3s;
+}
+
+.plan-card.destaque .btn-checkout {
+    background-color: var(--cor-primaria);
+    border: none;
+}
+
+.plan-card.destaque .btn-checkout:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+.btn-checkout:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsividade para Celulares */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .plan-card.destaque {
+        transform: scale(1);
+    }
 }
