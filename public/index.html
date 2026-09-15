@@ -3,91 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MultiPlay - Canais, Filmes e Séries</title>
+    <title>MultiPlay | Entretenimento Ilimitado</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Cabeçalho / Navegação -->
+    <!-- Cabeçalho -->
     <header>
-        <div class="logo">▶ MULTIPLAY</div>
+        <div class="logo"><span>▶</span> MULTIPLAY</div>
         <nav>
-            <a href="#conteudos">Conteúdos</a>
+            <a href="#recursos">Vantagens</a>
             <a href="#planos">Planos</a>
-            <a href="#duvidas">Dúvidas</a>
-            <a href="https://wa.me" target="_blank" class="btn-whatsapp">WhatsApp</a>
+            <a href="https://wa.me" target="_blank" class="btn-whatsapp">Suporte WhatsApp</a>
         </nav>
     </header>
 
     <!-- Banner Principal -->
     <section class="hero">
         <p class="tagline">CANAIS • FILMES • SÉRIES • ESPORTES</p>
-        <h1>Todo o entretenimento em um só lugar.</h1>
-        <p>Conheça a MultiPlay e escolha a opção ideal para você.</p>
+        <h1>Todo o entretenimento em uma única assinatura.</h1>
+        <p>Assista aos seus conteúdos favoritos com estabilidade, alta definição e suporte imediato.</p>
         <div class="hero-buttons">
-            <a href="#planos" class="btn-primary">Escolher plano</a>
-            <a href="https://wa.me" target="_blank" class="btn-secondary">Falar no WhatsApp</a>
+            <a href="#planos" class="btn-primary">Ver Planos Disponíveis</a>
+            <a href="https://wa.me" target="_blank" class="btn-secondary">Falar Conosco</a>
         </div>
-        <p class="disclaimer">Marcas e conteúdos de terceiros somente quando devidamente autorizados.</p>
+        <p class="disclaimer">Marcas e conteúdos de terceiros pertencem aos seus respectivos proprietários.</p>
     </section>
 
-    <!-- Recursos / Vantagens -->
+    <!-- Vantagens -->
     <section id="recursos" class="features">
-        <h2>MultiPlay - canais, filmes e séries</h2>
+        <h2>Por que escolher a MultiPlay?</h2>
         <div class="features-grid">
-            <div class="feature-item">💻 Dispositivos compatíveis</div>
-            <div class="feature-item">⚡ Acesso simples</div>
-            <div class="feature-item">🎬 Filmes e séries</div>
-            <div class="feature-item">🏆 Esportes e canais</div>
+            <div class="feature-item">💻 Smart TVs, Celular e PC</div>
+            <div class="feature-item">⚡ Servidores de Alta Estabilidade</div>
+            <div class="feature-item">🎬 Milhares de Filmes & Séries</div>
+            <div class="feature-item">🏆 Esportes Ao Vivo em HD</div>
         </div>
     </section>
 
-    <!-- Seção de Conteúdos -->
-    <section id="conteudos" class="content-section">
-        <p class="section-tag">ENTRETENIMENTO</p>
-        <h2>Escolha o que assistir.</h2>
-        <p>Uma experiência pensada para reunir diferentes categorias de entretenimento.</p>
-        
-        <div class="content-categories">
-            <div class="category-card">
-                <span>🎬</span>
-                <h3>Filmes</h3>
-                <p>Conteúdos de cinema e entretenimento, conforme disponibilidade.</p>
-            </div>
-            <div class="category-card">
-                <span>📺</span>
-                <h3>Séries</h3>
-                <p>Produções para acompanhar e maratonar.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Seção de Planos / Checkout -->
+    <!-- Planos -->
     <section id="planos" class="pricing-section">
-        <h2>Escolha seu Plano</h2>
+        <h2>Nossos Planos</h2>
+        <p class="pricing-subtitle">Escolha o plano perfeito para você e comece a assistir agora mesmo.</p>
+        
         <div class="plans-container">
             <!-- Plano Mensal -->
             <div class="plan-card">
-                <h3>Mensal</h3>
-                <p class="price">R$ 29,90<span>/mês</span></p>
-                <button onclick="iniciarCheckout('Mensal')" class="btn-checkout">Assinar Agora</button>
+                <h3>Plano Mensal</h3>
+                <div class="price">R$ 29,90<span>/mês</span></div>
+                <ul class="plan-features">
+                    <li>Acesso completo a canais</li>
+                    <li>Filmes e Séries atualizados</li>
+                    <li>Qualidade HD / Ultra HD</li>
+                    <li>Suporte via WhatsApp</li>
+                </ul>
+                <button onclick="iniciarCheckout('Mensal')" class="btn-checkout">Assinar Plano</button>
             </div>
-            <!-- Plano Trimestral -->
-            <div class="plan-card">
-                <h3>Trimestral</h3>
-                <p class="price">R$ 79,90<span>/trimestre</span></p>
-                <button onclick="iniciarCheckout('Trimestral')" class="btn-checkout">Assinar Agora</button>
+
+            <!-- Plano Trimestral (Destaque) -->
+            <div class="plan-card destaque">
+                <div class="tag-destaque">Mais Vendido</div>
+                <h3>Plano Trimestral</h3>
+                <div class="price">R$ 79,90<span>/trimestre</span></div>
+                <ul class="plan-features">
+                    <li>Todos os benefícios inclusos</li>
+                    <li>Economia garantida</li>
+                    <li>Acesso por 3 meses completos</li>
+                    <li>Suporte prioritário</li>
+                </ul>
+                <button onclick="iniciarCheckout('Trimestral')" class="btn-checkout">Assinar com Desconto</button>
             </div>
+
             <!-- Plano Anual -->
             <div class="plan-card">
-                <h3>Anual</h3>
-                <p class="price">R$ 299,90<span>/ano</span></p>
-                <button onclick="iniciarCheckout('Anual')" class="btn-checkout">Assinar Agora</button>
+                <h3>Plano Anual</h3>
+                <div class="price">R$ 299,90<span>/ano</span></div>
+                <ul class="plan-features">
+                    <li>Acesso garantido por 1 ano</li>
+                    <li>Maior economia por mês</li>
+                    <li>Conteúdo Ultra HD liberado</li>
+                    <li>Suporte VIP permanente</li>
+                </ul>
+                <button onclick="iniciarCheckout('Anual')" class="btn-checkout">Assinar Anual</button>
             </div>
         </div>
     </section>
 
-    <!-- Script para Integração com o Mercado Pago -->
+    <!-- Sistema de Pagamento -->
     <script>
         async function iniciarCheckout(nomePlano) {
             try {
@@ -100,11 +102,11 @@
                 if (data.checkout_url) {
                     window.location.href = data.checkout_url;
                 } else {
-                    alert('Erro ao gerar o pagamento: ' + (data.error || 'Tente novamente.'));
+                    alert('Erro ao gerar o pagamento: ' + (data.error || 'Verifique as configurações.'));
                 }
             } catch (error) {
                 console.error('Erro:', error);
-                alert('Erro de conexão com o servidor.');
+                alert('Erro de conexão com o servidor de pagamentos.');
             }
         }
     </script>
