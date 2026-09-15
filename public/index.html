@@ -3,17 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiplay | Sua Plataforma de Streaming</title>
+    <title>Multiplay | Liberte Suas Telas</title>
     
-    <!-- Ícones para o Layout -->
+    <!-- Ícones Rápidos -->
     <link rel="stylesheet" href="https://cloudflare.com">
     
-    <!-- Link corrigido para puxar o seu arquivo styles.css da pasta public -->
+    <!-- Link para o seu arquivo styles.css -->
     <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        /* ESTILOS DE ALTA CONVERSÃO PARA TRÁFEGO PAGO */
+        .barra-urgencia {
+            background: linear-gradient(90deg, #e50914, #b20710);
+            color: #fff;
+            text-align: center;
+            padding: 8px 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .hero-trafego {
+            text-align: center;
+            padding: 40px 20px 30px;
+        }
+
+        .chamada-principal {
+            font-size: 2.8rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .chamada-principal span {
+            background: linear-gradient(45deg, var(--cor-destaque), #007bff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sub-chamada {
+            font-size: 1.25rem;
+            color: var(--cor-mutada);
+            max-width: 650px;
+            margin: 0 auto 35px;
+            font-weight: 400;
+        }
+
+        /* CTAs de Alta Conversão no Topo */
+        .flex-ctas {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto 40px;
+        }
+
+        .btn-principal-trafego {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #25d366, #1ebd59);
+            color: #fff !important;
+            text-decoration: none;
+            padding: 18px 30px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-principal-trafego:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(37, 211, 102, 0.5);
+        }
+
+        .btn-secundario-trafego {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff !important;
+            text-decoration: none;
+            padding: 14px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.2s;
+        }
+
+        .btn-secundario-trafego:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Selos de Confiança */
+        .selos-confianca {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 20px;
+            color: var(--cor-mutada);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .selos-confianca span i {
+            color: var(--cor-destaque);
+            margin-right: 5px;
+        }
+
+        /* Ajuste do Card de Destaque */
+        .card.destaque {
+            border: 2px solid var(--cor-destaque);
+            position: relative;
+            transform: scale(1.03);
+            box-shadow: 0 15px 35px rgba(69, 243, 255, 0.15);
+        }
+
+        .card.destaque .tag-pop {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--cor-destaque);
+            color: #0b0c10;
+            padding: 4px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .chamada-principal { font-size: 2.1rem; }
+            .card.destaque { transform: scale(1); margin-top: 15px; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- CABEÇALHO COM A LOGO EM CSS -->
+    <!-- GATILHO DE ESCASSEZ NO TOPO -->
+    <div class="barra-urgencia">
+        <i class="fa-solid fa-fire"></i> Atenção: Restam apenas 14 acessos promocionais disponíveis hoje!
+    </div>
+
+    <!-- CABEÇALHO -->
     <header>
         <a href="#" class="logo-container">
             <div class="logo-icon"><i class="fa-solid fa-play"></i></div>
@@ -21,16 +165,35 @@
         </a>
     </header>
 
-    <!-- BANNER DINÂMICO USANDO A SUA IMAGEM DO REPOSITÓRIO -->
-    <section class="hero">
+    <!-- HERO SECTION MODIFICADA PARA TRÁFEGO PAGO (CONVERSÃO IMEDIATA) -->
+    <section class="hero-trafego">
+        <h1 class="chamada-principal">Sua Tela, Seus Filmes.<br><span>Sem Travamentos.</span></h1>
+        <p class="sub-chamada">A única plataforma de streaming completa que não te deixa na mão na hora do jogo ou do filme. Assista em alta definição pagando uma fração do preço.</p>
+        
+        <!-- Ações rápidas focadas no clique do anúncio -->
+        <div class="flex-ctas">
+            <a href="https://whatsapp.com." class="btn-principal-trafego" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-bolt-lightning"></i> Liberar Acesso Imediato
+            </a>
+            <a href="https://whatsapp.com." class="btn-secundario-trafego" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-circle-play"></i> Solicitar Teste de 4 Horas
+            </a>
+        </div>
+
+        <div class="selos-confianca">
+            <span><i class="fa-solid fa-shield-halved"></i> Ativação em 2 min</span>
+            <span><i class="fa-solid fa-rotate-left"></i> Sem fidelidade</span>
+        </div>
+    </section>
+
+    <!-- BANNER DINÂMICO -->
+    <section style="padding: 0 20px; text-align: center;">
         <img src="multiplay-banner.png" alt="Multiplay Banner" class="banner-img">
-        <h1>Venha para a Multiplay</h1>
-        <p>A sua plataforma de streaming que não te deixa na mão!!</p>
     </section>
 
     <!-- GRADE DE CONTEÚDO -->
     <section class="catalogo">
-        <h2 class="section-title">Canais + Filmes + Séries Inclusos</h2>
+        <h2 class="section-title">O Maior Catálogo do Mercado</h2>
         <div class="badges-container">
             <span class="badge canais"><i class="fa-solid fa-tv"></i> Telecine</span>
             <span class="badge canais"><i class="fa-solid fa-tv"></i> HBO</span>
@@ -46,24 +209,27 @@
         </div>
     </section>
 
-    <!-- SEÇÃO DE PLANOS -->
+    <!-- SEÇÃO DE PLANOS (REORDENADA POR CONVERSÃO) -->
     <section id="planos">
-        <h2 class="section-title">Escolha Seu Plano</h2>
+        <h2 class="section-title">Planos Promocionais</h2>
         <div class="grid-planos">
-            <!-- MENSAL 1 TELA -->
-            <div class="card">
+            
+            <!-- PLANO MAIS VENDIDO (1 TELA MENSAL) -->
+            <div class="card destaque">
+                <div class="tag-pop">Mais Escolhido</div>
                 <div>
                     <div class="tipo-plano">Acesso Mensal</div>
                     <h3>Plano 1 Tela</h3>
                     <div class="preco">R$ 29,90<span>/mês</span></div>
                     <ul>
-                        <li><i class="fa-solid fa-circle-check"></i> 1 Tela Exclusiva</li>
-                        <li><i class="fa-solid fa-circle-check"></i> Todos os canais e streamings</li>
-                        <li><i class="fa-solid fa-circle-check"></i> Qualidade máxima de sinal</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 1 Tela Exclusiva (Sem quedas)</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Canais de Esportes e PPV inclusos</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Filmes e Séries atualizados diariamente</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Suporte Premium via WhatsApp</li>
                     </ul>
                 </div>
-                <a href="https://wa.me" class="btn-chamada" target="_blank">
-                    <i class="fa-brands fa-whatsapp"></i> Assinar Mensal
+                <a href="https://whatsapp.com" class="btn-chamada" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-whatsapp"></i> Garantir Esta Vaga
                 </a>
             </div>
 
@@ -74,105 +240,9 @@
                     <h3>Plano 2 Telas</h3>
                     <div class="preco">R$ 50,00<span>/mês</span></div>
                     <ul>
-                        <li><i class="fa-solid fa-circle-check"></i> 2 Telas Simultâneas</li>
-                        <li><i class="fa-solid fa-circle-check"></i> Assista em dispositivos diferentes</li>
-                        <li><i class="fa-solid fa-circle-check"></i> Ideal para dividir em casa</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 2 Telas Conectadas ao mesmo tempo</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Assista na TV e no celular juntos</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Ideal para dividir com a família</li>
                     </ul>
                 </div>
-                <a href="https://wa.me" class="btn-chamada" target="_blank">
-                    <i class="fa-brands fa-whatsapp"></i> Assinar Mensal
-                </a>
-            </div>
-
-            <!-- ANUAL 1 TELA -->
-            <div class="card">
-                <div>
-                    <div class="tipo-plano">Acesso Anual</div>
-                    <h3>Plano 1 Tela</h3>
-                    <div class="preco">R$ 299,90<span>/ano</span></div>
-                    <ul>
-                        <li><i class="fa-solid fa-circle-check"></i> 1 Tela por 365 dias</li>
-                        <li><i class="fa-solid fa-circle-check"></i> Economia massiva a longo prazo</li>
-                        <li><i class="fa-solid fa-circle-check"></i> Esqueça cobranças mensais</li>
-                    </ul>
-                </div>
-                <a href="https://wa.me" class="btn-chamada" target="_blank">
-                    <i class="fa-brands fa-whatsapp"></i> Garantir Anual
-                </a>
-            </div>
-
-            <!-- ANUAL 2 TELAS -->
-            <div class="card">
-                <div>
-                    <div class="tipo-plano">Acesso Anual</div>
-                    <h3>Plano 2 Telas</h3>
-                    <div class="preco">R$ 499,90<span>/ano</span></div>
-                    <ul>
-                        <li><i class="fa-solid fa-circle-check"></i> 2 Telas por 365 dias</li>
-                        <li><i class="fa-solid fa-circle-check"></i> O melhor custo-benefício do site</li>
-                        <li><i class="fa-solid fa-circle-check"></i> Suporte VIP prioritário</li>
-                    </ul>
-                </div>
-                <a href="https://wa.me" class="btn-chamada" target="_blank">
-                    <i class="fa-brands fa-whatsapp"></i> Garantir Anual
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- SEÇÃO DE DEPOIMENTOS -->
-    <section class="container-depoimentos">
-        <h2 class="section-title">Quem Assina, Recomenda</h2>
-        <div class="grid-depoimentos">
-            <div class="depoimento-card">
-                <div class="estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                <p>"Suporte impecável! Estava com medo de travar nos dias de jogos do Premiere, mas roda liso. Recomendo muito!"</p>
-                <div class="autor">— Carlos Henrique S.</div>
-            </div>
-            <div class="depoimento-card">
-                <div class="estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                <p>"Muito prático. Ativação foi super rápida pelo WhatsApp e os filmes da HBO e Netflix têm uma qualidade absurda."</p>
-                <div class="autor">— Mariana Costa</div>
-            </div>
-            <div class="depoimento-card">
-                <div class="estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                <p>"Peguei o plano anual de 2 telas para mim e meu irmão. Economia gigante e o atendimento realmente cumpre o que promete."</p>
-                <div class="autor">— Ricardo Ramos</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SEÇÃO DO FAQ -->
-    <section>
-        <h2 class="section-title">Perguntas Frequentes</h2>
-        <div class="faq-container">
-            <div class="faq-item">
-                <div class="faq-pergunta">Como recebo meu acesso após o pagamento? <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="faq-resposta">O envio é imediato! Assim que o pagamento for confirmado, nossa equipe enviará as credenciais e o passo a passo direto no seu WhatsApp.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-pergunta">Posso assistir em quais dispositivos? <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="faq-resposta">Você pode assistir na Smart TV, celular, tablet, computador ou TV Box. O aplicativo é compatível com praticamente todos os sistemas.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-pergunta">Preciso pagar alguma taxa de fidelidade? <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="faq-resposta">Não. Nossos planos não possuem fidelidade. Nos planos mensais você renova apenas se quiser continuar utilizando no próximo mês.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-pergunta">O sinal trava durante jogos ou transmissões ao vivo? <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="faq-resposta">Contamos com servidores otimizados de alta performance para garantir estabilidade máxima na ESPN, Premiere e SporTV, mesmo em horários de pico.</div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 Multiplay. Todos os direitos reservados.</p>
-        <p style="font-size: 0.8rem; margin-top: 10px; color: #334155;">Multiplay - Sua plataforma de streaming que não te deixa na mão!!</p>
-    </footer>
-
-    <!-- INTERAÇÃO DO FAQ -->
-    <script>
-        const faqPerguntas = document.querySelectorAll('.faq-pergunta');
-        faqPerguntas.forEach(pergunta => {
-            pergunta.addEventListener('click', () => {
-                const item = pergunta.parentElement;
+                <a href="https://whatsapp.com" class="btn-chamada" target="_blank" rel="noopener noreferrer">
