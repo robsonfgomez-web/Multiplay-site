@@ -3,364 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiplay | Canais, Filmes e Séries em um só lugar</title>
-    <!-- Importação de Ícones Modernos -->
+    <title>Multiplay | Sua Plataforma de Streaming</title>
+    
+    <!-- Ícones para o Layout -->
     <link rel="stylesheet" href="https://cloudflare.com">
     
-    <!-- DESIGN DO SITE INTEGRADO (Evita erros de carregamento no Render) -->
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            scroll-behavior: smooth;
-        }
+    <!-- Link corrigido para puxar o seu arquivo styles.css da pasta public -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
-        body {
-            background-color: #0a0c14;
-            color: #ffffff;
-            overflow-x: hidden;
-        }
+    <!-- CABEÇALHO COM A LOGO EM CSS -->
+    <header>
+        <a href="#" class="logo-container">
+            <div class="logo-icon"><i class="fa-solid fa-play"></i></div>
+            <div class="logo-text">Multi<span>play</span></div>
+        </a>
+    </header>
 
-        a {
-            text-decoration: none;
-        }
+    <!-- BANNER DINÂMICO USANDO A SUA IMAGEM DO REPOSITÓRIO -->
+    <section class="hero">
+        <img src="multiplay-banner.png" alt="Multiplay Banner" class="banner-img">
+        <h1>Venha para a Multiplay</h1>
+        <p>A sua plataforma de streaming que não te deixa na mão!!</p>
+    </section>
 
-        /* BARRA DE NAVEGAÇÃO */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5%;
-            background-color: rgba(10, 12, 20, 0.95);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-        }
+    <!-- GRADE DE CONTEÚDO -->
+    <section class="catalogo">
+        <h2 class="section-title">Canais + Filmes + Séries Inclusos</h2>
+        <div class="badges-container">
+            <span class="badge canais"><i class="fa-solid fa-tv"></i> Telecine</span>
+            <span class="badge canais"><i class="fa-solid fa-tv"></i> HBO</span>
+            <span class="badge canais"><i class="fa-solid fa-bolt"></i> SporTV</span>
+            <span class="badge canais"><i class="fa-solid fa-bolt"></i> ESPN</span>
+            <span class="badge canais"><i class="fa-solid fa-soccer-ball"></i> Premiere</span>
+            <span class="badge canais"><i class="fa-solid fa-hand-fist"></i> Combate</span>
+            <span class="badge streaming"><i class="fa-solid fa-play"></i> Netflix</span>
+            <span class="badge streaming"><i class="fa-solid fa-play"></i> GloboPlay</span>
+            <span class="badge streaming"><i class="fa-solid fa-play"></i> Prime Video</span>
+            <span class="badge streaming"><i class="fa-solid fa-play"></i> Disney Plus</span>
+            <span class="badge streaming"><i class="fa-solid fa-play"></i> Paramount +</span>
+        </div>
+    </section>
 
-        .navbar .logo {
-            font-size: 26px;
-            font-weight: 800;
-            color: #ffffff;
-            letter-spacing: 1px;
-        }
+    <!-- SEÇÃO DE PLANOS -->
+    <section id="planos">
+        <h2 class="section-title">Escolha Seu Plano</h2>
+        <div class="grid-planos">
+            <!-- MENSAL 1 TELA -->
+            <div class="card">
+                <div>
+                    <div class="tipo-plano">Acesso Mensal</div>
+                    <h3>Plano 1 Tela</h3>
+                    <div class="preco">R$ 29,90<span>/mês</span></div>
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 1 Tela Exclusiva</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Todos os canais e streamings</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Qualidade máxima de sinal</li>
+                    </ul>
+                </div>
+                <a href="https://wa.me" class="btn-chamada" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i> Assinar Mensal
+                </a>
+            </div>
 
-        .navbar .logo span {
-            color: #00e676;
-        }
+            <!-- MENSAL 2 TELAS -->
+            <div class="card">
+                <div>
+                    <div class="tipo-plano">Acesso Mensal</div>
+                    <h3>Plano 2 Telas</h3>
+                    <div class="preco">R$ 50,00<span>/mês</span></div>
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 2 Telas Simultâneas</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Assista em dispositivos diferentes</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Ideal para dividir em casa</li>
+                    </ul>
+                </div>
+                <a href="https://wa.me" class="btn-chamada" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i> Assinar Mensal
+                </a>
+            </div>
 
-        .btn-suporte {
-            background-color: transparent;
-            color: #25d366;
-            border: 1px solid #25d366;
-            padding: 10px 22px;
-            font-weight: 600;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+            <!-- ANUAL 1 TELA -->
+            <div class="card">
+                <div>
+                    <div class="tipo-plano">Acesso Anual</div>
+                    <h3>Plano 1 Tela</h3>
+                    <div class="preco">R$ 299,90<span>/ano</span></div>
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 1 Tela por 365 dias</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Economia massiva a longo prazo</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Esqueça cobranças mensais</li>
+                    </ul>
+                </div>
+                <a href="https://wa.me" class="btn-chamada" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i> Garantir Anual
+                </a>
+            </div>
 
-        .btn-suporte:hover {
-            background-color: #25d366;
-            color: #ffffff;
-            box-shadow: 0 0 15px rgba(37, 211, 102, 0.4);
-        }
+            <!-- ANUAL 2 TELAS -->
+            <div class="card">
+                <div>
+                    <div class="tipo-plano">Acesso Anual</div>
+                    <h3>Plano 2 Telas</h3>
+                    <div class="preco">R$ 499,90<span>/ano</span></div>
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> 2 Telas por 365 dias</li>
+                        <li><i class="fa-solid fa-circle-check"></i> O melhor custo-benefício do site</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Suporte VIP prioritário</li>
+                    </ul>
+                </div>
+                <a href="https://wa.me" class="btn-chamada" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i> Garantir Anual
+                </a>
+            </div>
+        </div>
+    </section>
 
-        /* SEÇÃO HERO (COM IMAGEM DE FUNDO ESPORTES E FILMES) */
-        .hero {
-            position: relative;
-            min-height: 95vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 160px 5% 80px 5%;
-            background-image: url('https://unsplash.com');
-            background-size: cover;
-            background-position: center;
-            text-align: center;
-        }
+    <!-- SEÇÃO DE DEPOIMENTOS -->
+    <section class="container-depoimentos">
+        <h2 class="section-title">Quem Assina, Recomenda</h2>
+        <div class="grid-depoimentos">
+            <div class="depoimento-card">
+                <div class="estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                <p>"Suporte impecável! Estava com medo de travar nos dias de jogos do Premiere, mas roda liso. Recomendo muito!"</p>
+                <div class="autor">— Carlos Henrique S.</div>
+            </div>
+            <div class="depoimento-card">
+                <div class="estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                <p>"Muito prático. Ativação foi super rápida pelo WhatsApp e os filmes da HBO e Netflix têm uma qualidade absurda."</p>
+                <div class="autor">— Mariana Costa</div>
+            </div>
+            <div class="depoimento-card">
+                <div class="estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                <p>"Peguei o plano anual de 2 telas para mim e meu irmão. Economia gigante e o atendimento realmente cumpre o que promete."</p>
+                <div class="autor">— Ricardo Ramos</div>
+            </div>
+        </div>
+    </section>
 
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(0deg, #0a0c14 15%, rgba(10, 12, 20, 0.5) 60%, #0a0c14 100%);
-            z-index: 1;
-        }
+    <!-- SEÇÃO DO FAQ -->
+    <section>
+        <h2 class="section-title">Perguntas Frequentes</h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-pergunta">Como recebo meu acesso após o pagamento? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-resposta">O envio é imediato! Assim que o pagamento for confirmado, nossa equipe enviará as credenciais e o passo a passo direto no seu WhatsApp.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-pergunta">Posso assistir em quais dispositivos? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-resposta">Você pode assistir na Smart TV, celular, tablet, computador ou TV Box. O aplicativo é compatível com praticamente todos os sistemas.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-pergunta">Preciso pagar alguma taxa de fidelidade? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-resposta">Não. Nossos planos não possuem fidelidade. Nos planos mensais você renova apenas se quiser continuar utilizando no próximo mês.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-pergunta">O sinal trava durante jogos ou transmissões ao vivo? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-resposta">Contamos com servidores otimizados de alta performance para garantir estabilidade máxima na ESPN, Premiere e SporTV, mesmo em horários de pico.</div>
+            </div>
+        </div>
+    </section>
 
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 850px;
-        }
+    <footer>
+        <p>&copy; 2026 Multiplay. Todos os direitos reservados.</p>
+        <p style="font-size: 0.8rem; margin-top: 10px; color: #334155;">Multiplay - Sua plataforma de streaming que não te deixa na mão!!</p>
+    </footer>
 
-        .badge {
-            background-color: rgba(0, 230, 118, 0.15);
-            color: #00e676;
-            padding: 6px 18px;
-            font-size: 12px;
-            font-weight: 700;
-            border-radius: 50px;
-            letter-spacing: 2px;
-            display: inline-block;
-            margin-bottom: 25px;
-            border: 1px solid rgba(0, 230, 118, 0.3);
-        }
-
-        .hero h1 {
-            font-size: 52px;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.5);
-        }
-
-        .sub-headline {
-            font-size: 19px;
-            color: #cbd5e1;
-            line-height: 1.6;
-            margin-bottom: 40px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-primary {
-            background-color: #00e676;
-            color: #0a0c14;
-            padding: 16px 35px;
-            font-weight: 700;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0, 230, 118, 0.4);
-        }
-
-        .btn-secondary {
-            background-color: #25d366;
-            color: #ffffff;
-            padding: 16px 35px;
-            font-weight: 700;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-secondary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
-        }
-
-        /* SEÇÃO DE MARCAS / LOGOS */
-        .marcas {
-            background-color: #0f121f;
-            padding: 45px 5%;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .marcas p {
-            color: #718096;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 25px;
-            font-weight: 600;
-        }
-
-        .grid-marcas {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .marca-item {
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 700;
-            color: #e2e8f0;
-            font-size: 15px;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .marca-item.mais {
-            color: #00e676;
-            background: rgba(0, 230, 118, 0.05);
-            border-color: rgba(0, 230, 118, 0.2);
-        }
-
-        /* SEÇÃO DE PLANOS */
-        .planos-container {
-            padding: 90px 5%;
-            text-align: center;
-        }
-
-        .planos-container h2 {
-            font-size: 38px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            letter-spacing: -0.5px;
-        }
-
-        .planos-sub {
-            color: #718096;
-            margin-bottom: 50px;
-            font-size: 16px;
-        }
-
-        .grid-planos {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-bottom: 60px;
-        }
-
-        .card-plano {
-            background-color: #0f121f;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 45px 35px;
-            width: 100%;
-            max-width: 360px;
-            text-align: left;
-            position: relative;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .card-plano:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255,255,255,0.1);
-        }
-
-        .card-plano.destaque {
-            border: 2px solid #00e676;
-            box-shadow: 0 10px 30px rgba(0, 230, 118, 0.15);
-        }
-
-        .badge-destaque {
-            position: absolute;
-            top: -14px;
-            right: 35px;
-            background-color: #00e676;
-            color: #0a0c14;
-            padding: 5px 14px;
-            font-size: 11px;
-            font-weight: 800;
-            border-radius: 50px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .plano-header h3 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .plano-header .telas {
-            color: #718096;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .preco {
-            font-size: 44px;
-            font-weight: 800;
-            color: #ffffff;
-            margin: 25px 0;
-            display: flex;
-            align-items: baseline;
-        }
-
-        .preco span {
-            font-size: 16px;
-            color: #718096;
-            font-weight: 400;
-            margin-left: 4px;
-        }
-
-        .beneficios {
-            list-style: none;
-            margin-bottom: 35px;
-        }
-
-        .beneficios li {
-            margin-bottom: 14px;
-            color: #e2e8f0;
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .beneficios li i {
-            color: #00e676;
-            font-size: 16px;
-        }
-
-        .btn-card {
-            display: block;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.05);
-            color: #ffffff;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: 700;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.2s ease;
-        }
-
-        .btn-card:hover {
-            background-color: rgba(255, 255, 255, 0.12);
-        }
-
-        .btn-card-destaque {
-            display: block;
-            text-align: center;
-            background-color: #00e676;
-            color: #0a0c14;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: 700;
-            transition: all 0.2s ease;
-        }
-
-        .btn-card-destaque:hover {
-            background-color: #00c862;
-            box-shadow: 0 5px 15px rgba(0, 230, 118, 0.3);
-        }
-
-        /* SEÇÃO MAIS TELAS / WHATSAPP */
-        .outros-planos {
-            max-width: 650px;
-            margin: 20px auto 0 auto;
-            background: linear-gradient(135deg, #0f121f 0%, #141929 100%);
+    <!-- INTERAÇÃO DO FAQ -->
+    <script>
+        const faqPerguntas = document.querySelectorAll('.faq-pergunta');
+        faqPerguntas.forEach(pergunta => {
+            pergunta.addEventListener('click', () => {
+                const item = pergunta.parentElement;
