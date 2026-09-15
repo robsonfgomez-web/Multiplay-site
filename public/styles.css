@@ -1,19 +1,24 @@
-/* Reset e Variáveis Globais */
+/* Reset Geral e Fontes */
+@import url('https://googleapis.com');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
 }
 
 :root {
-    --bg-principal: #0a0a0c;
-    --bg-card: #16161a;
+    --bg-puro: #000000;
+    --bg-principal: #09090b;
+    --bg-card: #14141b;
     --cor-primaria: #ff003c;
     --cor-primaria-hover: #d60032;
     --texto-claro: #ffffff;
-    --texto-mutado: #a0a0aa;
+    --texto-mutado: #a1a1aa;
     --whatsapp: #25d366;
+    --ouro: #f59e0b;
 }
 
 body {
@@ -28,19 +33,18 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 5%;
-    background-color: rgba(10, 10, 12, 0.95);
+    padding: 15px 5%;
+    background-color: rgba(9, 9, 11, 0.95);
     position: sticky;
     top: 0;
     z-index: 1000;
-    border-bottom: 1px solid #202024;
+    border-bottom: 1px solid #1f1f23;
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 800;
     letter-spacing: 1px;
-    color: var(--texto-claro);
 }
 
 .logo span {
@@ -56,8 +60,8 @@ nav {
 nav a {
     color: var(--texto-mutado);
     text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 500;
+    font-size: 0.9rem;
+    font-weight: 600;
     transition: color 0.3s;
 }
 
@@ -65,20 +69,19 @@ nav a:hover {
     color: var(--texto-claro);
 }
 
-.btn-whatsapp {
+.btn-whatsapp-nav {
     background-color: var(--whatsapp);
     color: #fff !important;
-    padding: 8px 16px;
+    padding: 6px 14px;
     border-radius: 50px;
-    font-weight: 600;
 }
 
-/* Banner Principal (Hero) */
+/* Hero Section (Banner) */
 .hero {
     text-align: center;
-    padding: 100px 20px;
-    background: linear-gradient(180deg, rgba(10,10,12,0.6) 0%, rgba(10,10,12,1) 100%), url('multiplay-banner.png') no-repeat center center/cover;
-    min-height: 80vh;
+    padding: 80px 20px;
+    background: linear-gradient(180deg, rgba(9,9,11,0.5) 0%, rgba(9,9,11,1) 100%), url('multiplay-banner.png') no-repeat center center/cover;
+    min-height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -87,26 +90,26 @@ nav a:hover {
 
 .tagline {
     color: var(--cor-primaria);
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 3px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     margin-bottom: 15px;
     text-transform: uppercase;
 }
 
 .hero h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 800;
     line-height: 1.2;
-    max-width: 800px;
+    max-width: 750px;
     margin-bottom: 20px;
 }
 
 .hero p {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--texto-mutado);
-    max-width: 600px;
-    margin-bottom: 40px;
+    max-width: 550px;
+    margin-bottom: 35px;
 }
 
 .hero-buttons {
@@ -114,60 +117,33 @@ nav a:hover {
     gap: 15px;
     flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 30px;
 }
 
 .hero-buttons a {
-    padding: 14px 32px;
+    padding: 14px 28px;
     border-radius: 8px;
     text-decoration: none;
-    font-weight: 600;
-    font-size: 1rem;
+    font-weight: 700;
+    font-size: 0.95rem;
     transition: all 0.3s ease;
 }
 
-.btn-primary {
-    background-color: var(--cor-primaria);
-    color: var(--texto-claro);
-}
-
-.btn-primary:hover {
-    background-color: var(--cor-primaria-hover);
-    transform: translateY(-2px);
-}
-
-.btn-secondary {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--texto-claro);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.btn-secondary:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-.disclaimer {
-    font-size: 0.8rem !important;
-    color: #606066 !important;
-}
-
-/* Recursos / Destaques */
+/* Grid de Vantagens */
 .features {
     padding: 60px 5%;
-    text-align: center;
-    background-color: #0e0e12;
+    background-color: var(--bg-puro);
 }
 
-.features h2 {
-    font-size: 1.8rem;
+.features h2, .pricing-section h2, .testimonials h2 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 800;
     margin-bottom: 40px;
-    font-weight: 700;
 }
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
     max-width: 1200px;
     margin: 0 auto;
@@ -175,38 +151,27 @@ nav a:hover {
 
 .feature-item {
     background-color: var(--bg-card);
-    padding: 25px;
+    padding: 30px 20px;
     border-radius: 12px;
-    font-weight: 600;
-    border: 1px solid #202024;
-    transition: transform 0.3s;
+    text-align: center;
+    border: 1px solid #1f1f23;
 }
 
-.feature-item:hover {
-    transform: translateY(-5px);
+.feature-item .icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    display: block;
 }
 
 /* Seção de Planos */
 .pricing-section {
     padding: 80px 5%;
-    text-align: center;
-}
-
-.pricing-section h2 {
-    font-size: 2.2rem;
-    margin-bottom: 10px;
-    font-weight: 800;
-}
-
-.pricing-subtitle {
-    color: var(--texto-mutado);
-    margin-bottom: 50px;
 }
 
 .plans-container {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 25px;
     flex-wrap: wrap;
     max-width: 1200px;
     margin: 0 auto;
@@ -214,125 +179,131 @@ nav a:hover {
 
 .plan-card {
     background-color: var(--bg-card);
-    padding: 40px 30px;
+    padding: 35px 25px;
     border-radius: 16px;
     width: 320px;
-    border: 1px solid #202024;
+    border: 1px solid #1f1f23;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: all 0.3s;
 }
 
 .plan-card.destaque {
     border-color: var(--cor-primaria);
-    transform: scale(1.05);
+    transform: scale(1.03);
 }
 
 .tag-destaque {
     position: absolute;
-    top: -15px;
+    top: -12px;
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--cor-primaria);
     color: #fff;
-    padding: 4px 14px;
+    padding: 4px 12px;
     border-radius: 50px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.plan-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
 }
 
 .price {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 800;
-    color: var(--texto-claro);
-    margin-bottom: 25px;
+    margin: 15px 0 25px 0;
 }
 
 .price span {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: var(--texto-mutado);
-    font-weight: 400;
 }
 
 .plan-features {
     list-style: none;
     text-align: left;
-    margin-bottom: 35px;
-    color: var(--texto-mutado);
-    font-size: 0.95rem;
+    margin-bottom: 30px;
 }
 
 .plan-features li {
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: var(--texto-mutado);
 }
 
 .plan-features li::before {
-    content: "✓";
+    content: "✓ ";
     color: var(--cor-primaria);
     font-weight: bold;
 }
 
-.btn-checkout {
-    background-color: rgba(255, 255, 255, 0.05);
+/* Depoimentos / Testimonials */
+.testimonials {
+    padding: 80px 5%;
+    background-color: var(--bg-puro);
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.testimonial-card {
+    background-color: var(--bg-card);
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #1f1f23;
+}
+
+.stars {
+    color: var(--ouro);
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.testimonial-card p {
+    font-size: 0.95rem;
+    color: #d1d1d6;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.user-info {
+    font-weight: 700;
+    font-size: 0.9rem;
     color: var(--texto-claro);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 14px 20px;
+}
+
+.user-info span {
+    display: block;
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--cor-primaria);
+}
+
+/* Botões do Layout */
+.btn-primary { background-color: var(--cor-primaria); color: #fff; }
+.btn-secondary { background-color: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.15); }
+.btn-checkout {
+    background-color: rgba(255,255,255,0.05);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 12px;
     border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
+    font-weight: 700;
     width: 100%;
-    transition: all 0.3s;
+    cursor: pointer;
 }
+.plan-card.destaque .btn-checkout { background-color: var(--cor-primaria); border: none; }
 
-.plan-card.destaque .btn-checkout {
-    background-color: var(--cor-primaria);
-    border: none;
-}
-
-.plan-card.destaque .btn-checkout:hover {
-    background-color: var(--cor-primaria-hover);
-}
-
-.btn-checkout:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Responsividade para Celulares */
+/* Responsividade Mobile */
 @media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-    
-    nav {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-    }
-
-    .hero h1 {
-        font-size: 2rem;
-    }
-
-    .hero p {
-        font-size: 1rem;
-    }
-    
-    .plan-card.destaque {
-        transform: scale(1);
-    }
+    header { flex-direction: column; gap: 15px; text-align: center; }
+    nav { flex-wrap: wrap; justify-content: center; gap: 15px; }
+    .hero h1 { font-size: 1.8rem; }
+    .hero p { font-size: 0.95rem; }
+    .plan-card.destaque { transform: scale(1); }
 }
