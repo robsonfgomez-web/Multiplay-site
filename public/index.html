@@ -4,105 +4,363 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multiplay | Canais, Filmes e Séries em um só lugar</title>
-    <!-- Importando fontes e ícones modernos -->
+    <!-- Importação de Ícones Modernos -->
     <link rel="stylesheet" href="https://cloudflare.com">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    
+    <!-- DESIGN DO SITE INTEGRADO (Evita erros de carregamento no Render) -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
 
-    <!-- CABEÇALHO -->
-    <header class="navbar">
-        <div class="logo">Multi<span>play</span></div>
-        <a href="https://wa.me." target="_blank" class="btn-suporte">
-            <i class="fab fa-whatsapp"></i> Suporte Online
-        </a>
-    </header>
+        body {
+            background-color: #0a0c14;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
 
-    <!-- SEÇÃO PRINCIPAL (HERO) -->
-    <section class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <span class="badge">ENTRETENIMENTO ILIMITADO</span>
-            <h1>Canais, filmes e séries em um só lugar!</h1>
-            <p class="sub-headline">Você encontra tudo isso na <strong>Multi play</strong>. Chega de gastar tanto dinheiro com assinaturas separadas. Venha para a Multi play e veja seu dinheiro render mais!</p>
-            <div class="hero-cta">
-                <a href="#planos" class="btn-primary">Ver Planos</a>
-                <a href="https://wa.me." target="_blank" class="btn-secondary">
-                    <i class="fab fa-whatsapp"></i> Testar Grátis
-                </a>
-            </div>
-        </div>
-    </section>
+        a {
+            text-decoration: none;
+        }
 
-    <!-- SEÇÃO DE LOGOS / PLATAFORMAS -->
-    <section class="marcas">
-        <p>Conteúdo incluso das principais plataformas:</p>
-        <div class="grid-marcas">
-            <div class="marca-item">Netflix</div>
-            <div class="marca-item">Globo Play</div>
-            <div class="marca-item">HBO Max</div>
-            <div class="marca-item">Paramount+</div>
-            <div class="marca-item">Disney+</div>
-            <div class="marca-item">Telecine</div>
-            <div class="marca-item">Premiere</div>
-            <div class="marca-item">ESPN</div>
-            <div class="marca-item">SporTV</div>
-            <div class="marca-item mais">+ Muito Mais</div>
-        </div>
-    </section>
+        /* BARRA DE NAVEGAÇÃO */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: rgba(10, 12, 20, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
 
-    <!-- SEÇÃO DE PLANOS -->
-    <section id="planos" class="planos-container">
-        <h2>Escolha o seu Plano</h2>
-        <p class="planos-sub">Sem fidelidade, cancele quando quiser.</p>
-        
-        <div class="grid-planos">
-            <!-- Plano 1 -->
-            <div class="card-plano">
-                <div class="plano-header">
-                    <h3>Plano Individual</h3>
-                    <span class="telas">1 Tela</span>
-                </div>
-                <div class="preco">R$ 29,90<span>/mês</span></div>
-                <ul class="beneficios">
-                    <li><i class="fas fa-check"></i> Canais, Filmes e Séries</li>
-                    <li><i class="fas fa-check"></i> Qualidade Ultra HD / 4K</li>
-                    <li><i class="fas fa-check"></i> Assista no Celular, TV ou PC</li>
-                </ul>
-                <a href="https://wa.me." target="_blank" class="btn-card">Assinar Agora</a>
-            </div>
+        .navbar .logo {
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
 
-            <!-- Plano 2 (Destaque) -->
-            <div class="card-plano destaque">
-                <div class="badge-destaque">Mais Vendido</div>
-                <div class="plano-header">
-                    <h3>Plano Familiar</h3>
-                    <span class="telas">2 Telas</span>
-                </div>
-                <div class="preco">R$ 50,00<span>/mês</span></div>
-                <ul class="beneficios">
-                    <li><i class="fas fa-check"></i> 2 Acessos Simultâneos</li>
-                    <li><i class="fas fa-check"></i> Canais, Filmes e Séries</li>
-                    <li><i class="fas fa-check"></i> Qualidade Ultra HD / 4K</li>
-                </ul>
-                <a href="https://wa.me." target="_blank" class="btn-card-destaque">Assinar Agora</a>
-            </div>
-        </div>
+        .navbar .logo span {
+            color: #00e676;
+        }
 
-        <!-- Chamada para + Telas -->
-        <div class="outros-planos">
-            <h3>Precisa de mais telas?</h3>
-            <p>Para outros planos personalizados, chame no WhatsApp! Nosso time irá lhe atender prontamente!</p>
-            <a href="https://wa.me." target="_blank" class="btn-whatsapp-outros">
-                <i class="fab fa-whatsapp"></i> Conversar com o Time
-            </a>
-        </div>
-    </section>
+        .btn-suporte {
+            background-color: transparent;
+            color: #25d366;
+            border: 1px solid #25d366;
+            padding: 10px 22px;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-    <!-- RODAPÉ -->
-    <footer>
-        <p>&copy; 2026 Multiplay. Todos os direitos reservados.</p>
-    </footer>
+        .btn-suporte:hover {
+            background-color: #25d366;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.4);
+        }
 
-</body>
-</html>
+        /* SEÇÃO HERO (COM IMAGEM DE FUNDO ESPORTES E FILMES) */
+        .hero {
+            position: relative;
+            min-height: 95vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 160px 5% 80px 5%;
+            background-image: url('https://unsplash.com');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(0deg, #0a0c14 15%, rgba(10, 12, 20, 0.5) 60%, #0a0c14 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 850px;
+        }
+
+        .badge {
+            background-color: rgba(0, 230, 118, 0.15);
+            color: #00e676;
+            padding: 6px 18px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 50px;
+            letter-spacing: 2px;
+            display: inline-block;
+            margin-bottom: 25px;
+            border: 1px solid rgba(0, 230, 118, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        .sub-headline {
+            font-size: 19px;
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background-color: #00e676;
+            color: #0a0c14;
+            padding: 16px 35px;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 230, 118, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: #25d366;
+            color: #ffffff;
+            padding: 16px 35px;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        /* SEÇÃO DE MARCAS / LOGOS */
+        .marcas {
+            background-color: #0f121f;
+            padding: 45px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .marcas p {
+            color: #718096;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .grid-marcas {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .marca-item {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            color: #e2e8f0;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .marca-item.mais {
+            color: #00e676;
+            background: rgba(0, 230, 118, 0.05);
+            border-color: rgba(0, 230, 118, 0.2);
+        }
+
+        /* SEÇÃO DE PLANOS */
+        .planos-container {
+            padding: 90px 5%;
+            text-align: center;
+        }
+
+        .planos-container h2 {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .planos-sub {
+            color: #718096;
+            margin-bottom: 50px;
+            font-size: 16px;
+        }
+
+        .grid-planos {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .card-plano {
+            background-color: #0f121f;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 45px 35px;
+            width: 100%;
+            max-width: 360px;
+            text-align: left;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .card-plano:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .card-plano.destaque {
+            border: 2px solid #00e676;
+            box-shadow: 0 10px 30px rgba(0, 230, 118, 0.15);
+        }
+
+        .badge-destaque {
+            position: absolute;
+            top: -14px;
+            right: 35px;
+            background-color: #00e676;
+            color: #0a0c14;
+            padding: 5px 14px;
+            font-size: 11px;
+            font-weight: 800;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .plano-header h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .plano-header .telas {
+            color: #718096;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .preco {
+            font-size: 44px;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 25px 0;
+            display: flex;
+            align-items: baseline;
+        }
+
+        .preco span {
+            font-size: 16px;
+            color: #718096;
+            font-weight: 400;
+            margin-left: 4px;
+        }
+
+        .beneficios {
+            list-style: none;
+            margin-bottom: 35px;
+        }
+
+        .beneficios li {
+            margin-bottom: 14px;
+            color: #e2e8f0;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .beneficios li i {
+            color: #00e676;
+            font-size: 16px;
+        }
+
+        .btn-card {
+            display: block;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .btn-card:hover {
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .btn-card-destaque {
+            display: block;
+            text-align: center;
+            background-color: #00e676;
+            color: #0a0c14;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .btn-card-destaque:hover {
+            background-color: #00c862;
+            box-shadow: 0 5px 15px rgba(0, 230, 118, 0.3);
+        }
+
+        /* SEÇÃO MAIS TELAS / WHATSAPP */
+        .outros-planos {
+            max-width: 650px;
+            margin: 20px auto 0 auto;
+            background: linear-gradient(135deg, #0f121f 0%, #141929 100%);
