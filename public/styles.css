@@ -21,6 +21,7 @@ body {
     color: var(--texto-claro);
     overflow-x: hidden;
     line-height: 1.5;
+    width: 100%;
 }
 
 h1, h2, h3, .logo-texto {
@@ -61,7 +62,6 @@ header {
     background: linear-gradient(45deg, var(--neon-azul), var(--neon-rosa));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.6));
 }
 
 .logo-texto {
@@ -71,20 +71,8 @@ header {
     -webkit-text-fill-color: transparent;
 }
 
-nav ul {
-    display: flex;
-    list-style: none;
-    gap: 20px;
-}
-
-nav ul li a {
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: 0.3s;
-}
-
-nav ul li a:hover {
-    color: var(--neon-azul);
+.menu-desktop {
+    display: none;
 }
 
 .btn-header {
@@ -96,31 +84,22 @@ nav ul li a:hover {
     font-size: 0.85rem;
     color: #fff;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-.btn-header:hover {
-    background: var(--neon-azul);
-    color: var(--bg-principal);
-    box-shadow: 0 0 15px var(--neon-azul);
-}
-
-/* --- HERO BANNER --- */
+/* --- HERO BANNER (MOBILE-FIRST) --- */
 .hero {
-    margin-top: 70px;
-    min-height: 85vh;
+    margin-top: 75px;
+    padding: 30px 5%;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 40px 8%;
-    background: radial-gradient(circle at 50% 20%, rgba(112, 0, 255, 0.15), transparent 50%);
-    gap: 40px;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    background: radial-gradient(circle at 50% 20%, rgba(112, 0, 255, 0.15), transparent 60%);
 }
 
 .hero-conteudo {
-    flex: 1;
-    max-width: 55%;
-    z-index: 2;
+    width: 100%;
+    text-align: center;
 }
 
 .hero-tag {
@@ -137,9 +116,10 @@ nav ul li a:hover {
 }
 
 .hero h1 {
-    font-size: 3.2rem;
+    font-size: 2.2rem;
     line-height: 1.2;
     margin-bottom: 15px;
+    width: 100%;
     background: linear-gradient(to right, #fff, #b3b8e9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -152,32 +132,33 @@ nav ul li a:hover {
 }
 
 .hero p {
-    font-size: 1.05rem;
+    font-size: 1rem;
     color: var(--texto-mutado);
     margin-bottom: 25px;
+    width: 100%;
 }
 
 .hero-botoes {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 15px;
-    margin-bottom: 35px;
+    width: 100%;
+    margin-bottom: 30px;
 }
 
 .btn-principal, .btn-whatsapp {
-    padding: 12px 28px;
+    width: 100%;
+    padding: 14px;
     border-radius: 8px;
     font-weight: 700;
-    font-size: 0.95rem;
-    transition: 0.3s;
+    font-size: 1rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     text-align: center;
-    min-width: 180px;
-    cursor: pointer;
     border: none;
+    cursor: pointer;
 }
 
 .btn-principal {
@@ -192,14 +173,10 @@ nav ul li a:hover {
     box-shadow: 0 0 15px rgba(37, 211, 102, 0.2);
 }
 
-.btn-principal:hover, .btn-whatsapp:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
-}
-
 /* VITRINE DE MARCAS */
 .marcas-container {
     margin-top: 25px;
+    width: 100%;
 }
 
 .marcas-titulo {
@@ -207,13 +184,13 @@ nav ul li a:hover {
     color: var(--texto-mutado);
     text-transform: uppercase;
     margin-bottom: 12px;
-    letter-spacing: 1px;
 }
 
 .marcas-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
+    justify-content: center;
 }
 
 .marca-badge {
@@ -226,42 +203,42 @@ nav ul li a:hover {
     color: #d1d5db;
 }
 
-/* BANNER COM IMAGEM DE FUTEBOL E FILMES EM ALTA DEFINIÇÃO */
+/* CAIXA DE CONTEÚDO LATERAL */
 .hero-visual {
-    flex: 1;
-    max-width: 40%;
-    height: 380px;
+    width: 100%;
+    height: 250px;
     background: linear-gradient(135deg, rgba(13, 15, 38, 0.7), rgba(6, 7, 19, 0.85)), 
                 url('https://unsplash.com') center/cover no-repeat;
     border-radius: 16px;
-    box-shadow: 0 0 40px rgba(112, 0, 255, 0.3);
+    box-shadow: 0 0 30px rgba(112, 0, 255, 0.2);
     border: 1px solid rgba(0, 240, 255, 0.3);
     display: flex;
     align-items: flex-end;
-    padding: 25px;
-    position: relative;
+    padding: 20px;
 }
 
 .visual-texto h3 {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     color: var(--neon-azul);
     margin-bottom: 5px;
+    text-align: left;
 }
 
 .visual-texto p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--texto-mutado);
+    text-align: left;
 }
 
 /* --- VANTAGENS --- */
 .vantagens {
-    padding: 60px 5%;
+    padding: 50px 5%;
     text-align: center;
 }
 
 .secao-titulo {
-    font-size: 2.2rem;
-    margin-bottom: 40px;
+    font-size: 2rem;
+    margin-bottom: 35px;
 }
 
 .secao-titulo span {
@@ -269,15 +246,15 @@ nav ul li a:hover {
 }
 
 .vantagens-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 20px;
 }
 
 .card-vantagem {
     background: var(--bg-card);
     border: 1px solid var(--borda-glow);
-    padding: 30px 20px;
+    padding: 25px 20px;
     border-radius: 12px;
     text-align: left;
 }
@@ -289,41 +266,34 @@ nav ul li a:hover {
 }
 
 .card-vantagem h3 {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     margin-bottom: 10px;
 }
 
 .card-vantagem p {
     color: var(--texto-mutado);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
-/* --- GRID DE PLANOS --- */
+/* --- PLANOS --- */
 .planos {
-    padding: 60px 5%;
+    padding: 50px 5%;
     text-align: center;
 }
 
 .planos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 25px;
-    margin-top: 40px;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .card-plano {
     background: var(--bg-card);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 16px;
-    padding: 35px 20px;
+    padding: 30px 20px;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 400px;
+    width: 100%;
 }
 
 .card-plano.destaque {
@@ -387,13 +357,10 @@ nav ul li a:hover {
     width: 100%;
     padding: 12px;
     border-radius: 8px;
-    border: none;
     font-weight: 700;
     font-size: 0.95rem;
-    cursor: pointer;
     text-align: center;
     display: block;
-    transition: 0.3s;
 }
 
 .btn-plano.padrao {
@@ -402,34 +369,21 @@ nav ul li a:hover {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.btn-plano.padrao:hover {
-    background: var(--neon-azul);
-    color: var(--bg-principal);
-    box-shadow: 0 0 15px var(--neon-azul);
-}
-
 .btn-plano.destacada {
     background: var(--neon-rosa);
     color: white;
 }
 
-.btn-plano.destacada:hover {
-    filter: brightness(1.2);
-    box-shadow: 0 0 15px var(--neon-rosa);
-}
-
 /* --- DEPOIMENTOS --- */
 .depoimentos {
-    padding: 60px 5%;
+    padding: 50px 5%;
     text-align: center;
 }
 
 .depoimentos-grid {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 20px;
-    margin-top: 30px;
 }
 
 .card-depoimento {
@@ -438,14 +392,7 @@ nav ul li a:hover {
     padding: 25px;
     border-radius: 12px;
     width: 100%;
-    max-width: 500px;
     text-align: left;
-    transition: 0.3s;
-}
-
-.card-depoimento:hover {
-    border-color: var(--neon-azul);
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
 }
 
 .estrelas {
@@ -457,7 +404,7 @@ nav ul li a:hover {
     color: #d1d5db;
     font-style: italic;
     margin-bottom: 15px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 .autor-nome {
@@ -471,37 +418,32 @@ nav ul li a:hover {
 
 /* --- SEÇÃO FAQ --- */
 .faq {
-    padding: 60px 5% 100px 5%;
+    padding: 50px 5% 80px 5%;
     text-align: center;
 }
 
 .faq-container {
-    max-width: 750px;
-    margin: 40px auto 0 auto;
+    width: 100%;
+    margin-top: 30px;
     text-align: left;
 }
 
 .faq-item {
     background: var(--bg-card);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     border-radius: 8px;
     overflow: hidden;
 }
 
 .faq-pergunta {
-    padding: 20px;
+    padding: 18px;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.05rem;
-    transition: 0.3s;
-}
-
-.faq-pergunta:hover {
-    color: var(--neon-azul);
+    font-size: 1rem;
 }
 
 .faq-pergunta i {
@@ -510,6 +452,72 @@ nav ul li a:hover {
 }
 
 .faq-resposta {
-    padding: 0 20px 20px 20px;
+    padding: 0 18px 18px 18px;
     color: var(--texto-mutado);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    display: none;
+}
+
+/* --- COMPUTADORES (DESKTOP) --- */
+@media (min-width: 1025px) {
+    header {
+        padding: 15px 8%;
+    }
+    .menu-desktop {
+        display: block;
+    }
+    .menu-desktop ul {
+        display: flex;
+        list-style: none;
+        gap: 25px;
+    }
+    .hero {
+        flex-direction: row;
+        padding: 60px 8%;
+        align-items: center;
+    }
+    .hero-conteudo {
+        max-width: 55%;
+        text-align: left;
+    }
+    .hero h1 {
+        font-size: 3.5rem;
+    }
+    .hero-botoes {
+        flex-direction: row;
+    }
+    .btn-principal, .btn-whatsapp {
+        width: auto;
+        min-width: 200px;
+    }
+    .marcas-grid {
+        justify-content: flex-start;
+    }
+    .hero-visual {
+        max-width: 38%;
+        height: 420px;
+    }
+    .vantagens-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+    }
+    .planos-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 25px;
+        max-width: 1200px;
+        margin: 40px auto 0 auto;
+    }
+    .depoimentos-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+        max-width: 1000px;
+        margin: 30px auto 0 auto;
+    }
+    .faq-container {
+        max-width: 750px;
+        margin: 40px auto 0 auto;
+    }
+}
