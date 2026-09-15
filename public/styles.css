@@ -1,11 +1,394 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; scroll-behavior: smooth; }
-body { background-color: #0f111a; color: #ffffff; }
-.navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background-color: rgba(15, 17, 26, 0.95); position: fixed; width: 100%; top: 0; z-index: 1000; }
-.navbar .logo { font-size: 24px; font-weight: bold; color: #00e676; }
-.hero { position: relative; padding: 180px 5% 100px 5%; min-height: 100vh; display: flex; align-items: center; background-image: url('https://unsplash.com'); background-size: cover; background-position: center; }
-.btn-primary { background-color: #00e676; color: #0f111a; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 5px; }
-.btn-whatsapp { background-color: #25d366; color: #ffffff; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 5px; }
-.plans { padding: 80px 5%; text-align: center; }
-.plan-card { background-color: #131622; border: 1px solid #1f2335; border-radius: 8px; padding: 40px 30px; width: 280px; display: inline-block; margin: 15px; }
-.price { font-size: 32px; font-weight: bold; color: #00e676; margin-bottom: 30px; }
-footer { text-align: center; padding: 40px; background-color: #0f111a; color: #565f89; }
+/* CONFIGURAÇÕES GERAIS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #0a0c14;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* NAVBAR / CABEÇALHO */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background-color: rgba(10, 12, 20, 0.95);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+.navbar .logo {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+
+.navbar .logo span {
+    color: #00e676;
+}
+
+.btn-suporte {
+    background-color: transparent;
+    color: #25d366;
+    border: 1px solid #25d366;
+    padding: 10px 20px;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-suporte:hover {
+    background-color: #25d366;
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(37, 211, 102, 0.4);
+}
+
+/* SEÇÃO PRINCIPAL (HERO) */
+.hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 150px 5% 80px 5%;
+    background-image: url('https://unsplash.com');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, #0a0c14 10%, rgba(10, 12, 20, 0.6) 50%, #0a0c14 100%);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+}
+
+.badge {
+    background-color: rgba(0, 230, 118, 0.15);
+    color: #00e676;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 50px;
+    letter-spacing: 2px;
+    display: inline-block;
+    margin-bottom: 25px;
+    border: 1px solid rgba(0, 230, 118, 0.3);
+}
+
+.hero h1 {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+.sub-headline {
+    font-size: 18px;
+    color: #a0aec0;
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+.sub-headline strong {
+    color: #ffffff;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    background-color: #00e676;
+    color: #0a0c14;
+    padding: 16px 35px;
+    font-weight: 700;
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 230, 118, 0.4);
+}
+
+.btn-secondary {
+    background-color: #25d366;
+    color: #ffffff;
+    padding: 16px 35px;
+    font-weight: 700;
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+}
+
+/* SEÇÃO DE MARCAS (LOGOS) */
+.marcas {
+    background-color: #0f121f;
+    padding: 40px 5%;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.marcas p {
+    color: #718096;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 25px;
+}
+
+.grid-marcas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.marca-item {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 700;
+    color: #a0aec0;
+    font-size: 15px;
+}
+
+.marca-item.mais {
+    color: #00e676;
+    background-color: rgba(0, 230, 118, 0.05);
+    border-color: rgba(0, 230, 118, 0.2);
+}
+
+/* SEÇÃO DE PLANOS */
+.planos-container {
+    padding: 100px 5%;
+    text-align: center;
+}
+
+.planos-container h2 {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.planos-sub {
+    color: #718096;
+    margin-bottom: 60px;
+    font-size: 16px;
+}
+
+.grid-planos {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 70px;
+}
+
+.card-plano {
+    background-color: #0f121f;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 350px;
+    text-align: left;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.card-plano:hover {
+    transform: translateY(-5px);
+}
+
+.card-plano.destaque {
+    border: 2px solid #00e676;
+    box-shadow: 0 10px 30px rgba(0, 230, 118, 0.1);
+}
+
+.badge-destaque {
+    position: absolute;
+    top: -15px;
+    right: 30px;
+    background-color: #00e676;
+    color: #0a0c14;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 50px;
+    text-transform: uppercase;
+}
+
+.plano-header h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.plano-header .telas {
+    color: #718096;
+    font-size: 14px;
+}
+
+.preco {
+    font-size: 42px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 30px 0;
+}
+
+.preco span {
+    font-size: 16px;
+    color: #718096;
+    font-weight: 400;
+}
+
+.beneficios {
+    list-style: none;
+    margin-bottom: 35px;
+}
+
+.beneficios li {
+    margin-bottom: 12px;
+    color: #e2e8f0;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.beneficios li i {
+    color: #00e676;
+}
+
+.btn-card {
+    display: block;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.2s;
+}
+
+.btn-card:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.btn-card-destaque {
+    display: block;
+    text-align: center;
+    background-color: #00e676;
+    color: #0a0c14;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.btn-card-destaque:hover {
+    background-color: #00c862;
+    box-shadow: 0 5px 15px rgba(0, 230, 118, 0.3);
+}
+
+/* OUTROS PLANOS CHAME NO WHATSAPP */
+.outros-planos {
+    max-width: 600px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #0f121f 0%, #151a2e 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 40px;
+    border-radius: 16px;
+}
+
+.outros-planos h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.outros-planos p {
+    color: #a0aec0;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.btn-whatsapp-outros {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #25d366;
+    color: #ffffff;
+    padding: 14px 30px;
+    border-radius: 8px;
+    font-weight: 700;
+    transition: background-color 0.2s;
+}
+
+.btn-whatsapp-outros:hover {
+    background-color: #20ba5a;
+}
+
+/* RODAPÉ */
+footer {
+    text-align: center;
+    padding: 40px;
+    background-color: #05060a;
+    color: #4a5568;
+    font-size: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* RESPONSIVIDADE (CELULARES) */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 32px;
+    }
+    .sub-headline {
+        font-size: 16px;
+    }
+    .navbar .logo {
+        font-size: 24px;
+    }
+}
