@@ -1,4 +1,3 @@
-```css
 :root {
     --bg-principal: #060713;
     --bg-card: #0d0f26;
@@ -97,6 +96,13 @@ nav ul li a:hover {
     font-size: 0.85rem;
     color: #fff;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-header:hover {
+    background: var(--neon-azul);
+    color: var(--bg-principal);
+    box-shadow: 0 0 15px var(--neon-azul);
 }
 
 /* --- HERO BANNER --- */
@@ -220,7 +226,7 @@ nav ul li a:hover {
     color: #d1d5db;
 }
 
-/* BANNER DIREITO COM A IMAGEM DE ESTÁDIO DE FUTEBOL E CINEMA EM ALTA DEFINIÇÃO */
+/* BANNER COM IMAGEM DE FUTEBOL E FILMES EM ALTA DEFINIÇÃO */
 .hero-visual {
     flex: 1;
     max-width: 40%;
@@ -292,7 +298,7 @@ nav ul li a:hover {
     font-size: 0.95rem;
 }
 
-/* --- GRID DE 4 PLANOS --- */
+/* --- GRID DE PLANOS --- */
 .planos {
     padding: 60px 5%;
     text-align: center;
@@ -387,6 +393,7 @@ nav ul li a:hover {
     cursor: pointer;
     text-align: center;
     display: block;
+    transition: 0.3s;
 }
 
 .btn-plano.padrao {
@@ -398,11 +405,17 @@ nav ul li a:hover {
 .btn-plano.padrao:hover {
     background: var(--neon-azul);
     color: var(--bg-principal);
+    box-shadow: 0 0 15px var(--neon-azul);
 }
 
 .btn-plano.destacada {
     background: var(--neon-rosa);
     color: white;
+}
+
+.btn-plano.destacada:hover {
+    filter: brightness(1.2);
+    box-shadow: 0 0 15px var(--neon-rosa);
 }
 
 /* --- DEPOIMENTOS --- */
@@ -425,8 +438,14 @@ nav ul li a:hover {
     padding: 25px;
     border-radius: 12px;
     width: 100%;
-    max-width: 450px;
+    max-width: 500px;
     text-align: left;
+    transition: 0.3s;
+}
+
+.card-depoimento:hover {
+    border-color: var(--neon-azul);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
 }
 
 .estrelas {
@@ -450,38 +469,47 @@ nav ul li a:hover {
     color: var(--texto-mutado);
 }
 
-/* --- RESPONSIVIDADE CELULAR --- */
-@media (max-width: 1024px) {
-    header {
-        padding: 15px 4%;
-    }
-    nav {
-        display: none;
-    }
-    .hero {
-        flex-direction: column;
-        padding: 100px 5% 40px 5%;
-        text-align: center;
-        gap: 30px;
-    }
-    .hero-conteudo {
-        max-width: 100%;
-    }
-    .hero h1 {
-        font-size: 2.2rem;
-    }
-    .hero-botoes {
-        justify-content: center;
-    }
-    .btn-principal, .btn-whatsapp {
-        width: 100%;
-    }
-    .marcas-grid {
-        justify-content: center;
-    }
-    .hero-visual {
-        max-width: 100%;
-        width: 100%;
-        height: 250px;
-    }
+/* --- SEÇÃO FAQ --- */
+.faq {
+    padding: 60px 5% 100px 5%;
+    text-align: center;
 }
+
+.faq-container {
+    max-width: 750px;
+    margin: 40px auto 0 auto;
+    text-align: left;
+}
+
+.faq-item {
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.faq-pergunta {
+    padding: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.05rem;
+    transition: 0.3s;
+}
+
+.faq-pergunta:hover {
+    color: var(--neon-azul);
+}
+
+.faq-pergunta i {
+    font-size: 0.85rem;
+    transition: transform 0.3s ease;
+}
+
+.faq-resposta {
+    padding: 0 20px 20px 20px;
+    color: var(--texto-mutado);
+    font-size: 0.95rem;
