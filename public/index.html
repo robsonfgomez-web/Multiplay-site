@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cloudflare.com">
-    <!-- Vinculando o arquivo de estilos correto -->
+    <!-- Vinculando o arquivo de estilos que vamos atualizar no próximo passo -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -24,9 +24,10 @@
                 <li><a href="#vantagens">Vantagens</a></li>
                 <li><a href="#planos">Planos</a></li>
                 <li><a href="#depoimentos">Depoimentos</a></li>
+                <li><a href="#faq">FAQ</a></li>
             </ul>
         </nav>
-        <button onclick="abrirWhatsApp('Ola! Preciso de suporte com a minha conta Multiplay.')" class="btn-header">Minha Conta</button>
+        <button onclick="abrirWhatsApp('Olá! Preciso de suporte com a minha conta Multiplay.')" class="btn-header">Minha Conta</button>
     </header>
 
     <section class="hero">
@@ -155,11 +156,7 @@
         <div class="depoimentos-grid">
             <div class="card-depoimento">
                 <div class="estrelas">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                 </div>
                 <p class="texto-depoimento">"Sensacional! Estava cansado de outros serviços que travavam direto no meio do jogo. Com o Multiplay eu assisto ao futebol sem delay e sem nenhuma travada. Nota 10!"</p>
                 <div class="autor-info">
@@ -170,11 +167,7 @@
 
             <div class="card-depoimento">
                 <div class="estrelas">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                 </div>
                 <p class="texto-depoimento">"O catálogo de filmes e séries é fantástico! Minhas filhas adoram os desenhos da Disney e eu maratono minhas séries da HBO e Netflix todo final de semana sem nenhuma dor de cabeça."</p>
                 <div class="autor-info">
@@ -182,19 +175,16 @@
                     <div class="autor-tempo">Cliente há 3 meses</div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <script>
-        function abrirWhatsApp(mensagem) {
-            var numero = "5541991475644";
-            var textoCodificado = encodeURIComponent(mensagem);
-            var linkAplicativo = "whatsapp://send?phone=" + numero + "&text=" + textoCodificado;
-            var linkWeb = "https://whatsapp.com" + numero + "&text=" + textoCodificado;
-            
-            var iniciarCard = Date.now();
-            window.location.href = linkAplicativo;
-            
-            setTimeout(function() {
-                if (Date.now() - iniciarCard < 1500) {
-                    window.open(linkWeb, '_blank');
+            <div class="card-depoimento">
+                <div class="estrelas">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="texto-depoimento">"Uso na minha Smart TV e no celular quando estou no trabalho. Roda liso até no 4G. O suporte deles me atendeu muito rápido quando precisei renovar o plano."</p>
+                <div class="autor-info">
+                    <div class="autor-nome">Rodrigo Souza</div>
+                    <div class="autor-tempo">Cliente há 8 meses</div>
+                </div>
+            </div>
+
+            <div class="card-depoimento">
