@@ -1,115 +1,113 @@
-▶MULTIPLAY
-ConteúdosPlanosDúvidas
-WhatsApp
-CANAIS • FILMES • SÉRIES • ESPORTES
-Todo o entretenimento em um só lugar.
-Conheça a MultiPlay e escolha a opção ideal para você.
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiPlay - Canais, Filmes e Séries</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
-Escolher planoFalar no WhatsApp
-Marcas e conteúdos de terceiros somente quando devidamente autorizados/licenciados.
+    <!-- Cabeçalho / Navegação -->
+    <header>
+        <div class="logo">▶ MULTIPLAY</div>
+        <nav>
+            <a href="#conteudos">Conteúdos</a>
+            <a href="#planos">Planos</a>
+            <a href="#duvidas">Dúvidas</a>
+            <a href="https://wa.me" target="_blank" class="btn-whatsapp">WhatsApp</a>
+        </nav>
+    </header>
 
-MultiPlay — canais, filmes e séries
-📺Dispositivos compatíveis
-⚡Acesso simples
-🎬Filmes e séries
-🏆Esportes e canais
-ENTRETENIMENTO
-Escolha o que assistir.
-Uma experiência pensada para reunir diferentes categorias de entretenimento.
+    <!-- Banner Principal -->
+    <section class="hero">
+        <p class="tagline">CANAIS • FILMES • SÉRIES • ESPORTES</p>
+        <h1>Todo o entretenimento em um só lugar.</h1>
+        <p>Conheça a MultiPlay e escolha a opção ideal para você.</p>
+        <div class="hero-buttons">
+            <a href="#planos" class="btn-primary">Escolher plano</a>
+            <a href="https://wa.me" target="_blank" class="btn-secondary">Falar no WhatsApp</a>
+        </div>
+        <p class="disclaimer">Marcas e conteúdos de terceiros somente quando devidamente autorizados.</p>
+    </section>
 
-🎞️
-Filmes
-Conteúdos de cinema e entretenimento, conforme disponibilidade.
+    <!-- Recursos / Vantagens -->
+    <section id="recursos" class="features">
+        <h2>MultiPlay - canais, filmes e séries</h2>
+        <div class="features-grid">
+            <div class="feature-item">💻 Dispositivos compatíveis</div>
+            <div class="feature-item">⚡ Acesso simples</div>
+            <div class="feature-item">🎬 Filmes e séries</div>
+            <div class="feature-item">🏆 Esportes e canais</div>
+        </div>
+    </section>
 
-📺
-Séries
-Produções para acompanhar e maratonar.
+    <!-- Seção de Conteúdos -->
+    <section id="conteudos" class="content-section">
+        <p class="section-tag">ENTRETENIMENTO</p>
+        <h2>Escolha o que assistir.</h2>
+        <p>Uma experiência pensada para reunir diferentes categorias de entretenimento.</p>
+        
+        <div class="content-categories">
+            <div class="category-card">
+                <span>🎬</span>
+                <h3>Filmes</h3>
+                <p>Conteúdos de cinema e entretenimento, conforme disponibilidade.</p>
+            </div>
+            <div class="category-card">
+                <span>📺</span>
+                <h3>Séries</h3>
+                <p>Produções para acompanhar e maratonar.</p>
+            </div>
+        </div>
+    </section>
 
-⚽
-Esportes
-Opções esportivas e canais disponíveis no plano.
+    <!-- Seção de Planos / Checkout -->
+    <section id="planos" class="pricing-section">
+        <h2>Escolha seu Plano</h2>
+        <div class="plans-container">
+            <!-- Plano Mensal -->
+            <div class="plan-card">
+                <h3>Mensal</h3>
+                <p class="price">R$ 29,90<span>/mês</span></p>
+                <button onclick="iniciarCheckout('Mensal')" class="btn-checkout">Assinar Agora</button>
+            </div>
+            <!-- Plano Trimestral -->
+            <div class="plan-card">
+                <h3>Trimestral</h3>
+                <p class="price">R$ 79,90<span>/trimestre</span></p>
+                <button onclick="iniciarCheckout('Trimestral')" class="btn-checkout">Assinar Agora</button>
+            </div>
+            <!-- Plano Anual -->
+            <div class="plan-card">
+                <h3>Anual</h3>
+                <p class="price">R$ 299,90<span>/ano</span></p>
+                <button onclick="iniciarCheckout('Anual')" class="btn-checkout">Assinar Agora</button>
+            </div>
+        </div>
+    </section>
 
-🧒
-Infantil
-Entretenimento para diferentes momentos da família.
+    <!-- Script para Integração com o Mercado Pago -->
+    <script>
+        async function iniciarCheckout(nomePlano) {
+            try {
+                const response = await fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ plan: nomePlano })
+                });
+                const data = await response.json();
+                if (data.checkout_url) {
+                    window.location.href = data.checkout_url;
+                } else {
+                    alert('Erro ao gerar o pagamento: ' + (data.error || 'Tente novamente.'));
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro de conexão com o servidor.');
+            }
+        }
+    </script>
 
-Plataformas e canais
-A lista abaixo é um campo de catálogo: publique somente marcas/serviços que você esteja autorizado a comercializar.
-
-NetflixPrime VideoMaxGloboplayApple TV+Paramount+Disney+Star+CrunchyrollPremiereCombatesportvESPNTelecine
-ASSINE
-Escolha seu plano MultiPlay
-Tenha canais, filmes, séries, esportes e entretenimento em um só lugar.
-
-MultiPlay
-R$ 29,90/mês
-Canais ao vivo
-Filmes e séries
-Esportes
-Conteúdo infantil
-1 acesso
-Suporte via WhatsApp
-Assinar
-MAIS VENDIDO
-MultiPlay Premium
-R$ 39,90/mês
-Canais ao vivo
-Filmes e séries
-Esportes
-Conteúdo infantil
-1 acesso
-Full HD / 4K*
-Suporte prioritário
-Assinar
-MELHOR CUSTO-BENEFÍCIO
-MultiPlay VIP
-R$ 49,90/mês
-Canais ao vivo
-Filmes e séries
-Esportes
-Conteúdo infantil
-2 acessos
-Full HD / 4K*
-Suporte prioritário
-Assinar
-🔥 Economize escolhendo um período maior
-MultiPlay
-Trimestral: R$ 84,90
-
-Semestral: R$ 159,90
-
-Anual: R$ 299,90
-
-MultiPlay Premium ⭐
-Trimestral: R$ 109,90
-
-Semestral: R$ 199,90
-
-Anual: R$ 379,90
-
-MultiPlay VIP 👑
-Trimestral: R$ 139,90
-
-Semestral: R$ 249,90
-
-Anual: R$ 469,90
-
-* Qualidade e disponibilidade dependem do conteúdo, aplicativo, dispositivo e das autorizações/licenças aplicáveis.
-
-FALE COM A MULTIPLAY
-Quer saber qual plano combina com você?
-Chame nossa equipe no WhatsApp.
-
-41 9 9147-5644
-DÚVIDAS
-Perguntas frequentes
-Como funciona a compra?
-Quais dispositivos são compatíveis?
-Como recebo meu acesso?
-Como entro em contato?
-MULTIPLAY
-© 2026 MultiPlay. Todos os direitos reservados.
-
-Privacidade · Termos de uso
-
-Antes da publicação, valide direitos de uso de conteúdos e marcas, dados da empresa, preços, políticas e regras do meio de pagamento.
+</body>
+</html>
