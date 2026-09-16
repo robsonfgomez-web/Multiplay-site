@@ -54,6 +54,7 @@
         .btn-teste-hero {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
             background: linear-gradient(135deg, #ffc107, #ff9800);
             color: #0b0c10 !important;
@@ -67,6 +68,9 @@
             letter-spacing: 1px;
             transition: transform 0.3s, box-shadow 0.3s;
             box-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
+            border: none;
+            cursor: pointer;
+            width: fit-content;
         }
         
         .btn-teste-hero:hover {
@@ -136,9 +140,10 @@
             <h1 class="chamada-principal">Venha para a Multiplay<br><span>Sem Travamentos.</span></h1>
             <p class="sub-chamada">A sua plataforma de streaming que nao te deixa na mao!! Assista a todos os canais, filmes e series em alta definicao.</p>
             
-            <a href="https://wa.me" class="btn-teste-hero" target="_blank" rel="noopener noreferrer">
+            <!-- Botão de Teste com Evento de Redirecionamento Direto por JavaScript -->
+            <button onclick="abrirWhats('Ola! Gostaria de solicitar um Teste Gratis.')" class="btn-teste-hero">
                 <i class="fa-solid fa-bolt"></i> Solicitar Teste Gratis
-            </a>
+            </button>
 
             <div class="selos-confianca">
                 <span><i class="fa-solid fa-shield-halved"></i> Ativacao em 2 min</span>
@@ -183,9 +188,9 @@
                             <li><i class="fa-solid fa-circle-check"></i> Suporte Premium via WhatsApp</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me" class="btn-chamada" target="_blank" rel="noopener noreferrer">
+                    <button onclick="abrirWhats('Ola! Quero assinar o Plano de 1 Tela Mensal por R$ 29,90.')" class="btn-chamada" style="border:none; cursor:pointer;">
                         <i class="fa-brands fa-whatsapp"></i> Assinar Mensal
-                    </a>
+                    </button>
                 </div>
 
                 <!-- 2 TELAS MENSAL -->
@@ -200,9 +205,9 @@
                             <li><i class="fa-solid fa-circle-check"></i> Ideal para dividir com a família</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me" class="btn-chamada" target="_blank" rel="noopener noreferrer">
+                    <button onclick="abrirWhats('Ola! Quero assinar o Plano de 2 Telas Mensal por R$ 50,00.')" class="btn-chamada" style="border:none; cursor:pointer;">
                         <i class="fa-brands fa-whatsapp"></i> Assinar Mensal
-                    </a>
+                    </button>
                 </div>
 
                 <!-- 1 TELA ANUAL -->
@@ -217,9 +222,9 @@
                             <li><i class="fa-solid fa-circle-check"></i> Esqueça cobranças mensais</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me" class="btn-chamada" target="_blank" rel="noopener noreferrer">
+                    <button onclick="abrirWhats('Ola! Quero garantir o Plano de 1 Tela Anual por R$ 299,90.')" class="btn-chamada" style="border:none; cursor:pointer;">
                         <i class="fa-brands fa-whatsapp"></i> Garantir Anual
-                    </a>
+                    </button>
                 </div>
 
                 <!-- 2 TELAS ANUAL -->
@@ -234,9 +239,9 @@
                             <li><i class="fa-solid fa-circle-check"></i> Suporte VIP prioritário o ano todo</li>
                         </ul>
                     </div>
-                    <a href="https://wa.me" class="btn-chamada" target="_blank" rel="noopener noreferrer">
+                    <button onclick="abrirWhats('Ola! Quero garantir o Plano de 2 Telas Anual por R$ 499,90.')" class="btn-chamada" style="border:none; cursor:pointer;">
                         <i class="fa-brands fa-whatsapp"></i> Garantir Anual
-                    </a>
+                    </button>
                 </div>
 
             </div>
@@ -294,7 +299,32 @@
         <p style="font-size: 0.8rem; margin-top: 10px; color: #334155;">Multiplay - Sua plataforma de streaming que não te deixa na mão!!</p>
     </footer>
 
+    <!-- SISTEMA DE REDIRECIONAMENTO INTELIGENTE ANTI-BLOQUEIO -->
     <script>
+        function abrirWhats(mensagem) {
+            var numero = "5541991475644";
+            var textoEncodado = encodeURIComponent(mensagem);
+            
+            // Tenta abrir primeiro o protocolo nativo de aplicativo
+            var linkApp = "whatsapp://send?phone=" + numero + "&text=" + textoEncodado;
+            // Link de contingência web caso o nativo falhe
+            var linkWeb = "https://whatsapp.com" + numero + "&text=" + textoEncodado;
+            // Link mobile universal
+            var linkApi = "https://whatsapp.com" + numero + "&text=" + textoEncodado;
+
+            // Detecta o dispositivo do cliente
+            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                // Força abertura no celular/tablet via API direta
+                window.open(linkApi, '_blank');
+            } else {
+                // Força abertura no computador pelo WhatsApp Web estável
+                window.open(linkWeb, '_blank');
+            }
+        }
+
+        // Script do Acordeão do FAQ
         const faqPerguntas = document.querySelectorAll('.faq-pergunta');
         faqPerguntas.forEach(pergunta => {
             pergunta.addEventListener('click', () => {
