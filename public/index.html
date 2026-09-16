@@ -1,306 +1,101 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiplay | Liberte Suas Telas</title>
-    
-    <!-- Ícones Corrigido -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <link rel="stylesheet" href="styles.css">
-    
-    <style>
-        :root {
-            --cor-destaque: #45f3ff;
-            --cor-mutada: #94a3b8;
-        }
-        .barra-urgencia {
-            background: linear-gradient(90deg, #e50914, #b20710);
-            color: #fff;
-            text-align: center;
-            padding: 8px 10px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .hero-trafego {
-            text-align: center;
-            padding: 40px 20px 30px;
-        }
-        .chamada-principal {
-            font-size: 2.8rem;
-            font-weight: 900;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-        }
-        .chamada-principal span {
-            background: linear-gradient(45deg, var(--cor-destaque), #007bff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .sub-chamada {
-            font-size: 1.25rem;
-            color: var(--cor-mutada);
-            max-width: 650px;
-            margin: 0 auto 20px;
-            font-weight: 400;
-        }
-        .btn-teste-hero {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #ffc107, #ff9800);
-            color: #0b0c10 !important;
-            text-decoration: none;
-            padding: 16px 32px;
-            border-radius: 50px;
-            font-weight: 800;
-            font-size: 1.1rem;
-            margin: 20px auto 30px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
-            border: none;
-            cursor: pointer;
-            width: fit-content;
-        }
-        .btn-teste-hero:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 193, 7, 0.6);
-        }
-        .selos-confianca {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-top: 20px;
-            color: var(--cor-mutada);
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .selos-confianca span i {
-            color: var(--cor-destaque);
-            margin-right: 5px;
-        }
-        .card.destaque {
-            border: 2px solid var(--cor-destaque);
-            position: relative;
-            transform: scale(1.03);
-            box-shadow: 0 15px 35px rgba(69, 243, 255, 0.15);
-        }
-        .card.destaque .tag-pop {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--cor-destaque);
-            color: #0b0c10;
-            padding: 4px 15px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        @media (max-width: 768px) {
-            .chamada-principal { font-size: 2.1rem; }
-            .card.destaque { transform: scale(1); margin-top: 15px; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MULTIPLAY | +1000 Canais, Filmes e Séries em 4K | Teste Grátis</title>
+<meta name="description" content="TODO O ENTRETENIMENTO EM UM SÓ LUGAR! Mais de 1000 conteúdos com qualidade HD/FHD/4K. Funciona em Smart TV, Celular, TV Box e Computador.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>▶️</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{font-family:'Inter',sans-serif;background:#08162E;color:#fff}
+h1,h2,h3{font-family:'Montserrat',sans-serif}
+.glass{background:linear-gradient(135deg, rgba(16,42,95,0.9) 0%, rgba(10,74,191,0.5) 100%);backdrop-filter:blur(12px);border:1px solid rgba(0,191,255,0.25)}
+.pill{background:linear-gradient(90deg, #0D2A5E 0%, #1446A0 100%);border:1px solid rgba(0,191,255,0.35);box-shadow:0 0 12px rgba(0,191,255,0.15)}
+.neon{box-shadow:0 0 20px rgba(0,191,255,0.5)}
+.pulse{animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,0.7)}70%{box-shadow:0 0 0 15px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+</style>
 </head>
-<body>
+<body class="overflow-x-hidden bg-[#08162E]">
 
-    <div class="barra-urgencia">
-        <i class="fa-solid fa-fire"></i> Atenção: Restam apenas 14 acessos promocionais disponíveis hoje!
+<header class="fixed top-0 w-full z-50 bg-[#08162E]/90 backdrop-blur-md border-b border-blue-900/30">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <div class="w-11 h-11 bg-gradient-to-br from-[#00BFFF] to-[#0A4ABF] rounded-xl flex items-center justify-center neon">
+        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7z"/></svg>
+      </div>
+      <div>
+        <h1 class="text-[22px] font-extrabold tracking-widest leading-none">MULTIPLAY</h1>
+        <p class="text-[9px] tracking-[0.32em] text-[#00BFFF] font-bold">CANAIS • FILMES • SERIES</p>
+      </div>
+    </div>
+    <a href="https://wa.me/5541991475644?text=Ol%C3%A1!%20Quero%20meu%20TESTE%20GR%C3%81TIS%20da%20MULTIPLAY!" class="bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-sm px-6 py-3 rounded-full transition pulse">TESTE GRÁTIS</a>
+  </div>
+</header>
+
+<section class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+  <div class="max-w-3xl">
+    <p class="text-[#00BFFF] font-extrabold tracking-wide text-sm md:text-base mb-3">TODO O ENTRETENIMENTO EM UM SÓ LUGAR!</p>
+    <h2 class="text-4xl md:text-[52px] font-extrabold leading-[1.1] mb-8">Mais de 1000 conteúdos com qualidade para você!</h2>
+
+    <div class="grid grid-cols-2 gap-3 mb-12">
+      <div class="pill rounded-full px-5 py-3.5 flex items-center gap-2.5 text-[13px] font-bold tracking-wide">📡 CANAIS AO VIVO</div>
+      <div class="pill rounded-full px-5 py-3.5 flex items-center gap-2.5 text-[13px] font-bold tracking-wide">🎬 FILMES</div>
+      <div class="pill rounded-full px-5 py-3.5 flex items-center gap-2.5 text-[13px] font-bold tracking-wide">🍿 SERIES</div>
+      <div class="pill rounded-full px-5 py-3.5 flex items-center gap-2.5 text-[13px] font-bold tracking-wide">⚽ ESPORTES</div>
+      <div class="pill rounded-full px-5 py-3.5 flex items-center gap-2.5 text-[13px] font-bold tracking-wide">👶 INFANTIL</div>
+      <div class="pill rounded-full px-5 py-3.5 flex items-center gap-2.5 text-[13px] font-bold tracking-wide">📰 NOTICIAS</div>
     </div>
 
-    <header>
-        <a href="#" class="logo-container">
-            <div class="logo-icon"><i class="fa-solid fa-play"></i></div>
-            <div class="logo-text">Multi<span>play</span></div>
-        </a>
-    </header>
+    <div class="grid sm:grid-cols-2 gap-4">
+      <div class="glass rounded-2xl p-5 flex gap-4 items-center"><div class="min-w-[48px] h-12 bg-[#0A4ABF] rounded-xl flex items-center justify-center text-xl">💎</div><div><h3 class="font-bold text-[13px]">QUALIDADE HD / FHD / 4K</h3><p class="text-[11px] text-blue-200 mt-0.5">Imagem cristalina</p></div></div>
+      <div class="glass rounded-2xl p-5 flex gap-4 items-center"><div class="min-w-[48px] h-12 bg-[#0A4ABF] rounded-xl flex items-center justify-center text-xl">⚡</div><div><h3 class="font-bold text-[13px]">ACESSO RÁPIDO E SEGURO</h3><p class="text-[11px] text-blue-200 mt-0.5">Conexão estável</p></div></div>
+      <div class="glass rounded-2xl p-5 flex gap-4 items-center"><div class="min-w-[48px] h-12 bg-[#0A4ABF] rounded-xl flex items-center justify-center text-xl">🎧</div><div><h3 class="font-bold text-[13px]">SUPORTE ESPECIALIZADO</h3><p class="text-[11px] text-blue-200 mt-0.5">Suporte 24/7 no WhatsApp</p></div></div>
+      <div class="glass rounded-2xl p-5 flex gap-4 items-center"><div class="min-w-[48px] h-12 bg-[#0A4ABF] rounded-xl flex items-center justify-center text-xl">💰</div><div><h3 class="font-bold text-[13px]">PLANOS ACESSÍVEIS</h3><p class="text-[11px] text-blue-200 mt-0.5">A partir de R$35</p></div></div>
+      <div class="glass rounded-2xl p-5 flex gap-4 items-center"><div class="min-w-[48px] h-12 bg-[#0A4ABF] rounded-xl flex items-center justify-center text-xl">📱</div><div><h3 class="font-bold text-[13px]">ASSISTA EM TODOS DISPOSITIVOS</h3><p class="text-[11px] text-blue-200 mt-0.5">Leve para onde quiser</p></div></div>
+      <div class="glass rounded-2xl p-5 flex gap-4 items-center"><div class="min-w-[48px] h-12 bg-[#0A4ABF] rounded-xl flex items-center justify-center text-xl">📺</div><div><h3 class="font-bold text-[13px] leading-tight">FUNCIONA EM TODOS OS APARELHOS</h3><p class="text-[11px] text-blue-200 mt-0.5">Smart TV • Celular • TV Box • PC</p></div></div>
+    </div>
+  </div>
+</section>
 
-    <main>
-        <section class="hero-trafego">
-            <h1 class="chamada-principal">Venha para a Multiplay<br><span>Sem Travamentos.</span></h1>
-            <p class="sub-chamada">A sua plataforma de streaming que não te deixa na mão!! Assista a todos os canais, filmes e séries em alta definição.</p>
-            
-            <button onclick="abrirWhats('Olá! Gostaria de solicitar um Teste Grátis.')" class="btn-teste-hero">
-                <i class="fa-solid fa-bolt"></i> Solicitar Teste Grátis
-            </button>
+<section class="py-16 px-6 bg-[#0A1931] border-t border-blue-900/30">
+  <div class="max-w-7xl mx-auto text-center mb-10">
+    <h2 class="text-3xl md:text-4xl font-extrabold">Planos que cabem no seu bolso</h2>
+    <p class="text-blue-200 mt-2">Ativação imediata • Sem fidelidade • Teste Grátis</p>
+  </div>
+  <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6 items-stretch">
+    <div class="glass rounded-3xl p-8 flex flex-col">
+      <h3 class="font-bold">MENSAL</h3><p class="text-4xl font-extrabold my-3">R$ 35<span class="text-sm font-normal text-blue-200">/mês</span></p>
+      <ul class="text-sm space-y-2.5 text-blue-100 my-6 flex-1"><li>✓ Canais Ao Vivo</li><li>✓ Filmes e Séries Atualizados</li><li>✓ Qualidade HD/FHD/4K</li><li>✓ 1 Tela Simultânea</li></ul>
+      <a href="https://wa.me/5541991475644?text=Quero%20assinar%20o%20PLANO%20MENSAL%20de%20R$35%20da%20MULTIPLAY" class="block text-center bg-white text-[#08162E] font-extrabold py-4 rounded-full">ASSINAR AGORA</a>
+    </div>
+    <div class="rounded-3xl p-8 flex flex-col bg-gradient-to-b from-[#1446A0] to-[#0A1931] border-2 border-[#00BFFF] neon relative md:scale-105">
+      <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#00BFFF] text-black text-[11px] font-extrabold px-5 py-1.5 rounded-full tracking-wide">MAIS POPULAR</span>
+      <h3 class="font-bold">TRIMESTRAL</h3><p class="text-4xl font-extrabold my-3">R$ 75<span class="text-sm font-normal">/3 meses</span></p>
+      <ul class="text-sm space-y-2.5 my-6 flex-1"><li>✓ Tudo do Mensal +</li><li>✓ 2 Telas Simultâneas</li><li>✓ Suporte Prioritário 24/7</li><li>✓ Economia de 30%</li></ul>
+      <a href="https://wa.me/5541991475644?text=Quero%20assinar%20o%20PLANO%20TRIMESTRAL%20de%20R$75%20da%20MULTIPLAY" class="block text-center bg-[#25D366] font-extrabold py-4 rounded-full pulse">QUERO ESSE PLANO</a>
+    </div>
+    <div class="glass rounded-3xl p-8 flex flex-col">
+      <h3 class="font-bold">ANUAL</h3><p class="text-4xl font-extrabold my-3">R$ 180<span class="text-sm font-normal text-blue-200">/ano</span></p>
+      <ul class="text-sm space-y-2.5 text-blue-100 my-6 flex-1"><li>✓ Tudo do Trimestral +</li><li>✓ 3 Telas Simultâneas</li><li>✓ 2 Meses Grátis</li><li>✓ Melhor Custo-Benefício</li></ul>
+      <a href="https://wa.me/5541991475644?text=Quero%20assinar%20o%20PLANO%20ANUAL%20de%20R$180%20da%20MULTIPLAY" class="block text-center bg-white text-[#08162E] font-extrabold py-4 rounded-full">ASSINAR AGORA</a>
+    </div>
+  </div>
+</section>
 
-            <div class="selos-confianca">
-                <span><i class="fa-solid fa-shield-halved"></i> Ativação em 2 min</span>
-                <span><i class="fa-solid fa-rotate-left"></i> Sem fidelidade</span>
-            </div>
-        </section>
+<div class="bg-gradient-to-r from-[#0A4ABF] to-[#082F7A] py-5 px-6">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3">
+    <a href="https://wa.me/5541991475644?text=Ol%C3%A1!%20Quero%20tirar%20d%C3%BAvidas%20sobre%20a%20MULTIPLAY" class="flex items-center gap-4">
+      <div class="w-12 h-12 bg-[#25D366] rounded-xl flex items-center justify-center text-2xl">✆</div>
+      <div><p class="font-extrabold text-lg md:text-xl tracking-wide">FALE AGORA CONOSCO</p><p class="text-[#00BFFF] font-bold text-xs tracking-widest">• TIRE SUAS DÚVIDAS • (41) 99147-5644</p></div>
+    </a>
+    <p class="text-[11px] text-blue-200 tracking-wide">ATENDIMENTO VIA WHATSAPP</p>
+  </div>
+</div>
 
-        <section style="padding: 0 20px; text-align: center;">
-            <img src="multiplay-banner.png" alt="Multiplay Banner" class="banner-img" style="max-width:100%; border-radius:12px;">
-        </section>
+<a href="https://wa.me/5541991475644?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20meu%20teste%20gr%C3%A1tis%20MULTIPLAY!" class="fixed bottom-5 right-5 w-[60px] h-[60px] bg-[#25D366] rounded-full flex items-center justify-center text-[30px] shadow-2xl pulse z-50">💬</a>
 
-        <section class="catalogo">
-            <h2 class="section-title">Canais + Filmes + Séries Inclusos</h2>
-            <div class="badges-container">
-                <span class="badge canais"><i class="fa-solid fa-tv"></i> Telecine</span>
-                <span class="badge canais"><i class="fa-solid fa-tv"></i> HBO</span>
-                <span class="badge canais"><i class="fa-solid fa-bolt"></i> SporTV</span>
-                <span class="badge canais"><i class="fa-solid fa-bolt"></i> ESPN</span>
-                <span class="badge canais"><i class="fa-solid fa-soccer-ball"></i> Premiere</span>
-                <span class="badge canais"><i class="fa-solid fa-hand-fist"></i> Combate</span>
-                <span class="badge streaming"><i class="fa-solid fa-play"></i> Netflix</span>
-                <span class="badge streaming"><i class="fa-solid fa-play"></i> GloboPlay</span>
-                <span class="badge streaming"><i class="fa-solid fa-play"></i> Prime Video</span>
-                <span class="badge streaming"><i class="fa-solid fa-play"></i> Disney Plus</span>
-                <span class="badge streaming"><i class="fa-solid fa-play"></i> Paramount +</span>
-            </div>
-        </section>
-
-        <section id="planos">
-            <h2 class="section-title">Planos Promocionais</h2>
-            <div class="grid-planos">
-                <div class="card destaque">
-                    <div class="tag-pop">Mais Escolhido</div>
-                    <div>
-                        <div class="tipo-plano">Acesso Mensal</div>
-                        <h3>Plano 1 Tela</h3>
-                        <div class="preco">R$ 29,90<span>/mês</span></div>
-                        <ul>
-                            <li><i class="fa-solid fa-circle-check"></i> 1 Tela Exclusiva (Sem quedas)</li>
-                            <li><i class="fa-solid fa-circle-check"></i> Todos os canais e streamings</li>
-                            <li><i class="fa-solid fa-circle-check"></i> Suporte Premium via WhatsApp</li>
-                        </ul>
-                    </div>
-                    <button onclick="abrirWhats('Olá! Quero assinar o Plano de 1 Tela Mensal por R$ 29,90.')" class="btn-chamada" style="border:none; cursor:pointer;">
-                        <i class="fa-brands fa-whatsapp"></i> Assinar Mensal
-                    </button>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="tipo-plano">Acesso Mensal</div>
-                        <h3>Plano 2 Telas</h3>
-                        <div class="preco">R$ 50,00<span>/mês</span></div>
-                        <ul>
-                            <li><i class="fa-solid fa-circle-check"></i> 2 Telas Simultâneas</li>
-                            <li><i class="fa-solid fa-circle-check"></i> Assista na TV e no celular juntos</li>
-                            <li><i class="fa-solid fa-circle-check"></i> Ideal para dividir com a família</li>
-                        </ul>
-                    </div>
-                    <button onclick="abrirWhats('Olá! Quero assinar o Plano de 2 Telas Mensal por R$ 50,00.')" class="btn-chamada" style="border:none; cursor:pointer;">
-                        <i class="fa-brands fa-whatsapp"></i> Assinar Mensal
-                    </button>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="tipo-plano">Acesso Anual</div>
-                        <h3>Plano 1 Tela</h3>
-                        <div class="preco">R$ 299,90<span>/ano</span></div>
-                        <ul>
-                            <li><i class="fa-solid fa-circle-check"></i> 1 Tela por 12 meses completos</li>
-                            <li><i class="fa-solid fa-circle-check"></i> Economia massiva a longo prazo</li>
-                            <li><i class="fa-solid fa-circle-check"></i> Esqueça cobranças mensais</li>
-                        </ul>
-                    </div>
-                    <button onclick="abrirWhats('Olá! Quero garantir o Plano de 1 Tela Anual por R$ 299,90.')" class="btn-chamada" style="border:none; cursor:pointer;">
-                        <i class="fa-brands fa-whatsapp"></i> Garantir Anual
-                    </button>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="tipo-plano">Acesso Anual</div>
-                        <h3>Plano 2 Telas</h3>
-                        <div class="preco">R$ 499,90<span>/ano</span></div>
-                        <ul>
-                            <li><i class="fa-solid fa-circle-check"></i> 2 Telas livres por 365 dias</li>
-                            <li><i class="fa-solid fa-circle-check"></i> O melhor custo-benefício do site</li>
-                            <li><i class="fa-solid fa-circle-check"></i> Suporte VIP prioritário o ano todo</li>
-                        </ul>
-                    </div>
-                    <button onclick="abrirWhats('Olá! Quero garantir o Plano de 2 Telas Anual por R$ 499,90.')" class="btn-chamada" style="border:none; cursor:pointer;">
-                        <i class="fa-brands fa-whatsapp"></i> Garantir Anual
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <section class="container-depoimentos">
-            <h2 class="section-title">Clientes que mudaram para a Multiplay</h2>
-            <div class="grid-depoimentos">
-                <div class="depoimento-card">
-                    <div class="estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <p>"O sinal é perfeito. Cancelei minha TV a cabo tradicional e economizo mais de 100 reais por mês com a Multiplay. O suporte me atende na hora."</p>
-                    <div class="autor">— Carlos Henrique S.</div>
-                </div>
-                <div class="depoimento-card">
-                    <div class="estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <p>"Entrega super rápida! Paguei e em menos de 3 minutos já estava assistindo a série nova da HBO na minha TV."</p>
-                    <div class="autor">— Mariana Costa</div>
-                </div>
-                <div class="depoimento-card">
-                    <div class="estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <p>"Estabilidade incrível nos canais de futebol. Assisto aos jogos do Premiere sem nenhum delay ou travamento."</p>
-                    <div class="autor">— Ricardo Ramos</div>
-                </div>
-            </div>
-        </section>
-
-        <section style="padding-bottom: 80px;">
-            <h2 class="section-title">Dúvidas Frequentes</h2>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <div class="faq-pergunta">Como recebo meu acesso após o pagamento? <i class="fa-solid fa-chevron-down"></i></div>
-                    <div class="faq-resposta">O envio é imediato! Assim que o pagamento for confirmado, nossa equipe enviará as credenciais e o passo a passo direto no seu WhatsApp.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-pergunta">Posso assistir em quais dispositivos? <i class="fa-solid fa-chevron-down"></i></div>
-                    <div class="faq-resposta">Você pode assistir na Smart TV, celular, tablet, computador ou TV Box. O aplicativo é compatível com praticamente todos os sistemas.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-pergunta">Preciso pagar alguma taxa de fidelidade? <i class="fa-solid fa-chevron-down"></i></div>
-                    <div class="faq-resposta">Não. Nossos planos não possuem fidelidade. Nos planos mensais você renova apenas se quiser continuar utilizando no próximo mês.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-pergunta">O sinal trava durante jogos ou transmissões ao vivo? <i class="fa-solid fa-chevron-down"></i></div>
-                    <div class="faq-resposta">Contamos com servidores otimizados de alta performance para garantir estabilidade máxima na ESPN, Premiere e SporTV, mesmo em horários de pico.</div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Multiplay. Todos os direitos reservados.</p>
-        <p style="font-size: 0.8rem; margin-top: 10px; color: #334155;">Multiplay - Sua plataforma de streaming que não te deixa na mão!!</p>
-    </footer>
-
-    <script>
-        // SISTEMA CORRIGIDO - ANTI BLOQUEIO META ADS
-        function abrirWhats(mensagem) {
-            var numero = "5541991475644";
-            var textoEncodado = encodeURIComponent(mensagem);
-            // wa.me é o link oficial e mais estável, não é bloqueado como popup
-            var link = "https://wa.me/" + numero + "?text=" + textoEncodado;
-            window.open(link, '_blank');
-        }
-
-        // Script do Acordeão do FAQ
-        const faqPerguntas = document.querySelectorAll('.faq-pergunta');
-        faqPerguntas.forEach(pergunta => {
-            pergunta.addEventListener('click', () => {
-                const item = pergunta.parentElement;
-                document.querySelectorAll('.faq-item').forEach(outroItem => {
-                    if (outroItem !== item) outroItem.classList.remove('ativo');
-                });
-                item.classList.toggle('ativo');
-            });
-        });
-    </script>
 </body>
 </html>
