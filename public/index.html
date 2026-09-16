@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multiplay | Liberte Suas Telas</title>
     
-    <!-- Ícones para o Layout -->
-    <link rel="stylesheet" href="https://cloudflare.com">
+    <!-- Ícones Corrigido -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Link para o seu arquivo styles.css -->
     <link rel="stylesheet" href="styles.css">
     
     <style>
-        /* ESTILOS DE ALTA CONVERSÃO PARA TRÁFEGO PAGO */
+        :root {
+            --cor-destaque: #45f3ff;
+            --cor-mutada: #94a3b8;
+        }
         .barra-urgencia {
             background: linear-gradient(90deg, #e50914, #b20710);
             color: #fff;
@@ -23,12 +25,10 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        
         .hero-trafego {
             text-align: center;
             padding: 40px 20px 30px;
         }
-
         .chamada-principal {
             font-size: 2.8rem;
             font-weight: 900;
@@ -36,13 +36,11 @@
             margin-bottom: 20px;
             letter-spacing: -1px;
         }
-
         .chamada-principal span {
             background: linear-gradient(45deg, var(--cor-destaque), #007bff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .sub-chamada {
             font-size: 1.25rem;
             color: var(--cor-mutada);
@@ -50,7 +48,6 @@
             margin: 0 auto 20px;
             font-weight: 400;
         }
-
         .btn-teste-hero {
             display: inline-flex;
             align-items: center;
@@ -72,12 +69,10 @@
             cursor: pointer;
             width: fit-content;
         }
-        
         .btn-teste-hero:hover {
             transform: scale(1.05);
             box-shadow: 0 0 30px rgba(255, 193, 7, 0.6);
         }
-
         .selos-confianca {
             display: flex;
             justify-content: center;
@@ -87,19 +82,16 @@
             font-size: 0.85rem;
             font-weight: 600;
         }
-
         .selos-confianca span i {
             color: var(--cor-destaque);
             margin-right: 5px;
         }
-
         .card.destaque {
             border: 2px solid var(--cor-destaque);
             position: relative;
             transform: scale(1.03);
             box-shadow: 0 15px 35px rgba(69, 243, 255, 0.15);
         }
-
         .card.destaque .tag-pop {
             position: absolute;
             top: -15px;
@@ -114,7 +106,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
         @media (max-width: 768px) {
             .chamada-principal { font-size: 2.1rem; }
             .card.destaque { transform: scale(1); margin-top: 15px; }
@@ -124,7 +115,7 @@
 <body>
 
     <div class="barra-urgencia">
-        <i class="fa-solid fa-fire"></i> Atencao: Restam apenas 14 acessos promocionais disponiveis hoje!
+        <i class="fa-solid fa-fire"></i> Atenção: Restam apenas 14 acessos promocionais disponíveis hoje!
     </div>
 
     <header>
@@ -135,24 +126,22 @@
     </header>
 
     <main>
-        
         <section class="hero-trafego">
             <h1 class="chamada-principal">Venha para a Multiplay<br><span>Sem Travamentos.</span></h1>
-            <p class="sub-chamada">A sua plataforma de streaming que nao te deixa na mao!! Assista a todos os canais, filmes e series em alta definicao.</p>
+            <p class="sub-chamada">A sua plataforma de streaming que não te deixa na mão!! Assista a todos os canais, filmes e séries em alta definição.</p>
             
-            <!-- Botão de Teste com Evento de Redirecionamento Direto por JavaScript -->
-            <button onclick="abrirWhats('Ola! Gostaria de solicitar um Teste Gratis.')" class="btn-teste-hero">
-                <i class="fa-solid fa-bolt"></i> Solicitar Teste Gratis
+            <button onclick="abrirWhats('Olá! Gostaria de solicitar um Teste Grátis.')" class="btn-teste-hero">
+                <i class="fa-solid fa-bolt"></i> Solicitar Teste Grátis
             </button>
 
             <div class="selos-confianca">
-                <span><i class="fa-solid fa-shield-halved"></i> Ativacao em 2 min</span>
+                <span><i class="fa-solid fa-shield-halved"></i> Ativação em 2 min</span>
                 <span><i class="fa-solid fa-rotate-left"></i> Sem fidelidade</span>
             </div>
         </section>
 
         <section style="padding: 0 20px; text-align: center;">
-            <img src="multiplay-banner.png" alt="Multiplay Banner" class="banner-img">
+            <img src="multiplay-banner.png" alt="Multiplay Banner" class="banner-img" style="max-width:100%; border-radius:12px;">
         </section>
 
         <section class="catalogo">
@@ -171,11 +160,10 @@
                 <span class="badge streaming"><i class="fa-solid fa-play"></i> Paramount +</span>
             </div>
         </section>
+
         <section id="planos">
             <h2 class="section-title">Planos Promocionais</h2>
             <div class="grid-planos">
-                
-                <!-- 1 TELA MENSAL -->
                 <div class="card destaque">
                     <div class="tag-pop">Mais Escolhido</div>
                     <div>
@@ -188,29 +176,27 @@
                             <li><i class="fa-solid fa-circle-check"></i> Suporte Premium via WhatsApp</li>
                         </ul>
                     </div>
-                    <button onclick="abrirWhats('Ola! Quero assinar o Plano de 1 Tela Mensal por R$ 29,90.')" class="btn-chamada" style="border:none; cursor:pointer;">
+                    <button onclick="abrirWhats('Olá! Quero assinar o Plano de 1 Tela Mensal por R$ 29,90.')" class="btn-chamada" style="border:none; cursor:pointer;">
                         <i class="fa-brands fa-whatsapp"></i> Assinar Mensal
                     </button>
                 </div>
 
-                <!-- 2 TELAS MENSAL -->
                 <div class="card">
                     <div>
                         <div class="tipo-plano">Acesso Mensal</div>
                         <h3>Plano 2 Telas</h3>
                         <div class="preco">R$ 50,00<span>/mês</span></div>
                         <ul>
-                            <li><i class="fa-solid fa-circle-check"></i> 2 Telas Simultaneas</li>
+                            <li><i class="fa-solid fa-circle-check"></i> 2 Telas Simultâneas</li>
                             <li><i class="fa-solid fa-circle-check"></i> Assista na TV e no celular juntos</li>
                             <li><i class="fa-solid fa-circle-check"></i> Ideal para dividir com a família</li>
                         </ul>
                     </div>
-                    <button onclick="abrirWhats('Ola! Quero assinar o Plano de 2 Telas Mensal por R$ 50,00.')" class="btn-chamada" style="border:none; cursor:pointer;">
+                    <button onclick="abrirWhats('Olá! Quero assinar o Plano de 2 Telas Mensal por R$ 50,00.')" class="btn-chamada" style="border:none; cursor:pointer;">
                         <i class="fa-brands fa-whatsapp"></i> Assinar Mensal
                     </button>
                 </div>
 
-                <!-- 1 TELA ANUAL -->
                 <div class="card">
                     <div>
                         <div class="tipo-plano">Acesso Anual</div>
@@ -222,12 +208,11 @@
                             <li><i class="fa-solid fa-circle-check"></i> Esqueça cobranças mensais</li>
                         </ul>
                     </div>
-                    <button onclick="abrirWhats('Ola! Quero garantir o Plano de 1 Tela Anual por R$ 299,90.')" class="btn-chamada" style="border:none; cursor:pointer;">
+                    <button onclick="abrirWhats('Olá! Quero garantir o Plano de 1 Tela Anual por R$ 299,90.')" class="btn-chamada" style="border:none; cursor:pointer;">
                         <i class="fa-brands fa-whatsapp"></i> Garantir Anual
                     </button>
                 </div>
 
-                <!-- 2 TELAS ANUAL -->
                 <div class="card">
                     <div>
                         <div class="tipo-plano">Acesso Anual</div>
@@ -239,15 +224,13 @@
                             <li><i class="fa-solid fa-circle-check"></i> Suporte VIP prioritário o ano todo</li>
                         </ul>
                     </div>
-                    <button onclick="abrirWhats('Ola! Quero garantir o Plano de 2 Telas Anual por R$ 499,90.')" class="btn-chamada" style="border:none; cursor:pointer;">
+                    <button onclick="abrirWhats('Olá! Quero garantir o Plano de 2 Telas Anual por R$ 499,90.')" class="btn-chamada" style="border:none; cursor:pointer;">
                         <i class="fa-brands fa-whatsapp"></i> Garantir Anual
                     </button>
                 </div>
-
             </div>
         </section>
 
-        <!-- SEÇÃO DE DEPOIMENTOS -->
         <section class="container-depoimentos">
             <h2 class="section-title">Clientes que mudaram para a Multiplay</h2>
             <div class="grid-depoimentos">
@@ -269,7 +252,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO DO FAQ (PERGUNTAS FREQUENTES) -->
         <section style="padding-bottom: 80px;">
             <h2 class="section-title">Dúvidas Frequentes</h2>
             <div class="faq-container">
@@ -291,7 +273,6 @@
                 </div>
             </div>
         </section>
-
     </main>
 
     <footer>
@@ -299,29 +280,14 @@
         <p style="font-size: 0.8rem; margin-top: 10px; color: #334155;">Multiplay - Sua plataforma de streaming que não te deixa na mão!!</p>
     </footer>
 
-    <!-- SISTEMA DE REDIRECIONAMENTO INTELIGENTE ANTI-BLOQUEIO -->
     <script>
+        // SISTEMA CORRIGIDO - ANTI BLOQUEIO META ADS
         function abrirWhats(mensagem) {
             var numero = "5541991475644";
             var textoEncodado = encodeURIComponent(mensagem);
-            
-            // Tenta abrir primeiro o protocolo nativo de aplicativo
-            var linkApp = "whatsapp://send?phone=" + numero + "&text=" + textoEncodado;
-            // Link de contingência web caso o nativo falhe
-            var linkWeb = "https://whatsapp.com" + numero + "&text=" + textoEncodado;
-            // Link mobile universal
-            var linkApi = "https://whatsapp.com" + numero + "&text=" + textoEncodado;
-
-            // Detecta o dispositivo do cliente
-            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-            if (isMobile) {
-                // Força abertura no celular/tablet via API direta
-                window.open(linkApi, '_blank');
-            } else {
-                // Força abertura no computador pelo WhatsApp Web estável
-                window.open(linkWeb, '_blank');
-            }
+            // wa.me é o link oficial e mais estável, não é bloqueado como popup
+            var link = "https://wa.me/" + numero + "?text=" + textoEncodado;
+            window.open(link, '_blank');
         }
 
         // Script do Acordeão do FAQ
