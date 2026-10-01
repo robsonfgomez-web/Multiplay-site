@@ -2,183 +2,468 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Multiplay Entretenimento</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+  <meta
+    name="theme-color"
+    content="#080808"
+  >
+
+  <meta
+    name="description"
+    content="MultiPlay Entretenimento - Canais, filmes, séries, livros, e-books e audiobooks."
+  >
+
+  <title>MultiPlay Entretenimento</title>
+
+  <!-- Preparação para aplicativo PWA -->
+  <link
+    rel="manifest"
+    href="/manifest.json"
+  >
 
   <style>
+
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      background: #0B0E14;
-      color: #fff;
-      font-family: 'Montserrat', Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #080808;
+      color: white;
+      min-height: 100vh;
     }
 
+    /* ================================
+       CABEÇALHO
+    ================================= */
+
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      padding: 15px 25px;
-      background: #10141F;
-      border-bottom: 1px solid #202638;
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
+
+      background: rgba(8,8,8,0.96);
+
+      border-bottom: 1px solid #222;
+
+      padding: 15px;
+    }
+
+    .topo {
+      max-width: 1400px;
+      margin: auto;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
     }
 
     .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      font-size: 20px;
+      font-size: 25px;
+      font-weight: bold;
+      color: white;
+      white-space: nowrap;
     }
 
-    .logo-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #0A84FF, #8B5CF6);
+    .logo span {
+      color: #ff7a00;
     }
 
-    .user-area {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .user-info {
-      color: #8D97AA;
+    .usuario {
       font-size: 13px;
+      color: #aaa;
     }
 
-    button {
-      border: 0;
-      border-radius: 8px;
-      padding: 10px 15px;
-      background: #202638;
-      color: #fff;
+    /* ================================
+       PESQUISA
+    ================================= */
+
+    .pesquisa-container {
+      max-width: 1400px;
+      margin: 15px auto 0;
+    }
+
+    #pesquisa {
+      width: 100%;
+
+      background: #151515;
+
+      border: 1px solid #292929;
+
+      border-radius: 10px;
+
+      padding: 14px 16px;
+
+      color: white;
+
+      font-size: 15px;
+
+      outline: none;
+    }
+
+    #pesquisa:focus {
+      border-color: #ff7a00;
+    }
+
+    /* ================================
+       MENU
+    ================================= */
+
+    .menu {
+      max-width: 1400px;
+
+      margin: 15px auto 0;
+
+      display: flex;
+
+      gap: 8px;
+
+      overflow-x: auto;
+
+      scrollbar-width: none;
+    }
+
+    .menu::-webkit-scrollbar {
+      display: none;
+    }
+
+    .menu button {
+      flex-shrink: 0;
+
+      border: 1px solid #292929;
+
+      background: #151515;
+
+      color: #ccc;
+
+      padding: 11px 15px;
+
+      border-radius: 9px;
+
       cursor: pointer;
-      font-weight: 600;
+
+      font-size: 14px;
     }
 
-    button:hover {
-      background: #2B344A;
+    .menu button.ativo {
+      background: #ff7a00;
+
+      color: white;
+
+      border-color: #ff7a00;
     }
+
+    /* ================================
+       CONTEÚDO
+    ================================= */
 
     main {
       max-width: 1400px;
+
       margin: auto;
-      padding: 25px;
+
+      padding: 20px 15px 100px;
     }
 
-    h1 {
-      margin-bottom: 5px;
+    .titulo-secao {
+      font-size: 22px;
+
+      margin-bottom: 15px;
     }
 
     .status {
-      color: #8D97AA;
-      margin-top: 0;
+      color: #aaa;
+
+      font-size: 14px;
+
+      margin-bottom: 15px;
     }
+
+    /* ================================
+       GRID
+    ================================= */
 
     .grid {
+
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+
+      grid-template-columns:
+        repeat(
+          auto-fill,
+          minmax(145px, 1fr)
+        );
+
       gap: 14px;
-      margin-top: 25px;
     }
 
+    /* ================================
+       CARD
+    ================================= */
+
     .card {
-      background: #151A25;
-      border: 1px solid #222A3C;
+
+      background: #151515;
+
+      border: 1px solid #252525;
+
       border-radius: 12px;
-      padding: 10px;
+
+      overflow: hidden;
+
       cursor: pointer;
-      transition: 0.2s;
-      min-width: 0;
+
+      transition: transform .2s,
+                  border-color .2s;
+
+      min-height: 190px;
     }
 
     .card:hover {
-      border-color: #0A84FF;
-      transform: translateY(-2px);
+
+      transform: translateY(-3px);
+
+      border-color: #ff7a00;
     }
 
-    .card img {
+    .capa {
+
       width: 100%;
-      height: 100px;
-      object-fit: contain;
-      background: #05070B;
-      border-radius: 8px;
-    }
 
-    .channel-name {
-      font-size: 12px;
-      margin: 8px 0;
-      white-space: nowrap;
+      aspect-ratio: 2 / 3;
+
+      background: #202020;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
       overflow: hidden;
-      text-overflow: ellipsis;
-      font-weight: 600;
     }
 
-    .live {
-      font-size: 10px;
-      color: #0A84FF;
-      font-weight: 800;
+    .capa img {
+
+      width: 100%;
+
+      height: 100%;
+
+      object-fit: cover;
     }
 
-    .notice {
+    .sem-capa {
+
+      font-size: 42px;
+
+      color: #555;
+    }
+
+    .card-info {
+
+      padding: 10px;
+    }
+
+    .card-titulo {
+
+      font-size: 14px;
+
+      font-weight: bold;
+
+      line-height: 1.3;
+
+      display: -webkit-box;
+
+      -webkit-line-clamp: 2;
+
+      -webkit-box-orient: vertical;
+
+      overflow: hidden;
+    }
+
+    .card-tipo {
+
+      color: #888;
+
+      font-size: 11px;
+
+      margin-top: 6px;
+    }
+
+    /* ================================
+       CARREGANDO
+    ================================= */
+
+    .carregando {
+
+      text-align: center;
+
+      padding: 50px 20px;
+
+      color: #aaa;
+    }
+
+    .erro {
+
+      background: #241010;
+
+      border: 1px solid #542020;
+
+      color: #ffaaaa;
+
+      padding: 15px;
+
+      border-radius: 10px;
+
+      margin-bottom: 20px;
+    }
+
+    /* ================================
+       MODAL SÉRIE
+    ================================= */
+
+    .modal {
+
+      display: none;
+
+      position: fixed;
+
+      z-index: 2000;
+
+      inset: 0;
+
+      background: rgba(0,0,0,.85);
+
       padding: 20px;
-      border: 1px solid #222A3C;
-      background: #111620;
-      border-radius: 12px;
+
+      overflow-y: auto;
     }
 
-    .error {
-      color: #FF7070;
+    .modal.aberto {
+      display: block;
     }
+
+    .modal-conteudo {
+
+      max-width: 700px;
+
+      margin: 30px auto;
+
+      background: #151515;
+
+      border-radius: 15px;
+
+      padding: 20px;
+    }
+
+    .fechar {
+
+      float: right;
+
+      border: 0;
+
+      background: #333;
+
+      color: white;
+
+      width: 36px;
+
+      height: 36px;
+
+      border-radius: 50%;
+
+      cursor: pointer;
+    }
+
+    .temporada {
+
+      margin-top: 20px;
+    }
+
+    .temporada h3 {
+
+      margin-bottom: 10px;
+
+      color: #ff7a00;
+    }
+
+    .episodio {
+
+      display: block;
+
+      width: 100%;
+
+      text-align: left;
+
+      background: #202020;
+
+      color: white;
+
+      border: 1px solid #303030;
+
+      padding: 12px;
+
+      margin-bottom: 7px;
+
+      border-radius: 8px;
+
+      cursor: pointer;
+    }
+
+    .episodio:hover {
+
+      border-color: #ff7a00;
+    }
+
+    /* ================================
+       RESPONSIVO
+    ================================= */
 
     @media (max-width: 600px) {
-      header {
-        padding: 12px 15px;
+
+      .topo {
+        align-items: flex-start;
       }
 
       .logo {
-        font-size: 16px;
+        font-size: 21px;
       }
 
-      .logo-icon {
-        width: 34px;
-        height: 34px;
-      }
-
-      main {
-        padding: 18px;
-      }
-
-      .user-info {
-        display: none;
+      .usuario {
+        font-size: 11px;
       }
 
       .grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(0, 1fr)
+          );
+
         gap: 10px;
       }
 
-      .card img {
-        height: 85px;
+      .card {
+        min-height: 0;
       }
+
+      main {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
     }
+
   </style>
 </head>
 
@@ -186,352 +471,1021 @@
 
 <header>
 
-  <div class="logo">
-    <span class="logo-icon">▶</span>
+  <div class="topo">
 
-    <span>
-      Multiplay
-      <span style="color:#8B5CF6;">
-        Entretenimento
-      </span>
-    </span>
+    <div class="logo">
+      Multi<span>Play</span>
+    </div>
+
+    <div
+      class="usuario"
+      id="usuario"
+    >
+      Conectando...
+    </div>
+
   </div>
 
-  <div class="user-area">
+  <div class="pesquisa-container">
 
-    <span id="user-info" class="user-info"></span>
+    <input
+      id="pesquisa"
+      type="search"
+      placeholder="🔎 Pesquisar canais, filmes, séries, livros..."
+      autocomplete="off"
+    >
 
-    <button onclick="sair()">
-      Sair
+  </div>
+
+  <nav class="menu">
+
+    <button
+      class="ativo"
+      data-tipo="canais"
+    >
+      📺 Canais
     </button>
 
-  </div>
+    <button
+      data-tipo="filmes"
+    >
+      🎬 Filmes
+    </button>
+
+    <button
+      data-tipo="series"
+    >
+      📚 Séries
+    </button>
+
+    <button
+      data-tipo="livros"
+    >
+      📖 Livros
+    </button>
+
+    <button
+      data-tipo="ebooks"
+    >
+      📱 E-books
+    </button>
+
+    <button
+      data-tipo="audiobooks"
+    >
+      🎧 Audiobooks
+    </button>
+
+  </nav>
 
 </header>
 
 
 <main>
 
-  <h1 id="titulo">
-    Carregando...
+  <h1
+    class="titulo-secao"
+    id="tituloSecao"
+  >
+    📺 Canais
   </h1>
 
-  <p id="status" class="status">
-    Preparando sua programação...
-  </p>
+  <div
+    class="status"
+    id="status"
+  >
+    Carregando sua programação...
+  </div>
 
-  <div id="canais" class="grid"></div>
+  <div
+    id="mensagem"
+  ></div>
+
+  <div
+    class="grid"
+    id="grid"
+  >
+
+    <div class="carregando">
+      Carregando catálogo...
+    </div>
+
+  </div>
 
 </main>
 
 
+<!-- ================================
+     MODAL DE SÉRIES
+================================= -->
+
+<div
+  class="modal"
+  id="modalSerie"
+>
+
+  <div class="modal-conteudo">
+
+    <button
+      class="fechar"
+      onclick="fecharSerie()"
+    >
+      ✕
+    </button>
+
+    <h2 id="serieTitulo">
+      Série
+    </h2>
+
+    <div id="serieConteudo"></div>
+
+  </div>
+
+</div>
+
+
 <script>
 
-const user = sessionStorage.getItem("mp_user");
-const pass = sessionStorage.getItem("mp_pass");
+  const user =
+    sessionStorage.getItem("mp_user");
 
-const canaisContainer = document.getElementById("canais");
-const titulo = document.getElementById("titulo");
-const status = document.getElementById("status");
-const userInfo = document.getElementById("user-info");
+  const pass =
+    sessionStorage.getItem("mp_pass");
 
 
-/*
-==================================================
-VERIFICA LOGIN
-==================================================
-*/
+  if (!user || !pass) {
 
-if (!user || !pass) {
+    window.location.href =
+      "/login.html";
 
-  titulo.textContent = "Você não está logado";
-
-  status.textContent = "";
-
-  canaisContainer.innerHTML = `
-    <div class="notice">
-      <p>Faça login para acessar sua programação.</p>
-
-      <a
-        href="login.html"
-        style="color:#0A84FF;font-weight:600;"
-      >
-        Ir para o login
-      </a>
-    </div>
-  `;
-
-} else {
-
-  userInfo.textContent = "Logado: " + user;
-
-  carregarCanais();
-
-}
+  }
 
 
-/*
-==================================================
-CARREGAR CANAIS
-==================================================
-*/
-
-async function carregarCanais() {
-
-  canaisContainer.innerHTML = `
-    <div class="notice">
-      📡 Carregando seus canais...
-    </div>
-  `;
-
-  try {
-
-    const url =
-      "/api/canais?user=" +
-      encodeURIComponent(user) +
-      "&pass=" +
-      encodeURIComponent(pass);
+  document.getElementById(
+    "usuario"
+  ).textContent =
+    "Olá, " + user;
 
 
-    const resposta = await fetch(url, {
-      method: "GET",
-      cache: "no-store"
-    });
+  let catalogo = {
+
+    canais: [],
+
+    filmes: [],
+
+    series: [],
+
+    livros: [],
+
+    ebooks: [],
+
+    audiobooks: []
+
+  };
 
 
-    let dados;
+  let categoriaAtual =
+    "canais";
+
+
+  const grid =
+    document.getElementById("grid");
+
+  const status =
+    document.getElementById("status");
+
+  const pesquisa =
+    document.getElementById("pesquisa");
+
+
+  /*
+  ================================================
+  CARREGAR CATÁLOGO
+  ================================================
+  */
+
+  async function carregarCatalogo() {
 
     try {
 
-      dados = await resposta.json();
-
-    } catch {
-
-      throw new Error(
-        "O servidor não retornou uma resposta válida."
-      );
-
-    }
+      status.textContent =
+        "Carregando programação...";
 
 
-    if (!resposta.ok) {
-
-      throw new Error(
-        dados.error || "Não foi possível carregar os canais."
-      );
-
-    }
-
-
-    if (!Array.isArray(dados)) {
-
-      throw new Error(
-        "O servidor retornou os canais em formato inválido."
-      );
-
-    }
+      const resposta =
+        await fetch(
+          "/api/catalogo?user=" +
+          encodeURIComponent(user) +
+          "&pass=" +
+          encodeURIComponent(pass)
+        );
 
 
-    if (dados.length === 0) {
+      if (!resposta.ok) {
 
-      titulo.textContent = "Nenhum canal disponível";
+        throw new Error(
+          "Erro ao carregar catálogo"
+        );
+
+      }
+
+
+      const dados =
+        await resposta.json();
+
+
+      catalogo.canais =
+        dados.canais || [];
+
+      catalogo.filmes =
+        dados.filmes || [];
+
+      catalogo.series =
+        dados.series || [];
+
+
+      /*
+      Livros, e-books e audiobooks
+      */
+
+      try {
+
+        const biblioteca =
+          await fetch(
+            "/api/livros"
+          );
+
+        if (biblioteca.ok) {
+
+          const dadosBiblioteca =
+            await biblioteca.json();
+
+          catalogo.livros =
+            dadosBiblioteca.livros || [];
+
+          catalogo.ebooks =
+            dadosBiblioteca.ebooks || [];
+
+          catalogo.audiobooks =
+            dadosBiblioteca.audiobooks || [];
+
+        }
+
+      } catch {
+
+        console.log(
+          "Biblioteca ainda não cadastrada."
+        );
+
+      }
+
 
       status.textContent =
-        "Não foram encontrados canais para este acesso.";
+        "Catálogo carregado.";
 
-      canaisContainer.innerHTML = "";
+
+      renderizar();
+
+    } catch (erro) {
+
+      console.error(erro);
+
+
+      status.textContent =
+        "Não foi possível carregar o catálogo.";
+
+
+      document.getElementById(
+        "mensagem"
+      ).innerHTML = `
+
+        <div class="erro">
+
+          Não conseguimos carregar sua programação.
+
+          <br><br>
+
+          Verifique sua conexão e tente novamente.
+
+        </div>
+
+      `;
+
+    }
+
+  }
+
+
+  /*
+  ================================================
+  NOME DO ITEM
+  ================================================
+  */
+
+  function nomeItem(item) {
+
+    return (
+
+      item.name ||
+
+      item.title ||
+
+      item.stream_display_name ||
+
+      "Conteúdo"
+
+    );
+
+  }
+
+
+  /*
+  ================================================
+  IMAGEM
+  ================================================
+  */
+
+  function imagemItem(item) {
+
+    return (
+
+      item.stream_icon ||
+
+      item.cover ||
+
+      item.cover_big ||
+
+      item.image ||
+
+      ""
+
+    );
+
+  }
+
+
+  /*
+  ================================================
+  FILTRAR
+  ================================================
+  */
+
+  function filtrarItens() {
+
+    const texto =
+      pesquisa.value
+        .toLowerCase()
+        .trim();
+
+
+    const lista =
+      catalogo[categoriaAtual] || [];
+
+
+    if (!texto) {
+
+      return lista;
+
+    }
+
+
+    return lista.filter(
+      item =>
+        nomeItem(item)
+          .toLowerCase()
+          .includes(texto)
+    );
+
+  }
+
+
+  /*
+  ================================================
+  RENDERIZAR
+  ================================================
+  */
+
+  function renderizar() {
+
+    const itens =
+      filtrarItens();
+
+
+    grid.innerHTML = "";
+
+
+    if (!itens.length) {
+
+      grid.innerHTML = `
+
+        <div class="carregando">
+
+          Nenhum conteúdo encontrado.
+
+        </div>
+
+      `;
 
       return;
 
     }
 
 
-    titulo.textContent =
-      "Olá, " + user + "!";
+    itens.forEach(
+      item => {
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+        card.className =
+          "card";
 
 
-    status.textContent =
-      dados.length + " canais ao vivo";
+        const imagem =
+          imagemItem(item);
 
 
-    canaisContainer.innerHTML = "";
+        card.innerHTML = `
+
+          <div class="capa">
+
+            ${
+              imagem
+
+              ?
+
+              `<img
+                src="${imagem}"
+                loading="lazy"
+                onerror="this.style.display='none'"
+              >`
+
+              :
+
+              `<div class="sem-capa">
+                ${iconeCategoria()}
+              </div>`
+            }
+
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-titulo">
+
+              ${escapar(
+                nomeItem(item)
+              )}
+
+            </div>
+
+            <div class="card-tipo">
+
+              ${nomeCategoria()}
+
+            </div>
+
+          </div>
+
+        `;
 
 
-    dados.forEach(canal => {
-
-      const card = document.createElement("div");
-
-      card.className = "card";
+        card.onclick =
+          () => selecionarItem(item);
 
 
-      const imagem = document.createElement("img");
+        grid.appendChild(card);
 
-      imagem.loading = "lazy";
-
-      imagem.src =
-        canal.stream_icon || "";
-
-      imagem.alt =
-        canal.name || "Canal";
-
-
-      imagem.onerror = function () {
-
-        this.src =
-          "https://via.placeholder.com/170x100/0B0E14/8D97AA?text=TV";
-
-      };
-
-
-      const nome = document.createElement("div");
-
-      nome.className = "channel-name";
-
-      nome.textContent =
-        canal.name || "Canal";
-
-
-      const live = document.createElement("div");
-
-      live.className = "live";
-
-      live.textContent =
-        "● AO VIVO";
-
-
-      card.appendChild(imagem);
-
-      card.appendChild(nome);
-
-      card.appendChild(live);
-
-
-      card.addEventListener("click", () => {
-
-        abrirCanal(
-          canal.stream_id,
-          canal.name || "Multiplay Player"
-        );
-
-      });
-
-
-      canaisContainer.appendChild(card);
-
-    });
-
-
-  } catch (erro) {
-
-    console.error(erro);
-
-
-    titulo.textContent =
-      "Erro ao carregar canais";
-
-
-    status.textContent = "";
-
-
-    canaisContainer.innerHTML = `
-      <div class="notice error">
-
-        ${escapeHtml(erro.message)}
-
-        <br><br>
-
-        <button onclick="sair()">
-          Voltar ao login
-        </button>
-
-      </div>
-    `;
-
-  }
-
-}
-
-
-/*
-==================================================
-ABRIR PLAYER
-==================================================
-*/
-
-function abrirCanal(id, nome) {
-
-  if (!id) {
-
-    alert("Este canal não possui um identificador válido.");
-
-    return;
+      }
+    );
 
   }
 
 
   /*
-  Não colocamos o vídeo diretamente no index.
-  O player.html será responsável pelo HLS.
+  ================================================
+  ÍCONE DA CATEGORIA
+  ================================================
   */
 
-  sessionStorage.setItem(
-    "mp_stream_id",
-    String(id)
+  function iconeCategoria() {
+
+    const icones = {
+
+      canais: "📺",
+
+      filmes: "🎬",
+
+      series: "📚",
+
+      livros: "📖",
+
+      ebooks: "📱",
+
+      audiobooks: "🎧"
+
+    };
+
+
+    return (
+      icones[categoriaAtual] ||
+      "▶️"
+    );
+
+  }
+
+
+  /*
+  ================================================
+  NOME DA CATEGORIA
+  ================================================
+  */
+
+  function nomeCategoria() {
+
+    const nomes = {
+
+      canais: "Canal",
+
+      filmes: "Filme",
+
+      series: "Série",
+
+      livros: "Livro",
+
+      ebooks: "E-book",
+
+      audiobooks: "Audiobook"
+
+    };
+
+
+    return (
+      nomes[categoriaAtual] ||
+      "Conteúdo"
+    );
+
+  }
+
+
+  /*
+  ================================================
+  SELECIONAR ITEM
+  ================================================
+  */
+
+  function selecionarItem(item) {
+
+    if (
+      categoriaAtual ===
+      "series"
+    ) {
+
+      abrirSerie(item);
+
+      return;
+
+    }
+
+
+    if (
+      categoriaAtual ===
+      "canais"
+    ) {
+
+      sessionStorage.setItem(
+        "mp_stream_type",
+        "live"
+      );
+
+      sessionStorage.setItem(
+        "mp_stream_id",
+        item.stream_id
+      );
+
+      sessionStorage.setItem(
+        "mp_stream_name",
+        nomeItem(item)
+      );
+
+      sessionStorage.setItem(
+        "mp_stream_ext",
+        "m3u8"
+      );
+
+      window.location.href =
+        "/player.html";
+
+      return;
+
+    }
+
+
+    /*
+    Filmes
+    */
+
+    if (
+      categoriaAtual ===
+      "filmes"
+    ) {
+
+      sessionStorage.setItem(
+        "mp_stream_type",
+        "movie"
+      );
+
+      sessionStorage.setItem(
+        "mp_stream_id",
+        item.stream_id
+      );
+
+      sessionStorage.setItem(
+        "mp_stream_name",
+        nomeItem(item)
+      );
+
+      sessionStorage.setItem(
+        "mp_stream_ext",
+        item.container_extension ||
+        "mp4"
+      );
+
+      window.location.href =
+        "/player.html";
+
+      return;
+
+    }
+
+
+    /*
+    Livros / e-books / audiobooks
+
+    Por enquanto mostramos a estrutura.
+    */
+
+    if (
+      categoriaAtual === "livros" ||
+      categoriaAtual === "ebooks" ||
+      categoriaAtual === "audiobooks"
+    ) {
+
+      if (item.url) {
+
+        window.open(
+          item.url,
+          "_blank"
+        );
+
+      }
+
+    }
+
+  }
+
+
+  /*
+  ================================================
+  SÉRIES
+  ================================================
+  */
+
+  async function abrirSerie(serie) {
+
+    const modal =
+      document.getElementById(
+        "modalSerie"
+      );
+
+    const conteudo =
+      document.getElementById(
+        "serieConteudo"
+      );
+
+
+    document.getElementById(
+      "serieTitulo"
+    ).textContent =
+      nomeItem(serie);
+
+
+    conteudo.innerHTML = `
+
+      <div class="carregando">
+
+        Carregando episódios...
+
+      </div>
+
+    `;
+
+
+    modal.classList.add(
+      "aberto"
+    );
+
+
+    try {
+
+      const resposta =
+        await fetch(
+
+          "/api/serie?user=" +
+          encodeURIComponent(user) +
+
+          "&pass=" +
+          encodeURIComponent(pass) +
+
+          "&series_id=" +
+          encodeURIComponent(
+            serie.series_id
+          )
+
+        );
+
+
+      const dados =
+        await resposta.json();
+
+
+      conteudo.innerHTML =
+        "";
+
+
+      const temporadas =
+        dados.episodes || {};
+
+
+      Object.keys(
+        temporadas
+      ).forEach(
+        temporada => {
+
+          const bloco =
+            document.createElement(
+              "div"
+            );
+
+          bloco.className =
+            "temporada";
+
+
+          bloco.innerHTML = `
+
+            <h3>
+              Temporada ${escapar(
+                temporada
+              )}
+            </h3>
+
+          `;
+
+
+          temporadas[
+            temporada
+          ].forEach(
+            episodio => {
+
+              const botao =
+                document.createElement(
+                  "button"
+                );
+
+
+              botao.className =
+                "episodio";
+
+
+              botao.textContent =
+                episodio.title ||
+                "Episódio";
+
+
+              botao.onclick =
+                () => {
+
+                  sessionStorage.setItem(
+                    "mp_stream_type",
+                    "series"
+                  );
+
+
+                  sessionStorage.setItem(
+                    "mp_stream_id",
+                    episodio.id
+                  );
+
+
+                  sessionStorage.setItem(
+                    "mp_stream_name",
+                    episodio.title ||
+                    "Episódio"
+                  );
+
+
+                  sessionStorage.setItem(
+                    "mp_stream_ext",
+                    episodio.container_extension ||
+                    "mp4"
+                  );
+
+
+                  window.location.href =
+                    "/player.html";
+
+                };
+
+
+              bloco.appendChild(
+                botao
+              );
+
+            }
+          );
+
+
+          conteudo.appendChild(
+            bloco
+          );
+
+        }
+      );
+
+
+      if (
+        !conteudo.innerHTML
+      ) {
+
+        conteudo.innerHTML = `
+
+          <div class="carregando">
+
+            Nenhum episódio encontrado.
+
+          </div>
+
+        `;
+
+      }
+
+    } catch (erro) {
+
+      console.error(erro);
+
+
+      conteudo.innerHTML = `
+
+        <div class="erro">
+
+          Não foi possível carregar os episódios.
+
+        </div>
+
+      `;
+
+    }
+
+  }
+
+
+  function fecharSerie() {
+
+    document
+      .getElementById(
+        "modalSerie"
+      )
+      .classList.remove(
+        "aberto"
+      );
+
+  }
+
+
+  /*
+  ================================================
+  PESQUISA
+  ================================================
+  */
+
+  pesquisa.addEventListener(
+    "input",
+    renderizar
   );
 
 
-  sessionStorage.setItem(
-    "mp_stream_name",
-    String(nome)
-  );
+  /*
+  ================================================
+  MENU
+  ================================================
+  */
+
+  document
+    .querySelectorAll(
+      ".menu button"
+    )
+    .forEach(
+      botao => {
+
+        botao.addEventListener(
+          "click",
+          () => {
+
+            document
+              .querySelectorAll(
+                ".menu button"
+              )
+              .forEach(
+                b =>
+                  b.classList.remove(
+                    "ativo"
+                  )
+              );
 
 
-  window.location.href =
-    "player.html";
-
-}
-
-
-/*
-==================================================
-SAIR
-==================================================
-*/
-
-function sair() {
-
-  sessionStorage.removeItem("mp_user");
-
-  sessionStorage.removeItem("mp_pass");
-
-  sessionStorage.removeItem("mp_server");
-
-  sessionStorage.removeItem("mp_stream_id");
-
-  sessionStorage.removeItem("mp_stream_name");
-
-  window.location.href =
-    "login.html";
-
-}
+            botao.classList.add(
+              "ativo"
+            );
 
 
-/*
-==================================================
-SEGURANÇA BÁSICA DE TEXTO
-==================================================
-*/
+            categoriaAtual =
+              botao.dataset.tipo;
 
-function escapeHtml(text) {
 
-  return String(text)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+            const titulos = {
 
-}
+              canais:
+                "📺 Canais",
+
+              filmes:
+                "🎬 Filmes",
+
+              series:
+                "📚 Séries",
+
+              livros:
+                "📖 Livros",
+
+              ebooks:
+                "📱 E-books",
+
+              audiobooks:
+                "🎧 Audiobooks"
+
+            };
+
+
+            document.getElementById(
+              "tituloSecao"
+            ).textContent =
+              titulos[
+                categoriaAtual
+              ];
+
+
+            pesquisa.value =
+              "";
+
+
+            renderizar();
+
+          }
+        );
+
+      }
+    );
+
+
+  /*
+  ================================================
+  SEGURANÇA BÁSICA DE TEXTO
+  ================================================
+  */
+
+  function escapar(texto) {
+
+    const div =
+      document.createElement(
+        "div"
+      );
+
+    div.textContent =
+      texto || "";
+
+    return div.innerHTML;
+
+  }
+
+
+  /*
+  ================================================
+  INICIAR
+  ================================================
+  */
+
+  carregarCatalogo();
 
 </script>
 
