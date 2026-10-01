@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multiplay - Player</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>MultiPlay - Player</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -70,7 +78,7 @@
     .status {
       padding: 15px;
       text-align: center;
-      color: #ccc;
+      color: #aaa;
       font-size: 14px;
     }
 
@@ -79,48 +87,78 @@
       padding: 20px;
       text-align: center;
       color: #ff6b6b;
+      font-size: 15px;
     }
+
   </style>
+
 </head>
+
 
 <body>
 
   <header>
-    <button class="voltar" onclick="voltar()">
+
+    <button
+      class="voltar"
+      onclick="goBack()"
+    >
       ← Voltar
     </button>
 
-    <div class="titulo" id="titulo">
-      Multiplay
+    <div
+      class="titulo"
+      id="title"
+    >
+      MultiPlay
     </div>
+
   </header>
+
 
   <main>
 
     <div class="video-container">
+
       <video
         id="video"
         controls
         autoplay
-        playsinline>
-      </video>
+        playsinline
+      ></video>
+
     </div>
 
-    <div class="status" id="status">
+
+    <div
+      class="status"
+      id="status"
+    >
       Carregando transmissão...
     </div>
 
-    <div class="erro" id="erro">
-      Não foi possível carregar este canal.
+
+    <div
+      class="erro"
+      id="error"
+    >
+      Não foi possível carregar este conteúdo.
     </div>
 
   </main>
 
-  <!-- HLS.js -->
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
 
-  <!-- JavaScript do player -->
-  <script src="player.js"></script>
+  <!-- HLS.js -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"
+  ></script>
+
+
+  <!-- Player MultiPlay -->
+
+  <script src="/player.js"></script>
 
 </body>
+
 </html>
