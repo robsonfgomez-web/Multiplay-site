@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multiplay Entretenimento</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;600&display=swap" rel="stylesheet">
+</head>
+<body style="margin:0;background:#0B0E14;color:#fff;font-family:'Montserrat',sans-serif">
+<header style="display:flex;justify-content:space-between;padding:15px 30px;align-items:center;border-bottom:1px solid #1e2432;background:#10141f">
+<div style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;letter-spacing:0.5px">
+<span style="width:36px;height:36px;background:linear-gradient(135deg,#0A84FF,#8B5CF6);border-radius:9px;display:flex;align-items:center;justify-content:center">▶</span>
+<span>Multiplay <span style="color:#8B5CF6">Entretenimento</span></span>
+</div>
+<nav style="display:flex;gap:20px;align-items:center">
+<a href="biblioteca.html" style="color:#8B5CF6;text-decoration:none;font-weight:600">📚 Biblioteca</a>
+<button onclick="sair()" style="background:#1e2432;color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer">Sair</button>
+</nav>
+</header>
+<div style="padding:30px;max-width:1400px;margin:0 auto">
+<h1 id="bemvindo">Carregando...</h1>
+<p style="color:#8892a6">Seus canais, filmes e séries ao vivo</p>
+<div id="canais" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:15px;margin-top:25px"></div>
+</div>
+<script src="player.js"></script>
+<script>function sair(){localStorage.clear();location.href='login.html'}if(!localStorage.getItem('mp_user')){window.location.href='login.html'}</script>
+</body>
+</html>
