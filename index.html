@@ -2,32 +2,15 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <meta
-    name="theme-color"
-    content="#080808"
-  >
-
-  <meta
-    name="description"
-    content="MultiPlay Entretenimento - Canais, filmes, séries, livros, e-books e audiobooks."
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>MultiPlay Entretenimento</title>
 
-  <!-- Preparação para aplicativo PWA -->
-  <link
-    rel="manifest"
-    href="/manifest.json"
-  >
+  <meta name="description" content="MultiPlay Entretenimento - canais, filmes, séries, livros, e-books e audiobooks.">
+
+  <link rel="manifest" href="/manifest.json">
 
   <style>
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -35,1459 +18,237 @@
     }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Arial, sans-serif;
       background: #080808;
-      color: white;
+      color: #fff;
       min-height: 100vh;
     }
 
-    /* ================================
-       CABEÇALHO
-    ================================= */
-
     header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-
-      background: rgba(8,8,8,0.96);
-
+      padding: 20px;
+      text-align: center;
       border-bottom: 1px solid #222;
-
-      padding: 15px;
-    }
-
-    .topo {
-      max-width: 1400px;
-      margin: auto;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      gap: 15px;
+      background: #0d0d0d;
     }
 
     .logo {
-      font-size: 25px;
-      font-weight: bold;
-      color: white;
-      white-space: nowrap;
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: 1px;
     }
 
     .logo span {
-      color: #ff7a00;
+      color: #e50914;
     }
 
-    .usuario {
-      font-size: 13px;
-      color: #aaa;
-    }
-
-    /* ================================
-       PESQUISA
-    ================================= */
-
-    .pesquisa-container {
-      max-width: 1400px;
-      margin: 15px auto 0;
-    }
-
-    #pesquisa {
-      width: 100%;
-
-      background: #151515;
-
-      border: 1px solid #292929;
-
-      border-radius: 10px;
-
-      padding: 14px 16px;
-
-      color: white;
-
-      font-size: 15px;
-
-      outline: none;
-    }
-
-    #pesquisa:focus {
-      border-color: #ff7a00;
-    }
-
-    /* ================================
-       MENU
-    ================================= */
-
-    .menu {
-      max-width: 1400px;
-
-      margin: 15px auto 0;
-
+    .hero {
+      min-height: 70vh;
       display: flex;
-
-      gap: 8px;
-
-      overflow-x: auto;
-
-      scrollbar-width: none;
-    }
-
-    .menu::-webkit-scrollbar {
-      display: none;
-    }
-
-    .menu button {
-      flex-shrink: 0;
-
-      border: 1px solid #292929;
-
-      background: #151515;
-
-      color: #ccc;
-
-      padding: 11px 15px;
-
-      border-radius: 9px;
-
-      cursor: pointer;
-
-      font-size: 14px;
-    }
-
-    .menu button.ativo {
-      background: #ff7a00;
-
-      color: white;
-
-      border-color: #ff7a00;
-    }
-
-    /* ================================
-       CONTEÚDO
-    ================================= */
-
-    main {
-      max-width: 1400px;
-
-      margin: auto;
-
-      padding: 20px 15px 100px;
-    }
-
-    .titulo-secao {
-      font-size: 22px;
-
-      margin-bottom: 15px;
-    }
-
-    .status {
-      color: #aaa;
-
-      font-size: 14px;
-
-      margin-bottom: 15px;
-    }
-
-    /* ================================
-       GRID
-    ================================= */
-
-    .grid {
-
-      display: grid;
-
-      grid-template-columns:
-        repeat(
-          auto-fill,
-          minmax(145px, 1fr)
-        );
-
-      gap: 14px;
-    }
-
-    /* ================================
-       CARD
-    ================================= */
-
-    .card {
-
-      background: #151515;
-
-      border: 1px solid #252525;
-
-      border-radius: 12px;
-
-      overflow: hidden;
-
-      cursor: pointer;
-
-      transition: transform .2s,
-                  border-color .2s;
-
-      min-height: 190px;
-    }
-
-    .card:hover {
-
-      transform: translateY(-3px);
-
-      border-color: #ff7a00;
-    }
-
-    .capa {
-
-      width: 100%;
-
-      aspect-ratio: 2 / 3;
-
-      background: #202020;
-
-      display: flex;
-
       align-items: center;
-
       justify-content: center;
-
-      overflow: hidden;
-    }
-
-    .capa img {
-
-      width: 100%;
-
-      height: 100%;
-
-      object-fit: cover;
-    }
-
-    .sem-capa {
-
-      font-size: 42px;
-
-      color: #555;
-    }
-
-    .card-info {
-
-      padding: 10px;
-    }
-
-    .card-titulo {
-
-      font-size: 14px;
-
-      font-weight: bold;
-
-      line-height: 1.3;
-
-      display: -webkit-box;
-
-      -webkit-line-clamp: 2;
-
-      -webkit-box-orient: vertical;
-
-      overflow: hidden;
-    }
-
-    .card-tipo {
-
-      color: #888;
-
-      font-size: 11px;
-
-      margin-top: 6px;
-    }
-
-    /* ================================
-       CARREGANDO
-    ================================= */
-
-    .carregando {
-
       text-align: center;
-
       padding: 50px 20px;
-
-      color: #aaa;
+      background:
+        radial-gradient(circle at center, #222 0%, #080808 65%);
     }
 
-    .erro {
+    .hero-content {
+      max-width: 800px;
+    }
 
-      background: #241010;
-
-      border: 1px solid #542020;
-
-      color: #ffaaaa;
-
-      padding: 15px;
-
-      border-radius: 10px;
-
+    .hero h1 {
+      font-size: clamp(38px, 8vw, 72px);
       margin-bottom: 20px;
     }
 
-    /* ================================
-       MODAL SÉRIE
-    ================================= */
-
-    .modal {
-
-      display: none;
-
-      position: fixed;
-
-      z-index: 2000;
-
-      inset: 0;
-
-      background: rgba(0,0,0,.85);
-
-      padding: 20px;
-
-      overflow-y: auto;
+    .hero h1 span {
+      color: #e50914;
     }
 
-    .modal.aberto {
-      display: block;
+    .hero p {
+      color: #ccc;
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 30px;
     }
 
-    .modal-conteudo {
-
-      max-width: 700px;
-
-      margin: 30px auto;
-
-      background: #151515;
-
-      border-radius: 15px;
-
-      padding: 20px;
-    }
-
-    .fechar {
-
-      float: right;
-
-      border: 0;
-
-      background: #333;
-
-      color: white;
-
-      width: 36px;
-
-      height: 36px;
-
-      border-radius: 50%;
-
-      cursor: pointer;
-    }
-
-    .temporada {
-
-      margin-top: 20px;
-    }
-
-    .temporada h3 {
-
-      margin-bottom: 10px;
-
-      color: #ff7a00;
-    }
-
-    .episodio {
-
-      display: block;
-
-      width: 100%;
-
-      text-align: left;
-
-      background: #202020;
-
-      color: white;
-
-      border: 1px solid #303030;
-
-      padding: 12px;
-
-      margin-bottom: 7px;
-
+    .btn {
+      display: inline-block;
+      padding: 15px 30px;
+      margin: 6px;
       border-radius: 8px;
-
+      text-decoration: none;
+      font-weight: bold;
       cursor: pointer;
+      border: none;
+      font-size: 16px;
     }
 
-    .episodio:hover {
-
-      border-color: #ff7a00;
+    .btn-primary {
+      background: #e50914;
+      color: white;
     }
 
-    /* ================================
-       RESPONSIVO
-    ================================= */
+    .btn-secondary {
+      background: #222;
+      color: white;
+      border: 1px solid #444;
+    }
+
+    .section {
+      padding: 50px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .section h2 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 35px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: #151515;
+      border: 1px solid #292929;
+      border-radius: 12px;
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    .card-icon {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: #aaa;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .plans {
+      background: #101010;
+      text-align: center;
+    }
+
+    .plan {
+      max-width: 400px;
+      margin: auto;
+      background: #181818;
+      border: 1px solid #333;
+      border-radius: 15px;
+      padding: 30px;
+    }
+
+    .plan h3 {
+      font-size: 25px;
+      margin-bottom: 15px;
+    }
+
+    .price {
+      font-size: 38px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .price small {
+      font-size: 15px;
+      color: #aaa;
+    }
+
+    .features {
+      list-style: none;
+      color: #ccc;
+      line-height: 2;
+      margin-bottom: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: #777;
+      border-top: 1px solid #222;
+    }
 
     @media (max-width: 600px) {
-
-      .topo {
-        align-items: flex-start;
+      .hero {
+        min-height: 65vh;
       }
 
-      .logo {
-        font-size: 21px;
+      .hero p {
+        font-size: 16px;
       }
-
-      .usuario {
-        font-size: 11px;
-      }
-
-      .grid {
-
-        grid-template-columns:
-          repeat(
-            2,
-            minmax(0, 1fr)
-          );
-
-        gap: 10px;
-      }
-
-      .card {
-        min-height: 0;
-      }
-
-      main {
-        padding-left: 10px;
-        padding-right: 10px;
-      }
-
     }
-
   </style>
 </head>
 
 <body>
 
-<header>
-
-  <div class="topo">
-
+  <header>
     <div class="logo">
-      Multi<span>Play</span>
+      MULTI<span>PLAY</span>
     </div>
+  </header>
 
-    <div
-      class="usuario"
-      id="usuario"
-    >
-      Conectando...
-    </div>
+  <main>
 
-  </div>
+    <section class="hero">
+      <div class="hero-content">
 
-  <div class="pesquisa-container">
+        <h1>
+          Seu entretenimento em um só lugar.
+        </h1>
 
-    <input
-      id="pesquisa"
-      type="search"
-      placeholder="🔎 Pesquisar canais, filmes, séries, livros..."
-      autocomplete="off"
-    >
+        <p>
+          Canais, filmes, séries, livros, e-books e audiobooks
+          em uma experiência completa de entretenimento.
+        </p>
 
-  </div>
+        <a href="#planos" class="btn btn-primary">
+          CONHEÇA NOSSOS PLANOS
+        </a>
 
-  <nav class="menu">
-
-    <button
-      class="ativo"
-      data-tipo="canais"
-    >
-      📺 Canais
-    </button>
-
-    <button
-      data-tipo="filmes"
-    >
-      🎬 Filmes
-    </button>
-
-    <button
-      data-tipo="series"
-    >
-      📚 Séries
-    </button>
-
-    <button
-      data-tipo="livros"
-    >
-      📖 Livros
-    </button>
-
-    <button
-      data-tipo="ebooks"
-    >
-      📱 E-books
-    </button>
-
-    <button
-      data-tipo="audiobooks"
-    >
-      🎧 Audiobooks
-    </button>
-
-  </nav>
-
-</header>
-
-
-<main>
-
-  <h1
-    class="titulo-secao"
-    id="tituloSecao"
-  >
-    📺 Canais
-  </h1>
-
-  <div
-    class="status"
-    id="status"
-  >
-    Carregando sua programação...
-  </div>
-
-  <div
-    id="mensagem"
-  ></div>
-
-  <div
-    class="grid"
-    id="grid"
-  >
-
-    <div class="carregando">
-      Carregando catálogo...
-    </div>
-
-  </div>
-
-</main>
-
-
-<!-- ================================
-     MODAL DE SÉRIES
-================================= -->
-
-<div
-  class="modal"
-  id="modalSerie"
->
-
-  <div class="modal-conteudo">
-
-    <button
-      class="fechar"
-      onclick="fecharSerie()"
-    >
-      ✕
-    </button>
-
-    <h2 id="serieTitulo">
-      Série
-    </h2>
-
-    <div id="serieConteudo"></div>
-
-  </div>
-
-</div>
-
-
-<script>
-
-  const user =
-    sessionStorage.getItem("mp_user");
-
-  const pass =
-    sessionStorage.getItem("mp_pass");
-
-
-  if (!user || !pass) {
-
-    window.location.href =
-      "/login.html";
-
-  }
-
-
-  document.getElementById(
-    "usuario"
-  ).textContent =
-    "Olá, " + user;
-
-
-  let catalogo = {
-
-    canais: [],
-
-    filmes: [],
-
-    series: [],
-
-    livros: [],
-
-    ebooks: [],
-
-    audiobooks: []
-
-  };
-
-
-  let categoriaAtual =
-    "canais";
-
-
-  const grid =
-    document.getElementById("grid");
-
-  const status =
-    document.getElementById("status");
-
-  const pesquisa =
-    document.getElementById("pesquisa");
-
-
-  /*
-  ================================================
-  CARREGAR CATÁLOGO
-  ================================================
-  */
-
-  async function carregarCatalogo() {
-
-    try {
-
-      status.textContent =
-        "Carregando programação...";
-
-
-      const resposta =
-        await fetch(
-          "/api/catalogo?user=" +
-          encodeURIComponent(user) +
-          "&pass=" +
-          encodeURIComponent(pass)
-        );
-
-
-      if (!resposta.ok) {
-
-        throw new Error(
-          "Erro ao carregar catálogo"
-        );
-
-      }
-
-
-      const dados =
-        await resposta.json();
-
-
-      catalogo.canais =
-        dados.canais || [];
-
-      catalogo.filmes =
-        dados.filmes || [];
-
-      catalogo.series =
-        dados.series || [];
-
-
-      /*
-      Livros, e-books e audiobooks
-      */
-
-      try {
-
-        const biblioteca =
-          await fetch(
-            "/api/livros"
-          );
-
-        if (biblioteca.ok) {
-
-          const dadosBiblioteca =
-            await biblioteca.json();
-
-          catalogo.livros =
-            dadosBiblioteca.livros || [];
-
-          catalogo.ebooks =
-            dadosBiblioteca.ebooks || [];
-
-          catalogo.audiobooks =
-            dadosBiblioteca.audiobooks || [];
-
-        }
-
-      } catch {
-
-        console.log(
-          "Biblioteca ainda não cadastrada."
-        );
-
-      }
-
-
-      status.textContent =
-        "Catálogo carregado.";
-
-
-      renderizar();
-
-    } catch (erro) {
-
-      console.error(erro);
-
-
-      status.textContent =
-        "Não foi possível carregar o catálogo.";
-
-
-      document.getElementById(
-        "mensagem"
-      ).innerHTML = `
-
-        <div class="erro">
-
-          Não conseguimos carregar sua programação.
-
-          <br><br>
-
-          Verifique sua conexão e tente novamente.
-
-        </div>
-
-      `;
-
-    }
-
-  }
-
-
-  /*
-  ================================================
-  NOME DO ITEM
-  ================================================
-  */
-
-  function nomeItem(item) {
-
-    return (
-
-      item.name ||
-
-      item.title ||
-
-      item.stream_display_name ||
-
-      "Conteúdo"
-
-    );
-
-  }
-
-
-  /*
-  ================================================
-  IMAGEM
-  ================================================
-  */
-
-  function imagemItem(item) {
-
-    return (
-
-      item.stream_icon ||
-
-      item.cover ||
-
-      item.cover_big ||
-
-      item.image ||
-
-      ""
-
-    );
-
-  }
-
-
-  /*
-  ================================================
-  FILTRAR
-  ================================================
-  */
-
-  function filtrarItens() {
-
-    const texto =
-      pesquisa.value
-        .toLowerCase()
-        .trim();
-
-
-    const lista =
-      catalogo[categoriaAtual] || [];
-
-
-    if (!texto) {
-
-      return lista;
-
-    }
-
-
-    return lista.filter(
-      item =>
-        nomeItem(item)
-          .toLowerCase()
-          .includes(texto)
-    );
-
-  }
-
-
-  /*
-  ================================================
-  RENDERIZAR
-  ================================================
-  */
-
-  function renderizar() {
-
-    const itens =
-      filtrarItens();
-
-
-    grid.innerHTML = "";
-
-
-    if (!itens.length) {
-
-      grid.innerHTML = `
-
-        <div class="carregando">
-
-          Nenhum conteúdo encontrado.
-
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-
-    itens.forEach(
-      item => {
-
-        const card =
-          document.createElement(
-            "div"
-          );
-
-        card.className =
-          "card";
-
-
-        const imagem =
-          imagemItem(item);
-
-
-        card.innerHTML = `
-
-          <div class="capa">
-
-            ${
-              imagem
-
-              ?
-
-              `<img
-                src="${imagem}"
-                loading="lazy"
-                onerror="this.style.display='none'"
-              >`
-
-              :
-
-              `<div class="sem-capa">
-                ${iconeCategoria()}
-              </div>`
-            }
-
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-titulo">
-
-              ${escapar(
-                nomeItem(item)
-              )}
-
-            </div>
-
-            <div class="card-tipo">
-
-              ${nomeCategoria()}
-
-            </div>
-
-          </div>
-
-        `;
-
-
-        card.onclick =
-          () => selecionarItem(item);
-
-
-        grid.appendChild(card);
-
-      }
-    );
-
-  }
-
-
-  /*
-  ================================================
-  ÍCONE DA CATEGORIA
-  ================================================
-  */
-
-  function iconeCategoria() {
-
-    const icones = {
-
-      canais: "📺",
-
-      filmes: "🎬",
-
-      series: "📚",
-
-      livros: "📖",
-
-      ebooks: "📱",
-
-      audiobooks: "🎧"
-
-    };
-
-
-    return (
-      icones[categoriaAtual] ||
-      "▶️"
-    );
-
-  }
-
-
-  /*
-  ================================================
-  NOME DA CATEGORIA
-  ================================================
-  */
-
-  function nomeCategoria() {
-
-    const nomes = {
-
-      canais: "Canal",
-
-      filmes: "Filme",
-
-      series: "Série",
-
-      livros: "Livro",
-
-      ebooks: "E-book",
-
-      audiobooks: "Audiobook"
-
-    };
-
-
-    return (
-      nomes[categoriaAtual] ||
-      "Conteúdo"
-    );
-
-  }
-
-
-  /*
-  ================================================
-  SELECIONAR ITEM
-  ================================================
-  */
-
-  function selecionarItem(item) {
-
-    if (
-      categoriaAtual ===
-      "series"
-    ) {
-
-      abrirSerie(item);
-
-      return;
-
-    }
-
-
-    if (
-      categoriaAtual ===
-      "canais"
-    ) {
-
-      sessionStorage.setItem(
-        "mp_stream_type",
-        "live"
-      );
-
-      sessionStorage.setItem(
-        "mp_stream_id",
-        item.stream_id
-      );
-
-      sessionStorage.setItem(
-        "mp_stream_name",
-        nomeItem(item)
-      );
-
-      sessionStorage.setItem(
-        "mp_stream_ext",
-        "m3u8"
-      );
-
-      window.location.href =
-        "/player.html";
-
-      return;
-
-    }
-
-
-    /*
-    Filmes
-    */
-
-    if (
-      categoriaAtual ===
-      "filmes"
-    ) {
-
-      sessionStorage.setItem(
-        "mp_stream_type",
-        "movie"
-      );
-
-      sessionStorage.setItem(
-        "mp_stream_id",
-        item.stream_id
-      );
-
-      sessionStorage.setItem(
-        "mp_stream_name",
-        nomeItem(item)
-      );
-
-      sessionStorage.setItem(
-        "mp_stream_ext",
-        item.container_extension ||
-        "mp4"
-      );
-
-      window.location.href =
-        "/player.html";
-
-      return;
-
-    }
-
-
-    /*
-    Livros / e-books / audiobooks
-
-    Por enquanto mostramos a estrutura.
-    */
-
-    if (
-      categoriaAtual === "livros" ||
-      categoriaAtual === "ebooks" ||
-      categoriaAtual === "audiobooks"
-    ) {
-
-      if (item.url) {
-
-        window.open(
-          item.url,
-          "_blank"
-        );
-
-      }
-
-    }
-
-  }
-
-
-  /*
-  ================================================
-  SÉRIES
-  ================================================
-  */
-
-  async function abrirSerie(serie) {
-
-    const modal =
-      document.getElementById(
-        "modalSerie"
-      );
-
-    const conteudo =
-      document.getElementById(
-        "serieConteudo"
-      );
-
-
-    document.getElementById(
-      "serieTitulo"
-    ).textContent =
-      nomeItem(serie);
-
-
-    conteudo.innerHTML = `
-
-      <div class="carregando">
-
-        Carregando episódios...
+        <a href="/login.html" class="btn btn-secondary">
+          ENTRAR
+        </a>
 
       </div>
+    </section>
 
-    `;
 
+    <section class="section">
 
-    modal.classList.add(
-      "aberto"
-    );
+      <h2>
+        Tudo na MultiPlay
+      </h2>
 
+      <div class="cards">
 
-    try {
-
-      const resposta =
-        await fetch(
-
-          "/api/serie?user=" +
-          encodeURIComponent(user) +
-
-          "&pass=" +
-          encodeURIComponent(pass) +
-
-          "&series_id=" +
-          encodeURIComponent(
-            serie.series_id
-          )
-
-        );
-
-
-      const dados =
-        await resposta.json();
-
-
-      conteudo.innerHTML =
-        "";
-
-
-      const temporadas =
-        dados.episodes || {};
-
-
-      Object.keys(
-        temporadas
-      ).forEach(
-        temporada => {
-
-          const bloco =
-            document.createElement(
-              "div"
-            );
-
-          bloco.className =
-            "temporada";
-
-
-          bloco.innerHTML = `
-
-            <h3>
-              Temporada ${escapar(
-                temporada
-              )}
-            </h3>
-
-          `;
-
-
-          temporadas[
-            temporada
-          ].forEach(
-            episodio => {
-
-              const botao =
-                document.createElement(
-                  "button"
-                );
-
-
-              botao.className =
-                "episodio";
-
-
-              botao.textContent =
-                episodio.title ||
-                "Episódio";
-
-
-              botao.onclick =
-                () => {
-
-                  sessionStorage.setItem(
-                    "mp_stream_type",
-                    "series"
-                  );
-
-
-                  sessionStorage.setItem(
-                    "mp_stream_id",
-                    episodio.id
-                  );
-
-
-                  sessionStorage.setItem(
-                    "mp_stream_name",
-                    episodio.title ||
-                    "Episódio"
-                  );
-
-
-                  sessionStorage.setItem(
-                    "mp_stream_ext",
-                    episodio.container_extension ||
-                    "mp4"
-                  );
-
-
-                  window.location.href =
-                    "/player.html";
-
-                };
-
-
-              bloco.appendChild(
-                botao
-              );
-
-            }
-          );
-
-
-          conteudo.appendChild(
-            bloco
-          );
-
-        }
-      );
-
-
-      if (
-        !conteudo.innerHTML
-      ) {
-
-        conteudo.innerHTML = `
-
-          <div class="carregando">
-
-            Nenhum episódio encontrado.
-
-          </div>
-
-        `;
-
-      }
-
-    } catch (erro) {
-
-      console.error(erro);
-
-
-      conteudo.innerHTML = `
-
-        <div class="erro">
-
-          Não foi possível carregar os episódios.
-
+        <div class="card">
+          <div class="card-icon">📺</div>
+          <h3>Canais</h3>
+          <p>
+            Entretenimento e programação para todos os momentos.
+          </p>
         </div>
 
-      `;
+        <div class="card">
+          <div class="card-icon">🎬</div>
+          <h3>Filmes e Séries</h3>
+          <p>
+            Um catálogo de entretenimento para você aproveitar.
+          </p>
+        </div>
 
-    }
-
-  }
-
-
-  function fecharSerie() {
-
-    document
-      .getElementById(
-        "modalSerie"
-      )
-      .classList.remove(
-        "aberto"
-      );
-
-  }
-
-
-  /*
-  ================================================
-  PESQUISA
-  ================================================
-  */
-
-  pesquisa.addEventListener(
-    "input",
-    renderizar
-  );
-
-
-  /*
-  ================================================
-  MENU
-  ================================================
-  */
-
-  document
-    .querySelectorAll(
-      ".menu button"
-    )
-    .forEach(
-      botao => {
-
-        botao.addEventListener(
-          "click",
-          () => {
-
-            document
-              .querySelectorAll(
-                ".menu button"
-              )
-              .forEach(
-                b =>
-                  b.classList.remove(
-                    "ativo"
-                  )
-              );
-
-
-            botao.classList.add(
-              "ativo"
-            );
-
-
-            categoriaAtual =
-              botao.dataset.tipo;
-
-
-            const titulos = {
-
-              canais:
-                "📺 Canais",
-
-              filmes:
-                "🎬 Filmes",
-
-              series:
-                "📚 Séries",
-
-              livros:
-                "📖 Livros",
-
-              ebooks:
-                "📱 E-books",
-
-              audiobooks:
-                "🎧 Audiobooks"
-
-            };
-
-
-            document.getElementById(
-              "tituloSecao"
-            ).textContent =
-              titulos[
-                categoriaAtual
-              ];
-
-
-            pesquisa.value =
-              "";
-
-
-            renderizar();
-
-          }
-        );
-
-      }
-    );
-
-
-  /*
-  ================================================
-  SEGURANÇA BÁSICA DE TEXTO
-  ================================================
-  */
-
-  function escapar(texto) {
-
-    const div =
-      document.createElement(
-        "div"
-      );
-
-    div.textContent =
-      texto || "";
-
-    return div.innerHTML;
-
-  }
-
-
-  /*
-  ================================================
-  INICIAR
-  ================================================
-  */
-
-  carregarCatalogo();
-
-</script>
-
-</body>
-</html>
+        <div class="card">
+          <div class="
