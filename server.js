@@ -873,6 +873,11 @@ function rewriteHlsLine(
             baseUrl
           ).toString();
 
-
-        return (
-          '
+return (
+          'URI="/api/media?url=' +
+          encodeURIComponent(
+            absolute
+          ) +
+          '"'
+        );
+        
