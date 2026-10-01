@@ -3,7 +3,6 @@ const fetch = require('node-fetch');
 const path = require('path');
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
 
 const XTREAM_HOST = 'http://u.l0.ms';
@@ -12,13 +11,10 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 
-/*
-====================================================
-PÁGINAS
-====================================================
-*/
+/* =========================
+   PÁGINAS
+========================= */
 
-// SITE PÚBLICO
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -27,27 +23,22 @@ app.get('/index.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// LOGIN DO APLICATIVO
 app.get('/login.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'login.html'));
 });
 
-// APLICATIVO
 app.get('/app.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'app.html'));
 });
 
-// PLAYER
 app.get('/player.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'player.html'));
 });
 
 
-/*
-====================================================
-FUNÇÃO PARA CONSULTAR API XTREAM
-====================================================
-*/
+/* =========================
+   XTREAM
+========================= */
 
 async function xtreamRequest(user, pass, action) {
 
@@ -70,54 +61,29 @@ async function xtreamRequest(user, pass, action) {
 }
 
 
-/*
-====================================================
-LOGIN DO APLICATIVO
-====================================================
-
-O usuário e senha são enviados ao servidor.
-
-O servidor consulta o serviço de conteúdo
-para verificar se as credenciais são válidas.
-
-Nenhuma credencial fica gravada neste código.
-====================================================
-*/
+/* =========================
+   LOGIN
+========================= */
 
 app.post('/api/login', async (req, res) => {
 
-  const {
-    username,
-    password
-  } = req.body || {};
+  const { username, password } = req.body || {};
 
   if (!username || !password) {
-
     return res.status(400).json({
       success: false,
       message: 'Usuário e senha são obrigatórios.'
     });
-
   }
 
   try {
 
-    const data =
-      await xtreamRequest(
-        username,
-        password
-      );
+    const data = await xtreamRequest(
+      username,
+      password
+    );
 
-
-    /*
-    A API normalmente retorna user_info
-    quando as credenciais são aceitas.
-    */
-
-    const userInfo =
-      data &&
-      data.user_info;
-
+    const userInfo = data && data.user_info;
 
     if (
       !userInfo ||
@@ -132,25 +98,17 @@ app.post('/api/login', async (req, res) => {
 
     }
 
-
     return res.json({
-
       success: true,
-
       message: 'Login realizado com sucesso.',
-
       user: {
         username: username
       }
-
     });
 
   } catch (error) {
 
-    console.error(
-      'Erro no login:',
-      error
-    );
+    console.error('Erro no login:', error);
 
     return res.status(502).json({
       success: false,
@@ -162,82 +120,56 @@ app.post('/api/login', async (req, res) => {
 });
 
 
-/*
-====================================================
-CATÁLOGO COMPLETO
-====================================================
-*/
+/* =========================
+   CATÁLOGO
+========================= */
 
 app.get('/api/catalogo', async (req, res) => {
 
-  const {
-    user,
-    pass
-  } = req.query;
+  const { user, pass } = req.query;
 
   if (!user || !pass) {
-
     return res.status(400).json({
       error: 'Usuário e senha são obrigatórios'
     });
-
   }
 
   try {
 
-    const [
-      liveStreams,
-      vodStreams,
-      series
-    ] = await Promise.all([
+    const [canais, filmes, series] =
+      await Promise.all([
 
-      xtreamRequest(
-        user,
-        pass,
-        'get_live_streams'
-      ),
+        xtreamRequest(
+          user,
+          pass,
+          'get_live_streams'
+        ),
 
-      xtreamRequest(
-        user,
-        pass,
-        'get_vod_streams'
-      ),
+        xtreamRequest(
+          user,
+          pass,
+          'get_vod_streams'
+        ),
 
-      xtreamRequest(
-        user,
-        pass,
-        'get_series'
-      )
+        xtreamRequest(
+          user,
+          pass,
+          'get_series'
+        )
 
-    ]);
+      ]);
 
-    res.json({
-
-      canais:
-        Array.isArray(liveStreams)
-          ? liveStreams
-          : [],
-
-      filmes:
-        Array.isArray(vodStreams)
-          ? vodStreams
-          : [],
-
-      series:
-        Array.isArray(series)
-          ? series
-          : []
-
+    return res.json({
+      canais: Array.isArray(canais) ? canais : [],
+      filmes: Array.isArray(filmes) ? filmes : [],
+      series: Array.isArray(series) ? series : []
     });
 
   } catch (error) {
 
-    console.error(
-      'Erro catálogo:',
-      error
-    );
+    console.error('Erro catálogo:', error);
 
-    res.status(500).json({
+    return res.status(500).json({
       error: 'Não foi possível carregar o catálogo'
     });
 
@@ -246,99 +178,38 @@ app.get('/api/catalogo', async (req, res) => {
 });
 
 
-/*
-====================================================
-CANAIS
-====================================================
-*/
+/* =========================
+   CANAIS
+========================= */
 
 app.get('/api/canais', async (req, res) => {
 
-  const {
-    user,
-    pass
-  } = req.query;
+  const { user, pass } = req.query;
 
   if (!user || !pass) {
-
-    return res.status(400).json({
-      error: 'Falta usuário ou senha'
-    });
-
-  }
-
-  try {
-
-    const data =
-      await xtreamRequest(
-        user,
-        pass,
-        'get_live_streams'
-      );
-
-    return res.json(data);
-
-  } catch (error) {
-
-    console.error(
-      'Erro ao buscar canais:',
-      error
-    );
-
-    return res.status(500).json({
-      error: 'Erro ao conectar ao servidor de canais'
-    });
-
-  }
-
-});
-
-
-/*
-====================================================
-CATEGORIAS DE CANAIS
-====================================================
-*/
-
-app.get('/api/categorias-canais', async (req, res) => {
-
-  const {
-    user,
-    pass
-  } = req.query;
-
-  if (!user || !pass) {
-
     return res.status(400).json({
       error: 'Usuário e senha são obrigatórios'
     });
-
   }
 
   try {
 
-    const data =
-      await xtreamRequest(
-        user,
-        pass,
-        'get_live_categories'
-      );
+    const data = await xtreamRequest(
+      user,
+      pass,
+      'get_live_streams'
+    );
 
     return res.json(
-      Array.isArray(data)
-        ? data
-        : []
+      Array.isArray(data) ? data : []
     );
 
   } catch (error) {
 
-    console.error(
-      'Erro categorias:',
-      error
-    );
+    console.error('Erro canais:', error);
 
     return res.status(500).json({
-      error: 'Erro ao carregar categorias'
+      error: 'Erro ao carregar canais'
     });
 
   }
@@ -346,171 +217,38 @@ app.get('/api/categorias-canais', async (req, res) => {
 });
 
 
-/*
-====================================================
-GRUPOS DE CANAIS
-====================================================
-*/
+/* =========================
+   FILMES
+========================= */
 
-function identificarMarca(name) {
+app.get('/api/filmes', async (req, res) => {
 
-  const nome =
-    String(name || '').toLowerCase();
-
-
-  if (nome.includes('globo')) return 'Globo';
-
-  if (nome.includes('band')) return 'Band';
-
-  if (nome.includes('record')) return 'Record';
-
-  if (nome.includes('sbt')) return 'SBT';
-
-  if (nome.includes('discovery')) return 'Discovery';
-
-  if (nome.includes('espn')) return 'ESPN';
-
-  if (nome.includes('premiere')) return 'Premiere';
-
-  if (nome.includes('sportv')) return 'SporTV';
-
-  if (nome.includes('tnt')) return 'TNT';
-
-  if (nome.includes('cnn')) return 'CNN';
-
-  if (nome.includes('disney')) return 'Disney';
-
-  if (nome.includes('nickelodeon')) return 'Nickelodeon';
-
-  if (nome.includes('telecine')) return 'Telecine';
-
-  if (nome.includes('paramount')) return 'Paramount';
-
-  if (nome.includes('hbo')) return 'HBO';
-
-  if (nome.includes('axn')) return 'AXN';
-
-  if (nome.includes('sony')) return 'Sony';
-
-  if (nome.includes('universal')) return 'Universal';
-
-  if (
-    nome.includes('adult') ||
-    nome.includes('+18')
-  ) {
-    return 'Adultos';
-  }
-
-  return 'Outros';
-}
-
-
-app.get('/api/grupos-canais', async (req, res) => {
-
-  const {
-    user,
-    pass
-  } = req.query;
+  const { user, pass } = req.query;
 
   if (!user || !pass) {
-
     return res.status(400).json({
       error: 'Usuário e senha são obrigatórios'
     });
-
   }
 
   try {
 
-    const canais =
-      await xtreamRequest(
-        user,
-        pass,
-        'get_live_streams'
-      );
+    const data = await xtreamRequest(
+      user,
+      pass,
+      'get_vod_streams'
+    );
 
-
-    const grupos = {
-
-      Todos: [],
-
-      Globo: [],
-
-      Band: [],
-
-      Record: [],
-
-      SBT: [],
-
-      Discovery: [],
-
-      ESPN: [],
-
-      Premiere: [],
-
-      SporTV: [],
-
-      TNT: [],
-
-      CNN: [],
-
-      Disney: [],
-
-      Nickelodeon: [],
-
-      Telecine: [],
-
-      Paramount: [],
-
-      HBO: [],
-
-      AXN: [],
-
-      Sony: [],
-
-      Universal: [],
-
-      Adultos: [],
-
-      Outros: []
-
-    };
-
-
-    if (Array.isArray(canais)) {
-
-      canais.forEach(canal => {
-
-        grupos.Todos.push(canal);
-
-        const grupo =
-          identificarMarca(
-            canal.name ||
-            canal.stream_name
-          );
-
-        if (!grupos[grupo]) {
-          grupos[grupo] = [];
-        }
-
-        grupos[grupo].push(canal);
-
-      });
-
-    }
-
-
-    return res.json(grupos);
+    return res.json(
+      Array.isArray(data) ? data : []
+    );
 
   } catch (error) {
 
-    console.error(
-      'Erro grupos:',
-      error
-    );
+    console.error('Erro filmes:', error);
 
     return res.status(500).json({
-      error: 'Erro ao organizar canais'
+      error: 'Erro ao carregar filmes'
     });
 
   }
@@ -518,11 +256,48 @@ app.get('/api/grupos-canais', async (req, res) => {
 });
 
 
-/*
-====================================================
-INFORMAÇÕES DE UMA SÉRIE
-====================================================
-*/
+/* =========================
+   SÉRIES
+========================= */
+
+app.get('/api/series', async (req, res) => {
+
+  const { user, pass } = req.query;
+
+  if (!user || !pass) {
+    return res.status(400).json({
+      error: 'Usuário e senha são obrigatórios'
+    });
+  }
+
+  try {
+
+    const data = await xtreamRequest(
+      user,
+      pass,
+      'get_series'
+    );
+
+    return res.json(
+      Array.isArray(data) ? data : []
+    );
+
+  } catch (error) {
+
+    console.error('Erro séries:', error);
+
+    return res.status(500).json({
+      error: 'Erro ao carregar séries'
+    });
+
+  }
+
+});
+
+
+/* =========================
+   SÉRIE
+========================= */
 
 app.get('/api/serie', async (req, res) => {
 
@@ -532,16 +307,10 @@ app.get('/api/serie', async (req, res) => {
     series_id
   } = req.query;
 
-  if (
-    !user ||
-    !pass ||
-    !series_id
-  ) {
-
+  if (!user || !pass || !series_id) {
     return res.status(400).json({
       error: 'Dados incompletos'
     });
-
   }
 
   try {
@@ -553,31 +322,21 @@ app.get('/api/serie', async (req, res) => {
       `&action=get_series_info` +
       `&series_id=${encodeURIComponent(series_id)}`;
 
-
-    const response =
-      await fetch(url);
-
+    const response = await fetch(url);
 
     if (!response.ok) {
-
       return res.status(502).json({
         error: 'Não foi possível consultar a série'
       });
-
     }
 
-
-    const data =
-      await response.json();
+    const data = await response.json();
 
     return res.json(data);
 
   } catch (error) {
 
-    console.error(
-      'Erro série:',
-      error
-    );
+    console.error('Erro série:', error);
 
     return res.status(500).json({
       error: 'Erro ao carregar série'
@@ -588,87 +347,62 @@ app.get('/api/serie', async (req, res) => {
 });
 
 
-/*
-====================================================
-PROXY DE MÍDIA
-====================================================
-*/
+/* =========================
+   LIVROS / EBOOKS / AUDIOBOOKS
+========================= */
+
+app.get('/api/livros', (req, res) => {
+
+  res.json({
+    livros: [],
+    ebooks: [],
+    audiobooks: []
+  });
+
+});
+
+
+/* =========================
+   MÍDIA
+========================= */
 
 app.get('/api/media', async (req, res) => {
 
-  const source =
-    req.query.url;
+  const source = req.query.url;
 
   if (!source) {
-
     return res.status(400).json({
       error: 'URL não informada'
     });
-
   }
 
   try {
 
-    const parsed =
-      new URL(source);
+    const parsed = new URL(source);
 
-
-    if (
-      parsed.hostname !== 'u.l0.ms'
-    ) {
-
+    if (parsed.hostname !== 'u.l0.ms') {
       return res.status(403).json({
-        error: 'Origem de mídia não autorizada'
+        error: 'Origem não autorizada'
       });
-
     }
 
-
-    const response =
-      await fetch(source);
-
+    const response = await fetch(source);
 
     if (!response.ok) {
-
-      return res.status(
-        response.status
-      ).send(
+      return res.status(response.status).send(
         'Erro ao acessar conteúdo'
       );
-
     }
 
-
     const contentType =
-      response.headers.get(
-        'content-type'
-      );
-
-    const contentLength =
-      response.headers.get(
-        'content-length'
-      );
-
+      response.headers.get('content-type');
 
     if (contentType) {
-
       res.setHeader(
         'Content-Type',
         contentType
       );
-
     }
-
-
-    if (contentLength) {
-
-      res.setHeader(
-        'Content-Length',
-        contentLength
-      );
-
-    }
-
 
     res.setHeader(
       'Access-Control-Allow-Origin',
@@ -680,17 +414,13 @@ app.get('/api/media', async (req, res) => {
       'no-cache'
     );
 
-
     response.body.pipe(res);
 
   } catch (error) {
 
-    console.error(
-      'Erro proxy mídia:',
-      error
-    );
+    console.error('Erro mídia:', error);
 
-    res.status(500).json({
+    return res.status(500).json({
       error: 'Erro ao reproduzir conteúdo'
     });
 
@@ -699,185 +429,42 @@ app.get('/api/media', async (req, res) => {
 });
 
 
-/*
-====================================================
-PROXY HLS
-====================================================
-*/
+/* =========================
+   STATUS
+========================= */
 
-app.get('/api/hls', async (req, res) => {
+app.get('/api/status', (req, res) => {
 
-  const source =
-    req.query.url;
+  res.json({
 
-  if (!source) {
+    app: 'MultiPlay Entretenimento',
 
-    return res.status(400).send(
-      'URL HLS não informada'
-    );
+    status: 'online',
 
-  }
+    versao: '4.0.0',
 
-  try {
+    catalogo: [
+      'canais',
+      'filmes',
+      'series',
+      'livros',
+      'ebooks',
+      'audiobooks'
+    ]
 
-    const parsed =
-      new URL(source);
-
-
-    if (
-      parsed.hostname !== 'u.l0.ms'
-    ) {
-
-      return res.status(403).send(
-        'Origem não autorizada'
-      );
-
-    }
-
-
-    const response =
-      await fetch(source);
-
-
-    if (!response.ok) {
-
-      return res.status(
-        response.status
-      ).send(
-        'Erro ao buscar playlist'
-      );
-
-    }
-
-
-    let playlist =
-      await response.text();
-
-
-    const baseUrl =
-      new URL(source);
-
-
-    playlist =
-      playlist
-        .split('\n')
-        .map(line => {
-
-          const trimmed =
-            line.trim();
-
-
-          if (
-            !trimmed ||
-            trimmed.startsWith('#')
-          ) {
-
-            if (
-              trimmed.includes('URI="')
-            ) {
-
-              return rewriteHlsLine(
-                trimmed,
-                baseUrl
-              );
-
-            }
-
-            return line;
-
-          }
-
-
-          let mediaUrl;
-
-          try {
-
-            mediaUrl =
-              new URL(
-                trimmed,
-                baseUrl
-              ).toString();
-
-          } catch {
-
-            return line;
-
-          }
-
-
-          return (
-            '/api/media?url=' +
-            encodeURIComponent(
-              mediaUrl
-            )
-          );
-
-        })
-        .join('\n');
-
-
-    res.setHeader(
-      'Content-Type',
-      'application/vnd.apple.mpegurl'
-    );
-
-    res.setHeader(
-      'Access-Control-Allow-Origin',
-      '*'
-    );
-
-    res.setHeader(
-      'Cache-Control',
-      'no-cache'
-    );
-
-
-    res.send(playlist);
-
-  } catch (error) {
-
-    console.error(
-      'Erro HLS:',
-      error
-    );
-
-    res.status(500).send(
-      'Erro ao carregar transmissão'
-    );
-
-  }
+  });
 
 });
 
 
-/*
-====================================================
-REESCREVER URI DENTRO DO HLS
-====================================================
-*/
+/* =========================
+   SERVIDOR
+========================= */
 
-function rewriteHlsLine(
-  line,
-  baseUrl
-) {
+app.listen(PORT, () => {
 
-  return line.replace(
-    /URI="([^"]+)"/g,
-    (match, uri) => {
+  console.log(
+    `MultiPlay rodando na porta ${PORT}`
+  );
 
-      try {
-
-        const absolute =
-          new URL(
-            uri,
-            baseUrl
-          ).toString();
-
-return (
-          'URI="/api/media?url=' +
-          encodeURIComponent(
-            absolute
-          ) +
-          '"'
-        );
-        
+});
