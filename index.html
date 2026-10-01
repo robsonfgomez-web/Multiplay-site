@@ -115,4 +115,747 @@
     .tag {
       display: inline-block;
       background: #e50914;
-      padding:
+      padding: 7px 14px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      max-width: 750px;
+      font-size: clamp(42px, 8vw, 78px);
+      line-height: 1.02;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 span {
+      color: #e50914;
+    }
+
+    .hero p {
+      max-width: 650px;
+      color: #d0d0d0;
+      font-size: 19px;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 15px 23px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .btn-red {
+      background: #e50914;
+    }
+
+    .btn-red:hover {
+      background: #ff1a25;
+    }
+
+    .btn-dark {
+      background: #191919;
+      border: 1px solid #444;
+    }
+
+    /* SEÇÕES */
+
+    .section {
+      max-width: 1200px;
+      margin: auto;
+      padding: 70px 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(30px, 5vw, 46px);
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: #999;
+    }
+
+    /* CONTEÚDO */
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .content-card {
+      min-height: 190px;
+      padding: 28px;
+      border-radius: 16px;
+      border: 1px solid #292929;
+      background:
+        linear-gradient(145deg, #181818, #0d0d0d);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content-card::after {
+      content: "";
+      position: absolute;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      right: -50px;
+      bottom: -50px;
+      background: rgba(229,9,20,.15);
+    }
+
+    .icon {
+      font-size: 45px;
+      margin-bottom: 15px;
+    }
+
+    .content-card h3 {
+      font-size: 23px;
+      margin-bottom: 8px;
+    }
+
+    .content-card p {
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    /* BENEFÍCIOS */
+
+    .benefits {
+      background: #0d0d0d;
+      border-top: 1px solid #202020;
+      border-bottom: 1px solid #202020;
+    }
+
+    .benefit-grid {
+      max-width: 1100px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      padding: 60px 20px;
+    }
+
+    .benefit {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .benefit strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 7px;
+    }
+
+    .benefit span {
+      color: #999;
+      font-size: 13px;
+    }
+
+    /* PLANOS */
+
+    .plans {
+      background:
+        radial-gradient(circle at center top, rgba(229,9,20,.15), transparent 40%),
+        #050505;
+    }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .plan {
+      background: #111;
+      border: 1px solid #303030;
+      border-radius: 16px;
+      padding: 28px 22px;
+      position: relative;
+    }
+
+    .plan.featured {
+      border: 2px solid #e50914;
+      transform: translateY(-8px);
+    }
+
+    .badge {
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #e50914;
+      padding: 5px 13px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .plan h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .plan-description {
+      color: #999;
+      font-size: 13px;
+      min-height: 40px;
+    }
+
+    .price {
+      font-size: 42px;
+      font-weight: 900;
+      margin: 20px 0;
+    }
+
+    .price small {
+      color: #999;
+      font-size: 13px;
+      font-weight: normal;
+    }
+
+    .features {
+      list-style: none;
+      margin-bottom: 24px;
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    .features li {
+      margin: 10px 0;
+    }
+
+    .features li::before {
+      content: "✓";
+      color: #e50914;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+
+    .plan-button {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      text-align: center;
+      border-radius: 8px;
+      background: #e50914;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* CTA */
+
+    .cta {
+      padding: 90px 20px;
+      text-align: center;
+      background:
+        linear-gradient(
+          rgba(229,9,20,.15),
+          rgba(229,9,20,.02)
+        );
+    }
+
+    .cta h2 {
+      font-size: clamp(32px, 6vw, 52px);
+      margin-bottom: 15px;
+    }
+
+    .cta p {
+      color: #bbb;
+      margin-bottom: 25px;
+    }
+
+    /* RODAPÉ */
+
+    footer {
+      border-top: 1px solid #222;
+      background: #080808;
+      padding: 35px 20px;
+      text-align: center;
+      color: #777;
+      font-size: 13px;
+    }
+
+    /* WHATSAPP */
+
+    .whatsapp {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 2000;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: #25d366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 29px;
+      box-shadow: 0 5px 25px rgba(0,0,0,.5);
+    }
+
+    /* RESPONSIVO */
+
+    @media (max-width: 950px) {
+      .plans-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .content-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .benefit-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .top-button {
+        display: none;
+      }
+
+      .hero {
+        min-height: 620px;
+      }
+
+      .hero h1 {
+        font-size: 43px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .buttons {
+        display: block;
+      }
+
+      .buttons .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      .content-grid,
+      .plans-grid,
+      .benefit-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .plan.featured {
+        transform: none;
+      }
+
+      .section {
+        padding: 55px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="topbar">
+
+    <div class="logo">
+      MULTI<span>PLAY</span>
+    </div>
+
+    <a
+      class="top-button"
+      href="https://wa.me/5541991475644?text=Olá!%20Quero%20conhecer%20os%20planos%20da%20MultiPlay."
+    >
+      QUERO ASSINAR
+    </a>
+
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <div class="tag">
+        MULTIPLAY ENTRETENIMENTO
+      </div>
+
+      <h1>
+        Seu entretenimento
+        <span>em um só lugar.</span>
+      </h1>
+
+      <p>
+        TV, filmes, séries, livros, e-books e audiobooks
+        para você aproveitar em uma experiência completa.
+      </p>
+
+      <div class="buttons">
+
+        <a href="#planos" class="btn btn-red">
+          VER PLANOS E PREÇOS
+        </a>
+
+        <a
+          href="https://wa.me/5541991475644?text=Olá!%20Quero%20assinar%20a%20MultiPlay."
+          class="btn btn-dark"
+        >
+          FALAR NO WHATSAPP
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- CONTEÚDOS -->
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>
+        Tudo o que você gosta.
+      </h2>
+
+      <p>
+        Uma experiência completa de entretenimento.
+      </p>
+
+    </div>
+
+    <div class="content-grid">
+
+      <div class="content-card">
+        <div class="icon">📺</div>
+        <h3>Canais</h3>
+        <p>
+          Programação de TV e entretenimento para todos os momentos.
+        </p>
+      </div>
+
+      <div class="content-card">
+        <div class="icon">🎬</div>
+        <h3>Filmes</h3>
+        <p>
+          Entretenimento para assistir quando quiser.
+        </p>
+      </div>
+
+      <div class="content-card">
+        <div class="icon">🍿</div>
+        <h3>Séries</h3>
+        <p>
+          Histórias e conteúdos para maratonar.
+        </p>
+      </div>
+
+      <div class="content-card">
+        <div class="icon">📚</div>
+        <h3>Livros PDF</h3>
+        <p>
+          Conteúdos em PDF para leitura e download conforme o plano.
+        </p>
+      </div>
+
+      <div class="content-card">
+        <div class="icon">📖</div>
+        <h3>E-books</h3>
+        <p>
+          Uma biblioteca digital para ampliar sua experiência.
+        </p>
+      </div>
+
+      <div class="content-card">
+        <div class="icon">🎧</div>
+        <h3>Audiobooks</h3>
+        <p>
+          Ouça seus conteúdos enquanto trabalha, dirige ou relaxa.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- BENEFÍCIOS -->
+
+  <section class="benefits">
+
+    <div class="benefit-grid">
+
+      <div class="benefit">
+        <strong>📱 Multiplataforma</strong>
+        <span>Use em dispositivos compatíveis.</span>
+      </div>
+
+      <div class="benefit">
+        <strong>▶️ Continue de onde parou</strong>
+        <span>Seu progresso pode ser salvo no aplicativo.</span>
+      </div>
+
+      <div class="benefit">
+        <strong>🔎 Encontre seu conteúdo</strong>
+        <span>Pesquisa rápida dentro da plataforma.</span>
+      </div>
+
+      <div class="benefit">
+        <strong>❤️ Seus favoritos</strong>
+        <span>Tenha seus conteúdos sempre à mão.</span>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PLANOS -->
+
+  <section class="plans" id="planos">
+
+    <div class="section">
+
+      <div class="section-title">
+
+        <h2>
+          Escolha seu plano
+        </h2>
+
+        <p>
+          Tenha acesso ao entretenimento MultiPlay.
+        </p>
+
+      </div>
+
+
+      <div class="plans-grid">
+
+
+        <!-- TV 1 -->
+
+        <div class="plan">
+
+          <h3>
+            Somente TV
+          </h3>
+
+          <p class="plan-description">
+            Para 1 tela.
+          </p>
+
+          <div class="price">
+            R$ 29,90
+            <small>/mês</small>
+          </div>
+
+          <ul class="features">
+            <li>Canais de TV</li>
+            <li>1 tela</li>
+            <li>Acesso pelo aplicativo</li>
+          </ul>
+
+          <a
+            class="plan-button"
+            href="https://wa.me/5541991475644?text=Olá!%20Quero%20o%20plano%20Somente%20TV%201%20tela%20por%20R$%2029,90."
+          >
+            ASSINAR AGORA
+          </a>
+
+        </div>
+
+
+        <!-- TV 2 -->
+
+        <div class="plan">
+
+          <h3>
+            Somente TV
+          </h3>
+
+          <p class="plan-description">
+            Para 2 telas.
+          </p>
+
+          <div class="price">
+            R$ 49,90
+            <small>/mês</small>
+          </div>
+
+          <ul class="features">
+            <li>Canais de TV</li>
+            <li>2 telas</li>
+            <li>Acesso pelo aplicativo</li>
+          </ul>
+
+          <a
+            class="plan-button"
+            href="https://wa.me/5541991475644?text=Olá!%20Quero%20o%20plano%20Somente%20TV%202%20telas%20por%20R$%2049,90."
+          >
+            ASSINAR AGORA
+          </a>
+
+        </div>
+
+
+        <!-- COMPLETO 1 -->
+
+        <div class="plan">
+
+          <h3>
+            Completo
+          </h3>
+
+          <p class="plan-description">
+            1 tela com entretenimento completo.
+          </p>
+
+          <div class="price">
+            R$ 44,90
+            <small>/mês</small>
+          </div>
+
+          <ul class="features">
+            <li>Canais</li>
+            <li>Filmes e séries</li>
+            <li>Audiobooks</li>
+            <li>Livros em PDF</li>
+            <li>E-books</li>
+            <li>1 tela</li>
+          </ul>
+
+          <a
+            class="plan-button"
+            href="https://wa.me/5541991475644?text=Olá!%20Quero%20o%20Plano%20Completo%201%20tela%20por%20R$%2044,90."
+          >
+            QUERO ESSE PLANO
+          </a>
+
+        </div>
+
+
+        <!-- PREMIUM -->
+
+        <div class="plan featured">
+
+          <div class="badge">
+            PLANO PREMIUM
+          </div>
+
+          <h3>
+            Completo
+          </h3>
+
+          <p class="plan-description">
+            2 telas com experiência completa.
+          </p>
+
+          <div class="price">
+            R$ 64,90
+            <small>/mês</small>
+          </div>
+
+          <ul class="features">
+            <li>Canais</li>
+            <li>Filmes e séries</li>
+            <li>2 telas</li>
+            <li>Livros</li>
+            <li>E-books</li>
+            <li>Audiobooks</li>
+          </ul>
+
+          <a
+            class="plan-button"
+            href="https://wa.me/5541991475644?text=Olá!%20Quero%20o%20Plano%20Premium%20Completo%202%20telas%20por%20R$%2064,90."
+          >
+            QUERO O PREMIUM
+          </a>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- CTA FINAL -->
+
+  <section class="cta">
+
+    <h2>
+      Pronto para entrar na MultiPlay?
+    </h2>
+
+    <p>
+      Escolha seu plano e fale conosco pelo WhatsApp.
+    </p>
+
+    <a
+      href="https://wa.me/5541991475644?text=Olá!%20Quero%20assinar%20a%20MultiPlay."
+      class="btn btn-red"
+    >
+      QUERO ASSINAR
+    </a>
+
+  </section>
+
+</main>
+
+
+<footer>
+
+  <div class="logo">
+    MULTI<span>PLAY</span>
+  </div>
+
+  <p style="margin-top:10px;">
+    MultiPlay Entretenimento
+  </p>
+
+  <p style="margin-top:5px;">
+    © 2026 MultiPlay. Todos os direitos reservados.
+  </p>
+
+</footer>
+
+
+<!-- BOTÃO WHATSAPP -->
+
+<a
+  class="whatsapp"
+  href="https://wa.me/5541991475644?text=Olá!%20Quero%20conhecer%20a%20MultiPlay."
+  aria-label="Falar com a MultiPlay pelo WhatsApp"
+>
+  💬
+</a>
+
+</body>
+</html>
