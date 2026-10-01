@@ -1,9 +1,0 @@
-{
-  "appId": "com.multiplay.entretenimento",
-  "appName": "MultiPlay",
-  "webDir": ".",
-  "server": {
-    "url": "https://multiplay-site.onrender.com",
-    "cleartext": false
-  }
-}
