@@ -1,74 +1,409 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Multiplay - Entrar</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;600&display=swap" rel="stylesheet">
-</head>
-<body style="margin:0;background:#0B0E14;color:#fff;font-family:'Montserrat',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh">
-<div style="text-align:center;width:100%;max-width:400px;padding:28px;background:#151a25;border-radius:16px;border:1px solid #1e2432">
-<div style="display:flex;align-items:center;gap:10px;justify-content:center;font-weight:800;font-size:24px;margin-bottom:10px">
-<span style="width:40px;height:40px;background:linear-gradient(135deg,#0A84FF,#8B5CF6);border-radius:10px;display:flex;align-items:center;justify-content:center">▶</span>
-<span>Multiplay</span>
+<!DOCTYPE html><html lang="pt-BR"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Multiplay - Entrar</title>  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;600&display=swap"
+    rel="stylesheet"
+  >
+</head><body
+  style="
+    margin:0;
+    background:#0B0E14;
+    color:#fff;
+    font-family:'Montserrat',sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+  "
+>  <div
+    style="
+      text-align:center;
+      width:100%;
+      max-width:400px;
+      padding:28px;
+      background:#151a25;
+      border-radius:16px;
+      border:1px solid #1e2432;
+    "
+  ><div
+  style="
+    display:flex;
+    align-items:center;
+    gap:10px;
+    justify-content:center;
+    font-weight:800;
+    font-size:24px;
+    margin-bottom:10px;
+  "
+>
+
+  <span
+    style="
+      width:40px;
+      height:40px;
+      background:linear-gradient(135deg,#0A84FF,#8B5CF6);
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    "
+  >
+    ▶
+  </span>
+
+  <span>
+    Multiplay
+  </span>
+
 </div>
-<p style="color:#8892a6;margin-bottom:20px">Use um login do seu painel Xtream</p>
 
-<input id="user" placeholder="Usuário do painel" style="width:100%;box-sizing:border-box;padding:14px;border-radius:8px;border:1px solid #2a2f3d;background:#0B0E14;color:#fff;margin:8px 0">
-<input id="pass" type="password" placeholder="Senha do painel" style="width:100%;box-sizing:border-box;padding:14px;border-radius:8px;border:1px solid #2a2f3d;background:#0B0E14;color:#fff;margin:8px 0">
 
-<button id="btn" onclick="entrar()" style="width:100%;margin-top:20px;padding:14px;background:linear-gradient(90deg,#0A84FF,#8B5CF6);border:none;border-radius:8px;color:#fff;font-weight:800;cursor:pointer;font-size:16px">ENTRAR</button>
+<p
+  style="
+    color:#8892a6;
+    margin-bottom:20px;
+  "
+>
+  Entre para acessar sua programação
+</p>
 
-<p id="erro" style="color:#ff5a5a;min-height:20px;margin-top:12px;font-size:14px"></p>
-<p id="ok" style="color:#22c55e;min-height:20px;font-size:13px"></p>
-</div>
 
-<script>
-async function entrar(){
- const u = document.getElementById('user').value.trim();
- const p = document.getElementById('pass').value.trim();
- const erro = document.getElementById('erro');
- const ok = document.getElementById('ok');
- const btn = document.getElementById('btn');
+<input
+  id="user"
+  placeholder="Usuário"
+  autocomplete="username"
+  style="
+    width:100%;
+    box-sizing:border-box;
+    padding:14px;
+    border-radius:8px;
+    border:1px solid #2a2f3d;
+    background:#0B0E14;
+    color:#fff;
+    margin:8px 0;
+  "
+>
 
- if(!u || !p){ erro.innerText='Digite usuário e senha'; return; }
 
- btn.innerText='VERIFICANDO...';
- btn.disabled=true;
- erro.innerText='';
- ok.innerText='Conectando no servidor u.l0.ms...';
+<input
+  id="pass"
+  type="password"
+  placeholder="Senha"
+  autocomplete="current-password"
+  style="
+    width:100%;
+    box-sizing:border-box;
+    padding:14px;
+    border-radius:8px;
+    border:1px solid #2a2f3d;
+    background:#0B0E14;
+    color:#fff;
+    margin:8px 0;
+  "
+>
 
- try {
-   const res = await fetch(`/api/canais?user=${encodeURIComponent(u)}&pass=${encodeURIComponent(p)}`);
-   const data = await res.json();
 
-   if(data.error || data.user_info && data.user_info.auth === 0){
-     throw new Error('Usuário ou senha inválidos');
-   }
-   
-   if(Array.isArray(data) && data.length > 0){
-     localStorage.setItem('mp_user', u);
-     localStorage.setItem('mp_pass', p);
-     localStorage.setItem('mp_server','http://u.l0.ms');
-     ok.innerText = `✅ Login OK! ${data.length} canais encontrados. Entrando...`;
-     setTimeout(()=> window.location.href='index.html', 800);
-   } else if(data && data.user_info){
-     // as vezes a API retorna user_info em vez de lista quando usa outro endpoint
-     localStorage.setItem('mp_user', u);
-     localStorage.setItem('mp_pass', p);
-     localStorage.setItem('mp_server','http://u.l0.ms');
-     ok.innerText = '✅ Login OK! Entrando...';
-     setTimeout(()=> window.location.href='index.html', 800);
-   } else {
-     throw new Error('Login válido mas sem canais');
-   }
+<button
+  id="btn"
+  onclick="entrar()"
+  style="
+    width:100%;
+    margin-top:20px;
+    padding:14px;
+    background:linear-gradient(90deg,#0A84FF,#8B5CF6);
+    border:none;
+    border-radius:8px;
+    color:#fff;
+    font-weight:800;
+    cursor:pointer;
+    font-size:16px;
+  "
+>
+  ENTRAR
+</button>
 
- } catch(e){
-   erro.innerText = '❌ ' + e.message + ' | Teste no painel se o usuário está ativo';
-   btn.innerText='ENTRAR';
-   btn.disabled=false;
-   ok.innerText='';
- }
+
+<p
+  id="erro"
+  style="
+    color:#ff5a5a;
+    min-height:20px;
+    margin-top:12px;
+    font-size:14px;
+  "
+></p>
+
+
+<p
+  id="ok"
+  style="
+    color:#22c55e;
+    min-height:20px;
+    font-size:13px;
+  "
+></p>
+
+  </div><script>
+
+
+async function entrar() {
+
+
+  const u =
+    document.getElementById('user').value.trim();
+
+
+  const p =
+    document.getElementById('pass').value.trim();
+
+
+  const erro =
+    document.getElementById('erro');
+
+
+  const ok =
+    document.getElementById('ok');
+
+
+  const btn =
+    document.getElementById('btn');
+
+
+  /* ==========================================
+     VERIFICA USUÁRIO E SENHA
+  ========================================== */
+
+
+  if (!u || !p) {
+
+    erro.innerText =
+      'Digite usuário e senha';
+
+    return;
+
+  }
+
+
+  btn.innerText =
+    'VERIFICANDO...';
+
+
+  btn.disabled =
+    true;
+
+
+  erro.innerText =
+    '';
+
+
+  ok.innerText =
+    'Conectando ao servidor...';
+
+
+  try {
+
+
+    /* ==========================================
+       CONSULTA O BACKEND
+    ========================================== */
+
+
+    const res =
+      await fetch(
+        `/api/canais?user=${encodeURIComponent(u)}&pass=${encodeURIComponent(p)}`,
+        {
+          method: 'GET',
+          cache: 'no-store'
+        }
+      );
+
+
+    let data;
+
+
+    try {
+
+      data =
+        await res.json();
+
+    } catch {
+
+      throw new Error(
+        'O servidor não retornou uma resposta válida.'
+      );
+
+    }
+
+
+    /* ==========================================
+       VERIFICA RESPOSTA HTTP
+    ========================================== */
+
+
+    if (!res.ok) {
+
+      throw new Error(
+        data.error ||
+        'Não foi possível conectar ao servidor.'
+      );
+
+    }
+
+
+    /* ==========================================
+       VERIFICA AUTENTICAÇÃO
+    ========================================== */
+
+
+    if (
+      data &&
+      data.user_info &&
+      data.user_info.auth === 0
+    ) {
+
+      throw new Error(
+        'Usuário ou senha inválidos'
+      );
+
+    }
+
+
+    /* ==========================================
+       LOGIN COM CANAIS
+    ========================================== */
+
+
+    if (
+      Array.isArray(data) &&
+      data.length > 0
+    ) {
+
+
+      /*
+        IMPORTANTE:
+
+        O index.html usa sessionStorage.
+
+        Portanto o login também precisa
+        usar sessionStorage.
+      */
+
+
+      sessionStorage.setItem(
+        'mp_user',
+        u
+      );
+
+
+      sessionStorage.setItem(
+        'mp_pass',
+        p
+      );
+
+
+      sessionStorage.setItem(
+        'mp_server',
+        'http://u.l0.ms'
+      );
+
+
+      ok.innerText =
+        `✅ Login OK! ${data.length} canais encontrados. Entrando...`;
+
+
+      setTimeout(() => {
+
+        window.location.href =
+          'index.html';
+
+      }, 800);
+
+
+      return;
+
+    }
+
+
+    /* ==========================================
+       CASO A API RETORNE USER_INFO
+    ========================================== */
+
+
+    if (
+      data &&
+      data.user_info
+    ) {
+
+
+      sessionStorage.setItem(
+        'mp_user',
+        u
+      );
+
+
+      sessionStorage.setItem(
+        'mp_pass',
+        p
+      );
+
+
+      sessionStorage.setItem(
+        'mp_server',
+        'http://u.l0.ms'
+      );
+
+
+      ok.innerText =
+        '✅ Login OK! Entrando...';
+
+
+      setTimeout(() => {
+
+        window.location.href =
+          'index.html';
+
+      }, 800);
+
+
+      return;
+
+    }
+
+
+    /* ==========================================
+       RESPOSTA SEM CANAIS
+    ========================================== */
+
+
+    throw new Error(
+      'Login válido, mas nenhum canal foi encontrado.'
+    );
+
+
+  } catch (e) {
+
+
+    console.error(e);
+
+
+    erro.innerText =
+      '❌ ' + e.message;
+
+
+    btn.innerText =
+      'ENTRAR';
+
+
+    btn.disabled =
+      false;
+
+
+    ok.innerText =
+      '';
+
+  }
+
 }
-</script>
-</body>
-</html>
+
+
+</script></body></html>
