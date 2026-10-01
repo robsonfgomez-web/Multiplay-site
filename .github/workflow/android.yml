@@ -2,24 +2,19 @@ name: Gerar APK MultiPlay
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 jobs:
   android:
-    name: Construir aplicativo Android
     runs-on: ubuntu-latest
 
     steps:
       - name: Baixar código
         uses: actions/checkout@v4
 
-      - name: Configurar Node.js
+      - name: Configurar Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
       - name: Configurar Java
         uses: actions/setup-java@v4
