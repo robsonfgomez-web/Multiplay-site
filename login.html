@@ -1,409 +1,271 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Multiplay - Entrar</title>  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;600&display=swap"
-    rel="stylesheet"
-  >
-</head><body
-  style="
-    margin:0;
-    background:#0B0E14;
-    color:#fff;
-    font-family:'Montserrat',sans-serif;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-height:100vh;
-  "
->  <div
-    style="
-      text-align:center;
-      width:100%;
-      max-width:400px;
-      padding:28px;
-      background:#151a25;
-      border-radius:16px;
-      border:1px solid #1e2432;
-    "
-  ><div
-  style="
-    display:flex;
-    align-items:center;
-    gap:10px;
-    justify-content:center;
-    font-weight:800;
-    font-size:24px;
-    margin-bottom:10px;
-  "
->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <span
-    style="
-      width:40px;
-      height:40px;
-      background:linear-gradient(135deg,#0A84FF,#8B5CF6);
-      border-radius:10px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    "
-  >
-    ▶
-  </span>
+  <title>MultiPlay - Login</title>
 
-  <span>
-    Multiplay
-  </span>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-</div>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at center, #202020 0%, #080808 65%);
+      color: #fff;
+    }
 
+    .login-box {
+      width: 100%;
+      max-width: 400px;
+      padding: 35px 25px;
+      background: #111;
+      border: 1px solid #292929;
+      border-radius: 16px;
+      box-shadow: 0 15px 50px rgba(0,0,0,.5);
+    }
 
-<p
-  style="
-    color:#8892a6;
-    margin-bottom:20px;
-  "
->
-  Entre para acessar sua programação
-</p>
+    .logo {
+      text-align: center;
+      font-size: 34px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
 
+    .logo span {
+      color: #e50914;
+    }
 
-<input
-  id="user"
-  placeholder="Usuário"
-  autocomplete="username"
-  style="
-    width:100%;
-    box-sizing:border-box;
-    padding:14px;
-    border-radius:8px;
-    border:1px solid #2a2f3d;
-    background:#0B0E14;
-    color:#fff;
-    margin:8px 0;
-  "
->
+    .subtitle {
+      text-align: center;
+      color: #888;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
 
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: #ccc;
+      font-size: 14px;
+    }
 
-<input
-  id="pass"
-  type="password"
-  placeholder="Senha"
-  autocomplete="current-password"
-  style="
-    width:100%;
-    box-sizing:border-box;
-    padding:14px;
-    border-radius:8px;
-    border:1px solid #2a2f3d;
-    background:#0B0E14;
-    color:#fff;
-    margin:8px 0;
-  "
->
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #1b1b1b;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+    }
 
+    input:focus {
+      border-color: #e50914;
+    }
 
-<button
-  id="btn"
-  onclick="entrar()"
-  style="
-    width:100%;
-    margin-top:20px;
-    padding:14px;
-    background:linear-gradient(90deg,#0A84FF,#8B5CF6);
-    border:none;
-    border-radius:8px;
-    color:#fff;
-    font-weight:800;
-    cursor:pointer;
-    font-size:16px;
-  "
->
-  ENTRAR
-</button>
+    button {
+      width: 100%;
+      padding: 15px;
+      border: 0;
+      border-radius: 8px;
+      background: #e50914;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
+    button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
 
-<p
-  id="erro"
-  style="
-    color:#ff5a5a;
-    min-height:20px;
-    margin-top:12px;
-    font-size:14px;
-  "
-></p>
+    #message {
+      min-height: 20px;
+      margin-top: 18px;
+      text-align: center;
+      color: #ff7777;
+      font-size: 14px;
+    }
 
+    .back {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      color: #777;
+      text-decoration: none;
+      font-size: 13px;
+    }
 
-<p
-  id="ok"
-  style="
-    color:#22c55e;
-    min-height:20px;
-    font-size:13px;
-  "
-></p>
+    .back:hover {
+      color: #fff;
+    }
+  </style>
+</head>
 
-  </div><script>
+<body>
 
+  <div class="login-box">
 
-async function entrar() {
+    <div class="logo">
+      MULTI<span>PLAY</span>
+    </div>
 
+    <div class="subtitle">
+      Acesse seu aplicativo
+    </div>
 
-  const u =
-    document.getElementById('user').value.trim();
+    <form id="loginForm">
 
+      <label for="username">
+        Usuário
+      </label>
 
-  const p =
-    document.getElementById('pass').value.trim();
+      <input
+        id="username"
+        type="text"
+        placeholder="Digite seu usuário"
+        autocomplete="username"
+        required
+      >
 
+      <label for="password">
+        Senha
+      </label>
 
-  const erro =
-    document.getElementById('erro');
+      <input
+        id="password"
+        type="password"
+        placeholder="Digite sua senha"
+        autocomplete="current-password"
+        required
+      >
 
+      <button id="loginButton" type="submit">
+        ENTRAR
+      </button>
 
-  const ok =
-    document.getElementById('ok');
+      <div id="message"></div>
 
+    </form>
 
-  const btn =
-    document.getElementById('btn');
+    <a href="/" class="back">
+      ← Voltar para o site
+    </a>
+
+  </div>
 
 
-  /* ==========================================
-     VERIFICA USUÁRIO E SENHA
-  ========================================== */
+  <script>
+
+    const form = document.getElementById("loginForm");
+    const button = document.getElementById("loginButton");
+    const message = document.getElementById("message");
 
 
-  if (!u || !p) {
+    form.addEventListener("submit", async function(event) {
 
-    erro.innerText =
-      'Digite usuário e senha';
+      event.preventDefault();
 
-    return;
+      const username =
+        document.getElementById("username").value.trim();
 
-  }
+      const password =
+        document.getElementById("password").value;
 
+      if (!username || !password) {
+        message.textContent =
+          "Informe usuário e senha.";
 
-  btn.innerText =
-    'VERIFICANDO...';
-
-
-  btn.disabled =
-    true;
-
-
-  erro.innerText =
-    '';
+        return;
+      }
 
 
-  ok.innerText =
-    'Conectando ao servidor...';
+      button.disabled = true;
+      button.textContent = "ENTRANDO...";
+      message.textContent = "";
 
 
-  try {
+      try {
+
+        /*
+         * O servidor valida as credenciais.
+         * Nenhuma senha fica gravada neste arquivo.
+         */
+
+        const response = await fetch("/api/login", {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            username: username,
+            password: password
+          })
+
+        });
 
 
-    /* ==========================================
-       CONSULTA O BACKEND
-    ========================================== */
+        const data = await response.json();
 
 
-    const res =
-      await fetch(
-        `/api/canais?user=${encodeURIComponent(u)}&pass=${encodeURIComponent(p)}`,
-        {
-          method: 'GET',
-          cache: 'no-store'
+        if (!response.ok || !data.success) {
+
+          throw new Error(
+            data.message ||
+            "Usuário ou senha inválidos."
+          );
+
         }
-      );
 
 
-    let data;
+        sessionStorage.setItem(
+          "mp_user",
+          username
+        );
 
+        sessionStorage.setItem(
+          "mp_pass",
+          password
+        );
 
-    try {
 
-      data =
-        await res.json();
+        window.location.href = "/app.html";
 
-    } catch {
+      }
 
-      throw new Error(
-        'O servidor não retornou uma resposta válida.'
-      );
+      catch (error) {
 
-    }
+        console.error(error);
 
+        message.textContent =
+          error.message ||
+          "Não foi possível entrar.";
 
-    /* ==========================================
-       VERIFICA RESPOSTA HTTP
-    ========================================== */
+        button.disabled = false;
+        button.textContent = "ENTRAR";
 
+      }
 
-    if (!res.ok) {
+    });
 
-      throw new Error(
-        data.error ||
-        'Não foi possível conectar ao servidor.'
-      );
+  </script>
 
-    }
-
-
-    /* ==========================================
-       VERIFICA AUTENTICAÇÃO
-    ========================================== */
-
-
-    if (
-      data &&
-      data.user_info &&
-      data.user_info.auth === 0
-    ) {
-
-      throw new Error(
-        'Usuário ou senha inválidos'
-      );
-
-    }
-
-
-    /* ==========================================
-       LOGIN COM CANAIS
-    ========================================== */
-
-
-    if (
-      Array.isArray(data) &&
-      data.length > 0
-    ) {
-
-
-      /*
-        IMPORTANTE:
-
-        O index.html usa sessionStorage.
-
-        Portanto o login também precisa
-        usar sessionStorage.
-      */
-
-
-      sessionStorage.setItem(
-        'mp_user',
-        u
-      );
-
-
-      sessionStorage.setItem(
-        'mp_pass',
-        p
-      );
-
-
-      sessionStorage.setItem(
-        'mp_server',
-        'http://u.l0.ms'
-      );
-
-
-      ok.innerText =
-        `✅ Login OK! ${data.length} canais encontrados. Entrando...`;
-
-
-      setTimeout(() => {
-
-        window.location.href =
-          'index.html';
-
-      }, 800);
-
-
-      return;
-
-    }
-
-
-    /* ==========================================
-       CASO A API RETORNE USER_INFO
-    ========================================== */
-
-
-    if (
-      data &&
-      data.user_info
-    ) {
-
-
-      sessionStorage.setItem(
-        'mp_user',
-        u
-      );
-
-
-      sessionStorage.setItem(
-        'mp_pass',
-        p
-      );
-
-
-      sessionStorage.setItem(
-        'mp_server',
-        'http://u.l0.ms'
-      );
-
-
-      ok.innerText =
-        '✅ Login OK! Entrando...';
-
-
-      setTimeout(() => {
-
-        window.location.href =
-          'index.html';
-
-      }, 800);
-
-
-      return;
-
-    }
-
-
-    /* ==========================================
-       RESPOSTA SEM CANAIS
-    ========================================== */
-
-
-    throw new Error(
-      'Login válido, mas nenhum canal foi encontrado.'
-    );
-
-
-  } catch (e) {
-
-
-    console.error(e);
-
-
-    erro.innerText =
-      '❌ ' + e.message;
-
-
-    btn.innerText =
-      'ENTRAR';
-
-
-    btn.disabled =
-      false;
-
-
-    ok.innerText =
-      '';
-
-  }
-
-}
-
-
-</script></body></html>
+</body>
+</html>
