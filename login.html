@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multiplay - Entrar</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;600&display=swap" rel="stylesheet">
+</head>
+<body style="margin:0;background:#0B0E14;color:#fff;font-family:'Montserrat',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh">
+<div style="text-align:center;width:100%;max-width:400px;padding:28px;background:#151a25;border-radius:16px;border:1px solid #1e2432">
+<div style="display:flex;align-items:center;gap:10px;justify-content:center;font-weight:800;font-size:24px;margin-bottom:20px">
+<span style="width:40px;height:40px;background:linear-gradient(135deg,#0A84FF,#8B5CF6);border-radius:10px;display:flex;align-items:center;justify-content:center">▶</span>
+<span>Multiplay</span>
+</div>
+<h2 style="font-weight:600;margin:0 0 20px;font-size:18px;color:#8892a6">Acesse sua conta</h2>
+<input id="user" placeholder="Usuário" style="width:100%;box-sizing:border-box;padding:14px;border-radius:8px;border:1px solid #2a2f3d;background:#0B0E14;color:#fff;margin:8px 0">
+<input id="pass" type="password" placeholder="Senha" style="width:100%;box-sizing:border-box;padding:14px;border-radius:8px;border:1px solid #2a2f3d;background:#0B0E14;color:#fff;margin:8px 0">
+<button onclick="entrar()" style="width:100%;margin-top:20px;padding:14px;background:linear-gradient(90deg,#0A84FF,#8B5CF6);border:none;border-radius:8px;color:#fff;font-weight:800;cursor:pointer;font-size:16px">ENTRAR</button>
+<p id="erro" style="color:#ff5a5a;min-height:20px;margin-top:12px"></p>
+</div>
+<script>
+function entrar(){
+ const u=document.getElementById('user').value.trim()
+ const p=document.getElementById('pass').value.trim()
+ if(!u||!p){document.getElementById('erro').innerText='Digite usuário e senha';return}
+ localStorage.setItem('mp_user',u)
+ localStorage.setItem('mp_pass',p)
+ localStorage.setItem('mp_server','http://u.l0.ms')
+ window.location.href='index.html'
+}
+</script>
+</body>
+</html>
