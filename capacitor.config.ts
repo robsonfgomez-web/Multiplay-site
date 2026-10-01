@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'MultiPlay',
   webDir: 'www',
   server: {
-    url: 'https://multiplay-site.onrender.com',
+    url: 'https://multiplay-site.onrender.com/login.html',
     cleartext: false
   }
 };
