@@ -1,9 +1,24 @@
 const express = require('express');
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 const fetch = require('node-fetch');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+pool.query('SELECT NOW()')
+  .then(() => {
+    console.log('MultiPlay: banco conectado com sucesso');
+  })
+  .catch((error) => {
+    console.error('MultiPlay: erro ao conectar ao banco:', error.message);
+  });
 
 const XTREAM_HOST = 'http://u.l0.ms';
 
