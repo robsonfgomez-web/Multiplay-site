@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MultiPlay App</title>
+
+  <meta name="theme-color" content="#080808">
+  <link rel="manifest" href="/manifest.json">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #080808;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #0d0d0d;
+      border-bottom: 1px solid #252525;
+      padding: 15px;
+    }
+
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .logo span {
+      color: #e50914;
+    }
+
+    .user {
+      font-size: 13px;
+      color: #aaa;
+    }
+
+    .logout {
+      background: #222;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .search-area {
+      max-width: 1200px;
+      margin: 15px auto 0;
+    }
+
+    #search {
+      width: 100%;
+      padding: 13px 15px;
+      background: #181818;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #fff;
+      outline: none;
+      font-size: 15px;
+    }
+
+    nav {
+      position: sticky;
+      top: 74px;
+      z-index: 90;
+      background: #0b0b0b;
+      border-bottom: 1px solid #222;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 10px;
+    }
+
+    .nav-inner {
+      display: flex;
+      gap: 8px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .tab {
+      border: 1px solid #333;
+      background: #171717;
+      color: #ddd;
+      padding: 10px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .tab.active {
+      background: #e50914;
+      color: #fff;
+      border-color: #e50914;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: auto;
+      padding: 25px 15px 50px;
+    }
+
+    .title {
+      margin-bottom: 20px;
+    }
+
+    .title h1 {
+      font-size: 27px;
+      margin-bottom: 5px;
+    }
+
+    .title p {
+      color: #888;
+      font-size: 14px;
+    }
+
+    #status {
+      text-align: center;
+      color: #aaa;
+      padding: 30px 10px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .card {
+      background: #151515;
+      border: 1px solid #292929;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .15s, border-color .15s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: #e50914;
+    }
+
+    .thumb {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .placeholder {
+      font-size: 40px;
+    }
+
+    .card-info {
+      padding: 12px;
+    }
+
+    .card-info h3 {
+      font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-info p {
+      color: #777;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .empty {
+      text-align: center;
+      color: #777;
+      padding: 50px 15px;
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .card-info {
+        padding: 9px;
+      }
+
+      .card-info h3 {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="top">
+
+    <div class="logo">
+      MULTI<span>PLAY</span>
+    </div>
+
+    <div class="user" id="userInfo">
+      Usuário
+    </div>
+
+    <button class="logout" onclick="logout()">
+      Sair
+    </button>
+
+  </div>
+
+  <div class="search-area">
+    <input
+      id="search"
+      type="search"
+      placeholder="🔎 Pesquisar..."
+      autocomplete="off">
+  </div>
+
+</header>
+
+
+<nav>
+
+  <div class="nav-inner">
+
+    <button class="tab active" data-section="canais">
+      📺 Canais
+    </button>
+
+    <button class="tab" data-section="filmes">
+      🎬 Filmes
+    </button>
+
+    <button class="tab" data-section="series">
+      📚 Séries
+    </button>
+
+    <button class="tab" data-section="livros">
+      📖 Livros
+    </button>
+
+    <button class="tab" data-section="ebooks">
+      📱 E-books
+    </button>
+
+    <button class="tab" data-section="audiobooks">
+      🎧 Audiobooks
+    </button>
+
+  </div>
+
+</nav>
+
+
+<main>
+
+  <div class="title">
+
+    <h1 id="pageTitle">
+      Canais
+    </h1>
+
+    <p id="pageDescription">
+      Escolha uma categoria para começar.
+    </p>
+
+  </div>
+
+  <div id="status">
+    Selecione uma categoria.
+  </div>
+
+  <div id="grid" class="grid"></div>
+
+</main>
+
+
+<script>
+
+const user = sessionStorage.getItem("mp_user");
+const pass = sessionStorage.getItem("mp_pass");
+
+if (!user || !pass) {
+  window.location.href = "/login.html";
+}
+
+document.getElementById("userInfo").textContent =
+  user ? "👤 " + user : "Usuário";
+
+
+let currentSection = "canais";
+let currentData = [];
+
+
+const titles = {
+  canais: "Canais",
+  filmes: "Filmes",
+  series: "Séries",
+  livros: "Livros",
+  ebooks: "E-books",
+  audiobooks: "Audiobooks"
+};
+
+
+const descriptions = {
+  canais: "Programação de canais disponíveis.",
+  filmes: "Filmes disponíveis na plataforma.",
+  series: "Séries disponíveis na plataforma.",
+  livros: "Biblioteca digital.",
+  ebooks: "E-books disponíveis.",
+  audiobooks: "Audiobooks disponíveis."
+};
+
+
+document.querySelectorAll(".tab").forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    document.querySelectorAll(".tab")
+      .forEach(b => b.classList.remove("active"));
+
+    button.classList.add("active");
+
+    currentSection = button.dataset.section;
+
+    document.getElementById("pageTitle").textContent =
+      titles[currentSection];
+
+    document.getElementById("pageDescription").textContent =
+      descriptions[currentSection];
+
+    document.getElementById("search").value = "";
+
+    loadSection(currentSection);
+
+  });
+
+});
+
+
+document.getElementById("search")
+  .addEventListener("input", function() {
+
+    const term = this.value
+      .toLowerCase()
+      .trim();
+
+    if (!term) {
+      render(currentData);
+      return;
+    }
+
+    const filtered = currentData.filter(item => {
+
+      const name =
+        String(
+          item.name ||
+          item.title ||
+          item.stream_name ||
+          ""
+        ).toLowerCase();
+
+      return name.includes(term);
+
+    });
+
+    render(filtered);
+
+  });
+
+
+async function loadSection(section) {
+
+  const status = document.getElementById("status");
+
+  const grid = document.getElementById("grid");
+
+  grid.innerHTML = "";
+
+  status.style.display = "block";
+
+  status
