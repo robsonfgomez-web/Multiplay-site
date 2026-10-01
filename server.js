@@ -443,7 +443,41 @@ app.get('/api/media', async (req, res) => {
 
 });
 
+/* =========================
+   BANCO DE DADOS MULTIPLAY
+========================= */
 
+async function criarTabelas() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS admins (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(100) UNIQUE NOT NULL,
+        password_hash TEXT NOT NULL,
+        active BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(100) UNIQUE NOT NULL,
+        password_hash TEXT NOT NULL,
+        active BOOLEAN DEFAULT TRUE,
+        expires_at TIMESTAMP NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    console.log('MultiPlay: tabelas verificadas com sucesso');
+  } catch (error) {
+    console.error(
+      'MultiPlay: erro ao criar tabelas:',
+      error.message
+    );
+  }
+}
+
+criarTabelas();
 /* =========================
    STATUS
 ========================= */
