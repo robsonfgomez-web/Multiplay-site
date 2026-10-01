@@ -6,7 +6,10 @@
 
   <title>MultiPlay Entretenimento</title>
 
-  <meta name="description" content="MultiPlay Entretenimento - canais, filmes, séries, livros, e-books e audiobooks.">
+  <meta
+    name="description"
+    content="MultiPlay Entretenimento: TV, filmes, séries, livros, e-books e audiobooks."
+  >
 
   <link rel="manifest" href="/manifest.json">
 
@@ -17,22 +20,44 @@
       padding: 0;
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #080808;
-      color: #fff;
-      min-height: 100vh;
+    html {
+      scroll-behavior: smooth;
     }
 
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #050505;
+      color: #fff;
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    /* TOPO */
+
     header {
-      padding: 20px;
-      text-align: center;
-      border-bottom: 1px solid #222;
-      background: #0d0d0d;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(5, 5, 5, 0.96);
+      border-bottom: 1px solid #252525;
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar {
+      max-width: 1200px;
+      margin: auto;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
     }
 
     .logo {
-      font-size: 30px;
+      font-size: 27px;
       font-weight: 900;
       letter-spacing: 1px;
     }
@@ -41,210 +66,53 @@
       color: #e50914;
     }
 
-    .hero {
-      min-height: 70vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 50px 20px;
-      background:
-        radial-gradient(circle at center, #222 0%, #080808 65%);
-    }
-
-    .hero-content {
-      max-width: 800px;
-    }
-
-    .hero h1 {
-      font-size: clamp(38px, 8vw, 72px);
-      margin-bottom: 20px;
-    }
-
-    .hero h1 span {
-      color: #e50914;
-    }
-
-    .hero p {
-      color: #ccc;
-      font-size: 18px;
-      line-height: 1.6;
-      margin-bottom: 30px;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 15px 30px;
-      margin: 6px;
+    .top-button {
+      background: #e50914;
+      color: #fff;
+      padding: 10px 17px;
       border-radius: 8px;
       text-decoration: none;
       font-weight: bold;
-      cursor: pointer;
-      border: none;
-      font-size: 16px;
-    }
-
-    .btn-primary {
-      background: #e50914;
-      color: white;
-    }
-
-    .btn-secondary {
-      background: #222;
-      color: white;
-      border: 1px solid #444;
-    }
-
-    .section {
-      padding: 50px 20px;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .section h2 {
-      text-align: center;
-      font-size: 32px;
-      margin-bottom: 35px;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
-
-    .card {
-      background: #151515;
-      border: 1px solid #292929;
-      border-radius: 12px;
-      padding: 28px 20px;
-      text-align: center;
-    }
-
-    .card-icon {
-      font-size: 42px;
-      margin-bottom: 15px;
-    }
-
-    .card h3 {
-      margin-bottom: 10px;
-    }
-
-    .card p {
-      color: #aaa;
-      line-height: 1.5;
       font-size: 14px;
     }
 
-    .plans {
-      background: #101010;
-      text-align: center;
+    /* HERO */
+
+    .hero {
+      min-height: 650px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 75% 30%, rgba(229,9,20,.35), transparent 30%),
+        radial-gradient(circle at 20% 70%, rgba(100,0,0,.3), transparent 35%),
+        linear-gradient(135deg, #080808, #180303 50%, #050505);
     }
 
-    .plan {
-      max-width: 400px;
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(0,0,0,.95),
+          rgba(0,0,0,.55),
+          rgba(0,0,0,.15)
+        );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      width: 100%;
       margin: auto;
-      background: #181818;
-      border: 1px solid #333;
-      border-radius: 15px;
-      padding: 30px;
+      padding: 70px 20px;
     }
 
-    .plan h3 {
-      font-size: 25px;
-      margin-bottom: 15px;
-    }
-
-    .price {
-      font-size: 38px;
-      font-weight: bold;
-      margin: 20px 0;
-    }
-
-    .price small {
-      font-size: 15px;
-      color: #aaa;
-    }
-
-    .features {
-      list-style: none;
-      color: #ccc;
-      line-height: 2;
-      margin-bottom: 20px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px 20px;
-      color: #777;
-      border-top: 1px solid #222;
-    }
-
-    @media (max-width: 600px) {
-      .hero {
-        min-height: 65vh;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-  <header>
-    <div class="logo">
-      MULTI<span>PLAY</span>
-    </div>
-  </header>
-
-  <main>
-
-    <section class="hero">
-      <div class="hero-content">
-
-        <h1>
-          Seu entretenimento em um só lugar.
-        </h1>
-
-        <p>
-          Canais, filmes, séries, livros, e-books e audiobooks
-          em uma experiência completa de entretenimento.
-        </p>
-
-        <a href="#planos" class="btn btn-primary">
-          CONHEÇA NOSSOS PLANOS
-        </a>
-
-      </div>
-    </section>
-
-
-    <section class="section">
-
-      <h2>
-        Tudo na MultiPlay
-      </h2>
-
-      <div class="cards">
-
-        <div class="card">
-          <div class="card-icon">📺</div>
-          <h3>Canais</h3>
-          <p>
-            Entretenimento e programação para todos os momentos.
-          </p>
-        </div>
-
-        <div class="card">
-          <div class="card-icon">🎬</div>
-          <h3>Filmes e Séries</h3>
-          <p>
-            Um catálogo de entretenimento para você aproveitar.
-          </p>
-        </div>
-
-        <div class="card">
-          <div class="
+    .tag {
+      display: inline-block;
+      background: #e50914;
+      padding:
