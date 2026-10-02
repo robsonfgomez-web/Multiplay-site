@@ -437,17 +437,19 @@ app.post(
         });
       }
 
-      if (
-        usuario.expires_at &&
-        new Date(usuario.expires_at) <
-        new Date()
-      ) {
-        return res.status(403).json({
-          success: false,
-          message:
-            'Acesso expirado.'
-        });
-      }
+      if (usuario.expires_at) {
+  const vencimento = new Date(usuario.expires_at);
+
+  vencimento.setHours(23, 59, 59, 999);
+
+  if (vencimento < new Date()) {
+    return res.status(403).json({
+      success: false,
+      message:
+        'Acesso expirado.'
+    });
+  }
+}
 
       if (
         !verificarSenha(
@@ -941,15 +943,17 @@ async function obterCredenciaisXtream(
     );
   }
 
-  if (
-    usuario.expires_at &&
-    new Date(usuario.expires_at) <
-    new Date()
-  ) {
+  if (usuario.expires_at) {
+  const vencimento = new Date(usuario.expires_at);
+
+  vencimento.setHours(23, 59, 59, 999);
+
+  if (vencimento < new Date()) {
     throw new Error(
       'Acesso expirado'
     );
   }
+}
 
   if (
     !usuario.xtream_user ||
