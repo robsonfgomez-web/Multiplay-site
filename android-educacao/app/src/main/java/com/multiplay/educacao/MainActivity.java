@@ -48,15 +48,18 @@ public class MainActivity extends Activity {
         prefs=getSharedPreferences("multiplay_educacao",MODE_PRIVATE);
         buildCatalog();
         loadRecent();
+        rebuildAll();
         home();
     }
     void hideSystem(){
         getWindow().getDecorView().setSystemUiVisibility(
             View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|
-            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY|View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION|
-            View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY|View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|
+            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
     }
     @Override public void onWindowFocusChanged(boolean h){ super.onWindowFocusChanged(h); if(h) hideSystem(); }
+
+    void rebuildAll(){ all.clear(); all.addAll(courses); all.addAll(books); all.addAll(ebooks); all.addAll(audios); }
 
     TextView txt(String s,float z,boolean bold){
         TextView x=new TextView(this);
@@ -117,6 +120,11 @@ public class MainActivity extends Activity {
             else x.setOnClickListener(v->catalog("E-BOOKS",ebooks));
         }
         hero.addView(chips); body.addView(hero,new LinearLayout.LayoutParams(-1,-2));
+        LinearLayout stats=new LinearLayout(this); stats.setPadding(0,dp(10),0,dp(2));
+        stats.addView(statBox(String.valueOf(courses.size()),"CURSOS"),new LinearLayout.LayoutParams(0,dp(62),1));
+        stats.addView(statBox(String.valueOf(books.size()),"LIVROS"),new LinearLayout.LayoutParams(0,dp(62),1));
+        stats.addView(statBox(String.valueOf(audios.size()),"ÁUDIO"),new LinearLayout.LayoutParams(0,dp(62),1));
+        stats.addView(statBox(String.valueOf(ebooks.size()),"E-BOOKS"),new LinearLayout.LayoutParams(0,dp(62),1)); body.addView(stats);
         if(!recent.isEmpty()){ body.addView(section("▶ Continuar de onde parou")); horizontal(recent,4); }
         body.addView(section("🔥 Destaques")); horizontal(books,8);
         body.addView(section("🎧 Ouça agora")); horizontal(audios,6);
@@ -124,6 +132,8 @@ public class MainActivity extends Activity {
         body.addView(section("📖 Biblioteca digital")); horizontal(ebooks,6);
         TextView f=txt("Conteúdo acessado online nas plataformas responsáveis. Certificados são emitidos pelas instituições quando previstos.",10,false); f.setTextColor(MUTED); f.setPadding(0,dp(20),0,dp(20)); body.addView(f);
     }
+
+    LinearLayout statBox(String n,String label){ LinearLayout c=new LinearLayout(this); c.setOrientation(LinearLayout.VERTICAL); c.setGravity(Gravity.CENTER); c.setBackground(bg(CARD,Color.rgb(34,54,80),14)); TextView a=txt(n,18,true); a.setGravity(Gravity.CENTER); a.setTextColor(CYAN); c.addView(a); TextView b=txt(label,8,true); b.setGravity(Gravity.CENTER); b.setTextColor(MUTED); c.addView(b); return c; }
 
     TextView section(String s){ TextView h=txt(s,19,true); h.setTextColor(CYAN); h.setPadding(0,dp(18),0,dp(7)); return h; }
 
@@ -174,7 +184,7 @@ public class MainActivity extends Activity {
         TextView a=txt(x.author,11,false); a.setTextColor(Color.rgb(145,204,255)); b.addView(a);
         TextView m=txt(x.meta,9,true); m.setTextColor(Color.rgb(108,224,182)); b.addView(m);
         TextView d=txt(x.desc,10,false); d.setTextColor(MUTED); d.setMaxLines(2); b.addView(d,new LinearLayout.LayoutParams(-1,dp(42)));
-        Button o=btn(x.meta.contains("AUDIO")?"▶ OUVIR":x.meta.contains("ONLINE")?"▶ ESTUDAR":"▶ ABRIR"); b.addView(o,new LinearLayout.LayoutParams(-1,dp(40))); o.setOnClickListener(v->detail(x));
+        Button o=btn("AUDIO".equals(x.kind)?"▶ OUVIR":"CURSO".equals(x.kind)?"▶ ESTUDAR":"▶ ABRIR"); b.addView(o,new LinearLayout.LayoutParams(-1,dp(40))); o.setOnClickListener(v->detail(x));
         c.addView(b,new LinearLayout.LayoutParams(0,-2,1)); return c;
     }
 
@@ -190,7 +200,7 @@ public class MainActivity extends Activity {
         base(); header("Pesquise por título, autor ou assunto");
         EditText q=new EditText(this); q.setHint("🔎  Buscar na Multiplay Educação"); q.setHintTextColor(Color.rgb(115,137,163)); q.setTextColor(Color.WHITE); q.setSingleLine(true); q.setPadding(dp(14),0,dp(14),0); q.setBackground(bg(CARD,Color.rgb(48,77,106),14)); body.addView(q,new LinearLayout.LayoutParams(-1,dp(52)));
         LinearLayout results=new LinearLayout(this); results.setOrientation(LinearLayout.VERTICAL); body.addView(results);
-        q.addTextChangedListener(new android.text.TextWatcher(){public void beforeTextChanged(CharSequence s,int a,int b,int c){} public void onTextChanged(CharSequence s,int a,int b,int c){results.removeAllViews();String z=s.toString().toLowerCase();if(z.length()<2)return;for(Item x:all)if((x.title+" "+x.author+" "+x.meta+" "+x.desc).toLowerCase().contains(z))results.addView(bigCard(x));} public void afterTextChanged(android.text.Editable e){}});
+        q.addTextChangedListener(new android.text.TextWatcher(){public void beforeTextChanged(CharSequence s,int a,int b,int c){} public void onTextChanged(CharSequence s,int a,int b,int c){results.removeAllViews();String z=s.toString().toLowerCase();if(z.length()<2){ TextView hint=txt("Digite pelo menos 2 caracteres para pesquisar.",12,false); hint.setTextColor(MUTED); results.addView(hint); return; }for(Item x:all)if((x.title+" "+x.author+" "+x.meta+" "+x.desc).toLowerCase().contains(z))results.addView(bigCard(x));} public void afterTextChanged(android.text.Editable e){}});
         q.requestFocus(); ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).showSoftInput(q,InputMethodManager.SHOW_IMPLICIT);
     }
 
@@ -203,7 +213,7 @@ public class MainActivity extends Activity {
         Button fav=btn(isFav(x)?"♥ Favoritado":"♡ Favoritar");inf.addView(fav,new LinearLayout.LayoutParams(-1,dp(42)));fav.setOnClickListener(v->{toggleFav(x);fav.setText(isFav(x)?"♥ Favoritado":"♡ Favoritar");});
         top.addView(inf,new LinearLayout.LayoutParams(0,-2,1)); body.addView(top);
         body.addView(section("Sobre")); TextView d=txt(x.desc,13,false);d.setTextColor(Color.rgb(204,214,228));body.addView(d);
-        Button go=btn(x.meta.contains("AUDIO")?"▶ OUVIR AGORA":x.meta.contains("ONLINE")?"▶ COMEÇAR CURSO":"▶ LER AGORA");go.setTextSize(15);LinearLayout.LayoutParams gp=new LinearLayout.LayoutParams(-1,dp(54));gp.setMargins(0,dp(18),0,dp(10));body.addView(go,gp);go.setOnClickListener(v->{saveRecent(x);openOnline(x);});
+        Button go=btn("AUDIO".equals(x.kind)?"▶ OUVIR AGORA":"CURSO".equals(x.kind)?"▶ COMEÇAR CURSO":"▶ LER AGORA");go.setTextSize(15);LinearLayout.LayoutParams gp=new LinearLayout.LayoutParams(-1,dp(54));gp.setMargins(0,dp(18),0,dp(10));body.addView(go,gp);go.setOnClickListener(v->{saveRecent(x);openOnline(x);});
         TextView source=txt("Fonte: "+x.author+"\\nO conteúdo é carregado online pela plataforma responsável.",10,false);source.setTextColor(MUTED);body.addView(source);
     }
 
@@ -215,8 +225,9 @@ public class MainActivity extends Activity {
     String favKey(Item x){return "fav_"+x.kind+"_"+x.title.hashCode();}
     boolean isFav(Item x){return prefs!=null&&prefs.getBoolean(favKey(x),false);}
     void toggleFav(Item x){prefs.edit().putBoolean(favKey(x),!isFav(x)).apply();}
-    void saveRecent(Item x){recent.remove(x);recent.add(0,x);while(recent.size()>8)recent.remove(recent.size()-1);StringBuilder s=new StringBuilder();for(Item y:recent)s.append(y.kind).append("|").append(y.title).append("||");prefs.edit().putString("recent",s.toString()).apply();}
-    void loadRecent(){String raw=prefs==null?"":prefs.getString("recent","");if(raw.length()==0)return;for(String z:raw.split("\\\\|\\\\|")){if(z.length()==0)continue;String[] q=z.split("\\\\|",2);if(q.length<2)continue;for(Item x:all)if(x.kind.equals(q[0])&&x.title.equals(q[1])){recent.add(x);break;}}}    void loadCover(ImageView image,String url,String title){
+    void saveRecent(Item x){recent.remove(x);recent.add(0,x);while(recent.size()>8)recent.remove(recent.size()-1);StringBuilder s=new StringBuilder();for(Item y:recent)s.append(y.kind).append("\u0001").append(y.title).append("\u0002");prefs.edit().putString("recent_v2",s.toString()).apply();}
+    void loadRecent(){String raw=prefs==null?"":prefs.getString("recent_v2","");if(raw.length()==0)return;for(String z:raw.split("\u0002")){if(z.length()==0)continue;String[] q=z.split("\u0001",2);if(q.length<2)continue;for(Item x:all)if(q[0].equals(x.kind)&&q[1].equals(x.title)){if(!recent.contains(x))recent.add(x);break;}}}
+    void loadCover(ImageView image,String url,String title){
         new Thread(()->{try{
             HttpURLConnection c=(HttpURLConnection)new URL(url).openConnection();
             c.setConnectTimeout(7000); c.setReadTimeout(9000); c.setUseCaches(true);
@@ -226,7 +237,7 @@ public class MainActivity extends Activity {
     }
 
     void openOnline(Item item){
-        base(); header(item.meta.contains("AUDIO")?"Reprodutor":"Conteúdo online");
+        base(); header("AUDIO".equals(item.kind)?"Reprodutor de áudio":"Conteúdo online");
         LinearLayout top=new LinearLayout(this); top.setGravity(Gravity.CENTER_VERTICAL);
         TextView t=txt(item.title,15,true);t.setMaxLines(2);top.addView(t,new LinearLayout.LayoutParams(0,dp(54),1));
         Button back=btn("← Voltar");top.addView(back,new LinearLayout.LayoutParams(dp(92),dp(46)));body.addView(top);back.setOnClickListener(v->detail(item));
@@ -303,10 +314,10 @@ public class MainActivity extends Activity {
         }[i%4];}
     }
 
-    void addBook(String t,String a,String d,String u,String c){books.add(new Item(t,a,d,u,c,"LIVRO")); }
-    void addAudio(String t,String a,String d,String u,String c){audios.add(new Item(t,a,d,u,c,"AUDIO")); }
+    void addBook(String t,String a,String d,String u,String c){books.add(new Item(t,a,d,u,c,"LIVRO","LIVRO")); }
+    void addAudio(String t,String a,String d,String u,String c){audios.add(new Item(t,a,d,u,c,"AUDIO","AUDIO")); }
     void addEbook(String t,String a,String d,String u,String m){ebooks.add(new Item(t,a,d,u,"",m));}
-    void addCourse(String t,String a,String d,String u){courses.add(new Item(t,a,d,u,"","CURSO"));}
+    void addCourse(String t,String a,String d,String u){courses.add(new Item(t,a,d,u,"","CURSO","CURSO"));}
 
 
     @Override public void onBackPressed(){ home(); }
