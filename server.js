@@ -1983,7 +1983,11 @@ async function criarTabelas() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
 
-      CREATE TABLE IF NOT EXISTS multiplay_devices ( device_id VARCHAR(128) PRIMARY KEY, device_key VARCHAR(128) NOT NULL, customer_username VARCHAR(100), active BOOLEAN DEFAULT TRUE, expires_at TIMESTAMP NULL, playlist_name VARCHAR(200), playlist_url TEXT, epg_url TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP );
+      CREATE TABLE IF NOT EXISTS multiplay_devices ( device_id VARCHAR(128) PRIMARY KEY, device_key VARCHAR(128) NOT NULL, customer_username VARCHAR(100), active BOOLEAN DEFAULT TRUE, expires_at TIMESTAMP NULL, trial_started_at TIMESTAMP NULL, trial_expires_at TIMESTAMP NULL, activation_expires_at TIMESTAMP NULL, activated_at TIMESTAMP NULL, playlist_name VARCHAR(200), playlist_url TEXT, epg_url TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP );
+      ALTER TABLE multiplay_devices ADD COLUMN IF NOT EXISTS trial_started_at TIMESTAMP NULL;
+      ALTER TABLE multiplay_devices ADD COLUMN IF NOT EXISTS trial_expires_at TIMESTAMP NULL;
+      ALTER TABLE multiplay_devices ADD COLUMN IF NOT EXISTS activation_expires_at TIMESTAMP NULL;
+      ALTER TABLE multiplay_devices ADD COLUMN IF NOT EXISTS activated_at TIMESTAMP NULL;
 
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -2135,15 +2139,37 @@ async function garantirTabelaDispositivos() {
       customer_username VARCHAR(100),
       active BOOLEAN DEFAULT TRUE,
       expires_at TIMESTAMP NULL,
+      trial_started_at TIMESTAMP NULL,
+      trial_expires_at TIMESTAMP NULL,
+      activation_expires_at TIMESTAMP NULL,
+      activated_at TIMESTAMP NULL,
       playlist_name VARCHAR(200),
       playlist_url TEXT,
       epg_url TEXT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
+    );
+    ALTER TABLE multiplay_devices ADD COLUMN IF NOT EXISTS trial_started_at TIMESTAMP NULL;
+    ALTER TABLE multiplay_devices ADD COLUMN IF NOT EXISTS trial_expires_at TIMESTAMP NULL;
+    ALTER TABLE multiplay_devices ADD COLUMN IF NOT EXISTS activation_expires_at TIMESTAMP NULL;
+    ALTER TABLE multiplay_devices ADD COLUMN IF NOT EXISTS activated_at TIMESTAMP NULL;
   `);
 }
+
 garantirTabelaDispositivos().catch(e => console.error('MultiPlay devices:', e.message));
+
+function estadoDispositivo(d) {
+  const agora = new Date();
+  if (!d.active) return { status:'INATIVO', active:false, expired:false, days_remaining:0, effective_expires_at:d.expires_at||null };
+  const trialEnd = d.trial_expires_at ? new Date(d.trial_expires_at) : null;
+  const paidEnd = d.activation_expires_at ? new Date(d.activation_expires_at) : null;
+  const effective = paidEnd && paidEnd > agora ? paidEnd : trialEnd;
+  const expired = !effective || effective < agora;
+  const paid = !!(paidEnd && paidEnd >= agora);
+  const status = expired ? 'EXPIRADO' : (paid ? 'ATIVO' : 'TESTE');
+  const days = effective ? Math.max(0, Math.ceil((effective.getTime()-agora.getTime())/86400000)) : 0;
+  return { status, active:!expired, expired, paid, days_remaining:days, effective_expires_at:effective };
+}
 
 app.get('/api/device/status', async (req,res)=>{
   const {device_id,device_key}=req.query||{};
@@ -2151,20 +2177,29 @@ app.get('/api/device/status', async (req,res)=>{
   try{
     const q=await pool.query('SELECT * FROM multiplay_devices WHERE device_id=$1 AND device_key=$2',[device_id,device_key]);
     if(!q.rows.length) return res.json({success:true,registered:false});
-    const d=q.rows[0], expired=d.expires_at && new Date(d.expires_at)<new Date();
-    return res.json({success:true,registered:true,active:!!d.active&&!expired,expires_at:d.expires_at,playlist_name:d.playlist_name||null,has_playlist:!!d.playlist_url});
+    const d=q.rows[0], st=estadoDispositivo(d);
+    return res.json({
+      success:true, registered:true, active:st.active, status:st.status,
+      trial_expires_at:d.trial_expires_at, activation_expires_at:d.activation_expires_at,
+      expires_at:st.effective_expires_at, days_remaining:st.days_remaining,
+      playlist_name:d.playlist_name||null, has_playlist:!!d.playlist_url,
+      requires_activation:st.status==='TESTE' && st.days_remaining<=0
+    });
   }catch(e){return res.status(500).json({success:false,message:'Erro ao consultar dispositivo.'});}
 });
 
 app.post('/api/device/register', async (req,res)=>{
-  const {device_id,device_key,customer_username,expires_at}=req.body||{};
+  const {device_id,device_key,customer_username}=req.body||{};
   if(!device_id||!device_key) return res.status(400).json({success:false,message:'Device ID e Device Key são obrigatórios.'});
   try{
-    await pool.query(`INSERT INTO multiplay_devices(device_id,device_key,customer_username,expires_at)
-      VALUES($1,$2,$3,$4)
-      ON CONFLICT(device_id) DO UPDATE SET device_key=EXCLUDED.device_key,customer_username=EXCLUDED.customer_username,expires_at=EXCLUDED.expires_at,updated_at=NOW()`,
-      [device_id,device_key,customer_username||null,expires_at||null]);
-    return res.json({success:true,message:'Dispositivo registrado.'});
+    const exists=await pool.query('SELECT device_id FROM multiplay_devices WHERE device_id=$1',[device_id]);
+    if(exists.rows.length) return res.json({success:true,message:'Dispositivo já registrado.'});
+    const trialStart=new Date();
+    const trialEnd=new Date(trialStart.getTime()+7*86400000);
+    await pool.query(`INSERT INTO multiplay_devices(device_id,device_key,customer_username,active,expires_at,trial_started_at,trial_expires_at)
+      VALUES($1,$2,$3,TRUE,$4,$5,$4)`,
+      [device_id,device_key,customer_username||null,trialEnd,trialStart]);
+    return res.json({success:true,message:'Dispositivo registrado com teste de 7 dias.',trial_expires_at:trialEnd});
   }catch(e){return res.status(500).json({success:false,message:'Erro ao registrar dispositivo.'});}
 });
 
@@ -2172,44 +2207,67 @@ app.get('/api/device/manage/status', async (req,res)=>{
   const {device_id,device_key}=req.query||{};
   if(!device_id||!device_key) return res.status(400).json({success:false,message:'Device ID e Device Key são obrigatórios.'});
   try{
-    const q=await pool.query('SELECT device_id,customer_username,active,expires_at,playlist_name,playlist_url,epg_url FROM multiplay_devices WHERE device_id=$1 AND device_key=$2',[device_id,device_key]);
+    const q=await pool.query('SELECT device_id,customer_username,active,expires_at,trial_started_at,trial_expires_at,activation_expires_at,activated_at,playlist_name,playlist_url,epg_url FROM multiplay_devices WHERE device_id=$1 AND device_key=$2',[device_id,device_key]);
     if(!q.rows.length) return res.json({success:true,registered:false});
-    const d=q.rows[0], expired=d.expires_at&&new Date(d.expires_at)<new Date();
-    return res.json({success:true,registered:true,active:!!d.active&&!expired,expires_at:d.expires_at,playlist_name:d.playlist_name||null,playlist_url:d.playlist_url||null,epg_url:d.epg_url||null,customer_username:d.customer_username||null});
+    const d=q.rows[0], st=estadoDispositivo(d);
+    return res.json({
+      success:true, registered:true, active:st.active, status:st.status,
+      trial_started_at:d.trial_started_at, trial_expires_at:d.trial_expires_at,
+      activation_expires_at:d.activation_expires_at, expires_at:st.effective_expires_at,
+      days_remaining:st.days_remaining, requires_activation:st.status==='EXPIRADO',
+      playlist_name:d.playlist_name||null, playlist_url:d.playlist_url||null,
+      epg_url:d.epg_url||null, customer_username:d.customer_username||null
+    });
   }catch(e){return res.status(500).json({success:false,message:'Erro ao consultar dispositivo.'});}
 });
 
 app.post('/api/device/manage', async (req,res)=>{
   const {device_id,device_key,playlist_name,playlist_url,epg_url}=req.body||{};
   if(!device_id||!device_key||!playlist_url) return res.status(400).json({success:false,message:'Device ID, Device Key e URL M3U são obrigatórios.'});
-  if(!/^https?:\\/\\//i.test(playlist_url)) return res.status(400).json({success:false,message:'A M3U precisa ser uma URL HTTP/HTTPS.'});
+  if(!/^https?:\/\//i.test(playlist_url)) return res.status(400).json({success:false,message:'A M3U precisa ser uma URL HTTP/HTTPS.'});
   try{
-    const current=await pool.query('SELECT device_id,active,expires_at FROM multiplay_devices WHERE device_id=$1 AND device_key=$2',[device_id,device_key]);
+    const current=await pool.query('SELECT * FROM multiplay_devices WHERE device_id=$1 AND device_key=$2',[device_id,device_key]);
     if(!current.rows.length) return res.status(404).json({success:false,message:'Dispositivo não cadastrado.'});
-    const d=current.rows[0], expired=d.expires_at&&new Date(d.expires_at)<new Date();
-    if(!d.active||expired) return res.status(403).json({success:false,message:'Dispositivo inativo ou expirado.'});
+    const d=current.rows[0], st=estadoDispositivo(d);
+    if(!d.active) return res.status(403).json({success:false,message:'Dispositivo desativado.'});
+    if(st.status==='EXPIRADO') return res.status(403).json({success:false,message:'Teste encerrado. Faça a ativação anual para continuar.'});
     const duplicada=await pool.query('SELECT device_id FROM multiplay_devices WHERE playlist_url=$1 AND device_id<>$2 LIMIT 1',[playlist_url,device_id]);
     if(duplicada.rows.length) return res.status(409).json({success:false,message:'Esta M3U já está vinculada a outro cliente. Cada cliente deve usar uma M3U exclusiva.'});
     await pool.query('UPDATE multiplay_devices SET playlist_name=$1,playlist_url=$2,epg_url=$3,updated_at=NOW() WHERE device_id=$4 AND device_key=$5',[playlist_name||'Multiplay',playlist_url,epg_url||null,device_id,device_key]);
-    return res.json({success:true,message:'Playlist exclusiva salva com sucesso.'});
+    return res.json({success:true,message:'Playlist exclusiva salva com sucesso.',status:st.status,days_remaining:st.days_remaining});
   }catch(e){return res.status(500).json({success:false,message:'Erro ao salvar playlist.'});}
+});
+
+app.post('/api/admin/devices/:deviceId/activate', exigirAdmin, async (req,res)=>{
+  const deviceId=req.params.deviceId;
+  const years=Math.max(1,Math.min(3,Number(req.body?.years)||1));
+  try{
+    const q=await pool.query('SELECT * FROM multiplay_devices WHERE device_id=$1',[deviceId]);
+    if(!q.rows.length) return res.status(404).json({success:false,message:'Dispositivo não encontrado.'});
+    const d=q.rows[0];
+    const now=new Date();
+    const base=d.activation_expires_at && new Date(d.activation_expires_at)>now ? new Date(d.activation_expires_at) : now;
+    const paidUntil=new Date(base.getTime()+years*365*86400000);
+    await pool.query('UPDATE multiplay_devices SET active=TRUE,activation_expires_at=$1,expires_at=$1,activated_at=NOW(),updated_at=NOW() WHERE device_id=$2',[paidUntil,deviceId]);
+    return res.json({success:true,message:`Ativação anual liberada por ${years} ano(s).`,activation_expires_at:paidUntil});
+  }catch(e){return res.status(500).json({success:false,message:'Erro ao ativar dispositivo.'});}
 });
 
 app.get('/api/device/playlist', async (req,res)=>{
   const {device_id,device_key}=req.query||{};
   if(!device_id||!device_key) return res.status(400).json({success:false,message:'Credenciais do dispositivo ausentes.'});
   try{
-    const q=await pool.query('SELECT playlist_name,playlist_url,epg_url,active,expires_at FROM multiplay_devices WHERE device_id=$1 AND device_key=$2',[device_id,device_key]);
+    const q=await pool.query('SELECT playlist_name,playlist_url,epg_url,active,expires_at,trial_expires_at,activation_expires_at FROM multiplay_devices WHERE device_id=$1 AND device_key=$2',[device_id,device_key]);
     if(!q.rows.length) return res.status(404).json({success:false,message:'Dispositivo não registrado.'});
-    const d=q.rows[0], expired=d.expires_at&&new Date(d.expires_at)<new Date();
-    if(!d.active||expired) return res.status(403).json({success:false,message:'Dispositivo inativo ou expirado.'});
-    return res.json({success:true,playlist_name:d.playlist_name,playlist_url:d.playlist_url,epg_url:d.epg_url});
+    const d=q.rows[0], st=estadoDispositivo(d);
+    if(!st.active) return res.status(403).json({success:false,message:st.status==='EXPIRADO'?'Assinatura expirada. Faça a ativação anual.':'Dispositivo inativo.'});
+    return res.json({success:true,playlist_name:d.playlist_name,playlist_url:d.playlist_url,epg_url:d.epg_url,status:st.status,days_remaining:st.days_remaining,expires_at:st.effective_expires_at});
   }catch(e){return res.status(500).json({success:false,message:'Erro ao sincronizar playlist.'});}
 });
 
 app.get('/api/admin/devices', exigirAdmin, async (req,res)=>{
   try{
-    const q=await pool.query('SELECT device_id,device_key,customer_username,active,expires_at,playlist_name,playlist_url,epg_url,created_at,updated_at FROM multiplay_devices ORDER BY created_at DESC');
+    const q=await pool.query('SELECT device_id,device_key,customer_username,active,expires_at,trial_started_at,trial_expires_at,activation_expires_at,activated_at,playlist_name,playlist_url,epg_url,created_at,updated_at FROM multiplay_devices ORDER BY created_at DESC');
     res.json({success:true,devices:q.rows});
   }catch(e){res.status(500).json({success:false,message:'Erro ao listar dispositivos.'});}
 });
@@ -2217,29 +2275,27 @@ app.get('/api/admin/devices', exigirAdmin, async (req,res)=>{
 app.post('/api/admin/devices', exigirAdmin, async (req,res)=>{
   const {device_id,device_key,customer_username,expires_at,playlist_name,playlist_url,epg_url,active}=req.body||{};
   if(!device_id||!device_key) return res.status(400).json({success:false,message:'Device ID e Device Key são obrigatórios.'});
-  if(playlist_url && !/^https?:\\/\\//i.test(playlist_url)) return res.status(400).json({success:false,message:'A playlist precisa ser uma URL HTTP/HTTPS.'});
+  if(playlist_url && !/^https?:\/\//i.test(playlist_url)) return res.status(400).json({success:false,message:'A playlist precisa ser uma URL HTTP/HTTPS.'});
   try{
     if(playlist_url){
-      const duplicada=await pool.query(
-        'SELECT device_id,customer_username FROM multiplay_devices WHERE playlist_url=$1 AND device_id<>$2 LIMIT 1',
-        [playlist_url,device_id]
-      );
-      if(duplicada.rows.length){
-        return res.status(409).json({
-          success:false,
-          message:'Esta M3U já está vinculada a outro cliente. Cada cliente deve usar uma M3U exclusiva.'
-        });
-      }
+      const duplicada=await pool.query('SELECT device_id FROM multiplay_devices WHERE playlist_url=$1 AND device_id<>$2 LIMIT 1',[playlist_url,device_id]);
+      if(duplicada.rows.length) return res.status(409).json({success:false,message:'Esta M3U já está vinculada a outro cliente. Cada cliente deve usar uma M3U exclusiva.'});
     }
-
-    await pool.query(`INSERT INTO multiplay_devices(device_id,device_key,customer_username,active,expires_at,playlist_name,playlist_url,epg_url)
-      VALUES($1,$2,$3,$4,$5,$6,$7,$8)
-      ON CONFLICT(device_id) DO UPDATE SET device_key=EXCLUDED.device_key,customer_username=EXCLUDED.customer_username,active=EXCLUDED.active,expires_at=EXCLUDED.expires_at,playlist_name=EXCLUDED.playlist_name,playlist_url=EXCLUDED.playlist_url,epg_url=EXCLUDED.epg_url,updated_at=NOW()`,
-      [device_id,device_key,customer_username||null,active!==false,expires_at||null,playlist_name||null,playlist_url||null,epg_url||null]);
-    res.json({success:true,message:'Cliente e M3U exclusiva atualizados.'});
+    const existing=await pool.query('SELECT trial_started_at,trial_expires_at,activation_expires_at FROM multiplay_devices WHERE device_id=$1',[device_id]);
+    if(!existing.rows.length){
+      const trialStart=new Date();
+      const trialEnd=new Date(trialStart.getTime()+7*86400000);
+      await pool.query(`INSERT INTO multiplay_devices(device_id,device_key,customer_username,active,expires_at,trial_started_at,trial_expires_at,activation_expires_at,playlist_name,playlist_url,epg_url)
+        VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
+        [device_id,device_key,customer_username||null,active!==false,expires_at||trialEnd,trialStart,trialEnd,expires_at||null,playlist_name||null,playlist_url||null,epg_url||null]);
+    }else{
+      await pool.query(`UPDATE multiplay_devices SET device_key=$1,customer_username=$2,active=$3,playlist_name=$4,playlist_url=$5,epg_url=$6,updated_at=NOW()
+        WHERE device_id=$7`,
+        [device_key,customer_username||null,active!==false,playlist_name||null,playlist_url||null,epg_url||null,device_id]);
+    }
+    res.json({success:true,message:'Dispositivo salvo. Novo dispositivo recebe 7 dias de teste; ativação anual é liberada separadamente.'});
   }catch(e){res.status(500).json({success:false,message:'Erro ao salvar dispositivo.'});}
 });
-
 /* =========================
    SERVIDOR
 ========================= */
