@@ -481,7 +481,7 @@ expires_at TIMESTAMP NULL,
 xtream_user VARCHAR(100),
 xtream_pass VARCHAR(255),
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    `);
+    );
 
     console.log('MultiPlay: tabelas verificadas com sucesso');
   } catch (error) {
