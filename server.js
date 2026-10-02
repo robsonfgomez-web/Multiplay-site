@@ -2192,11 +2192,24 @@ app.post('/api/admin/devices', exigirAdmin, async (req,res)=>{
   if(!device_id||!device_key) return res.status(400).json({success:false,message:'Device ID e Device Key são obrigatórios.'});
   if(playlist_url && !/^https?:\\/\\//i.test(playlist_url)) return res.status(400).json({success:false,message:'A playlist precisa ser uma URL HTTP/HTTPS.'});
   try{
+    if(playlist_url){
+      const duplicada=await pool.query(
+        'SELECT device_id,customer_username FROM multiplay_devices WHERE playlist_url=$1 AND device_id<>$2 LIMIT 1',
+        [playlist_url,device_id]
+      );
+      if(duplicada.rows.length){
+        return res.status(409).json({
+          success:false,
+          message:'Esta M3U já está vinculada a outro cliente. Cada cliente deve usar uma M3U exclusiva.'
+        });
+      }
+    }
+
     await pool.query(`INSERT INTO multiplay_devices(device_id,device_key,customer_username,active,expires_at,playlist_name,playlist_url,epg_url)
       VALUES($1,$2,$3,$4,$5,$6,$7,$8)
       ON CONFLICT(device_id) DO UPDATE SET device_key=EXCLUDED.device_key,customer_username=EXCLUDED.customer_username,active=EXCLUDED.active,expires_at=EXCLUDED.expires_at,playlist_name=EXCLUDED.playlist_name,playlist_url=EXCLUDED.playlist_url,epg_url=EXCLUDED.epg_url,updated_at=NOW()`,
       [device_id,device_key,customer_username||null,active!==false,expires_at||null,playlist_name||null,playlist_url||null,epg_url||null]);
-    res.json({success:true,message:'Dispositivo e playlist atualizados.'});
+    res.json({success:true,message:'Cliente e M3U exclusiva atualizados.'});
   }catch(e){res.status(500).json({success:false,message:'Erro ao salvar dispositivo.'});}
 });
 
