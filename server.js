@@ -2127,6 +2127,83 @@ app.get(
 );
 
 /* =========================
+   MULTIPLAY 2.0 - DISPOSITIVOS
+========================= */
+
+async function garantirTabelaDispositivos() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS multiplay_devices (
+      device_id VARCHAR(128) PRIMARY KEY,
+      device_key VARCHAR(128) NOT NULL,
+      customer_username VARCHAR(100),
+      active BOOLEAN DEFAULT TRUE,
+      expires_at TIMESTAMP NULL,
+      playlist_name VARCHAR(200),
+      playlist_url TEXT,
+      epg_url TEXT,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+}
+garantirTabelaDispositivos().catch(e => console.error('MultiPlay devices:', e.message));
+
+app.get('/api/device/status', async (req,res)=>{
+  const {device_id,device_key}=req.query||{};
+  if(!device_id||!device_key) return res.status(400).json({success:false,message:'Device ID e Device Key são obrigatórios.'});
+  try{
+    const q=await pool.query('SELECT * FROM multiplay_devices WHERE device_id=$1 AND device_key=$2',[device_id,device_key]);
+    if(!q.rows.length) return res.json({success:true,registered:false});
+    const d=q.rows[0], expired=d.expires_at && new Date(d.expires_at)<new Date();
+    return res.json({success:true,registered:true,active:!!d.active&&!expired,expires_at:d.expires_at,playlist_name:d.playlist_name||null,has_playlist:!!d.playlist_url});
+  }catch(e){return res.status(500).json({success:false,message:'Erro ao consultar dispositivo.'});}
+});
+
+app.post('/api/device/register', async (req,res)=>{
+  const {device_id,device_key,customer_username,expires_at}=req.body||{};
+  if(!device_id||!device_key) return res.status(400).json({success:false,message:'Device ID e Device Key são obrigatórios.'});
+  try{
+    await pool.query(`INSERT INTO multiplay_devices(device_id,device_key,customer_username,expires_at)
+      VALUES($1,$2,$3,$4)
+      ON CONFLICT(device_id) DO UPDATE SET device_key=EXCLUDED.device_key,customer_username=EXCLUDED.customer_username,expires_at=EXCLUDED.expires_at,updated_at=NOW()`,
+      [device_id,device_key,customer_username||null,expires_at||null]);
+    return res.json({success:true,message:'Dispositivo registrado.'});
+  }catch(e){return res.status(500).json({success:false,message:'Erro ao registrar dispositivo.'});}
+});
+
+app.get('/api/device/playlist', async (req,res)=>{
+  const {device_id,device_key}=req.query||{};
+  if(!device_id||!device_key) return res.status(400).json({success:false,message:'Credenciais do dispositivo ausentes.'});
+  try{
+    const q=await pool.query('SELECT playlist_name,playlist_url,epg_url,active,expires_at FROM multiplay_devices WHERE device_id=$1 AND device_key=$2',[device_id,device_key]);
+    if(!q.rows.length) return res.status(404).json({success:false,message:'Dispositivo não registrado.'});
+    const d=q.rows[0], expired=d.expires_at&&new Date(d.expires_at)<new Date();
+    if(!d.active||expired) return res.status(403).json({success:false,message:'Dispositivo inativo ou expirado.'});
+    return res.json({success:true,playlist_name:d.playlist_name,playlist_url:d.playlist_url,epg_url:d.epg_url});
+  }catch(e){return res.status(500).json({success:false,message:'Erro ao sincronizar playlist.'});}
+});
+
+app.get('/api/admin/devices', exigirAdmin, async (req,res)=>{
+  try{
+    const q=await pool.query('SELECT device_id,device_key,customer_username,active,expires_at,playlist_name,playlist_url,epg_url,created_at,updated_at FROM multiplay_devices ORDER BY created_at DESC');
+    res.json({success:true,devices:q.rows});
+  }catch(e){res.status(500).json({success:false,message:'Erro ao listar dispositivos.'});}
+});
+
+app.post('/api/admin/devices', exigirAdmin, async (req,res)=>{
+  const {device_id,device_key,customer_username,expires_at,playlist_name,playlist_url,epg_url,active}=req.body||{};
+  if(!device_id||!device_key) return res.status(400).json({success:false,message:'Device ID e Device Key são obrigatórios.'});
+  if(playlist_url && !/^https?:\\/\\//i.test(playlist_url)) return res.status(400).json({success:false,message:'A playlist precisa ser uma URL HTTP/HTTPS.'});
+  try{
+    await pool.query(`INSERT INTO multiplay_devices(device_id,device_key,customer_username,active,expires_at,playlist_name,playlist_url,epg_url)
+      VALUES($1,$2,$3,$4,$5,$6,$7,$8)
+      ON CONFLICT(device_id) DO UPDATE SET device_key=EXCLUDED.device_key,customer_username=EXCLUDED.customer_username,active=EXCLUDED.active,expires_at=EXCLUDED.expires_at,playlist_name=EXCLUDED.playlist_name,playlist_url=EXCLUDED.playlist_url,epg_url=EXCLUDED.epg_url,updated_at=NOW()`,
+      [device_id,device_key,customer_username||null,active!==false,expires_at||null,playlist_name||null,playlist_url||null,epg_url||null]);
+    res.json({success:true,message:'Dispositivo e playlist atualizados.'});
+  }catch(e){res.status(500).json({success:false,message:'Erro ao salvar dispositivo.'});}
+});
+
+/* =========================
    SERVIDOR
 ========================= */
 
