@@ -25,5 +25,5 @@ jobs:
           $ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -1)/apksigner verify android-educacao/app/build/outputs/apk/debug/app-debug.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: Multiplay-Educacao-1.1.0-Android
+          name: Multiplay-Educacao-1.2.0-Android
           path: android-educacao/app/build/outputs/apk/debug/app-debug.apk
