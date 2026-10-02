@@ -144,7 +144,9 @@ public class MainActivity extends Activity {
         String data=get("/api/device/playlist?device_id="+enc(deviceId)+"&device_key="+enc(deviceKey));
         String url=json(data,"playlist_url");playlistName=json(data,"playlist_name");
         if(url==null||url.isEmpty()){runOnUiThread(()->home("Playlist não encontrada. Toque em Atualizar novamente."));return;}
-        parseM3U(getAbsolute(url));
+        String m3u=getRaw("/api/device/playlist/content?device_id="+enc(deviceId)+"&device_key="+enc(deviceKey));
+        parseM3U(m3u);
+        if(items.isEmpty()) parseM3U(getAbsolute(url));
         runOnUiThread(()->home("Playlist sincronizada: "+(playlistName.isEmpty()?"Multiplay":playlistName)+" • "+items.size()+" conteúdos"));
       }catch(Exception e){String msg=e.getMessage();if(msg==null||msg.isEmpty())msg="erro de conexão";String finalMsg=msg;runOnUiThread(()->home("Falha ao atualizar: "+finalMsg+"\nAbra MEU DISPOSITIVO e confira ID + KEY."));}
     }).start();
@@ -153,14 +155,18 @@ public class MainActivity extends Activity {
     URL u=new URL(API+"/api/device/register");HttpURLConnection c=(HttpURLConnection)u.openConnection();c.setRequestMethod("POST");c.setDoOutput(true);c.setConnectTimeout(15000);c.setReadTimeout(15000);c.setRequestProperty("Content-Type","application/json");
     String body="{\"device_id\":\""+deviceId+"\",\"device_key\":\""+deviceKey+"\"}";c.getOutputStream().write(body.getBytes(StandardCharsets.UTF_8));c.getInputStream().close();
   }
+  String getRaw(String path)throws Exception{URL u=new URL(API+path);HttpURLConnection c=(HttpURLConnection)u.openConnection();c.setRequestMethod("GET");c.setConnectTimeout(15000);c.setReadTimeout(90000);c.setRequestProperty("Accept","application/x-mpegURL,audio/x-mpegurl,text/plain,*/*");int code=c.getResponseCode();InputStream in=code>=400?c.getErrorStream():c.getInputStream();if(in==null)throw new IOException("HTTP "+code);BufferedReader r=new BufferedReader(new InputStreamReader(in,StandardCharsets.UTF_8));StringBuilder s=new StringBuilder();String l;while((l=r.readLine())!=null)s.append(l).append("\n");r.close();if(code>=400)throw new IOException("HTTP "+code);return s.toString();}
   String get(String path)throws Exception{URL u=new URL(API+path);HttpURLConnection c=(HttpURLConnection)u.openConnection();c.setRequestMethod("GET");c.setConnectTimeout(15000);c.setReadTimeout(60000);InputStream in=c.getResponseCode()>=400?c.getErrorStream():c.getInputStream();if(in==null)throw new IOException("HTTP");BufferedReader r=new BufferedReader(new InputStreamReader(in,StandardCharsets.UTF_8));StringBuilder s=new StringBuilder();String l;while((l=r.readLine())!=null)s.append(l);r.close();return s.toString();}
-  String getAbsolute(String url)throws Exception{HttpURLConnection c=(HttpURLConnection)new URL(url).openConnection();c.setConnectTimeout(15000);c.setReadTimeout(60000);c.setRequestProperty("User-Agent","Multiplay/2.0.2");InputStream in=c.getInputStream();BufferedReader r=new BufferedReader(new InputStreamReader(in,StandardCharsets.UTF_8));StringBuilder s=new StringBuilder();StringBuilder out=new StringBuilder();String l;while((l=r.readLine())!=null)out.append(l).append("\n");r.close();return out.toString();}
+  String getAbsolute(String url)throws Exception{HttpURLConnection c=(HttpURLConnection)new URL(url).openConnection();c.setConnectTimeout(15000);c.setReadTimeout(90000);c.setRequestProperty("User-Agent","Multiplay/2.0.2");c.setRequestProperty("Accept","application/x-mpegURL,audio/x-mpegurl,text/plain,*/*");int code=c.getResponseCode();InputStream in=code>=400?c.getErrorStream():c.getInputStream();if(in==null)throw new IOException("HTTP "+code);BufferedReader r=new BufferedReader(new InputStreamReader(in,StandardCharsets.UTF_8));StringBuilder out=new StringBuilder();String l;while((l=r.readLine())!=null)out.append(l).append("\n");r.close();if(code>=400)throw new IOException("Playlist HTTP "+code);return out.toString();}
   String enc(String s)throws Exception{return URLEncoder.encode(s,"UTF-8");}
   boolean jsonBool(String j,String key){Matcher m=Pattern.compile("\""+Pattern.quote(key)+"\"\\s*:\\s*(true|false)",Pattern.CASE_INSENSITIVE).matcher(j);return m.find()&&"true".equalsIgnoreCase(m.group(1));}
   String json(String j,String key){Matcher m=Pattern.compile("\""+Pattern.quote(key)+"\"\\s*:\\s*\"([^\"]*)\"").matcher(j);return m.find()?m.group(1).replace("\\\"","\""):null;}
   void parseM3U(String m3u){
-    items.clear();String n=null,g="",l="";for(String raw:m3u.replace("\r","").split("\n")){String line=raw.trim();
-      if(line.startsWith("#EXTINF")){int c=line.indexOf(',');n=c>=0?line.substring(c+1).trim():"Conteúdo";g=attr(line,"group-title");l=attr(line,"tvg-logo");}
+    items.clear();String n=null,g="",l="";
+    if(m3u==null)m3u="";
+    m3u=m3u.replace("\uFEFF","").replace("\r","");
+    for(String raw:m3u.split("\\n")){String line=raw.trim();
+      if(line.toUpperCase(Locale.ROOT).startsWith("#EXTINF")){int c=line.indexOf(',');n=c>=0?line.substring(c+1).trim():"Conteúdo";g=attr(line,"group-title");l=attr(line,"tvg-logo");}
       else if(!line.isEmpty()&&!line.startsWith("#")&&n!=null){items.add(new Item(n,line,g,l));n=null;g="";l="";}
     }
   }
