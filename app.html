@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#090909">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#090909"
+  >
+
   <title>MultiPlay - Aplicativo</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -351,24 +363,34 @@
     }
 
     @media (min-width: 700px) {
+
       .grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns:
+          repeat(4, minmax(0, 1fr));
       }
+
     }
 
     @media (min-width: 1100px) {
+
       .grid {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-columns:
+          repeat(6, minmax(0, 1fr));
       }
+
     }
 
     @media (min-width: 1400px) {
+
       .grid {
-        grid-template-columns: repeat(7, minmax(0, 1fr));
+        grid-template-columns:
+          repeat(7, minmax(0, 1fr));
       }
+
     }
 
     @media (max-width: 600px) {
+
       .user-name {
         display: none;
       }
@@ -381,24 +403,35 @@
         width: 95px;
         height: 60px;
       }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
+
 <header>
+
   <div class="topbar">
 
     <div class="logo">
       MULTI<span>PLAY</span>
     </div>
 
+
     <div class="user-area">
 
-      <div id="userName" class="user-name">
+      <div
+        id="userName"
+        class="user-name"
+      >
         Cliente
       </div>
+
 
       <button
         class="logout"
@@ -410,20 +443,25 @@
     </div>
 
   </div>
+
 </header>
 
 
 <main>
 
+
   <div class="welcome">
 
     <h1>
+
       Olá,
       <span id="welcomeName">
         Cliente
       </span>
       👋
+
     </h1>
+
 
     <p>
       Escolha o que deseja assistir, ler ou ouvir.
@@ -484,6 +522,7 @@
 
   <section id="homeSection">
 
+
     <section
       id="continueSection"
       class="section hidden"
@@ -500,6 +539,7 @@
         </span>
 
       </div>
+
 
       <div
         id="continueList"
@@ -526,6 +566,7 @@
 
       </div>
 
+
       <div
         id="recentGrid"
         class="grid"
@@ -540,13 +581,16 @@
         <h2>🎬 Filmes</h2>
       </div>
 
+
       <div
         id="homeMovies"
         class="grid"
       >
+
         <div class="loading">
           Carregando...
         </div>
+
       </div>
 
     </section>
@@ -558,13 +602,16 @@
         <h2>📺 Séries</h2>
       </div>
 
+
       <div
         id="homeSeries"
         class="grid"
       >
+
         <div class="loading">
           Carregando...
         </div>
+
       </div>
 
     </section>
@@ -583,13 +630,16 @@
       <h2>📺 Canais</h2>
     </div>
 
+
     <div
       id="channelsGrid"
       class="grid"
     >
+
       <div class="loading">
         Carregando canais...
       </div>
+
     </div>
 
   </section>
@@ -606,13 +656,16 @@
       <h2>🎬 Filmes</h2>
     </div>
 
+
     <div
       id="moviesGrid"
       class="grid"
     >
+
       <div class="loading">
         Carregando filmes...
       </div>
+
     </div>
 
   </section>
@@ -629,13 +682,16 @@
       <h2>📺 Séries</h2>
     </div>
 
+
     <div
       id="seriesGrid"
       class="grid"
     >
+
       <div class="loading">
         Carregando séries...
       </div>
+
     </div>
 
   </section>
@@ -651,6 +707,7 @@
     <div class="section-title">
       <h2>📖 Livros</h2>
     </div>
+
 
     <div
       id="booksGrid"
@@ -671,6 +728,7 @@
       <h2>📚 E-books</h2>
     </div>
 
+
     <div
       id="ebooksGrid"
       class="grid"
@@ -689,6 +747,7 @@
     <div class="section-title">
       <h2>🎧 Audiobooks</h2>
     </div>
+
 
     <div
       id="audioGrid"
@@ -715,6 +774,7 @@
         Série
       </h2>
 
+
       <button
         class="close"
         onclick="closeSeriesModal()"
@@ -723,6 +783,7 @@
       </button>
 
     </div>
+
 
     <div id="episodesList">
       Carregando episódios...
@@ -740,16 +801,21 @@
 ========================= */
 
 const user =
-  sessionStorage.getItem("mp_user");
+  sessionStorage.getItem(
+    "mp_user"
+  );
 
 const type =
-  sessionStorage.getItem("mp_type");
+  sessionStorage.getItem(
+    "mp_type"
+  );
 
 
 if (!user) {
 
   window.location.href =
     "/login.html";
+
 }
 
 
@@ -779,6 +845,10 @@ let livrosData = {
 };
 
 
+/* =========================
+   HISTÓRICO
+========================= */
+
 function getHistory() {
 
   try {
@@ -799,6 +869,7 @@ function getHistory() {
     return [];
 
   }
+
 }
 
 
@@ -813,17 +884,19 @@ function saveHistory(history) {
     )
 
   );
+
 }
 
 
-/* =========================
-   HISTÓRICO
-========================= */
-
 function registerHistory(item) {
 
-  if (!item || !item.id) {
+  if (
+    !item ||
+    !item.id
+  ) {
+
     return;
+
   }
 
 
@@ -849,6 +922,11 @@ function registerHistory(item) {
       item.image ||
       existing.image;
 
+    existing.extension =
+      item.extension ||
+      existing.extension ||
+      "";
+
     existing.updatedAt =
       Date.now();
 
@@ -868,6 +946,9 @@ function registerHistory(item) {
       type:
         item.type,
 
+      extension:
+        item.extension || "",
+
       position:
         0,
 
@@ -885,6 +966,7 @@ function registerHistory(item) {
   saveHistory(history);
 
   renderHistory();
+
 }
 
 
@@ -909,7 +991,9 @@ function updateProgress(
 
 
   if (!item) {
+
     return;
+
   }
 
 
@@ -924,6 +1008,7 @@ function updateProgress(
 
 
   saveHistory(history);
+
 }
 
 
@@ -961,9 +1046,11 @@ function renderHistory() {
     );
 
 
-  recentGrid.innerHTML = "";
+  recentGrid.innerHTML =
+    "";
 
-  continueList.innerHTML = "";
+  continueList.innerHTML =
+    "";
 
 
   if (!history.length) {
@@ -977,6 +1064,7 @@ function renderHistory() {
     );
 
     return;
+
   }
 
 
@@ -989,17 +1077,26 @@ function renderHistory() {
     .slice()
     .sort(
       (a, b) =>
-        Number(b.updatedAt || 0) -
-        Number(a.updatedAt || 0)
+        Number(
+          b.updatedAt || 0
+        ) -
+        Number(
+          a.updatedAt || 0
+        )
     )
     .slice(0, 12)
-    .forEach(item => {
+    .forEach(
+      item => {
 
-      recentGrid.appendChild(
-        createCard(item, true)
-      );
+        recentGrid.appendChild(
+          createCard(
+            item,
+            true
+          )
+        );
 
-    });
+      }
+    );
 
 
   const continueItems =
@@ -1018,8 +1115,12 @@ function renderHistory() {
       .slice()
       .sort(
         (a, b) =>
-          Number(b.updatedAt || 0) -
-          Number(a.updatedAt || 0)
+          Number(
+            b.updatedAt || 0
+          ) -
+          Number(
+            a.updatedAt || 0
+          )
       )
       .slice(0, 10);
 
@@ -1031,6 +1132,7 @@ function renderHistory() {
     );
 
     return;
+
   }
 
 
@@ -1039,87 +1141,100 @@ function renderHistory() {
   );
 
 
-  continueItems.forEach(item => {
+  continueItems.forEach(
+    item => {
 
-    const card =
-      document.createElement(
-        "div"
-      );
-
-
-    card.className =
-      "continue-card";
+      const card =
+        document.createElement(
+          "div"
+        );
 
 
-    const percent =
-      item.duration > 0
-        ? Math.min(
-            100,
-            (
-              item.position /
-              item.duration
-            ) * 100
-          )
-        : 0;
+      card.className =
+        "continue-card";
 
 
-    card.innerHTML = `
-
-      <div class="continue-thumb">
-
-        ${
-          item.image
-
-            ? `
-              <img
-                src="${escapeHtml(item.image)}"
-                alt=""
-              >
-            `
-
-            : `
-              <div class="poster-placeholder">
-                ▶
-              </div>
-            `
-        }
-
-      </div>
+      const percent =
+        item.duration > 0
+          ? Math.min(
+              100,
+              (
+                item.position /
+                item.duration
+              ) * 100
+            )
+          : 0;
 
 
-      <div class="continue-info">
+      card.innerHTML = `
 
-        <strong>
-          ${escapeHtml(item.name)}
-        </strong>
+        <div class="continue-thumb">
 
-        <small>
-          ${typeLabel(item.type)}
-        </small>
+          ${
+            item.image
 
-        <div class="progress">
+              ? `
+                <img
+                  src="${escapeHtml(
+                    item.image
+                  )}"
+                  alt=""
+                >
+              `
 
-          <div
-            style="width:${percent}%"
-          ></div>
+              : `
+                <div class="poster-placeholder">
+                  ▶
+                </div>
+              `
+          }
 
         </div>
 
-      </div>
 
-    `;
+        <div class="continue-info">
+
+          <strong>
+            ${escapeHtml(
+              item.name
+            )}
+          </strong>
 
 
-    card.onclick =
-      () =>
-        openHistoryItem(item);
+          <small>
+            ${typeLabel(
+              item.type
+            )}
+          </small>
 
 
-    continueList.appendChild(
-      card
-    );
+          <div class="progress">
 
-  });
+            <div
+              style="width:${percent}%"
+            ></div>
+
+          </div>
+
+        </div>
+
+      `;
+
+
+      card.onclick =
+        () =>
+          openHistoryItem(
+            item
+          );
+
+
+      continueList.appendChild(
+        card
+      );
+
+    }
+  );
+
 }
 
 
@@ -1154,6 +1269,12 @@ function openHistoryItem(item) {
 
 
   sessionStorage.setItem(
+    "mp_stream_extension",
+    item.extension || ""
+  );
+
+
+  sessionStorage.setItem(
     "mp_resume_position",
     String(
       item.position || 0
@@ -1163,6 +1284,7 @@ function openHistoryItem(item) {
 
   window.location.href =
     "/player.html";
+
 }
 
 
@@ -1174,23 +1296,30 @@ function typeLabel(type) {
 
   const labels = {
 
-    canal: "Canal",
+    canal:
+      "Canal",
 
-    filme: "Filme",
+    filme:
+      "Filme",
 
-    serie: "Série",
+    serie:
+      "Série",
 
-    livro: "Livro",
+    livro:
+      "Livro",
 
-    ebook: "E-book",
+    ebook:
+      "E-book",
 
-    audiobook: "Audiobook"
+    audiobook:
+      "Audiobook"
 
   };
 
 
   return labels[type] ||
     "Conteúdo";
+
 }
 
 
@@ -1228,6 +1357,7 @@ function escapeHtml(value) {
       /'/g,
       "&#039;"
     );
+
 }
 
 
@@ -1276,24 +1406,57 @@ function createCard(
     detectType(item);
 
 
+  const extension =
+    item.extension ||
+    item.container_extension ||
+    "";
+
+
   let icon =
     "📖";
 
 
-  if (contentType === "canal") {
-    icon = "📺";
+  if (
+    contentType ===
+    "canal"
+  ) {
+
+    icon =
+      "📺";
+
   }
 
-  if (contentType === "filme") {
-    icon = "🎬";
+
+  if (
+    contentType ===
+    "filme"
+  ) {
+
+    icon =
+      "🎬";
+
   }
 
-  if (contentType === "serie") {
-    icon = "📺";
+
+  if (
+    contentType ===
+    "serie"
+  ) {
+
+    icon =
+      "📺";
+
   }
 
-  if (contentType === "audiobook") {
-    icon = "🎧";
+
+  if (
+    contentType ===
+    "audiobook"
+  ) {
+
+    icon =
+      "🎧";
+
   }
 
 
@@ -1306,8 +1469,12 @@ function createCard(
 
           ? `
             <img
-              src="${escapeHtml(image)}"
-              alt="${escapeHtml(name)}"
+              src="${escapeHtml(
+                image
+              )}"
+              alt="${escapeHtml(
+                name
+              )}"
               loading="lazy"
             >
           `
@@ -1325,11 +1492,16 @@ function createCard(
     <div class="card-info">
 
       <h3>
-        ${escapeHtml(name)}
+        ${escapeHtml(
+          name
+        )}
       </h3>
 
+
       <p>
-        ${typeLabel(contentType)}
+        ${typeLabel(
+          contentType
+        )}
       </p>
 
     </div>
@@ -1337,46 +1509,58 @@ function createCard(
   `;
 
 
-  card.onclick = () => {
+  card.onclick =
+    () => {
 
-    if (fromHistory) {
+      if (fromHistory) {
 
-      openHistoryItem(item);
+        openHistoryItem(
+          item
+        );
 
-      return;
-    }
+        return;
 
-
-    if (
-      contentType === "serie"
-    ) {
-
-      openSeries(item);
-
-      return;
-    }
+      }
 
 
-    playItem({
+      if (
+        contentType ===
+        "serie"
+      ) {
 
-      id:
-        id,
+        openSeries(
+          item
+        );
 
-      name:
-        name,
+        return;
 
-      image:
-        image,
+      }
 
-      type:
-        contentType
 
-    });
+      playItem({
 
-  };
+        id:
+          id,
+
+        name:
+          name,
+
+        image:
+          image,
+
+        type:
+          contentType,
+
+        extension:
+          extension
+
+      });
+
+    };
 
 
   return card;
+
 }
 
 
@@ -1388,23 +1572,28 @@ function detectType(item) {
 
   if (
     item.series_id ||
-    item.type === "series"
+    item.type ===
+      "series"
   ) {
 
     return "serie";
+
   }
 
 
   if (
     item.stream_id ||
-    item.stream_type === "live"
+    item.stream_type ===
+      "live"
   ) {
 
     return "canal";
+
   }
 
 
   return "filme";
+
 }
 
 
@@ -1414,12 +1603,16 @@ function detectType(item) {
 
 function playItem(item) {
 
-  registerHistory(item);
+  registerHistory(
+    item
+  );
 
 
   sessionStorage.setItem(
     "mp_stream_id",
-    String(item.id)
+    String(
+      item.id
+    )
   );
 
 
@@ -1441,6 +1634,12 @@ function playItem(item) {
   );
 
 
+  sessionStorage.setItem(
+    "mp_stream_extension",
+    item.extension || ""
+  );
+
+
   sessionStorage.removeItem(
     "mp_resume_position"
   );
@@ -1448,6 +1647,7 @@ function playItem(item) {
 
   window.location.href =
     "/player.html";
+
 }
 
 
@@ -1459,26 +1659,19 @@ async function loadCatalog() {
 
   try {
 
-    /*
-     * IMPORTANTE:
-     * Não enviamos senha Xtream
-     * nem senha MultiPlay.
-     *
-     * O servidor identifica o cliente
-     * pelo usuário MultiPlay e busca
-     * no banco as credenciais Xtream
-     * correspondentes.
-     */
-
     const response =
       await fetch(
-        `/api/catalogo?user=${encodeURIComponent(user)}`
+        `/api/catalogo?user=${encodeURIComponent(
+          user
+        )}`
       );
 
 
     if (
-      response.status === 401 ||
-      response.status === 403
+      response.status ===
+        401 ||
+      response.status ===
+        403
     ) {
 
       sessionStorage.clear();
@@ -1487,6 +1680,7 @@ async function loadCatalog() {
         "/login.html";
 
       return;
+
     }
 
 
@@ -1495,6 +1689,7 @@ async function loadCatalog() {
       throw new Error(
         "Catálogo indisponível"
       );
+
     }
 
 
@@ -1503,19 +1698,25 @@ async function loadCatalog() {
 
 
     catalog.canais =
-      Array.isArray(data.canais)
+      Array.isArray(
+        data.canais
+      )
         ? data.canais
         : [];
 
 
     catalog.filmes =
-      Array.isArray(data.filmes)
+      Array.isArray(
+        data.filmes
+      )
         ? data.filmes
         : [];
 
 
     catalog.series =
-      Array.isArray(data.series)
+      Array.isArray(
+        data.series
+      )
         ? data.series
         : [];
 
@@ -1529,7 +1730,9 @@ async function loadCatalog() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
 
 
     showError(
@@ -1550,6 +1753,7 @@ async function loadCatalog() {
     );
 
   }
+
 }
 
 
@@ -1572,6 +1776,7 @@ async function loadBooks() {
       throw new Error(
         "Livros indisponíveis"
       );
+
     }
 
 
@@ -1614,9 +1819,12 @@ async function loadBooks() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
 
   }
+
 }
 
 
@@ -1632,10 +1840,13 @@ function renderChannels() {
     );
 
 
-  grid.innerHTML = "";
+  grid.innerHTML =
+    "";
 
 
-  if (!catalog.canais.length) {
+  if (
+    !catalog.canais.length
+  ) {
 
     grid.innerHTML =
       `
@@ -1645,6 +1856,7 @@ function renderChannels() {
       `;
 
     return;
+
   }
 
 
@@ -1667,7 +1879,10 @@ function renderChannels() {
             channel.stream_icon,
 
           type:
-            "canal"
+            "canal",
+
+          extension:
+            "m3u8"
 
         })
 
@@ -1675,6 +1890,7 @@ function renderChannels() {
 
     }
   );
+
 }
 
 
@@ -1696,12 +1912,16 @@ function renderMovies() {
     );
 
 
-  grid.innerHTML = "";
+  grid.innerHTML =
+    "";
 
-  home.innerHTML = "";
+  home.innerHTML =
+    "";
 
 
-  if (!catalog.filmes.length) {
+  if (
+    !catalog.filmes.length
+  ) {
 
     grid.innerHTML =
       `
@@ -1719,48 +1939,61 @@ function renderMovies() {
       `;
 
     return;
+
   }
 
 
   catalog.filmes
     .slice(0, 30)
-    .forEach(movie => {
+    .forEach(
+      movie => {
 
-      const item = {
+        const item = {
 
-        ...movie,
+          ...movie,
 
-        id:
-          movie.stream_id,
+          id:
+            movie.stream_id,
 
-        name:
-          movie.name,
+          name:
+            movie.name,
 
-        image:
-          movie.stream_icon,
+          image:
+            movie.stream_icon,
 
-        type:
-          "filme"
+          type:
+            "filme",
 
-      };
+          extension:
+            movie.container_extension ||
+            ""
+
+        };
 
 
-      grid.appendChild(
-        createCard(item)
-      );
-
-
-      if (
-        home.children.length < 12
-      ) {
-
-        home.appendChild(
-          createCard(item)
+        grid.appendChild(
+          createCard(
+            item
+          )
         );
 
-      }
 
-    });
+        if (
+          home.children.length <
+          12
+        ) {
+
+          home.appendChild(
+            createCard(
+              item
+            )
+          );
+
+        }
+
+      }
+    );
+
 }
 
 
@@ -1782,12 +2015,16 @@ function renderSeries() {
     );
 
 
-  grid.innerHTML = "";
+  grid.innerHTML =
+    "";
 
-  home.innerHTML = "";
+  home.innerHTML =
+    "";
 
 
-  if (!catalog.series.length) {
+  if (
+    !catalog.series.length
+  ) {
 
     grid.innerHTML =
       `
@@ -1805,50 +2042,62 @@ function renderSeries() {
       `;
 
     return;
+
   }
 
 
   catalog.series
     .slice(0, 30)
-    .forEach(series => {
+    .forEach(
+      series => {
 
-      const item = {
+        const item = {
 
-        ...series,
+          ...series,
 
-        id:
-          series.series_id,
+          id:
+            series.series_id,
 
-        name:
-          series.name,
+          name:
+            series.name,
 
-        image:
-          series.cover ||
-          series.cover_big ||
-          "",
+          image:
+            series.cover ||
+            series.cover_big ||
+            "",
 
-        type:
-          "serie"
+          type:
+            "serie",
 
-      };
+          extension:
+            ""
 
-
-      grid.appendChild(
-        createCard(item)
-      );
+        };
 
 
-      if (
-        home.children.length < 12
-      ) {
-
-        home.appendChild(
-          createCard(item)
+        grid.appendChild(
+          createCard(
+            item
+          )
         );
 
-      }
 
-    });
+        if (
+          home.children.length <
+          12
+        ) {
+
+          home.appendChild(
+            createCard(
+              item
+            )
+          );
+
+        }
+
+      }
+    );
+
 }
 
 
@@ -1863,6 +2112,7 @@ function renderBooks() {
     livrosData.livros,
     "livro"
   );
+
 }
 
 
@@ -1877,6 +2127,7 @@ function renderEbooks() {
     livrosData.ebooks,
     "ebook"
   );
+
 }
 
 
@@ -1891,6 +2142,7 @@ function renderAudiobooks() {
     livrosData.audiobooks,
     "audiobook"
   );
+
 }
 
 
@@ -1910,10 +2162,13 @@ function renderSimpleCollection(
     );
 
 
-  grid.innerHTML = "";
+  grid.innerHTML =
+    "";
 
 
-  if (!items.length) {
+  if (
+    !items.length
+  ) {
 
     grid.innerHTML =
       `
@@ -1923,11 +2178,15 @@ function renderSimpleCollection(
       `;
 
     return;
+
   }
 
 
   items.forEach(
-    (item, index) => {
+    (
+      item,
+      index
+    ) => {
 
       const normalized = {
 
@@ -1951,7 +2210,12 @@ function renderSimpleCollection(
           "",
 
         type:
-          contentType
+          contentType,
+
+        extension:
+          item.extension ||
+          item.container_extension ||
+          ""
 
       };
 
@@ -1964,6 +2228,7 @@ function renderSimpleCollection(
 
     }
   );
+
 }
 
 
@@ -1971,7 +2236,9 @@ function renderSimpleCollection(
    SÉRIE / EPISÓDIOS
 ========================= */
 
-async function openSeries(series) {
+async function openSeries(
+  series
+) {
 
   const modal =
     document.getElementById(
@@ -2013,13 +2280,19 @@ async function openSeries(series) {
 
     const response =
       await fetch(
-        `/api/serie?user=${encodeURIComponent(user)}&series_id=${encodeURIComponent(series.id)}`
+        `/api/serie?user=${encodeURIComponent(
+          user
+        )}&series_id=${encodeURIComponent(
+          series.id
+        )}`
       );
 
 
     if (
-      response.status === 401 ||
-      response.status === 403
+      response.status ===
+        401 ||
+      response.status ===
+        403
     ) {
 
       modal.classList.add(
@@ -2030,6 +2303,7 @@ async function openSeries(series) {
         "/login.html";
 
       return;
+
     }
 
 
@@ -2038,6 +2312,7 @@ async function openSeries(series) {
       throw new Error(
         "Erro ao carregar série."
       );
+
     }
 
 
@@ -2045,17 +2320,21 @@ async function openSeries(series) {
       await response.json();
 
 
-    list.innerHTML = "";
+    list.innerHTML =
+      "";
 
 
     const seasons =
       data.episodes || {};
 
 
-    let count = 0;
+    let count =
+      0;
 
 
-    Object.keys(seasons)
+    Object.keys(
+      seasons
+    )
       .forEach(
         season => {
 
@@ -2131,7 +2410,11 @@ async function openSeries(series) {
                       "",
 
                     type:
-                      "serie"
+                      "serie",
+
+                    extension:
+                      episode.container_extension ||
+                      ""
 
                   });
 
@@ -2149,7 +2432,9 @@ async function openSeries(series) {
       );
 
 
-    if (!count) {
+    if (
+      !count
+    ) {
 
       list.innerHTML =
         `
@@ -2163,7 +2448,9 @@ async function openSeries(series) {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
 
 
     list.innerHTML =
@@ -2172,7 +2459,9 @@ async function openSeries(series) {
           Não foi possível carregar os episódios.
         </div>
       `;
+
   }
+
 }
 
 
@@ -2189,6 +2478,7 @@ function closeSeriesModal() {
     .classList.add(
       "hidden"
     );
+
 }
 
 
@@ -2257,11 +2547,14 @@ function showSection(
 
   window.scrollTo({
 
-    top: 0,
+    top:
+      0,
 
-    behavior: "smooth"
+    behavior:
+      "smooth"
 
   });
+
 }
 
 
@@ -2274,7 +2567,9 @@ function performSearch(
 ) {
 
   const query =
-    String(value || "")
+    String(
+      value || ""
+    )
       .trim()
       .toLowerCase();
 
@@ -2286,6 +2581,7 @@ function performSearch(
     renderSeries();
 
     return;
+
   }
 
 
@@ -2311,7 +2607,10 @@ function performSearch(
           x.stream_icon,
 
         type:
-          "canal"
+          "canal",
+
+        extension:
+          "m3u8"
 
       })
     ),
@@ -2332,7 +2631,11 @@ function performSearch(
           x.stream_icon,
 
         type:
-          "filme"
+          "filme",
+
+        extension:
+          x.container_extension ||
+          ""
 
       })
     ),
@@ -2354,7 +2657,10 @@ function performSearch(
           x.cover_big,
 
         type:
-          "serie"
+          "serie",
+
+        extension:
+          ""
 
       })
     )
@@ -2369,7 +2675,9 @@ function performSearch(
           item.name || ""
         )
           .toLowerCase()
-          .includes(query)
+          .includes(
+            query
+          )
     );
 
 
@@ -2385,12 +2693,16 @@ function performSearch(
     );
 
 
-  homeMovies.innerHTML = "";
+  homeMovies.innerHTML =
+    "";
 
-  homeSeries.innerHTML = "";
+  homeSeries.innerHTML =
+    "";
 
 
-  if (!results.length) {
+  if (
+    !results.length
+  ) {
 
     homeMovies.innerHTML =
       `
@@ -2400,6 +2712,7 @@ function performSearch(
       `;
 
     return;
+
   }
 
 
@@ -2407,11 +2720,14 @@ function performSearch(
     item => {
 
       homeMovies.appendChild(
-        createCard(item)
+        createCard(
+          item
+        )
       );
 
     }
   );
+
 }
 
 
@@ -2446,12 +2762,17 @@ function logout() {
   );
 
   sessionStorage.removeItem(
+    "mp_stream_extension"
+  );
+
+  sessionStorage.removeItem(
     "mp_resume_position"
   );
 
 
   window.location.href =
     "/login.html";
+
 }
 
 
@@ -2475,11 +2796,14 @@ function showError(
     element.innerHTML =
       `
         <div class="error">
-          ${escapeHtml(message)}
+          ${escapeHtml(
+            message
+          )}
         </div>
       `;
 
   }
+
 }
 
 
@@ -2538,7 +2862,8 @@ document
 ========================= */
 
 const username =
-  user || "Cliente";
+  user ||
+  "Cliente";
 
 
 document.getElementById(
@@ -2566,4 +2891,5 @@ loadBooks();
 </script>
 
 </body>
+
 </html>
