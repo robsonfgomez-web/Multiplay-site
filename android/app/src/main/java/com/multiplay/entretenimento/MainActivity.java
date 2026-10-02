@@ -86,15 +86,15 @@ public class MainActivity extends Activity {
     Button cont=button("▶  CONTINUAR");actions.addView(cont,new LinearLayout.LayoutParams(0,dp(46),1));
     Button panel=button("⚙ MEU DISPOSITIVO");actions.addView(panel,new LinearLayout.LayoutParams(0,dp(46),1));
     cont.setOnClickListener(v->continueWatching());panel.setOnClickListener(v->showDeviceInfo());
-    hero.addView(actions);root.addView(hero,new LinearLayout.LayoutParams(-1,dp(190)));
+    hero.addView(actions);root.addView(hero,new LinearLayout.LayoutParams(-1,LinearLayout.LayoutParams.WRAP_CONTENT));
 
     TextView st=text(notice,11,true);st.setTextColor(Color.rgb(170,155,190));root.addView(st,new LinearLayout.LayoutParams(-1,dp(38)));
     LinearLayout cats=new LinearLayout(this);String[] c={"📺 Ao vivo","🎬 Filmes","🍿 Séries","↻ Repetir","⌕ Buscar"};
     for(String s:c){Button b=button(s);LinearLayout.LayoutParams q=new LinearLayout.LayoutParams(0,dp(55),1);q.setMargins(dp(3),0,dp(3),0);cats.addView(b,q);
       b.setOnClickListener(v->{if(s.contains("Filmes"))showList("FILMES","");else if(s.contains("Séries"))showList("SÉRIES","");else if(s.contains("Ao vivo"))showList("TV AO VIVO","");else if(s.contains("Repetir"))continueWatching();});
-    }root.addView(cats,new LinearLayout.LayoutParams(-1,dp(65)));
+    }root.addView(cats,new LinearLayout.LayoutParams(-1,LinearLayout.LayoutParams.WRAP_CONTENT));
 
-    EditText q=search();LinearLayout.LayoutParams qp=new LinearLayout.LayoutParams(-1,dp(48));qp.setMargins(0,dp(8),0,dp(6));root.addView(q,qp);
+    EditText q=search();LinearLayout.LayoutParams qp=new LinearLayout.LayoutParams(-1,dp(46));qp.setMargins(0,dp(8),0,dp(6));root.addView(q,qp);
     listBox=new LinearLayout(this);listBox.setOrientation(LinearLayout.VERTICAL);ScrollView sv=new ScrollView(this);sv.addView(listBox);root.addView(sv,new LinearLayout.LayoutParams(-1,0,1));
     q.addTextChangedListener(new TextWatcher(){public void beforeTextChanged(CharSequence s,int a,int c,int d){}public void onTextChanged(CharSequence s,int a,int b,int c){showList(currentFilter,s.toString());}public void afterTextChanged(Editable e){}});
     showList("TODOS","");
