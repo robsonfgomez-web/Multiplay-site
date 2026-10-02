@@ -122,14 +122,30 @@ public class MainActivity extends Activity {
         }
         hero.addView(chips); body.addView(hero,new LinearLayout.LayoutParams(-1,-2));
         LinearLayout stats=new LinearLayout(this); stats.setPadding(0,dp(10),0,dp(2));
-        stats.addView(statBox(String.valueOf(courses.size()),"CURSOS"),new LinearLayout.LayoutParams(0,dp(62),1));
+        stats.addView(statBox("900+","CURSOS"),new LinearLayout.LayoutParams(0,dp(62),1));
         stats.addView(statBox(String.valueOf(books.size()),"LIVROS"),new LinearLayout.LayoutParams(0,dp(62),1));
         stats.addView(statBox(String.valueOf(audios.size()),"ÁUDIO"),new LinearLayout.LayoutParams(0,dp(62),1));
         stats.addView(statBox(String.valueOf(ebooks.size()),"E-BOOKS"),new LinearLayout.LayoutParams(0,dp(62),1)); body.addView(stats);
         if(!recent.isEmpty()){ body.addView(section("▶ Continuar de onde parou")); horizontal(recent,4); }
         body.addView(section("🔥 Destaques")); horizontal(books,8);
         body.addView(section("🎧 Ouça agora")); horizontal(audios,6);
-        body.addView(section("🎓 Comece um curso")); horizontal(courses,6);
+        body.addView(section("🎓 Comece um curso"));
+        Button evg=btn("🎓 CATÁLOGO COMPLETO EV.G — 900+ CURSOS");
+        evg.setTextSize(13);
+        LinearLayout.LayoutParams evgp=new LinearLayout.LayoutParams(-1,dp(54));
+        evgp.setMargins(0,dp(4),0,dp(8));
+        body.addView(evg,evgp);
+        evg.setOnClickListener(v->openCatalogWeb("https://www.escolavirtual.gov.br/catalogo","Catálogo EV.G • cursos gratuitos"));
+        Button mec=btn("📘 CATÁLOGO APRENDA MAIS — MEC");
+        mec.setTextSize(13);
+        LinearLayout.LayoutParams mecp=new LinearLayout.LayoutParams(-1,dp(54));
+        mecp.setMargins(0,0,0,dp(10));
+        body.addView(mec,mecp);
+        mec.setOnClickListener(v->openCatalogWeb("https://aprendamais.mec.gov.br/course/index.php?lang=pt_br","Aprenda Mais • MEC"));
+        TextView src=txt("Os catálogos oficiais são carregados online para acompanhar novos cursos e atualizações das instituições responsáveis.",10,false);
+        src.setTextColor(MUTED);
+        body.addView(src);
+        horizontal(courses,6);
         body.addView(section("📖 Biblioteca digital")); horizontal(ebooks,6);
         TextView f=txt("Conteúdo acessado online nas plataformas responsáveis. Certificados são emitidos pelas instituições quando previstos.",10,false); f.setTextColor(MUTED); f.setPadding(0,dp(20),0,dp(20)); body.addView(f);
     }
@@ -235,6 +251,22 @@ public class MainActivity extends Activity {
             InputStream in=c.getInputStream(); final Bitmap b=BitmapFactory.decodeStream(in); in.close();
             runOnUiThread(()->{if(b!=null)image.setImageBitmap(b);});
         }catch(Exception ignored){}}).start();
+    }
+
+    void openCatalogWeb(String url,String title){
+        base();
+        header(title);
+        WebView web=new WebView(this);
+        WebSettings ws=web.getSettings();
+        ws.setJavaScriptEnabled(true);
+        ws.setDomStorageEnabled(true);
+        ws.setBuiltInZoomControls(false);
+        ws.setDisplayZoomControls(false);
+        ws.setSupportZoom(true);
+        web.setWebViewClient(new WebViewClient());
+        web.setBackgroundColor(Color.WHITE);
+        body.addView(web,new LinearLayout.LayoutParams(-1,0,1));
+        web.loadUrl(url);
     }
 
     void openOnline(Item item){
