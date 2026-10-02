@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
   TextView tv(String s,int z,boolean bold){TextView t=new TextView(this);t.setText(s);t.setTextColor(Color.WHITE);t.setTextSize(z);t.setPadding(dp(10),dp(7),dp(10),dp(7));if(bold)t.setTypeface(Typeface.DEFAULT,Typeface.BOLD);return t;}
   Button btn(String s){Button b=new Button(this);b.setText(s);b.setTextColor(Color.WHITE);b.setTextSize(12);b.setAllCaps(false);b.setBackgroundColor(Color.rgb(20,100,205));return b;}
   EditText search(){EditText e=new EditText(this);e.setHint("Buscar canal, filme ou série");e.setHintTextColor(Color.rgb(125,140,160));e.setTextColor(Color.WHITE);e.setSingleLine(true);e.setPadding(dp(12),0,dp(12),0);GradientDrawable g=new GradientDrawable();g.setColor(Color.rgb(10,18,32));g.setStroke(dp(1),Color.rgb(32,49,73));g.setCornerRadius(dp(10));e.setBackground(g);return e;}
-  public void onCreate(Bundle b){super.onCreate(b);getWindow().setStatusBarColor(Color.rgb(3,7,18));getWindow().setNavigationBarColor(Color.rgb(3,7,18));deviceId=androidId();deviceKey=key();deviceScreen("");}
+  public void onCreate(Bundle b){super.onCreate(b);getWindow().setStatusBarColor(Color.rgb(3,7,18));getWindow().setNavigationBarColor(Color.rgb(3,7,18));deviceId=androidId();deviceKey=key();deviceScreen("");new Handler(Looper.getMainLooper()).postDelayed(()->sync(),650);}
 
   String androidId(){String x=Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);return (x==null||x.isEmpty()?UUID.randomUUID().toString().replace("-",""):x).toUpperCase(Locale.US);}
   String key(){android.content.SharedPreferences p=getSharedPreferences("multiplay",0);String k=p.getString("device_key",null);if(k==null){k=hash(deviceId+"|MULTIPLAY|"+UUID.randomUUID()).substring(0,10).toUpperCase(Locale.US);p.edit().putString("device_key",k).apply();}return k;}
@@ -47,17 +47,29 @@ public class MainActivity extends Activity {
 
   void deviceScreen(String message){
     base();
-    TextView logo=tv("MULTI",31,true);logo.setTextColor(Color.rgb(24,221,255));logo.setGravity(Gravity.CENTER);root.addView(logo,new LinearLayout.LayoutParams(-1,dp(48)));
-    TextView sub=tv("PLAY  •  ENTRETENIMENTO",15,true);sub.setGravity(Gravity.CENTER);root.addView(sub,new LinearLayout.LayoutParams(-1,dp(30)));
-    TextView title=tv("Ative este dispositivo",23,true);title.setGravity(Gravity.CENTER);root.addView(title,new LinearLayout.LayoutParams(-1,dp(48)));
-    TextView info=tv("Como no modelo de players por painel: o aplicativo mostra o identificador e a chave. A playlist é cadastrada no painel web.",13,false);info.setGravity(Gravity.CENTER);root.addView(info,new LinearLayout.LayoutParams(-1,dp(68)));
-    root.addView(cardText("DEVICE ID\n"+deviceId),new LinearLayout.LayoutParams(-1,dp(72)));
-    root.addView(cardText("DEVICE KEY\n"+deviceKey),new LinearLayout.LayoutParams(-1,dp(72)));
-    TextView url=tv("SITE MULTIPLAY\n"+PANEL,12,false);url.setGravity(Gravity.CENTER);root.addView(url,new LinearLayout.LayoutParams(-1,dp(62)));
-    Button open=btn("ABRIR SITE DE ATIVAÇÃO");root.addView(open,new LinearLayout.LayoutParams(-1,dp(48)));open.setOnClickListener(v->{startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(PANEL)));});
-    Button sync=btn("ATUALIZAR / CONTINUAR");root.addView(sync,new LinearLayout.LayoutParams(-1,dp(52)));sync.setOnClickListener(v->sync());
-    if(!message.isEmpty()){TextView m=tv(message,13,true);m.setGravity(Gravity.CENTER);m.setTextColor(Color.rgb(255,190,80));root.addView(m,new LinearLayout.LayoutParams(-1,dp(50)));}
-    TextView legal=tv("Use somente playlists e conteúdos próprios, licenciados ou autorizados.",11,false);legal.setGravity(Gravity.CENTER);root.addView(legal,new LinearLayout.LayoutParams(-1,dp(45)));
+    LinearLayout head=new LinearLayout(this);
+    head.setOrientation(LinearLayout.VERTICAL);
+    head.setGravity(Gravity.CENTER);
+    TextView logo=tv("MULTI",34,true);logo.setGravity(Gravity.CENTER);logo.setTextColor(Color.rgb(25,223,255));head.addView(logo,new LinearLayout.LayoutParams(-1,dp(42)));
+    TextView play=tv("PLAY",18,true);play.setGravity(Gravity.CENTER);play.setTextColor(Color.WHITE);head.addView(play,new LinearLayout.LayoutParams(-1,dp(28)));
+    TextView sub=tv("ENTRETENIMENTO",12,true);sub.setGravity(Gravity.CENTER);sub.setTextColor(Color.rgb(150,170,190));head.addView(sub,new LinearLayout.LayoutParams(-1,dp(28)));
+    root.addView(head,new LinearLayout.LayoutParams(-1,dp(102)));
+
+    TextView title=tv("Conecte seu dispositivo",24,true);title.setGravity(Gravity.CENTER);root.addView(title,new LinearLayout.LayoutParams(-1,dp(50)));
+    TextView info=tv("Use o Device ID e a Device Key abaixo para cadastrar este aparelho no painel Multiplay. Depois, sua playlist autorizada será carregada automaticamente.",13,false);info.setGravity(Gravity.CENTER);root.addView(info,new LinearLayout.LayoutParams(-1,dp(68)));
+
+    LinearLayout ids=new LinearLayout(this);ids.setOrientation(LinearLayout.VERTICAL);
+    TextView idCard=cardText("DEVICE ID\n"+deviceId);idCard.setTextSize(15);ids.addView(idCard,new LinearLayout.LayoutParams(-1,dp(76)));
+    TextView keyCard=cardText("DEVICE KEY\n"+deviceKey);keyCard.setTextSize(15);LinearLayout.LayoutParams kp=new LinearLayout.LayoutParams(-1,dp(76));kp.setMargins(0,dp(8),0,0);ids.addView(keyCard,kp);
+    root.addView(ids,new LinearLayout.LayoutParams(-1,dp(160)));
+
+    TextView panel=tv("PAINEL DE ATIVAÇÃO\n"+PANEL,11,false);panel.setGravity(Gravity.CENTER);panel.setTextColor(Color.rgb(150,170,190));LinearLayout.LayoutParams pp=new LinearLayout.LayoutParams(-1,dp(54));pp.setMargins(0,dp(8),0,dp(4));root.addView(panel,pp);
+
+    Button open=btn("ABRIR PAINEL MULTIPLAY");root.addView(open,new LinearLayout.LayoutParams(-1,dp(46)));open.setOnClickListener(v->{startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(PANEL)));});
+    Button sync=btn("↻  ATUALIZAR / CONTINUAR");LinearLayout.LayoutParams sp=new LinearLayout.LayoutParams(-1,dp(50));sp.setMargins(0,dp(7),0,dp(5));root.addView(sync,sp);sync.setOnClickListener(v->sync());
+
+    TextView status=tv(message.isEmpty()?"Aguardando ativação ou atualização...":message,13,true);status.setGravity(Gravity.CENTER);status.setTextColor(message.toLowerCase(Locale.ROOT).contains("não")||message.toLowerCase(Locale.ROOT).contains("erro")?Color.rgb(255,145,145):Color.rgb(255,205,100));root.addView(status,new LinearLayout.LayoutParams(-1,dp(48)));
+    TextView legal=tv("Multiplay é um player. Use somente playlists e conteúdos próprios, licenciados ou autorizados.",10,false);legal.setGravity(Gravity.CENTER);legal.setTextColor(Color.rgb(125,140,160));root.addView(legal,new LinearLayout.LayoutParams(-1,dp(42)));
   }
 
   void sync(){
