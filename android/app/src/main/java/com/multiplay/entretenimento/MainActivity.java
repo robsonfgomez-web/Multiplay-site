@@ -11,6 +11,8 @@ import android.view.*;
 import android.widget.*;
 import android.text.*;
 import androidx.media3.common.MediaItem;
+import androidx.media3.common.PlaybackException;
+import androidx.media3.common.Player;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.ui.PlayerView;
 import java.io.*;
@@ -192,16 +194,49 @@ public class MainActivity extends Activity {
   void showList(String filter,String query){
     currentFilter=filter;if(listBox==null)return;listBox.removeAllViews();String qq=query.toLowerCase(Locale.ROOT);int count=0;
     for(Item x:items){String k=kind(x);if(!filter.equals("TODOS")&&!k.equals(filter))continue;if(!qq.isEmpty()&&!x.name.toLowerCase(Locale.ROOT).contains(qq)&&!x.group.toLowerCase(Locale.ROOT).contains(qq))continue;
-      TextView b=pill((k.equals("TV AO VIVO")?"📺 ":k.equals("FILMES")?"🎬 ":"🍿 ")+x.name+"\n"+(x.group.isEmpty()?"":x.group));b.setGravity(Gravity.CENTER_VERTICAL);LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(-1,dp(62));p.setMargins(0,dp(3),0,dp(3));listBox.addView(b,p);b.setOnClickListener(v->play(x));if(++count>=300)break;
+      TextView b=pill((k.equals("TV AO VIVO")?"📺 ":k.equals("FILMES")?"🎬 ":"🍿 ")+x.name+"\n"+(x.group.isEmpty()?"":x.group));b.setGravity(Gravity.CENTER_VERTICAL);LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(-1,dp(62));p.setMargins(0,dp(3),0,dp(3));listBox.addView(b,p);b.setOnClickListener(v->play(x));if(++count>=150)break;
     }
     if(count==0)listBox.addView(text(items.isEmpty()?"Nenhum conteúdo sincronizado.":"Nenhum conteúdo encontrado.",14,false));
   }
   void play(Item x){
-    getSharedPreferences("multiplay",0).edit().putString("last_url",x.url).putString("last_name",x.name).apply();
-    base();TextView h=text("Multiplay  •  "+x.name,19,true);root.addView(h,new LinearLayout.LayoutParams(-1,dp(55)));
-    PlayerView pv=new PlayerView(this);root.addView(pv,new LinearLayout.LayoutParams(-1,0,1));Button back=button("← Voltar à Multiplay");root.addView(back,new LinearLayout.LayoutParams(-1,dp(52)));
-    player=new ExoPlayer.Builder(this).build();pv.setPlayer(player);player.setMediaItem(MediaItem.fromUri(Uri.parse(x.url)));player.prepare();player.play();
+    if(x==null||x.url==null||x.url.trim().isEmpty()){Toast.makeText(this,"Este conteúdo não possui uma URL válida.",Toast.LENGTH_LONG).show();return;}
+    String raw=x.url.trim();
+    Uri uri;
+    try{uri=Uri.parse(raw);}catch(Exception e){Toast.makeText(this,"URL inválida para reprodução.",Toast.LENGTH_LONG).show();return;}
+    String scheme=uri.getScheme();
+    if(scheme==null||(!scheme.equalsIgnoreCase("http")&&!scheme.equalsIgnoreCase("https"))){Toast.makeText(this,"Formato de transmissão não suportado.",Toast.LENGTH_LONG).show();return;}
+    getSharedPreferences("multiplay",0).edit().putString("last_url",raw).putString("last_name",x.name).apply();
+    base();
+    TextView h=text("Multiplay  •  "+x.name,19,true);root.addView(h,new LinearLayout.LayoutParams(-1,dp(58)));
+    TextView info=text("Carregando transmissão...",12,false);info.setTextColor(Color.rgb(180,170,195));root.addView(info,new LinearLayout.LayoutParams(-1,dp(36)));
+    PlayerView pv=new PlayerView(this);
+    pv.setUseController(true);
+    root.addView(pv,new LinearLayout.LayoutParams(-1,dp(360)));
+    Button back=button("← Voltar à Multiplay");root.addView(back,new LinearLayout.LayoutParams(-1,dp(52)));
     back.setOnClickListener(v->{if(player!=null){player.release();player=null;}home("Conteúdo pronto. Toque em CONTINUAR para retomar o último.");});
+    try{
+      player=new ExoPlayer.Builder(this).build();
+      player.addListener(new Player.Listener(){
+        @Override public void onPlaybackStateChanged(int state){
+          if(state==Player.STATE_READY)info.setText("Transmissão carregada.");
+          else if(state==Player.STATE_BUFFERING)info.setText("Carregando transmissão...");
+        }
+        @Override public void onPlayerError(PlaybackException error){
+          String m=error.getMessage();
+          if(m==null||m.isEmpty())m="não foi possível reproduzir este conteúdo";
+          info.setText("Erro na reprodução: "+m);
+          Toast.makeText(MainActivity.this,"Não foi possível abrir este conteúdo.",Toast.LENGTH_LONG).show();
+        }
+      });
+      pv.setPlayer(player);
+      player.setMediaItem(MediaItem.fromUri(uri));
+      player.prepare();
+      player.play();
+    }catch(Exception e){
+      if(player!=null){player.release();player=null;}
+      info.setText("Erro ao iniciar o player: "+(e.getMessage()==null?"conteúdo incompatível":e.getMessage()));
+      Toast.makeText(this,"O player não conseguiu iniciar. Escolha outro conteúdo.",Toast.LENGTH_LONG).show();
+    }
   }
   @Override protected void onDestroy(){if(player!=null){player.release();player=null;}super.onDestroy();}
 }
