@@ -478,6 +478,56 @@ async function criarTabelas() {
 }
 
 criarTabelas();
+const crypto = require('crypto');
+
+function gerarHashSenha(senha) {
+  const salt = crypto.randomBytes(16).toString('hex');
+
+  const hash = crypto
+    .scryptSync(senha, salt, 64)
+    .toString('hex');
+
+  return `${salt}:${hash}`;
+}
+
+async function criarAdminInicial() {
+  const username = process.env.MULTIPLAY_ADMIN_USER;
+  const password = process.env.MULTIPLAY_ADMIN_PASSWORD;
+
+  if (!username || !password) {
+    console.log('MultiPlay: credenciais do administrador não configuradas.');
+    return;
+  }
+
+  try {
+    const existente = await pool.query(
+      'SELECT id FROM admins WHERE username = $1',
+      [username]
+    );
+
+    if (existente.rows.length > 0) {
+      console.log('MultiPlay: administrador inicial já existe.');
+      return;
+    }
+
+    const passwordHash = gerarHashSenha(password);
+
+    await pool.query(
+      `INSERT INTO admins (username, password_hash)
+       VALUES ($1, $2)`,
+      [username, passwordHash]
+    );
+
+    console.log('MultiPlay: administrador inicial criado com sucesso.');
+  } catch (error) {
+    console.error(
+      'MultiPlay: erro ao criar administrador:',
+      error.message
+    );
+  }
+}
+
+criarAdminInicial();
 /* =========================
    STATUS
 ========================= */
