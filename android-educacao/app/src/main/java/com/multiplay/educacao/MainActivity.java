@@ -26,8 +26,8 @@ public class MainActivity extends Activity {
     int dp(float v){return (int)(v*getResources().getDisplayMetrics().density+.5f);}
 
     static class Item {
-        String title, author, desc, url, cover, meta;
-        Item(String t,String a,String d,String u,String c,String m){title=t;author=a;desc=d;url=u;cover=c;meta=m;}
+        String title, author, desc, url, cover, meta, kind;
+        Item(String t,String a,String d,String u,String c,String m){title=t;author=a;desc=d;url=u;cover=c;meta=m;} Item(String t,String a,String d,String u,String c,String m,String k){this(t,a,d,u,c,m);kind=k;}
     }
 
     final ArrayList<Item> books=new ArrayList<>();
@@ -202,7 +202,16 @@ public class MainActivity extends Activity {
     boolean isFav(Item x){return prefs!=null&&prefs.getBoolean(favKey(x),false);}
     void toggleFav(Item x){prefs.edit().putBoolean(favKey(x),!isFav(x)).apply();}
     void saveRecent(Item x){recent.remove(x);recent.add(0,x);while(recent.size()>8)recent.remove(recent.size()-1);StringBuilder s=new StringBuilder();for(Item y:recent)s.append(y.kind).append("|").append(y.title).append("||");prefs.edit().putString("recent",s.toString()).apply();}
-    void loadRecent(){String raw=prefs==null?"":prefs.getString("recent","");if(raw.length()==0)return;for(String z:raw.split("\\\\|\\\\|")){if(z.length()==0)continue;String[] q=z.split("\\\\|",2);if(q.length<2)continue;for(Item x:all)if(x.kind.equals(q[0])&&x.title.equals(q[1])){recent.add(x);break;}}}    void openOnline(Item item){
+    void loadRecent(){String raw=prefs==null?"":prefs.getString("recent","");if(raw.length()==0)return;for(String z:raw.split("\\\\|\\\\|")){if(z.length()==0)continue;String[] q=z.split("\\\\|",2);if(q.length<2)continue;for(Item x:all)if(x.kind.equals(q[0])&&x.title.equals(q[1])){recent.add(x);break;}}}    void loadCover(ImageView image,String url,String title){
+        new Thread(()->{try{
+            HttpURLConnection c=(HttpURLConnection)new URL(url).openConnection();
+            c.setConnectTimeout(7000); c.setReadTimeout(9000); c.setUseCaches(true);
+            InputStream in=c.getInputStream(); final Bitmap b=BitmapFactory.decodeStream(in); in.close();
+            runOnUiThread(()->{if(b!=null)image.setImageBitmap(b);});
+        }catch(Exception ignored){}}).start();
+    }
+
+    void openOnline(Item item){
         base(); header(item.meta.contains("AUDIO")?"Reprodutor":"Conteúdo online");
         LinearLayout top=new LinearLayout(this); top.setGravity(Gravity.CENTER_VERTICAL);
         TextView t=txt(item.title,15,true);t.setMaxLines(2);top.addView(t,new LinearLayout.LayoutParams(0,dp(54),1));
