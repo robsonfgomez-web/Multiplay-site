@@ -154,7 +154,10 @@
         required
       >
 
-      <button id="loginButton" type="submit">
+      <button
+        id="loginButton"
+        type="submit"
+      >
         ENTRAR
       </button>
 
@@ -171,99 +174,153 @@
 
   <script>
 
-    const form = document.getElementById("loginForm");
-    const button = document.getElementById("loginButton");
-    const message = document.getElementById("message");
+    const form =
+      document.getElementById("loginForm");
+
+    const button =
+      document.getElementById("loginButton");
+
+    const message =
+      document.getElementById("message");
 
 
-    form.addEventListener("submit", async function(event) {
+    form.addEventListener(
+      "submit",
+      async function(event) {
 
-      event.preventDefault();
-
-      const username =
-        document.getElementById("username").value.trim();
-
-      const password =
-        document.getElementById("password").value;
-
-      if (!username || !password) {
-        message.textContent =
-          "Informe usuário e senha.";
-
-        return;
-      }
+        event.preventDefault();
 
 
-      button.disabled = true;
-      button.textContent = "ENTRANDO...";
-      message.textContent = "";
+        const username =
+          document
+            .getElementById("username")
+            .value
+            .trim();
 
 
-      try {
-
-        /*
-         * O servidor valida as credenciais.
-         * Nenhuma senha fica gravada neste arquivo.
-         */
-
-        const response = await fetch("/api/login", {
-
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-            username: username,
-            password: password
-          })
-
-        });
+        const password =
+          document
+            .getElementById("password")
+            .value;
 
 
-        const data = await response.json();
+        if (!username || !password) {
 
+          message.textContent =
+            "Informe usuário e senha.";
 
-        if (!response.ok || !data.success) {
-
-          throw new Error(
-            data.message ||
-            "Usuário ou senha inválidos."
-          );
-
+          return;
         }
 
 
-        sessionStorage.setItem(
-          "mp_user",
-          username
-        );
-
-        sessionStorage.setItem(
-          "mp_pass",
-          password
-        );
+        button.disabled = true;
+        button.textContent = "ENTRANDO...";
+        message.textContent = "";
 
 
-        window.location.href = "/app.html";
+        try {
+
+          const response =
+            await fetch(
+              "/api/login",
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body:
+                  JSON.stringify({
+                    username,
+                    password
+                  })
+              }
+            );
+
+
+          const data =
+            await response.json();
+
+
+          if (
+            !response.ok ||
+            !data.success
+          ) {
+
+            throw new Error(
+              data.message ||
+              "Usuário ou senha inválidos."
+            );
+          }
+
+
+          /*
+           * Guardamos somente o usuário
+           * e o tipo de acesso.
+           *
+           * A senha NÃO é armazenada.
+           */
+
+          const tipo =
+            data.user &&
+            data.user.type
+              ? data.user.type
+              : "client";
+
+
+          sessionStorage.setItem(
+            "mp_user",
+            username
+          );
+
+
+          sessionStorage.setItem(
+            "mp_type",
+            tipo
+          );
+
+
+          /*
+           * ADMINISTRADOR
+           */
+
+          if (tipo === "admin") {
+
+            window.location.href =
+              "/admin.html";
+
+            return;
+          }
+
+
+          /*
+           * CLIENTE
+           */
+
+          window.location.href =
+            "/app.html";
+
+        }
+
+        catch (error) {
+
+          console.error(error);
+
+
+          message.textContent =
+            error.message ||
+            "Não foi possível entrar.";
+
+
+          button.disabled = false;
+          button.textContent = "ENTRAR";
+
+        }
 
       }
-
-      catch (error) {
-
-        console.error(error);
-
-        message.textContent =
-          error.message ||
-          "Não foi possível entrar.";
-
-        button.disabled = false;
-        button.textContent = "ENTRAR";
-
-      }
-
-    });
+    );
 
   </script>
 
