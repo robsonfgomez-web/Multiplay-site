@@ -29,7 +29,7 @@ jobs:
       - name: Save Entretenimento APK
         uses: actions/upload-artifact@v4
         with:
-          name: Multiplay-Entretenimento-2.0.1
+          name: Multiplay-Entretenimento-TCL-Android13-Teste-2.0.2
           path: android/app/build/outputs/apk/debug/app-debug.apk
 
       - name: Build Educação
@@ -45,5 +45,5 @@ jobs:
       - name: Save Educação APK
         uses: actions/upload-artifact@v4
         with:
-          name: Multiplay-Educacao-1.0.0
+          name: Multiplay-Educacao-TCL-Android13-Teste-1.0.1
           path: android-educacao/app/build/outputs/apk/debug/app-debug.apk
