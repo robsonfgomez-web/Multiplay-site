@@ -1,59 +1,120 @@
 package com.multiplay.entretenimento;
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.app.*;
+import android.os.*;
 import android.provider.Settings;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.view.Gravity;
-import android.widget.*;
+import android.graphics.*;
+import android.graphics.drawable.GradientDrawable;
+import android.content.*;
 import android.net.Uri;
+import android.view.*;
+import android.widget.*;
 import androidx.media3.common.MediaItem;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.ui.PlayerView;
+import java.io.*;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.util.Locale;
-import java.util.UUID;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
+import java.util.*;
+import java.util.regex.*;
 
 public class MainActivity extends Activity {
- private LinearLayout root; private String deviceId,deviceKey;
- int dp(float v){return (int)(v*getResources().getDisplayMetrics().density+.5f);}
- TextView tv(String s,float z,boolean b){TextView t=new TextView(this);t.setText(s);t.setTextColor(Color.WHITE);t.setTextSize(z);t.setGravity(Gravity.CENTER_VERTICAL);t.setPadding(dp(8),dp(5),dp(8),dp(5));if(b)t.setTypeface(Typeface.DEFAULT,Typeface.BOLD);return t;}
- Button btn(String s){Button b=new Button(this);b.setText(s);b.setTextColor(Color.WHITE);b.setTextSize(13);b.setAllCaps(false);b.setBackgroundColor(Color.rgb(25,88,180));return b;}
- public void onCreate(Bundle b){super.onCreate(b);getWindow().setStatusBarColor(Color.rgb(5,8,20));getWindow().setNavigationBarColor(Color.rgb(5,8,20));deviceId=androidId();deviceKey=key();deviceScreen();}
- String androidId(){String x=Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);return (x==null||x.isEmpty()?UUID.randomUUID().toString().replace("-",""):x).toUpperCase(Locale.US);}
- String key(){android.content.SharedPreferences p=getSharedPreferences("multiplay",0);String k=p.getString("device_key",null);if(k==null){k=hash(deviceId+"|MULTIPLAY|"+UUID.randomUUID()).substring(0,12).toUpperCase(Locale.US);p.edit().putString("device_key",k).apply();}return k;}
- String hash(String s){try{byte[] x=MessageDigest.getInstance("SHA-256").digest(s.getBytes(StandardCharsets.UTF_8));StringBuilder h=new StringBuilder();for(byte v:x)h.append(String.format("%02x",v));return h.toString();}catch(Exception e){return UUID.randomUUID().toString().replace("-","");}}
- void base(){root=new LinearLayout(this);root.setOrientation(LinearLayout.VERTICAL);root.setPadding(dp(28),dp(18),dp(28),dp(18));root.setBackgroundColor(Color.rgb(5,8,20));setContentView(root);}
- void deviceScreen(){base();TextView logo=tv("MULTIPLAY",32,true);logo.setTextColor(Color.rgb(40,140,255));logo.setGravity(Gravity.CENTER);root.addView(logo,new LinearLayout.LayoutParams(-1,dp(60)));TextView sub=tv("ENTRETENIMENTO",14,true);sub.setGravity(Gravity.CENTER);root.addView(sub,new LinearLayout.LayoutParams(-1,dp(30)));TextView title=tv("Ative este dispositivo",24,true);title.setGravity(Gravity.CENTER);root.addView(title,new LinearLayout.LayoutParams(-1,dp(52)));
- LinearLayout card=new LinearLayout(this);card.setOrientation(LinearLayout.VERTICAL);card.setPadding(dp(22),dp(8),dp(22),dp(8));card.setBackgroundColor(Color.rgb(15,22,40));card.addView(tv("DEVICE ID\n"+deviceId,15,true),new LinearLayout.LayoutParams(-1,dp(72)));card.addView(tv("DEVICE KEY\n"+deviceKey,15,true),new LinearLayout.LayoutParams(-1,dp(72)));root.addView(card,new LinearLayout.LayoutParams(-1,dp(160)));
- TextView info=tv("Identificador próprio do Multiplay para vincular a playlist.\nO MAC físico pode não estar disponível em Android comum.",12,false);info.setGravity(Gravity.CENTER);root.addView(info,new LinearLayout.LayoutParams(-1,dp(58)));
- Button a=btn("ATIVAR / SINCRONIZAR DISPOSITIVO");root.addView(a,new LinearLayout.LayoutParams(-1,dp(52)));a.setOnClickListener(v->sync());
- TextView l=tv("Use somente conteúdo próprio, licenciado ou autorizado.",11,false);l.setGravity(Gravity.CENTER);root.addView(l,new LinearLayout.LayoutParams(-1,dp(45)));}
- void openPlayer(String url,String title){ base(); TextView h=tv(title,20,true); root.addView(h,new LinearLayout.LayoutParams(-1,dp(55))); PlayerView pv=new PlayerView(this); root.addView(pv,new LinearLayout.LayoutParams(-1,0,1)); Button back=btn("← Voltar"); root.addView(back,new LinearLayout.LayoutParams(-1,dp(48))); ExoPlayer player=new ExoPlayer.Builder(this).build(); pv.setPlayer(player); player.setMediaItem(MediaItem.fromUri(Uri.parse(url))); player.prepare(); player.play(); back.setOnClickListener(v->{player.release();home();}); }
- void module(String title,String body){ base(); TextView h=tv(title,26,true); h.setTextColor(Color.rgb(40,140,255)); root.addView(h,new LinearLayout.LayoutParams(-1,dp(65))); TextView b=tv(body,16,false); b.setGravity(Gravity.TOP); root.addView(b,new LinearLayout.LayoutParams(-1,0,1)); Button back=btn("← Voltar"); root.addView(back,new LinearLayout.LayoutParams(-1,dp(50))); back.setOnClickListener(v->home()); }
- void sync(){
-  Toast.makeText(this,"Sincronizando dispositivo...",Toast.LENGTH_SHORT).show();
-  new Thread(()->{
-    try{
-      String api="https://multiplay-site.onrender.com";
-      URL u=new URL(api+"/api/device/status?device_id="+deviceId+"&device_key="+deviceKey);
-      HttpURLConnection c=(HttpURLConnection)u.openConnection(); c.setConnectTimeout(10000); c.setReadTimeout(10000);
-      BufferedReader br=new BufferedReader(new InputStreamReader(c.getInputStream()));
-      StringBuilder out=new StringBuilder(); String line; while((line=br.readLine())!=null) out.append(line); br.close();
-      runOnUiThread(()->home(out.toString()));
-    }catch(Exception e){runOnUiThread(()->{Toast.makeText(this,"Não foi possível sincronizar agora.",Toast.LENGTH_LONG).show();home();});}
-  }).start();
-}
-void home(){home("");}
-void home(String status){base();LinearLayout top=new LinearLayout(this);top.setGravity(Gravity.CENTER_VERTICAL);TextView logo=tv("MULTIPLAY",28,true);logo.setTextColor(Color.rgb(40,140,255));top.addView(logo,new LinearLayout.LayoutParams(0,dp(55),1));top.addView(tv("DEVICE KEY  "+deviceKey,12,false),new LinearLayout.LayoutParams(dp(180),dp(55)));root.addView(top);
- LinearLayout nav=new LinearLayout(this);for(String s:new String[]{"INÍCIO","TV AO VIVO","FILMES","SÉRIES","LIVROS","AUDIOBOOK","E-BOOKS"}){Button x=btn(s);nav.addView(x,new LinearLayout.LayoutParams(0,dp(45),1)); if(s.equals("TV AO VIVO"))x.setOnClickListener(v->module("TV AO VIVO","Canais vinculados à playlist autorizada do dispositivo aparecerão aqui.")); if(s.equals("FILMES"))x.setOnClickListener(v->module("FILMES","Catálogo VOD da playlist autorizada.")); if(s.equals("SÉRIES"))x.setOnClickListener(v->module("SÉRIES","Séries e temporadas da playlist autorizada.")); if(s.equals("LIVROS"))x.setOnClickListener(v->module("LIVROS","Biblioteca digital de livros disponibilizados legalmente.")); if(s.equals("AUDIOBOOK"))x.setOnClickListener(v->module("AUDIOBOOKS","Audiobooks e conteúdos em áudio.")); if(s.equals("E-BOOKS"))x.setOnClickListener(v->module("E-BOOKS","E-books e publicações digitais."));}root.addView(nav);
- TextView h=tv("Sua central de entretenimento",25,true);h.setPadding(dp(10),dp(16),dp(10),dp(4));root.addView(h,new LinearLayout.LayoutParams(-1,dp(62)));
- LinearLayout grid=new LinearLayout(this);for(String s:new String[]{"📺  Canais","🎬  Filmes","📚  Livros","🎧  Audiobooks","📖  E-books","🎓  Cursos"}){TextView c=tv(s,15,true);c.setGravity(Gravity.CENTER);c.setBackgroundColor(Color.rgb(15,22,40));LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,dp(110),1);p.setMargins(dp(5),dp(5),dp(5),dp(5));grid.addView(c,p);}root.addView(grid,new LinearLayout.LayoutParams(-1,dp(125)));
- TextView st=tv((status.isEmpty()?"Playlist: aguardando vínculo no painel":status)+"\nDevice ID: "+deviceId+"\nCursos: gratuitos; certificado somente quando oferecido pela instituição responsável.",12,false);st.setGravity(Gravity.CENTER);root.addView(st,new LinearLayout.LayoutParams(-1,dp(55)));}
+  private final String API="https://multiplay-site.onrender.com";
+  private final String PANEL=API+"/admin-dispositivos.html";
+  private LinearLayout root, listBox;
+  private String deviceId,deviceKey,playlistName="";
+  private ArrayList<Item> items=new ArrayList<>();
+  private ExoPlayer player;
+
+  static class Item {
+    String name,url,group,logo;
+    Item(String n,String u,String g,String l){name=n;url=u;group=g;logo=l;}
+  }
+
+  int dp(int n){return (int)(n*getResources().getDisplayMetrics().density+.5f);}
+  TextView tv(String s,int z,boolean bold){TextView t=new TextView(this);t.setText(s);t.setTextColor(Color.WHITE);t.setTextSize(z);t.setPadding(dp(10),dp(7),dp(10),dp(7));if(bold)t.setTypeface(Typeface.DEFAULT,Typeface.BOLD);return t;}
+  Button btn(String s){Button b=new Button(this);b.setText(s);b.setTextColor(Color.WHITE);b.setTextSize(12);b.setAllCaps(false);b.setBackgroundColor(Color.rgb(20,100,205));return b;}
+  EditText search(){EditText e=new EditText(this);e.setHint("Buscar canal, filme ou série");e.setHintTextColor(Color.rgb(125,140,160));e.setTextColor(Color.WHITE);e.setSingleLine(true);e.setPadding(dp(12),0,dp(12),0);GradientDrawable g=new GradientDrawable();g.setColor(Color.rgb(10,18,32));g.setStroke(dp(1),Color.rgb(32,49,73));g.setCornerRadius(dp(10));e.setBackground(g);return e;}
+  public void onCreate(Bundle b){super.onCreate(b);getWindow().setStatusBarColor(Color.rgb(3,7,18));getWindow().setNavigationBarColor(Color.rgb(3,7,18));deviceId=androidId();deviceKey=key();deviceScreen("");}
+
+  String androidId(){String x=Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);return (x==null||x.isEmpty()?UUID.randomUUID().toString().replace("-",""):x).toUpperCase(Locale.US);}
+  String key(){android.content.SharedPreferences p=getSharedPreferences("multiplay",0);String k=p.getString("device_key",null);if(k==null){k=hash(deviceId+"|MULTIPLAY|"+UUID.randomUUID()).substring(0,10).toUpperCase(Locale.US);p.edit().putString("device_key",k).apply();}return k;}
+  String hash(String s){try{byte[] x=MessageDigest.getInstance("SHA-256").digest(s.getBytes(StandardCharsets.UTF_8));StringBuilder h=new StringBuilder();for(byte v:x)h.append(String.format("%02x",v));return h.toString();}catch(Exception e){return UUID.randomUUID().toString().replace("-","");}}
+
+  void base(){root=new LinearLayout(this);root.setOrientation(LinearLayout.VERTICAL);root.setPadding(dp(16),dp(12),dp(16),dp(12));root.setBackgroundColor(Color.rgb(3,7,18));setContentView(root);}
+  TextView cardText(String s){TextView t=tv(s,14,true);t.setGravity(Gravity.CENTER_VERTICAL);GradientDrawable g=new GradientDrawable();g.setColor(Color.rgb(10,18,32));g.setStroke(dp(1),Color.rgb(32,49,73));g.setCornerRadius(dp(12));t.setBackground(g);return t;}
+
+  void deviceScreen(String message){
+    base();
+    TextView logo=tv("MULTI",31,true);logo.setTextColor(Color.rgb(24,221,255));logo.setGravity(Gravity.CENTER);root.addView(logo,new LinearLayout.LayoutParams(-1,dp(48)));
+    TextView sub=tv("PLAY  •  ENTRETENIMENTO",15,true);sub.setGravity(Gravity.CENTER);root.addView(sub,new LinearLayout.LayoutParams(-1,dp(30)));
+    TextView title=tv("Ative este dispositivo",23,true);title.setGravity(Gravity.CENTER);root.addView(title,new LinearLayout.LayoutParams(-1,dp(48)));
+    TextView info=tv("Como no modelo de players por painel: o aplicativo mostra o identificador e a chave. A playlist é cadastrada no painel web.",13,false);info.setGravity(Gravity.CENTER);root.addView(info,new LinearLayout.LayoutParams(-1,dp(68)));
+    root.addView(cardText("DEVICE ID\n"+deviceId),new LinearLayout.LayoutParams(-1,dp(72)));
+    root.addView(cardText("DEVICE KEY\n"+deviceKey),new LinearLayout.LayoutParams(-1,dp(72)));
+    TextView url=tv("PAINEL MULTIPLAY\n"+PANEL,12,false);url.setGravity(Gravity.CENTER);root.addView(url,new LinearLayout.LayoutParams(-1,dp(62)));
+    Button open=btn("ABRIR PAINEL NO NAVEGADOR");root.addView(open,new LinearLayout.LayoutParams(-1,dp(48)));open.setOnClickListener(v->{startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(PANEL)));});
+    Button sync=btn("ATUALIZAR / CONTINUAR");root.addView(sync,new LinearLayout.LayoutParams(-1,dp(52)));sync.setOnClickListener(v->sync());
+    if(!message.isEmpty()){TextView m=tv(message,13,true);m.setGravity(Gravity.CENTER);m.setTextColor(Color.rgb(255,190,80));root.addView(m,new LinearLayout.LayoutParams(-1,dp(50)));}
+    TextView legal=tv("Use somente playlists e conteúdos próprios, licenciados ou autorizados.",11,false);legal.setGravity(Gravity.CENTER);root.addView(legal,new LinearLayout.LayoutParams(-1,dp(45)));
+  }
+
+  void sync(){
+    Toast.makeText(this,"Consultando painel Multiplay...",Toast.LENGTH_SHORT).show();
+    new Thread(()->{
+      try{
+        String status=get("/api/device/status?device_id="+enc(deviceId)+"&device_key="+enc(deviceKey));
+        boolean registered=status.contains(""registered":true");
+        boolean active=status.contains(""active":true");
+        boolean has=status.contains(""has_playlist":true");
+        if(!registered){runOnUiThread(()->deviceScreen("Dispositivo ainda não cadastrado no painel."));return;}
+        if(!active){runOnUiThread(()->deviceScreen("Dispositivo inativo ou expirado."));return;}
+        if(!has){runOnUiThread(()->deviceScreen("Dispositivo ativo, mas ainda sem playlist."));return;}
+        String data=get("/api/device/playlist?device_id="+enc(deviceId)+"&device_key="+enc(deviceKey));
+        String url=json(data,"playlist_url"); playlistName=json(data,"playlist_name");
+        if(url==null||url.isEmpty()){runOnUiThread(()->deviceScreen("A playlist não foi encontrada."));return;}
+        String m3u=getAbsolute(url);
+        parseM3U(m3u);
+        runOnUiThread(()->home());
+      }catch(Exception e){runOnUiThread(()->deviceScreen("Não foi possível sincronizar. Verifique a internet e o painel."));}
+    }).start();
+  }
+
+  String get(String path)throws Exception{URL u=new URL(API+path);HttpURLConnection c=(HttpURLConnection)u.openConnection();c.setRequestMethod("GET");c.setConnectTimeout(15000);c.setReadTimeout(30000);c.setRequestProperty("Accept","application/json");InputStream in=c.getResponseCode()>=400?c.getErrorStream():c.getInputStream();if(in==null)throw new IOException("HTTP");BufferedReader r=new BufferedReader(new InputStreamReader(in,StandardCharsets.UTF_8));StringBuilder s=new StringBuilder();String l;while((l=r.readLine())!=null)s.append(l);r.close();return s.toString();}
+  String getAbsolute(String url)throws Exception{URL u=new URL(url);HttpURLConnection c=(HttpURLConnection)u.openConnection();c.setConnectTimeout(15000);c.setReadTimeout(60000);c.setRequestProperty("User-Agent","Multiplay/2.1");InputStream in=c.getInputStream();BufferedReader r=new BufferedReader(new InputStreamReader(in,StandardCharsets.UTF_8));StringBuilder s=new StringBuilder();String l;while((l=r.readLine())!=null)s.append(l).append("\n");r.close();return s.toString();}
+  String enc(String s)throws Exception{return URLEncoder.encode(s,"UTF-8");}
+  String json(String j,String key){Matcher m=Pattern.compile("\""+Pattern.quote(key)+"\"\\s*:\\s*\"([^\"]*)\"").matcher(j);return m.find()?m.group(1).replace("\\\"","\""):null;}
+
+  void parseM3U(String m3u){
+    items.clear();String pendingName=null,pendingGroup="",pendingLogo="";
+    String[] lines=m3u.replace("\r","").split("\n");
+    for(String raw:lines){
+      String line=raw.trim();
+      if(line.startsWith("#EXTINF")){
+        int comma=line.indexOf(',');
+        pendingName=comma>=0?line.substring(comma+1).trim(): "Conteúdo";
+        pendingGroup=attr(line,"group-title");pendingLogo=attr(line,"tvg-logo");
+      }else if(!line.isEmpty()&&!line.startsWith("#")&&pendingName!=null){
+        items.add(new Item(pendingName,line,pendingGroup,pendingLogo));pendingName=null;pendingGroup="";pendingLogo="";
+      }
+    }
+  }
+  String attr(String line,String key){Matcher m=Pattern.compile(key+"=\"([^\"]*)\"",Pattern.CASE_INSENSITIVE).matcher(line);return m.find()?m.group(1):"";}
+
+  String kind(Item x){
+    String g=(x.group+" "+x.name).toLowerCase(Locale.ROOT);
+    if(g.matches(".*(filme|movie|vod|cinema|film).*"))return "FILMES";
+    if(g.matches(".*(série|serie|series|season|temporada|epis[oó]dio).*"))return "SÉRIES";
+    return "TV AO VIVO";
+  }
+
+  void home(){base();LinearLayout top=new LinearLayout(this);top.setGravity(Gravity.CENTER_VERTICAL);TextView logo=tv("MULTIPLAY",24,true);logo.setTextColor(Color.rgb(24,221,255));top.addView(logo,new LinearLayout.LayoutParams(0,dp(52),1));Button refresh=btn("↻ ATUALIZAR");top.addView(refresh,new LinearLayout.LayoutParams(dp(110),dp(45)));refresh.setOnClickListener(v->sync());root.addView(top);
+    TextView status=tv("Playlist: "+(playlistName.isEmpty()?"Multiplay":playlistName)+"  •  "+items.size()+" itens sincronizados",12,false);root.addView(status,new LinearLayout.LayoutParams(-1,dp(38)));
+    EditText q=search();LinearLayout.LayoutParams qp=new LinearLayout.LayoutParams(-1,dp(48));qp.setMargins(0,dp(5),0,dp(8));root.addView(q,qp);
+    LinearLayout tabs=new LinearLayout(this);for(String s:new String[]{"TODOS","TV AO VIVO","FILMES","SÉRIES"}){Button b=btn(s);tabs.addView(b,new LinearLayout.LayoutParams(0,dp(45),1));b.setOnClickListener(v->showList((String)v.getTag(),q.getText().toString()));b.setTag(s);}root.addView(tabs);
+    listBox=new LinearLayout(this);listBox.setOrientation(LinearLayout.VERTICAL);ScrollView sv=new ScrollView(this);sv.addView(listBox);root.addView(sv,new LinearLayout.LayoutParams(-1,0,1));showList("TODOS","");q.addTextChangedListener(new android.text.TextWatcher(){public void beforeTextChanged(CharSequence s,int st,int c,int a){}public void onTextChanged(CharSequence s,int st,int b,int c){showList("TODOS",s.toString());}public void afterTextChanged(android.text.Editable e){}});}
+  void showList(String filter,String query){if(listBox==null)return;listBox.removeAllViews();String qq=query.toLowerCase(Locale.ROOT);int count=0;for(Item x:items){String k=kind(x);if(!filter.equals("TODOS")&&!k.equals(filter))continue;if(!qq.isEmpty()&&!x.name.toLowerCase(Locale.ROOT).contains(qq)&&!x.group.toLowerCase(Locale.ROOT).contains(qq))continue;TextView b=cardText((k.equals("TV AO VIVO")?"📺 ":k.equals("FILMES")?"🎬 ":"🍿 ")+x.name+"\n"+(x.group.isEmpty()?"":x.group));b.setTextSize(14);LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(-1,dp(62));p.setMargins(0,dp(4),0,dp(4));listBox.addView(b,p);b.setOnClickListener(v->play(x));if(++count>=500)break;}if(count==0)listBox.addView(tv("Nenhum conteúdo encontrado.",14,false));}
+  void play(Item x){base();TextView h=tv(x.name,19,true);root.addView(h,new LinearLayout.LayoutParams(-1,dp(58)));PlayerView pv=new PlayerView(this);root.addView(pv,new LinearLayout.LayoutParams(-1,0,1));Button back=btn("← Voltar à lista");root.addView(back,new LinearLayout.LayoutParams(-1,dp(50)));player=new ExoPlayer.Builder(this).build();pv.setPlayer(player);player.setMediaItem(MediaItem.fromUri(Uri.parse(x.url)));player.prepare();player.play();back.setOnClickListener(v->{if(player!=null){player.release();player=null;}home();});}
+  @Override protected void onDestroy(){if(player!=null){player.release();player=null;}super.onDestroy();}
 }
