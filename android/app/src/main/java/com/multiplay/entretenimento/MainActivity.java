@@ -57,6 +57,7 @@ public class MainActivity extends Activity {
   String androidId(){String x=Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);return (x==null||x.isEmpty()?UUID.randomUUID().toString().replace("-",""):x).toUpperCase(Locale.US);}
   String key(){android.content.SharedPreferences p=getSharedPreferences("multiplay",0);String k=p.getString("device_key",null);if(k==null){k=hash(deviceId+"|MULTIPLAY|"+UUID.randomUUID()).substring(0,10).toUpperCase(Locale.US);p.edit().putString("device_key",k).apply();}return k;}
   String hash(String s){try{byte[] x=MessageDigest.getInstance("SHA-256").digest(s.getBytes(StandardCharsets.UTF_8));StringBuilder h=new StringBuilder();for(byte v:x)h.append(String.format("%02x",v));return h.toString();}catch(Exception e){return UUID.randomUUID().toString().replace("-","");}}
+  void releasePlayer(){if(player!=null){try{player.stop();}catch(Exception ignored){}try{player.release();}catch(Exception ignored){}player=null;}}
   void base(){
     ScrollView page=new ScrollView(this);
     page.setFillViewport(true);
@@ -72,6 +73,7 @@ public class MainActivity extends Activity {
     GradientDrawable g=new GradientDrawable();g.setColor(Color.rgb(34,18,62));g.setStroke(dp(1),Color.rgb(80,55,120));g.setCornerRadius(dp(18));t.setBackground(g);return t;
   }
   void home(String notice){
+    releasePlayer();
     base();
     LinearLayout top=new LinearLayout(this);top.setGravity(Gravity.CENTER_VERTICAL);
     TextView logo=text("M  Multi",23,true);logo.setTextColor(Color.rgb(35,220,255));top.addView(logo,new LinearLayout.LayoutParams(0,dp(50),1));
@@ -81,7 +83,7 @@ public class MainActivity extends Activity {
 
     LinearLayout nav=new LinearLayout(this);nav.setGravity(Gravity.CENTER);String[] ns={"⌂ Início","📺 TV ao Vivo","🎬 Filmes","🍿 Séries","★ Favoritos","⌕ Buscar"};
     for(String n:ns){TextView p=pill(n);LinearLayout.LayoutParams q=new LinearLayout.LayoutParams(0,dp(42),1);q.setMargins(dp(3),0,dp(3),0);nav.addView(p,q);
-      p.setOnClickListener(v->{String z=((TextView)v).getText().toString();if(z.contains("TV"))showList("TV AO VIVO","");else if(z.contains("Filmes"))showList("FILMES","");else if(z.contains("Séries"))showList("SÉRIES","");else if(z.contains("Buscar")){if(listBox!=null)showList("TODOS","");}});
+      p.setOnClickListener(v->{String z=((TextView)v).getText().toString();String u=z.toUpperCase(Locale.ROOT);if(u.contains("AO VIVO"))showList("TV AO VIVO","");else if(u.contains("FILMES"))showList("FILMES","");else if(u.contains("SÉRIES"))showList("SÉRIES","");else if(u.contains("BUSCAR")){if(listBox!=null)showList("TODOS","");}});
     }
     root.addView(nav,new LinearLayout.LayoutParams(-1,dp(50)));
 
@@ -94,17 +96,19 @@ public class MainActivity extends Activity {
     Button cont=button("▶  CONTINUAR");actions.addView(cont,new LinearLayout.LayoutParams(0,dp(46),1));
     Button panel=button("⚙ MEU DISPOSITIVO");actions.addView(panel,new LinearLayout.LayoutParams(0,dp(46),1));
     cont.setOnClickListener(v->continueWatching());panel.setOnClickListener(v->showDeviceInfo());
-    hero.addView(actions);root.addView(hero,new LinearLayout.LayoutParams(-1,LinearLayout.LayoutParams.WRAP_CONTENT));
+    hero.addView(actions);root.addView(hero,new LinearLayout.LayoutParams(-1,dp(128)));
 
-    TextView st=text(notice,11,true);st.setTextColor(Color.rgb(170,155,190));root.addView(st,new LinearLayout.LayoutParams(-1,dp(38)));
+    TextView st=text(notice,11,true);st.setTextColor(Color.rgb(170,155,190));root.addView(st,new LinearLayout.LayoutParams(-1,dp(28)));
     LinearLayout cats=new LinearLayout(this);String[] c={"📺 Ao vivo","🎬 Filmes","🍿 Séries","↻ Repetir","⌕ Buscar"};
     for(String s:c){Button b=button(s);LinearLayout.LayoutParams q=new LinearLayout.LayoutParams(0,dp(55),1);q.setMargins(dp(3),0,dp(3),0);cats.addView(b,q);
-      b.setOnClickListener(v->{if(s.contains("Filmes"))showList("FILMES","");else if(s.contains("Séries"))showList("SÉRIES","");else if(s.contains("Ao vivo"))showList("TV AO VIVO","");else if(s.contains("Repetir"))continueWatching();});
-    }root.addView(cats,new LinearLayout.LayoutParams(-1,LinearLayout.LayoutParams.WRAP_CONTENT));
+      b.setOnClickListener(v->{String u=s.toUpperCase(Locale.ROOT);if(u.contains("FILMES"))showList("FILMES","");else if(u.contains("SÉRIES"))showList("SÉRIES","");else if(u.contains("AO VIVO"))showList("TV AO VIVO","");else if(u.contains("CONTINUAR"))continueWatching();});
+    }root.addView(cats,new LinearLayout.LayoutParams(-1,dp(52)));
 
-    EditText q=search();LinearLayout.LayoutParams qp=new LinearLayout.LayoutParams(-1,dp(46));qp.setMargins(0,dp(8),0,dp(6));root.addView(q,qp);
-    listBox=new LinearLayout(this);listBox.setOrientation(LinearLayout.VERTICAL);
-    root.addView(listBox,new LinearLayout.LayoutParams(-1,LinearLayout.LayoutParams.WRAP_CONTENT));
+    EditText q=search();LinearLayout.LayoutParams qp=new LinearLayout.LayoutParams(-1,dp(40));qp.setMargins(0,dp(8),0,dp(6));root.addView(q,qp);
+    ScrollView results=new ScrollView(this);results.setFillViewport(true);results.setBackgroundColor(Color.TRANSPARENT);
+    listBox=new LinearLayout(this);listBox.setOrientation(LinearLayout.VERTICAL);listBox.setPadding(0,0,0,dp(6));
+    results.addView(listBox,new ScrollView.LayoutParams(-1,-2));
+    root.addView(results,new LinearLayout.LayoutParams(-1,0,1));
     q.addTextChangedListener(new TextWatcher(){public void beforeTextChanged(CharSequence s,int a,int c,int d){}public void onTextChanged(CharSequence s,int a,int b,int c){showList(currentFilter,s.toString());}public void afterTextChanged(Editable e){}});
     showList("TODOS","");
   }
@@ -124,6 +128,7 @@ public class MainActivity extends Activity {
     return t;
   }
   void showDeviceInfo(){
+    releasePlayer();
     base();
     TextView title=text("MULTIPLAY • MEU DISPOSITIVO",22,true);title.setTextColor(Color.rgb(35,220,255));root.addView(title,new LinearLayout.LayoutParams(-1,dp(60)));
     TextView intro=text("Use estes dados para cadastrar este aparelho no painel Multiplay.",13,false);intro.setTextColor(Color.rgb(200,195,215));root.addView(intro);
@@ -213,7 +218,7 @@ public class MainActivity extends Activity {
     pv.setUseController(true);
     root.addView(pv,new LinearLayout.LayoutParams(-1,dp(360)));
     Button back=button("← Voltar à Multiplay");root.addView(back,new LinearLayout.LayoutParams(-1,dp(52)));
-    back.setOnClickListener(v->{if(player!=null){player.release();player=null;}home("Conteúdo pronto. Toque em CONTINUAR para retomar o último.");});
+    back.setOnClickListener(v->{releasePlayer();home("Conteúdo pronto. Toque em CONTINUAR para retomar o último.");});
     try{
       player=new ExoPlayer.Builder(this).build();
       player.addListener(new Player.Listener(){
@@ -233,10 +238,10 @@ public class MainActivity extends Activity {
       player.prepare();
       player.play();
     }catch(Exception e){
-      if(player!=null){player.release();player=null;}
+      releasePlayer();
       info.setText("Erro ao iniciar o player: "+(e.getMessage()==null?"conteúdo incompatível":e.getMessage()));
       Toast.makeText(this,"O player não conseguiu iniciar. Escolha outro conteúdo.",Toast.LENGTH_LONG).show();
     }
   }
-  @Override protected void onDestroy(){if(player!=null){player.release();player=null;}super.onDestroy();}
+  @Override protected void onDestroy(){releasePlayer();super.onDestroy();}
 }
