@@ -1,35 +1,49 @@
-name: Multiplay Android 2.0
+name: Multiplay Android Apps
 on:
   push:
     branches: [main]
   workflow_dispatch:
+
 jobs:
-  android:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
-      - name: Build Android nativo
+
+      - name: Build Entretenimento
         working-directory: android
         run: |
           gradle wrapper --gradle-version 8.9
-          ./gradlew --no-daemon assembleDebug 2>&1 | tee build.log
-          test ${PIPESTATUS[0]} -eq 0
-      - name: Upload build log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: Multiplay-build-log
-          path: android/build.log
+          ./gradlew --no-daemon clean assembleDebug
 
-      - name: Verify APK
+      - name: Verify Entretenimento APK
         run: |
           test -f android/app/build/outputs/apk/debug/app-debug.apk
           $ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -1)/apksigner verify android/app/build/outputs/apk/debug/app-debug.apk
-      - uses: actions/upload-artifact@v4
+
+      - name: Save Entretenimento APK
+        uses: actions/upload-artifact@v4
         with:
-          name: Multiplay-2.0.1-Android
+          name: Multiplay-Entretenimento-2.0.1
           path: android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Build Educação
+        working-directory: android-educacao
+        run: |
+          gradle --no-daemon clean assembleDebug
+
+      - name: Verify Educação APK
+        run: |
+          test -f android-educacao/app/build/outputs/apk/debug/app-debug.apk
+          $ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -1)/apksigner verify android-educacao/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Save Educação APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Multiplay-Educacao-1.0.0
+          path: android-educacao/app/build/outputs/apk/debug/app-debug.apk
