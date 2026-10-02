@@ -1030,14 +1030,6 @@ app.get(
           username
         );
 
-      /*
-       * Cada categoria é consultada
-       * separadamente.
-       *
-       * Se uma falhar, as outras
-       * continuam funcionando.
-       */
-
       const resultados =
         await Promise.allSettled([
           xtreamRequest(
@@ -1385,6 +1377,107 @@ app.get(
       ebooks: [],
       audiobooks: []
     });
+
+  }
+);
+
+/* =========================
+   PROXY DE IMAGENS
+========================= */
+
+app.get(
+  '/api/imagem',
+  async (req, res) => {
+
+    const imagem =
+      req.query.url;
+
+    if (!imagem) {
+      return res.status(400).send(
+        'Imagem não informada'
+      );
+    }
+
+    try {
+
+      const parsed =
+        new URL(imagem);
+
+      /*
+       * Por segurança, o proxy aceita
+       * somente imagens HTTP/HTTPS.
+       */
+
+      if (
+        parsed.protocol !== 'http:' &&
+        parsed.protocol !== 'https:'
+      ) {
+        return res.status(400).end();
+      }
+
+      const response =
+        await fetch(
+          parsed.toString(),
+          {
+            timeout: 15000
+          }
+        );
+
+      if (!response.ok) {
+        return res.status(
+          response.status
+        ).end();
+      }
+
+      const contentType =
+        response.headers.get(
+          'content-type'
+        ) || '';
+
+      if (
+        !contentType.startsWith(
+          'image/'
+        )
+      ) {
+        return res.status(415).end();
+      }
+
+      res.setHeader(
+        'Content-Type',
+        contentType
+      );
+
+      res.setHeader(
+        'Cache-Control',
+        'public, max-age=86400'
+      );
+
+      res.setHeader(
+        'Access-Control-Allow-Origin',
+        '*'
+      );
+
+      if (response.body) {
+
+        response.body.pipe(res);
+
+      } else {
+
+        const buffer =
+          await response.buffer();
+
+        res.send(buffer);
+      }
+
+    } catch (error) {
+
+      console.error(
+        'Erro imagem:',
+        error.message
+      );
+
+      return res.status(500).end();
+    }
 
   }
 );
