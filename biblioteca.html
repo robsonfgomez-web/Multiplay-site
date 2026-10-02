@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <title>MultiPlay • Biblioteca</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#070b14;color:#f5f7fb}
+    .wrap{max-width:1100px;margin:auto;padding:22px}.hero{padding:22px 0 12px}
+    h1{margin:0 0 8px;font-size:30px}.sub{color:#aeb8c8;margin:0 0 20px}
+    .search{width:100%;padding:14px 16px;border-radius:12px;border:1px solid #263247;background:#111827;color:#fff;font-size:16px;outline:none}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.tab{border:1px solid #29364d;background:#111827;color:#dbe4f0;padding:9px 14px;border-radius:999px;cursor:pointer}
+    .tab.active{background:#2563eb;border-color:#2563eb;color:#fff}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+    .card{background:#101725;border:1px solid #202c40;border-radius:16px;padding:18px;min-height:170px;display:flex;flex-direction:column}
+    .type{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#7dd3fc;margin-bottom:10px}.card h3{margin:0 0 8px;font-size:19px}.card p{color:#aeb8c8;line-height:1.45;margin:0 0 16px;flex:1}
+    .open{display:inline-block;text-align:center;text-decoration:none;background:#2563eb;color:white;padding:11px 14px;border-radius:10px}
+    .empty{text-align:center;color:#9aa7b9;padding:35px 10px}.back{display:inline-block;color:#9cc4ff;text-decoration:none;margin-bottom:16px}
+    @media(max-width:600px){.wrap{padding:16px}h1{font-size:25px}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <a class="back" href="/app.html">← Voltar para o MultiPlay</a>
+    <section class="hero">
+      <h1>📚 Biblioteca MultiPlay</h1>
+      <p class="sub">Livros, e-books e audiobooks com acesso a conteúdos disponíveis legalmente.</p>
+      <input id="search" class="search" placeholder="Buscar na biblioteca..." autocomplete="off">
+    </section>
+    <nav class="tabs">
+      <button class="tab active" data-filter="todos">Todos</button>
+      <button class="tab" data-filter="livro">Livros</button>
+      <button class="tab" data-filter="ebook">E-books</button>
+      <button class="tab" data-filter="audiobook">Audiobooks</button>
+    </nav>
+    <section id="grid" class="grid"></section>
+    <div id="empty" class="empty" hidden>Nenhum conteúdo encontrado.</div>
+  </main>
+<script>
+let items=[], filter='todos';
+const grid=document.getElementById('grid'), empty=document.getElementById('empty'), search=document.getElementById('search');
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){
+  const q=search.value.trim().toLowerCase();
+  const data=items.filter(x=>(filter==='todos'||String(x.tipo||'').toLowerCase()===filter)&&(!q||[x.titulo,x.autor,x.descricao].join(' ').toLowerCase().includes(q)));
+  grid.innerHTML=data.map(x=>`<article class="card"><div class="type">${esc(x.tipo||'conteúdo')}</div><h3>${esc(x.titulo||'Sem título')}</h3><p>${esc(x.descricao||('Autor: '+(x.autor||'Não informado')))}</p>${x.url?'<a class="open" target="_blank" rel="noopener" href="'+esc(x.url)+'">Abrir conteúdo</a>':''}</article>`).join('');
+  empty.hidden=data.length>0;
+}
+async function load(){
+  try{
+    const r=await fetch('/api/livros',{cache:'no-store'}); const d=await r.json();
+    items=[...(d.livros||[]).map(x=>({...x,tipo:x.tipo||'livro'})),...(d.ebooks||[]).map(x=>({...x,tipo:x.tipo||'ebook'})),...(d.audiobooks||[]).map(x=>({...x,tipo:x.tipo||'audiobook'}))];
+    render();
+  }catch(e){items=[];render();empty.hidden=false;empty.textContent='Não foi possível carregar a biblioteca agora.'}
+}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');filter=b.dataset.filter;render()}));
+search.addEventListener('input',render); load();
+</script>
+</body>
+</html>
