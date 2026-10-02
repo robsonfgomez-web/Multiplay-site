@@ -2270,6 +2270,26 @@ app.get('/api/device/playlist', async (req,res)=>{
   }catch(e){return res.status(500).json({success:false,message:'Erro ao sincronizar playlist.'});}
 });
 
+app.get('/api/device/playlist/content', async (req,res)=>{
+  const {device_id,device_key}=req.query||{};
+  if(!device_id||!device_key) return res.status(400).type('text/plain').send('Device ID e Device Key são obrigatórios.');
+  try{
+    const q=await pool.query('SELECT playlist_url,active,expires_at,trial_expires_at,activation_expires_at FROM multiplay_devices WHERE device_id=$1 AND device_key=$2',[device_id,device_key]);
+    if(!q.rows.length) return res.status(404).type('text/plain').send('Dispositivo não registrado.');
+    const d=q.rows[0], st=estadoDispositivo(d);
+    if(!st.active) return res.status(403).type('text/plain').send(st.status==='EXPIRADO'?'Assinatura expirada.':'Dispositivo inativo.');
+    if(!d.playlist_url) return res.status(404).type('text/plain').send('Playlist não vinculada.');
+    const upstream=await fetch(d.playlist_url,{timeout:60000,headers:{'User-Agent':'Multiplay/2.0.3','Accept':'application/x-mpegURL,audio/x-mpegurl,text/plain,*/*'}});
+    if(!upstream.ok) return res.status(502).type('text/plain').send('Servidor da playlist respondeu HTTP '+upstream.status+'.');
+    const content=await upstream.text();
+    if(!content.trim()) return res.status(502).type('text/plain').send('Servidor da playlist retornou conteúdo vazio.');
+    return res.type('text/plain').send(content);
+  }catch(e){
+    console.error('MultiPlay playlist content:',e.message);
+    return res.status(502).type('text/plain').send('Não foi possível carregar a playlist do servidor de conteúdo.');
+  }
+});
+
 app.get('/api/admin/devices', exigirAdmin, async (req,res)=>{
   try{
     const q=await pool.query('SELECT device_id,device_key,customer_username,active,expires_at,trial_started_at,trial_expires_at,activation_expires_at,activated_at,playlist_name,playlist_url,epg_url,created_at,updated_at FROM multiplay_devices ORDER BY created_at DESC');
