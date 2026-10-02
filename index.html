@@ -66,15 +66,44 @@
       color: #e50914;
     }
 
-    .top-button {
-      background: #e50914;
-      color: #fff;
-      padding: 10px 17px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 14px;
-    }
+    .top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.top-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 105px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 13px;
+  transition: 0.2s ease;
+}
+
+.login-button {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #e50914;
+}
+
+.login-button:hover {
+  background: #e50914;
+}
+
+.whatsapp-button {
+  background: #25D366;
+  color: #fff;
+  border: 1px solid #25D366;
+}
+
+.whatsapp-button:hover {
+  opacity: 0.85;
+}
 
     /* HERO */
 
@@ -415,7 +444,25 @@
     /* RESPONSIVO */
 
     @media (max-width: 950px) {
-      .plans-grid {
+      .plans-grid { 
+.topbar {
+  padding: 12px 14px;
+  gap: 10px;
+}
+
+.logo {
+  font-size: 21px;
+}
+
+.top-actions {
+  gap: 6px;
+}
+
+.top-button {
+  min-width: auto;
+  padding: 9px 10px;
+  font-size: 11px;
+}
         grid-template-columns: repeat(2, 1fr);
       }
 
