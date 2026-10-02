@@ -1304,60 +1304,461 @@ app.get(
 );
 
 /* =========================
-   MÍDIA
+   MÍDIA / PLAYER
 ========================= */
 
 app.get(
   '/api/media',
   async (req, res) => {
 
-    const source = req.query.url;
+    const username =
+      req.query.user ||
+      req.query.username;
 
-    if (!source) {
+    const streamId =
+      req.query.stream_id;
+
+    const type =
+      req.query.type ||
+      'filme';
+
+    const resource =
+      req.query.resource;
+
+
+    if (
+      !username ||
+      !streamId
+    ) {
+
       return res.status(400).json({
-        error: 'URL não informada'
+        error:
+          'Dados do conteúdo não informados'
       });
+
     }
+
 
     try {
 
-      const parsed = new URL(source);
+      /*
+       * Busca as credenciais Xtream
+       * vinculadas ao cliente MultiPlay.
+       *
+       * A senha Xtream NÃO é enviada
+       * pelo aplicativo.
+       */
 
-      if (parsed.hostname !== 'u.l0.ms') {
-        return res.status(403).json({
-          error: 'Origem não autorizada'
-        });
+      const credenciais =
+        await obterCredenciaisXtream(
+          username
+        );
+
+
+      let source;
+
+
+      /*
+       * Se for uma requisição de segmento
+       * HLS, usamos o recurso informado
+       * pelo próprio servidor.
+       */
+
+      if (resource) {
+
+        source =
+          decodeURIComponent(
+            resource
+          );
+
+      } else {
+
+        /*
+         * CANAL
+         */
+
+        if (
+          type === 'canal'
+        ) {
+
+          source =
+            `${XTREAM_HOST}/live/` +
+            `${encodeURIComponent(
+              credenciais.user
+            )}/` +
+            `${encodeURIComponent(
+              credenciais.pass
+            )}/` +
+            `${encodeURIComponent(
+              streamId
+            )}.m3u8`;
+
+        }
+
+
+        /*
+         * FILME
+         */
+
+        else if (
+          type === 'filme'
+        ) {
+
+          source =
+            `${XTREAM_HOST}/movie/` +
+            `${encodeURIComponent(
+              credenciais.user
+            )}/` +
+            `${encodeURIComponent(
+              credenciais.pass
+            )}/` +
+            `${encodeURIComponent(
+              streamId
+            )}.mp4`;
+
+        }
+
+
+        /*
+         * SÉRIE / EPISÓDIO
+         */
+
+        else if (
+          type === 'serie'
+        ) {
+
+          source =
+            `${XTREAM_HOST}/series/` +
+            `${encodeURIComponent(
+              credenciais.user
+            )}/` +
+            `${encodeURIComponent(
+              credenciais.pass
+            )}/` +
+            `${encodeURIComponent(
+              streamId
+            )}.mp4`;
+
+        }
+
+
+        else {
+
+          return res.status(400).json({
+            error:
+              'Tipo de conteúdo não suportado'
+          });
+
+        }
+
       }
 
-      const response = await fetch(source);
+
+      /*
+       * Segurança:
+       * o servidor só pode acessar
+       * o domínio Xtream configurado.
+       */
+
+      const parsed =
+        new URL(source);
+
+
+      if (
+        parsed.hostname !==
+        'u.l0.ms'
+      ) {
+
+        return res.status(403).json({
+          error:
+            'Origem não autorizada'
+        });
+
+      }
+
+
+      /*
+       * Encaminha Range para filmes
+       * e episódios.
+       */
+
+      const headers = {};
+
+      if (req.headers.range) {
+
+        headers.Range =
+          req.headers.range;
+
+      }
+
+
+      const response =
+        await fetch(
+          source,
+          {
+            headers
+          }
+        );
+
 
       if (!response.ok) {
+
         return res
           .status(response.status)
-          .send('Erro ao acessar conteúdo');
+          .send(
+            'Não foi possível acessar o conteúdo'
+          );
+
       }
 
-      const contentType =
-        response.headers.get('content-type');
 
-      if (contentType) {
-        res.setHeader(
-          'Content-Type',
-          contentType
-        );
-      }
+      /*
+       * Copia os cabeçalhos importantes
+       * para o navegador/player.
+       */
+
+      const headersToCopy = [
+        'content-type',
+        'content-length',
+        'content-range',
+        'accept-ranges',
+        'etag',
+        'last-modified'
+      ];
+
+
+      headersToCopy.forEach(
+        header => {
+
+          const value =
+            response.headers.get(
+              header
+            );
+
+          if (value) {
+
+            res.setHeader(
+              header,
+              value
+            );
+
+          }
+
+        }
+      );
+
 
       res.setHeader(
         'Access-Control-Allow-Origin',
         '*'
       );
 
+
       res.setHeader(
         'Cache-Control',
         'no-cache'
       );
 
-      response.body.pipe(res);
+
+      /*
+       * HLS:
+       *
+       * A playlist precisa ser reescrita
+       * para que os segmentos também
+       * passem pelo servidor MultiPlay.
+       */
+
+      const contentType =
+        response.headers.get(
+          'content-type'
+        ) || '';
+
+
+      const isHls =
+        contentType.includes(
+          'mpegurl'
+        ) ||
+        contentType.includes(
+          'm3u8'
+        ) ||
+        source.includes(
+          '.m3u8'
+        );
+
+
+      if (isHls) {
+
+        const playlist =
+          await response.text();
+
+
+        const baseUrl =
+          new URL(
+            source
+          );
+
+
+        const rewritten =
+          playlist
+            .split('\n')
+            .map(
+              line => {
+
+                const trimmed =
+                  line.trim();
+
+
+                /*
+                 * Linha de segmento
+                 */
+
+                if (
+                  trimmed &&
+                  !trimmed.startsWith('#')
+                ) {
+
+                  try {
+
+                    const segmentUrl =
+                      new URL(
+                        trimmed,
+                        baseUrl
+                      ).toString();
+
+
+                    return (
+                      `/api/media?` +
+                      `user=${encodeURIComponent(
+                        username
+                      )}` +
+                      `&stream_id=${encodeURIComponent(
+                        streamId
+                      )}` +
+                      `&type=${encodeURIComponent(
+                        type
+                      )}` +
+                      `&resource=${encodeURIComponent(
+                        segmentUrl
+                      )}`
+                    );
+
+                  } catch {
+
+                    return line;
+
+                  }
+
+                }
+
+
+                /*
+                 * URI dentro de uma
+                 * tag HLS.
+                 */
+
+                if (
+                  trimmed.includes(
+                    'URI="'
+                  )
+                ) {
+
+                  return trimmed.replace(
+                    /URI="([^"]+)"/g,
+                    (
+                      match,
+                      uri
+                    ) => {
+
+                      try {
+
+                        const resourceUrl =
+                          new URL(
+                            uri,
+                            baseUrl
+                          ).toString();
+
+
+                        const proxyUrl =
+                          `/api/media?` +
+                          `user=${encodeURIComponent(
+                            username
+                          )}` +
+                          `&stream_id=${encodeURIComponent(
+                            streamId
+                          )}` +
+                          `&type=${encodeURIComponent(
+                            type
+                          )}` +
+                          `&resource=${encodeURIComponent(
+                            resourceUrl
+                          )}`;
+
+
+                        return `URI="${proxyUrl}"`;
+
+                      } catch {
+
+                        return match;
+
+                      }
+
+                    }
+                  );
+
+                }
+
+
+                return line;
+
+              }
+            )
+            .join('\n');
+
+
+        res.setHeader(
+          'Content-Type',
+          'application/vnd.apple.mpegurl'
+        );
+
+
+        return res.send(
+          rewritten
+        );
+
+      }
+
+
+      /*
+       * Filme / episódio / segmento.
+       */
+
+      if (
+        response.status === 206
+      ) {
+
+        res.status(206);
+
+      }
+
+
+      if (
+        response.body
+      ) {
+
+        response.body.pipe(
+          res
+        );
+
+      } else {
+
+        const buffer =
+          await response.buffer();
+
+        res.send(
+          buffer
+        );
+
+      }
 
     } catch (error) {
 
@@ -1366,12 +1767,18 @@ app.get(
         error
       );
 
+
       return res.status(500).json({
-        error: 'Erro ao reproduzir conteúdo'
+        error:
+          'Erro ao reproduzir conteúdo'
       });
+
     }
+
   }
 );
+
+      
 
 /* =========================
    CRIAR TABELAS
