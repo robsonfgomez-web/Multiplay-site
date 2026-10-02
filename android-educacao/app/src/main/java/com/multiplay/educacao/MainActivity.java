@@ -159,7 +159,7 @@ public class MainActivity extends Activity {
         LinearLayout bar=new LinearLayout(this); bar.setGravity(Gravity.CENTER); bar.setPadding(dp(5),dp(5),dp(5),dp(5)); bar.setBackground(bg(Color.rgb(9,15,27),Color.rgb(34,52,76),18));
         String[] names={"⌂\\nInício","🎓\\nCursos","📚\\nBiblioteca","♥\\nFavoritos"};
         for(String n:names){ Button b=btn(n); b.setTextSize(10); b.setBackgroundColor(Color.TRANSPARENT); LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,dp(56),1); bar.addView(b,p);
-            if(n.startsWith("⌂"))b.setOnClickListener(v->home()); else if(n.startsWith("🎓"))b.setOnClickListener(v->catalog("CURSOS",courses)); else if(n.startsWith("📚"))b.setOnClickListener(v->catalog("BIBLIOTECA",books,ebooks,audios)); else b.setOnClickListener(v->favorites());
+            if(n.startsWith("⌂"))b.setOnClickListener(v->home()); else if(n.startsWith("🎓"))b.setOnClickListener(v->catalog("CURSOS",courses)); else if(n.startsWith("📚"))b.setOnClickListener(v->catalog("BIBLIOTECA",books,ebooks,audios)); else if(n.startsWith("♥"))b.setOnClickListener(v->favorites()); else b.setOnClickListener(v->supportScreen());
         } return bar;
     }
 
