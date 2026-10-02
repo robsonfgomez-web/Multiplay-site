@@ -1413,13 +1413,51 @@ app.get(
 app.get(
   '/api/livros',
   (req, res) => {
-
+    // Catálogo inicial com obras em domínio público e fontes abertas.
+    // Para conteúdo comercial, use somente arquivos/licenças autorizados pelo responsável.
     res.json({
-      livros: [],
-      ebooks: [],
-      audiobooks: []
+      livros: [
+        {
+          titulo: 'Dom Casmurro',
+          autor: 'Machado de Assis',
+          descricao: 'Clássico da literatura brasileira em domínio público.',
+          url: 'https://www.gutenberg.org/ebooks/search/?query=dom+casmurro',
+          tipo: 'livro'
+        },
+        {
+          titulo: 'Memórias Póstumas de Brás Cubas',
+          autor: 'Machado de Assis',
+          descricao: 'Romance clássico brasileiro em domínio público.',
+          url: 'https://www.gutenberg.org/ebooks/search/?query=memorias+postumas+bras+cubas',
+          tipo: 'livro'
+        }
+      ],
+      ebooks: [
+        {
+          titulo: 'A Biblioteca Digital do Project Gutenberg',
+          autor: 'Project Gutenberg',
+          descricao: 'Milhares de e-books gratuitos de obras em domínio público.',
+          url: 'https://www.gutenberg.org/',
+          tipo: 'ebook'
+        },
+        {
+          titulo: 'Busca de e-books em português',
+          autor: 'Project Gutenberg',
+          descricao: 'Pesquisa por livros disponíveis legalmente no acervo.',
+          url: 'https://www.gutenberg.org/ebooks/search/?query=portuguese',
+          tipo: 'ebook'
+        }
+      ],
+      audiobooks: [
+        {
+          titulo: 'Audiobooks gratuitos em domínio público',
+          autor: 'LibriVox',
+          descricao: 'Catálogo de audiolivros de obras em domínio público.',
+          url: 'https://librivox.org/search?primary_key=0&search_category=language&search_page=1&search_form=get_results',
+          tipo: 'audiobook'
+        }
+      ]
     });
-
   }
 );
 
