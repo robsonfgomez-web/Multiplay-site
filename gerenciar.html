@@ -1,8 +1,65 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Multiplay — Gerenciar dispositivo</title>
-<style>:root{--bg:#030712;--panel:#0a1220;--line:#203149;--blue:#168cff;--cyan:#18ddff;--muted:#9eacbd}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#12345a 0,#030712 42%);color:#fff;font-family:Arial,sans-serif;min-height:100vh;padding:20px}.wrap{max-width:620px;margin:auto}.brand{text-align:center;font-size:32px;font-weight:900;color:var(--cyan);padding:28px 0 8px}.sub{text-align:center;color:var(--muted);margin-bottom:22px}.card{background:#0a1220ee;border:1px solid var(--line);border-radius:18px;padding:20px;margin:14px 0;box-shadow:0 20px 60px #0006}label{display:block;color:#c9d5e3;font-size:13px;font-weight:700;margin:14px 0 6px}input{width:100%;padding:14px;background:#07101b;border:1px solid #29405c;border-radius:10px;color:#fff;font-size:15px}button{width:100%;padding:14px;border:0;border-radius:10px;background:linear-gradient(135deg,#168cff,#1749ff);color:#fff;font-weight:900;font-size:14px;margin-top:16px}.status{padding:13px;border-radius:10px;background:#071526;color:#b9c8d8;font-size:13px;line-height:1.5;margin-top:14px}.ok{color:#5cffb0}.bad{color:#ff8b8b}.help{font-size:12px;color:#8fa0b5;line-height:1.6}.hide{display:none}.step{display:flex;gap:10px;align-items:flex-start;margin:10px 0}.n{min-width:26px;height:26px;border-radius:50%;background:#168cff;display:flex;align-items:center;justify-content:center;font-weight:900}</style></head>
-<body><div class="wrap"><div class="brand">MULTIPLAY</div><div class="sub">Ativação e gerenciamento do dispositivo</div>
-<div class="card"><h2>Conectar dispositivo</h2><p class="help">Use o Device ID e o Device Key mostrados no aplicativo.</p><label>Device ID</label><input id="id" placeholder="Cole o Device ID"><label>Device Key</label><input id="key" placeholder="Cole o Device Key"><button onclick="check()">CONTINUAR</button><div id="status" class="status">Informe os dados para continuar.</div></div>
-<div id="form" class="card hide"><h2>Playlist do cliente</h2><p class="help">Cada dispositivo deve receber uma M3U exclusiva. Informe a URL M3U autorizada deste cliente.</p><label>Nome da playlist</label><input id="name" placeholder="Ex.: Cliente 001"><label>URL M3U exclusiva</label><input id="url" placeholder="https://.../playlist.m3u"><label>URL EPG (opcional)</label><input id="epg" placeholder="https://.../epg.xml"><button onclick="save()">SALVAR E ATIVAR</button><div id="saveStatus" class="status"></div></div>
-<div class="card help"><div class="step"><span class="n">1</span><span>Abra o Multiplay e copie Device ID + Device Key.</span></div><div class="step"><span class="n">2</span><span>Digite os dois dados nesta página.</span></div><div class="step"><span class="n">3</span><span>Informe a M3U exclusiva e salve.</span></div><div class="step"><span class="n">4</span><span>Volte ao aplicativo e toque em Atualizar / Continuar.</span></div></div></div>
-<script>const $=id=>document.getElementById(id);async function check(){const device_id=$('id').value.trim(),device_key=$('key').value.trim();if(!device_id||!device_key){$('status').textContent='Informe Device ID e Device Key.';return}$('status').textContent='Consultando dispositivo...';try{const r=await fetch('/api/device/manage/status?device_id='+encodeURIComponent(device_id)+'&device_key='+encodeURIComponent(device_key));const d=await r.json();if(!d.success||!d.registered){$('status').innerHTML='<span class="bad">Dispositivo não cadastrado.</span><br>Cadastre primeiro no painel administrativo.';return}if(!d.active){$('status').innerHTML='<span class="bad">Dispositivo inativo ou expirado.</span>';return}$('status').innerHTML='<span class="ok">Dispositivo reconhecido.</span><br>Playlist atual: '+(d.playlist_name||'nenhuma');$('form').classList.remove('hide');$('name').value=d.playlist_name||'';$('url').value=d.playlist_url||'';$('epg').value=d.epg_url||''}catch(e){$('status').textContent='Erro de conexão. Tente novamente.'}}async function save(){const body={device_id:$('id').value.trim(),device_key:$('key').value.trim(),playlist_name:$('name').value.trim(),playlist_url:$('url').value.trim(),epg_url:$('epg').value.trim()};if(!body.playlist_url){$('saveStatus').textContent='Informe a URL M3U.';return}$('saveStatus').textContent='Salvando...';try{const r=await fetch('/api/device/manage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const d=await r.json();$('saveStatus').innerHTML=d.success?'<span class="ok">Playlist salva e dispositivo ativado. Volte ao aplicativo e toque em Atualizar.</span>':'<span class="bad">'+(d.message||'Não foi possível salvar.')+'</span>'}catch(e){$('saveStatus').textContent='Erro de conexão.'}}</script></body></html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Multiplay — Ativar M3U</title>
+<style>:root{--bg:#030712;--panel:#0a1220;--line:#203149;--blue:#168cff;--cyan:#18ddff;--muted:#9eacbd;--green:#5cffb0}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#12345a 0,#030712 42%);color:#fff;font-family:Arial,sans-serif;min-height:100vh;padding:18px}.wrap{max-width:680px;margin:auto}.brand{text-align:center;font-size:32px;font-weight:900;color:var(--cyan);padding:20px 0 5px}.sub{text-align:center;color:var(--muted);margin-bottom:18px}.card{background:#0a1220ee;border:1px solid var(--line);border-radius:18px;padding:18px;margin:12px 0;box-shadow:0 20px 60px #0006}h2{margin:0 0 8px}h3{margin:4px 0 8px}label{display:block;color:#c9d5e3;font-size:13px;font-weight:700;margin:12px 0 6px}input{width:100%;padding:13px;background:#07101b;border:1px solid #29405c;border-radius:10px;color:#fff;font-size:15px}button{width:100%;padding:14px;border:0;border-radius:10px;background:linear-gradient(135deg,#168cff,#1749ff);color:#fff;font-weight:900;font-size:14px;margin-top:12px}.status{padding:13px;border-radius:10px;background:#071526;color:#b9c8d8;font-size:13px;line-height:1.5;margin-top:12px}.ok{color:var(--green)}.bad{color:#ff8b8b}.help{font-size:12px;color:#8fa0b5;line-height:1.6}.hide{display:none}.step{display:flex;gap:10px;align-items:flex-start;margin:10px 0}.n{min-width:27px;height:27px;border-radius:50%;background:#168cff;display:flex;align-items:center;justify-content:center;font-weight:900}.code{font-family:monospace;font-size:12px;word-break:break-all;background:#07101b;padding:10px;border-radius:8px;color:#bfeaff}.secondary{background:#1b2940}.danger{background:#5b1d2a}</style></head>
+<body><div class="wrap"><div class="brand">MULTIPLAY</div><div class="sub">Ativação da playlist M3U autorizada — P2Ultimate / XUI</div>
+
+<div class="card"><h2>1. Identificar o dispositivo</h2><p class="help">No aplicativo: <b>MEU DISPOSITIVO</b> → copie o Device ID e o Device Key.</p>
+<label>Device ID</label><input id="id" placeholder="Cole o Device ID">
+<label>Device Key</label><input id="key" placeholder="Cole o Device Key">
+<button onclick="check()">VERIFICAR DISPOSITIVO</button><div id="status" class="status">Aguardando os dados.</div></div>
+
+<div id="form" class="card hide"><h2>2. Gerar a M3U do P2Ultimate / XUI</h2><p class="help">Crie ou use uma <b>linha autorizada</b> no seu servidor XUI. O formato padrão de playlist é <b>get.php</b> com M3U Plus.</p>
+<label>Endereço do servidor XUI</label><input id="host" placeholder="https://seu-servidor.com:porta">
+<label>Usuário da linha</label><input id="xu" placeholder="Usuário XUI">
+<label>Senha da linha</label><input id="xp" type="password" placeholder="Senha XUI">
+<button onclick="generate()">GERAR M3U + EPG</button>
+<div id="generated" class="status hide"></div></div>
+
+<div id="saveCard" class="card hide"><h2>3. Vincular M3U ao dispositivo</h2>
+<label>Nome da playlist</label><input id="name" placeholder="Ex.: Cliente 001">
+<label>URL M3U</label><input id="url" placeholder="https://.../get.php?username=...">
+<label>URL EPG (opcional)</label><input id="epg" placeholder="https://.../xmltv.php?username=...">
+<button onclick="save()">SALVAR PLAYLIST</button><div id="saveStatus" class="status"></div></div>
+
+<div class="card"><h2>4. Fluxo completo</h2>
+<div class="step"><span class="n">1</span><span><b>P2Ultimate/XUI:</b> crie ou selecione a linha do cliente, defina validade, conexões e os bouquets/conteúdos autorizados.</span></div>
+<div class="step"><span class="n">2</span><span>Na linha, abra <b>Download Playlist</b> e escolha <b>M3U / M3U Plus</b>. O XUI normalmente gera uma URL <span class="code">/get.php?username=...&password=...&type=m3u_plus&output=ts</span>.</span></div>
+<div class="step"><span class="n">3</span><span>No Multiplay, informe servidor + usuário + senha para gerar a URL automaticamente, ou cole a URL M3U diretamente.</span></div>
+<div class="step"><span class="n">4</span><span>Salve a playlist no dispositivo.</span></div>
+<div class="step"><span class="n">5</span><span>Volte ao app e toque <b>Atualizar</b>. O catálogo deve aparecer em TV ao Vivo, Filmes e Séries.</span></div>
+</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+function cleanHost(v){return v.trim().replace(/\/$/,'');}
+async function check(){
+ const device_id=$('id').value.trim(),device_key=$('key').value.trim();
+ if(!device_id||!device_key){$('status').textContent='Informe Device ID e Device Key.';return}
+ $('status').textContent='Consultando dispositivo...';
+ try{
+  const r=await fetch('/api/device/manage/status?device_id='+encodeURIComponent(device_id)+'&device_key='+encodeURIComponent(device_key));
+  const d=await r.json();
+  if(!d.success||!d.registered){$('status').innerHTML='<span class="bad">Dispositivo não cadastrado.</span><br>Cadastre-o primeiro no painel administrativo.';return}
+  if(!d.active){$('status').innerHTML='<span class="bad">Dispositivo inativo ou expirado.</span><br>Ative a assinatura no painel administrativo.';return}
+  $('status').innerHTML='<span class="ok">Dispositivo reconhecido.</span><br>Status: '+(d.status||'ATIVO')+'<br>Playlist atual: '+(d.playlist_name||'nenhuma');
+  $('form').classList.remove('hide');$('saveCard').classList.remove('hide');
+  $('name').value=d.playlist_name||'';$('url').value=d.playlist_url||'';$('epg').value=d.epg_url||'';
+ }catch(e){$('status').textContent='Erro de conexão. Tente novamente.'}
+}
+function generate(){
+ const host=cleanHost($('host').value),u=$('xu').value.trim(),p=$('xp').value.trim();
+ if(!host||!u||!p){$('generated').classList.remove('hide');$('generated').innerHTML='<span class="bad">Preencha servidor, usuário e senha da linha.</span>';return}
+ const base=host+'/get.php?username='+encodeURIComponent(u)+'&password='+encodeURIComponent(p)+'&type=m3u_plus&output=ts';
+ const epg=host+'/xmltv.php?username='+encodeURIComponent(u)+'&password='+encodeURIComponent(p);
+ $('url').value=base;$('epg').value=epg;$('generated').classList.remove('hide');$('generated').innerHTML='<span class="ok">M3U e EPG gerados.</span><br><br><b>M3U:</b><br><span class="code">'+base+'</span>';
+}
+async function save(){
+ const body={device_id:$('id').value.trim(),device_key:$('key').value.trim(),playlist_name:$('name').value.trim()||'Multiplay',playlist_url:$('url').value.trim(),epg_url:$('epg').value.trim()};
+ if(!body.playlist_url){$('saveStatus').innerHTML='<span class="bad">Gere ou informe a URL M3U.</span>';return}
+ $('saveStatus').textContent='Salvando...';
+ try{
+  const r=await fetch('/api/device/manage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const d=await r.json();
+  $('saveStatus').innerHTML=d.success?'<span class="ok">Playlist vinculada com sucesso.</span><br>Status do dispositivo: '+(d.status||'ATIVO')+'<br>Volte ao aplicativo e toque em Atualizar.':'<span class="bad">'+(d.message||'Não foi possível salvar.')+'</span>';
+ }catch(e){$('saveStatus').textContent='Erro de conexão.'}
+}
+</script></body></html>
