@@ -67,43 +67,43 @@
     }
 
     .top-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-.top-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 105px;
-  padding: 10px 15px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 800;
-  font-size: 13px;
-  transition: 0.2s ease;
-}
+    .top-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 105px;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13px;
+      transition: 0.2s ease;
+    }
 
-.login-button {
-  background: transparent;
-  color: #fff;
-  border: 1px solid #e50914;
-}
+    .login-button {
+      background: transparent;
+      color: #fff;
+      border: 1px solid #e50914;
+    }
 
-.login-button:hover {
-  background: #e50914;
-}
+    .login-button:hover {
+      background: #e50914;
+    }
 
-.whatsapp-button {
-  background: #25D366;
-  color: #fff;
-  border: 1px solid #25D366;
-}
+    .whatsapp-button {
+      background: #25D366;
+      color: #fff;
+      border: 1px solid #25D366;
+    }
 
-.whatsapp-button:hover {
-  opacity: 0.85;
-}
+    .whatsapp-button:hover {
+      opacity: 0.85;
+    }
 
     /* HERO */
 
@@ -444,25 +444,27 @@
     /* RESPONSIVO */
 
     @media (max-width: 950px) {
-      .plans-grid { 
-.topbar {
-  padding: 12px 14px;
-  gap: 10px;
-}
 
-.logo {
-  font-size: 21px;
-}
+      .topbar {
+        padding: 12px 14px;
+        gap: 10px;
+      }
 
-.top-actions {
-  gap: 6px;
-}
+      .logo {
+        font-size: 21px;
+      }
 
-.top-button {
-  min-width: auto;
-  padding: 9px 10px;
-  font-size: 11px;
-}
+      .top-actions {
+        gap: 6px;
+      }
+
+      .top-button {
+        min-width: auto;
+        padding: 9px 10px;
+        font-size: 11px;
+      }
+
+      .plans-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
@@ -476,8 +478,24 @@
     }
 
     @media (max-width: 600px) {
+
+      .topbar {
+        padding: 10px;
+      }
+
+      .logo {
+        font-size: 19px;
+      }
+
+      .top-actions {
+        gap: 5px;
+      }
+
       .top-button {
-        display: none;
+        display: inline-flex;
+        min-width: auto;
+        padding: 8px 9px;
+        font-size: 10px;
       }
 
       .hero {
@@ -530,21 +548,21 @@
 
     <div class="top-actions">
 
-  <a
-    class="top-button login-button"
-    href="/login.html"
-  >
-    ENTRAR
-  </a>
+      <a
+        class="top-button login-button"
+        href="/login.html"
+      >
+        ENTRAR
+      </a>
 
-  <a
-    class="top-button whatsapp-button"
-    href="https://wa.me/5541991475644?text=Olá!%20Quero%20conhecer%20os%20planos%20da%20MultiPlay."
-  >
-    WHATSAPP
-  </a>
+      <a
+        class="top-button whatsapp-button"
+        href="https://wa.me/5541991475644?text=Olá!%20Quero%20conhecer%20os%20planos%20da%20MultiPlay."
+      >
+        WHATSAPP
+      </a>
 
-</div>
+    </div>
 
   </div>
 </header>
@@ -589,7 +607,6 @@
     </div>
 
   </section>
-
 
   <!-- CONTEÚDOS -->
 
@@ -661,7 +678,6 @@
 
   </section>
 
-
   <!-- BENEFÍCIOS -->
 
   <section class="benefits">
@@ -692,7 +708,6 @@
 
   </section>
 
-
   <!-- PLANOS -->
 
   <section class="plans" id="planos">
@@ -711,9 +726,7 @@
 
       </div>
 
-
       <div class="plans-grid">
-
 
         <!-- TV 1 -->
 
@@ -747,7 +760,6 @@
 
         </div>
 
-
         <!-- TV 2 -->
 
         <div class="plan">
@@ -779,7 +791,6 @@
           </a>
 
         </div>
-
 
         <!-- COMPLETO 1 -->
 
@@ -815,7 +826,6 @@
           </a>
 
         </div>
-
 
         <!-- PREMIUM -->
 
@@ -856,13 +866,11 @@
 
         </div>
 
-
       </div>
 
     </div>
 
   </section>
-
 
   <!-- CTA FINAL -->
 
@@ -887,7 +895,6 @@
 
 </main>
 
-
 <footer>
 
   <div class="logo">
@@ -903,7 +910,6 @@
   </p>
 
 </footer>
-
 
 <!-- BOTÃO WHATSAPP -->
 
