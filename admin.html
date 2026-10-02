@@ -216,7 +216,10 @@
 <header>
   <h1>MultiPlay <span>Administração</span></h1>
 
-  <button class="btn-sair" onclick="sair()">
+  <button
+    class="btn-sair"
+    onclick="sair()"
+  >
     Sair
   </button>
 </header>
@@ -229,7 +232,10 @@
       Cadastrar cliente
     </h2>
 
-    <input type="hidden" id="clienteId">
+    <input
+      type="hidden"
+      id="clienteId"
+    >
 
     <div class="grid">
 
@@ -314,7 +320,6 @@
 
   </div>
 
-
   <div class="card">
 
     <h2>Clientes MultiPlay</h2>
@@ -358,7 +363,6 @@
 
 </div>
 
-
 <script>
 
 let clientes = [];
@@ -372,12 +376,14 @@ async function verificarAdmin() {
 
   try {
 
-    const resposta = await fetch(
-      "/api/admin/me",
-      {
-        credentials: "same-origin"
-      }
-    );
+    const resposta =
+      await fetch(
+        "/api/admin/me",
+        {
+          credentials:
+            "same-origin"
+        }
+      );
 
     if (!resposta.ok) {
 
@@ -407,14 +413,18 @@ async function carregarClientes() {
 
   try {
 
-    const resposta = await fetch(
-      "/api/admin/users",
-      {
-        credentials: "same-origin"
-      }
-    );
+    const resposta =
+      await fetch(
+        "/api/admin/users",
+        {
+          credentials:
+            "same-origin"
+        }
+      );
 
-    if (resposta.status === 401) {
+    if (
+      resposta.status === 401
+    ) {
 
       window.location.href =
         "/login.html";
@@ -441,7 +451,9 @@ async function carregarClientes() {
     }
 
     clientes =
-      Array.isArray(resultado.users)
+      Array.isArray(
+        resultado.users
+      )
         ? resultado.users
         : [];
 
@@ -486,85 +498,87 @@ function renderizarClientes() {
   }
 
   lista.innerHTML =
-    clientes.map(cliente => {
+    clientes.map(
+      cliente => {
 
-      const vencimento =
-        cliente.expires_at
-          ? formatarData(
-              cliente.expires_at
-            )
-          : "Sem vencimento";
+        const vencimento =
+          cliente.expires_at
+            ? formatarData(
+                cliente.expires_at
+              )
+            : "Sem vencimento";
 
-      const status =
-        cliente.active
-          ? `<span class="ativo">ATIVO</span>`
-          : `<span class="inativo">INATIVO</span>`;
+        const status =
+          cliente.active
+            ? `<span class="ativo">ATIVO</span>`
+            : `<span class="inativo">INATIVO</span>`;
 
-      return `
-        <tr>
+        return `
+          <tr>
 
-          <td>
-            ${escapar(
-              cliente.username
-            )}
-          </td>
+            <td>
+              ${escapar(
+                cliente.username
+              )}
+            </td>
 
-          <td>
-            ${status}
-          </td>
+            <td>
+              ${status}
+            </td>
 
-          <td>
-            ${escapar(
-              vencimento
-            )}
-          </td>
+            <td>
+              ${escapar(
+                vencimento
+              )}
+            </td>
 
-          <td>
-            ${escapar(
-              cliente.xtream_user || "-"
-            )}
-          </td>
+            <td>
+              ${escapar(
+                cliente.xtream_user || "-"
+              )}
+            </td>
 
-          <td>
+            <td>
 
-            <div class="acoes">
+              <div class="acoes">
 
-              <button
-                class="btn-editar"
-                onclick="editarCliente(${cliente.id})"
-              >
-                Editar
-              </button>
+                <button
+                  class="btn-editar"
+                  onclick="editarCliente(${cliente.id})"
+                >
+                  Editar
+                </button>
 
-              <button
-                class="btn-status"
-                onclick="alterarStatus(
-                  ${cliente.id},
-                  ${!cliente.active}
-                )"
-              >
-                ${
-                  cliente.active
-                    ? "Desativar"
-                    : "Ativar"
-                }
-              </button>
+                <button
+                  class="btn-status"
+                  onclick="alterarStatus(
+                    ${cliente.id},
+                    ${!cliente.active}
+                  )"
+                >
+                  ${
+                    cliente.active
+                      ? "Desativar"
+                      : "Ativar"
+                  }
+                </button>
 
-              <button
-                class="btn-excluir"
-                onclick="excluirCliente(${cliente.id})"
-              >
-                Excluir
-              </button>
+                <button
+                  class="btn-excluir"
+                  onclick="excluirCliente(${cliente.id})"
+                >
+                  Excluir
+                </button>
 
-            </div>
+              </div>
 
-          </td>
+            </td>
 
-        </tr>
-      `;
+          </tr>
+        `;
 
-    }).join("");
+      }
+    ).join("");
 }
 
 
@@ -627,19 +641,47 @@ async function salvarCliente() {
   }
 
 
+  /*
+   * IMPORTANTE:
+   * Não enviamos xtream_pass vazio.
+   *
+   * Ao editar um cliente, a senha
+   * Xtream que já está salva permanece
+   * no banco.
+   *
+   * Para trocar a senha Xtream,
+   * basta preencher o campo.
+   */
+
   const dados = {
 
     username,
 
     xtream_user,
 
-    xtream_pass,
-
     expires_at:
       expires_at || null
 
   };
 
+
+  /*
+   * Só envia a senha Xtream quando
+   * o campo realmente foi preenchido.
+   */
+
+  if (xtream_pass) {
+
+    dados.xtream_pass =
+      xtream_pass;
+  }
+
+
+  /*
+   * Senha MultiPlay:
+   * também só é alterada quando
+   * o campo estiver preenchido.
+   */
 
   if (password) {
 
@@ -653,7 +695,9 @@ async function salvarCliente() {
     let resposta;
 
 
-    /* EDITAR */
+    /* =====================
+       EDITAR
+    ===================== */
 
     if (id) {
 
@@ -672,16 +716,36 @@ async function salvarCliente() {
               "same-origin",
 
             body:
-              JSON.stringify(dados)
+              JSON.stringify(
+                dados
+              )
           }
         );
 
     }
 
 
-    /* NOVO CLIENTE */
+    /* =====================
+       NOVO CLIENTE
+    ===================== */
 
     else {
+
+      /*
+       * Para novo cliente,
+       * a senha Xtream precisa
+       * ser enviada.
+       */
+
+      if (!xtream_pass) {
+
+        mostrarMensagem(
+          "Informe a senha Xtream.",
+          "erro"
+        );
+
+        return;
+      }
 
       resposta =
         await fetch(
@@ -698,7 +762,16 @@ async function salvarCliente() {
               "same-origin",
 
             body:
-              JSON.stringify(dados)
+              JSON.stringify(
+                {
+                  username,
+                  password,
+                  xtream_user,
+                  xtream_pass,
+                  expires_at:
+                    expires_at || null
+                }
+              )
           }
         );
 
@@ -789,6 +862,17 @@ function editarCliente(id) {
   ).value =
     cliente.xtream_user || "";
 
+
+  /*
+   * A senha Xtream NÃO é retornada
+   * pelo servidor por segurança.
+   *
+   * Por isso este campo fica vazio
+   * ao editar.
+   *
+   * Se não preencher, a senha antiga
+   * será preservada.
+   */
 
   document.getElementById(
     "xtream_pass"
@@ -1046,6 +1130,7 @@ async function sair() {
       "/api/admin/logout",
       {
         method: "POST",
+
         credentials:
           "same-origin"
       }
