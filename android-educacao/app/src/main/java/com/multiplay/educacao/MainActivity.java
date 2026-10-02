@@ -274,24 +274,40 @@ public class MainActivity extends Activity {
         addEbook("Computer Science","OpenStax","Materiais gratuitos de computação.","https://openstax.org/subjects/computer-science","TECNOLOGIA");
         addEbook("Science","OpenStax","Biblioteca de ciências.","https://openstax.org/subjects/science","CIÊNCIAS");
 
-addCourse("Excel na Prática","Fundação Bradesco","16h • online • certificado conforme regras do curso.","https://www.ev.org.br/cursos/excel-na-pratica","https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80");
-        addCourse("Atendimento ao Público","Fundação Bradesco","10h • online • certificado conforme regras do curso.","https://www.ev.org.br/cursos/atendimento-ao-publico","https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=600&q=80");
-        addCourse("Introdução à Administração","Fundação Bradesco","12h • online.","https://www.ev.org.br/cursos/introducao-a-administracao","https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80");
-        addCourse("Introdução à Gestão de Projetos","Fundação Bradesco","10h • online.","https://www.ev.org.br/cursos/introducao-a-gestao-de-projetos","https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80");
-        addCourse("Comunicação Escrita: Ortografia, Gramática e Texto","Fundação Bradesco","16h • online.","https://www.ev.org.br/cursos/comunicacao_escrita","https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80");
-        addCourse("Introdução à Análise de Dados - Microsoft Power BI","Fundação Bradesco","5h • online.","https://www.ev.org.br/cursos/introducao-a-analise-de-dados-microsoft-power-bi","https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=600&q=80");
-        addCourse("Análise de Dados no Power BI","Fundação Bradesco","4h • online.","https://www.ev.org.br/cursos/analise-de-dados-no-power-bi","https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80");
-        addCourse("FluêncIA em Inteligência Artificial","Fundação Bradesco","4h • online • certificado conforme regras do curso.","https://www.ev.org.br/cursos/fluencia","https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80");
-        addCourse("Inteligência Artificial para Estudantes","Fundação Bradesco","4h • online • certificado conforme regras do curso.","https://www.ev.org.br/cursos/iaestudantes","https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80");
-        addCourse("Inteligência Artificial para Educadores","Fundação Bradesco","4h • online • certificado conforme regras do curso.","https://www.ev.org.br/cursos/iaeduc","https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80");
-        addCourse("Inteligência Artificial para Pequenas e Médias Empresas","Fundação Bradesco","4h • online.","https://www.ev.org.br/cursos/pmes","https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80");
-        addCourse("IA para seu novo emprego: Do currículo à entrevista","Fundação Bradesco","2h • online.","https://www.ev.org.br/cursos/iaempregos","https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=600&q=80");
-        addCourse("Administração: fundamentos — Turma 2026B","Aprenda Mais • MEC / IFRS","40h • português • autoinstrucional • certificado conforme regras da plataforma.","https://aprendamais.mec.gov.br/course/search.php?search=Administra%C3%A7%C3%A3o%20fundamentos","https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80");
-        addCourse("Elaboração e Análise de Projetos — Turma 2026B","Aprenda Mais • MEC / IFRS","30h • português • autoinstrucional • certificado.","https://aprendamais.mec.gov.br/course/search.php?search=Elabora%C3%A7%C3%A3o%20e%20An%C3%A1lise%20de%20Projetos","https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80");
-        addCourse("Empreendedorismo — Turma 2026B","Aprenda Mais • MEC / IFRS","40h • português • autoinstrucional • certificado.","https://aprendamais.mec.gov.br/course/search.php?search=Empreendedorismo","https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80");
-        addCourse("Gestão de Marketing — Turma 2026B","Aprenda Mais • MEC / IFRS","20h • português • autoinstrucional • certificado.","https://aprendamais.mec.gov.br/course/search.php?search=Gest%C3%A3o%20de%20Marketing","https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80");
-        addCourse("Marketing Digital e Redes Sociais — Turma 2026B","Aprenda Mais • MEC / IFRS","20h • português • autoinstrucional • certificado.","https://aprendamais.mec.gov.br/course/search.php?search=Marketing%20Digital%20e%20Redes%20Sociais","https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80");
-        addCourse("Marketing Empresarial e Pessoal — Turma 2026B","Aprenda Mais • MEC / IFRS","30h • português • autoinstrucional • certificado.","https://aprendamais.mec.gov.br/course/search.php?search=Marketing%20Empresarial%20e%20Pessoal","https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80");
-        addCourse("Gestão de Projetos de Software com PMBOK — Turma 2026A","Aprenda Mais • MEC / IFRS","40h • português • fundamentos de projetos de software.","https://aprendamais.mec.gov.br/course/search.php?search=Gest%C3%A3o%20de%20Projetos%20de%20Software%20com%20PMBOK","https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=600&q=80");
-        addCourse("Programas de capacitação EV.G — Escola Virtual de Governo","Escola Virtual de Governo","Catálogo com centenas de cursos gratuitos; muitos com certificado digital após aprovação.","https://www.escolavirtual.gov.br/catalogo","https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80");
-        addCourse("Aprenda Mais — Cursos abertos do MEC","Aprenda Mais • MEC","Catálogo de cursos online abertos, gratuitos e certificados para concluintes.","https://aprendamais.mec.gov.br/","https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80");
+        addCourse("Excel na Prática","Fundação Bradesco","16h • online • certificado gratuito após aprovação.","https://www.ev.org.br/cursos/excel-na-pratica");
+        addCourse("Atendimento ao Público","Fundação Bradesco","10h • online • certificado conforme regras do curso.","https://www.ev.org.br/cursos/atendimento-ao-publico");
+        addCourse("Introdução à Administração","Fundação Bradesco","12h • online.","https://www.ev.org.br/cursos/introducao-a-administracao");
+        addCourse("Introdução à Gestão de Projetos","Fundação Bradesco","10h • online.","https://www.ev.org.br/cursos/introducao-a-gestao-de-projetos");
+        addCourse("Comunicação Escrita: Ortografia, Gramática e Texto","Fundação Bradesco","16h • online.","https://www.ev.org.br/cursos/comunicacao_escrita");
+        addCourse("Introdução à Análise de Dados - Microsoft Power BI","Fundação Bradesco","5h • online.","https://www.ev.org.br/cursos/introducao-a-analise-de-dados-microsoft-power-bi");
+        addCourse("Análise de Dados no Power BI","Fundação Bradesco","4h • online.","https://www.ev.org.br/cursos/analise-de-dados-no-power-bi");
+        addCourse("FluêncIA em Inteligência Artificial","Fundação Bradesco","4h • online • certificado após aprovação.","https://www.ev.org.br/cursos/fluencia");
+        addCourse("Inteligência Artificial para Estudantes","Fundação Bradesco","4h • online • certificado após aprovação.","https://www.ev.org.br/cursos/iaestudantes");
+        addCourse("Inteligência Artificial para Educadores","Fundação Bradesco","4h • online • certificado após aprovação.","https://www.ev.org.br/cursos/iaeduc");
+        addCourse("Inteligência Artificial para Pequenas e Médias Empresas","Fundação Bradesco","4h • online.","https://www.ev.org.br/cursos/pmes");
+        addCourse("IA para seu novo emprego: Do currículo à entrevista","Fundação Bradesco","2h • online.","https://www.ev.org.br/cursos/iaempregos");
+        addCourse("Administração: fundamentos — Turma 2026B","Aprenda Mais • MEC / IFRS","40h • português • autoinstrucional • certificado conforme regras da plataforma.","https://aprendamais.mec.gov.br/course/search.php?search=Administra%C3%A7%C3%A3o%20fundamentos");
+        addCourse("Elaboração e Análise de Projetos — Turma 2026B","Aprenda Mais • MEC / IFRS","30h • português • autoinstrucional • certificado.","https://aprendamais.mec.gov.br/course/search.php?search=Elabora%C3%A7%C3%A3o%20e%20An%C3%A1lise%20de%20Projetos");
+        addCourse("Empreendedorismo — Turma 2026B","Aprenda Mais • MEC / IFRS","40h • português • autoinstrucional • certificado.","https://aprendamais.mec.gov.br/course/search.php?search=Empreendedorismo");
+        addCourse("Gestão de Marketing — Turma 2026B","Aprenda Mais • MEC / IFRS","20h • português • autoinstrucional • certificado.","https://aprendamais.mec.gov.br/course/search.php?search=Gest%C3%A3o%20de%20Marketing");
+        addCourse("Marketing Digital e Redes Sociais — Turma 2026B","Aprenda Mais • MEC / IFRS","20h • português • autoinstrucional • certificado.","https://aprendamais.mec.gov.br/course/search.php?search=Marketing%20Digital%20e%20Redes%20Sociais");
+        addCourse("Marketing Empresarial e Pessoal — Turma 2026B","Aprenda Mais • MEC / IFRS","30h • português • autoinstrucional • certificado.","https://aprendamais.mec.gov.br/course/search.php?search=Marketing%20Empresarial%20e%20Pessoal");
+        addCourse("Gestão de Projetos de Software com PMBOK — Turma 2026A","Aprenda Mais • MEC / IFRS","40h • português • fundamentos de projetos de software.","https://aprendamais.mec.gov.br/course/search.php?search=Gest%C3%A3o%20de%20Projetos%20de%20Software%20com%20PMBOK");
+        addCourse("Programas de capacitação EV.G — Escola Virtual de Governo","Escola Virtual de Governo","Catálogo com centenas de cursos gratuitos; muitos com certificado digital após aprovação.","https://www.escolavirtual.gov.br/catalogo");
+        addCourse("Aprenda Mais — Cursos abertos do MEC","Aprenda Mais • MEC","Catálogo de cursos online abertos, gratuitos e certificados para concluintes.","https://aprendamais.mec.gov.br/");
+        for(int i=0;i<courses.size();i++){ courses.get(i).cover = new String[]{
+            "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80"
+        }[i%4];}
+    }
+
+    void addBook(String t,String a,String d,String u,String c){books.add(new Item(t,a,d,u,c,"LIVRO")); }
+    void addAudio(String t,String a,String d,String u,String c){audios.add(new Item(t,a,d,u,c,"AUDIO")); }
+    void addEbook(String t,String a,String d,String u,String m){ebooks.add(new Item(t,a,d,u,"",m));}
+    void addCourse(String t,String a,String d,String u){courses.add(new Item(t,a,d,u,"","CURSO"));}
+
+
+    @Override public void onBackPressed(){ home(); }
+}
