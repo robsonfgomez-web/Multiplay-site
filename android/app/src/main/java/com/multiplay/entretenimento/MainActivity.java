@@ -68,7 +68,7 @@ public class MainActivity extends Activity {
     LinearLayout top=new LinearLayout(this);top.setGravity(Gravity.CENTER_VERTICAL);
     TextView logo=text("M  Multi",23,true);logo.setTextColor(Color.rgb(35,220,255));top.addView(logo,new LinearLayout.LayoutParams(0,dp(50),1));
     TextView brand=text("PLAY",23,true);brand.setTextColor(Color.rgb(255,128,25));top.addView(brand,new LinearLayout.LayoutParams(dp(80),dp(50)));
-    Button refresh=button("↻ Atualizar");top.addView(refresh,new LinearLayout.LayoutParams(dp(105),dp(45)));refresh.setOnClickListener(v->sync());
+    Button configTop=button("⚙ Config");top.addView(configTop,new LinearLayout.LayoutParams(dp(90),dp(45)));configTop.setOnClickListener(v->showDeviceInfo()); Button refresh=button("↻ Atualizar");top.addView(refresh,new LinearLayout.LayoutParams(dp(105),dp(45)));refresh.setOnClickListener(v->sync());
     root.addView(top);
 
     LinearLayout nav=new LinearLayout(this);nav.setGravity(Gravity.CENTER);String[] ns={"⌂ Início","📺 TV ao Vivo","🎬 Filmes","🍿 Séries","★ Favoritos","⌕ Buscar"};
@@ -84,7 +84,7 @@ public class MainActivity extends Activity {
     TextView h3=text("Sua biblioteca em um só lugar. Use Atualizar para sincronizar a playlist autorizada.",12,false);h3.setTextColor(Color.rgb(200,195,215));hero.addView(h3);
     LinearLayout actions=new LinearLayout(this);
     Button cont=button("▶  CONTINUAR");actions.addView(cont,new LinearLayout.LayoutParams(0,dp(46),1));
-    Button panel=button("⚙ Configurações");actions.addView(panel,new LinearLayout.LayoutParams(0,dp(46),1));
+    Button panel=button("⚙ MEU DISPOSITIVO");actions.addView(panel,new LinearLayout.LayoutParams(0,dp(46),1));
     cont.setOnClickListener(v->continueWatching());panel.setOnClickListener(v->showDeviceInfo());
     hero.addView(actions);root.addView(hero,new LinearLayout.LayoutParams(-1,dp(190)));
 
@@ -99,10 +99,34 @@ public class MainActivity extends Activity {
     q.addTextChangedListener(new TextWatcher(){public void beforeTextChanged(CharSequence s,int a,int c,int d){}public void onTextChanged(CharSequence s,int a,int b,int c){showList(currentFilter,s.toString());}public void afterTextChanged(Editable e){}});
     showList("TODOS","");
   }
+  Button copyButton(String label,String value){
+    Button b=button(label);
+    b.setOnClickListener(v->{
+      android.content.ClipboardManager cm=(android.content.ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+      cm.setPrimaryClip(android.content.ClipData.newPlainText("Multiplay",value));
+      Toast.makeText(this,"Copiado para a área de transferência.",Toast.LENGTH_SHORT).show();
+    });
+    return b;
+  }
+  TextView infoValue(String label,String value){
+    TextView t=text(label+"\n"+value,14,true);
+    t.setTextIsSelectable(true);
+    GradientDrawable g=new GradientDrawable();g.setColor(Color.rgb(20,10,38));g.setStroke(dp(1),Color.rgb(80,55,120));g.setCornerRadius(dp(12));t.setBackground(g);
+    return t;
+  }
   void showDeviceInfo(){
-    new AlertDialog.Builder(this).setTitle("Multiplay • Dispositivo")
-      .setMessage("Device ID: "+deviceId+"\nDevice Key: "+deviceKey+"\n\nA playlist M3U autorizada é sincronizada pelo painel Multiplay.")
-      .setPositiveButton("Atualizar / Continuar",(d,w)->sync()).setNeutralButton("Abrir painel",(d,w)->startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(PANEL)))).show();
+    base();
+    TextView title=text("MULTIPLAY • MEU DISPOSITIVO",22,true);title.setTextColor(Color.rgb(35,220,255));root.addView(title,new LinearLayout.LayoutParams(-1,dp(60)));
+    TextView intro=text("Use estes dados para cadastrar este aparelho no painel Multiplay.",13,false);intro.setTextColor(Color.rgb(200,195,215));root.addView(intro);
+    TextView idBox=infoValue("DEVICE ID — identificador usado pelo Multiplay",deviceId);root.addView(idBox,new LinearLayout.LayoutParams(-1,dp(78)));
+    Button copyId=copyButton("📋 COPIAR DEVICE ID",deviceId);root.addView(copyId,new LinearLayout.LayoutParams(-1,dp(48)));
+    TextView keyBox=infoValue("DEVICE KEY — chave deste aparelho",deviceKey);root.addView(keyBox,new LinearLayout.LayoutParams(-1,dp(78)));
+    Button copyKey=copyButton("📋 COPIAR DEVICE KEY",deviceKey);root.addView(copyKey,new LinearLayout.LayoutParams(-1,dp(48)));
+    Button copyAll=copyButton("📋 COPIAR ID + KEY", "Device ID: "+deviceId+"\nDevice Key: "+deviceKey);root.addView(copyAll,new LinearLayout.LayoutParams(-1,dp(48)));
+    TextView macInfo=text("MAC físico do Wi‑Fi: não disponível para apps comuns no Android 13.\nO Multiplay usa o Device ID acima como identificador do aparelho.",12,false);macInfo.setTextColor(Color.rgb(170,155,190));root.addView(macInfo,new LinearLayout.LayoutParams(-1,dp(62)));
+    Button open=button("🌐 ABRIR PAINEL MULTIPLAY");root.addView(open,new LinearLayout.LayoutParams(-1,dp(50)));open.setOnClickListener(v->startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(PANEL))));
+    Button update=button("↻ ATUALIZAR PLAYLIST");root.addView(update,new LinearLayout.LayoutParams(-1,dp(50)));update.setOnClickListener(v->sync());
+    Button back=button("← VOLTAR À MULTIPLAY");root.addView(back,new LinearLayout.LayoutParams(-1,dp(50)));back.setOnClickListener(v->home("Pronto. Toque em Atualizar para sincronizar a playlist."));
   }
   void continueWatching(){
     android.content.SharedPreferences p=getSharedPreferences("multiplay",0);String u=p.getString("last_url",""),n=p.getString("last_name","");
@@ -116,13 +140,13 @@ public class MainActivity extends Activity {
         String status=get("/api/device/status?device_id="+enc(deviceId)+"&device_key="+enc(deviceKey));
         if(!jsonBool(status,"registered")){postRegister(); status=get("/api/device/status?device_id="+enc(deviceId)+"&device_key="+enc(deviceKey));}
         if(!jsonBool(status,"active")){runOnUiThread(()->home("Sua conta precisa ser ativada para carregar a playlist."));return;}
-        if(!jsonBool(status,"has_playlist")){runOnUiThread(()->home("Nenhuma playlist M3U foi vinculada ainda. Use o painel para cadastrar a playlist autorizada."));return;}
+        if(!jsonBool(status,"has_playlist")){runOnUiThread(()->{home("Nenhuma playlist vinculada. Abra MEU DISPOSITIVO para copiar ID + KEY.");new Handler(Looper.getMainLooper()).postDelayed(()->showDeviceInfo(),350);});return;}
         String data=get("/api/device/playlist?device_id="+enc(deviceId)+"&device_key="+enc(deviceKey));
         String url=json(data,"playlist_url");playlistName=json(data,"playlist_name");
         if(url==null||url.isEmpty()){runOnUiThread(()->home("Playlist não encontrada. Toque em Atualizar novamente."));return;}
         parseM3U(getAbsolute(url));
         runOnUiThread(()->home("Playlist sincronizada: "+(playlistName.isEmpty()?"Multiplay":playlistName)+" • "+items.size()+" conteúdos"));
-      }catch(Exception e){runOnUiThread(()->home("Não foi possível atualizar agora. Toque em Atualizar novamente."));}
+      }catch(Exception e){String msg=e.getMessage();if(msg==null||msg.isEmpty())msg="erro de conexão";String finalMsg=msg;runOnUiThread(()->home("Falha ao atualizar: "+finalMsg+"\nAbra MEU DISPOSITIVO e confira ID + KEY."));}
     }).start();
   }
   void postRegister()throws Exception{
