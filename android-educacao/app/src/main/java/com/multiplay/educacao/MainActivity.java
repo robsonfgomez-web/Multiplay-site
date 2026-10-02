@@ -321,5 +321,122 @@ public class MainActivity extends Activity {
     void addCourse(String t,String a,String d,String u){courses.add(new Item(t,a,d,u,"","CURSO","CURSO"));}
 
 
+    void supportScreen(){
+        base();
+        header("Tire suas dúvidas com a equipe Multiplay");
+
+        TextView intro=txt("Envie sua dúvida, solicitação ou dificuldade. Nossa equipe poderá responder e acompanhar o atendimento por aqui.",12,false);
+        intro.setTextColor(MUTED);
+        body.addView(intro);
+
+        EditText name=new EditText(this);
+        name.setHint("Seu nome");
+        name.setHintTextColor(Color.rgb(115,137,163));
+        name.setTextColor(Color.WHITE);
+        name.setSingleLine(true);
+        name.setBackground(bg(CARD,Color.rgb(48,77,106),14));
+        name.setPadding(dp(14),0,dp(14),0);
+        LinearLayout.LayoutParams fp=new LinearLayout.LayoutParams(-1,dp(52));
+        fp.setMargins(0,dp(10),0,0);
+        body.addView(name,fp);
+
+        EditText email=new EditText(this);
+        email.setHint("Seu e-mail");
+        email.setHintTextColor(Color.rgb(115,137,163));
+        email.setTextColor(Color.WHITE);
+        email.setSingleLine(true);
+        email.setInputType(android.text.InputType.TYPE_CLASS_TEXT|android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        email.setBackground(bg(CARD,Color.rgb(48,77,106),14));
+        email.setPadding(dp(14),0,dp(14),0);
+        fp=new LinearLayout.LayoutParams(-1,dp(52));
+        fp.setMargins(0,dp(8),0,0);
+        body.addView(email,fp);
+
+        EditText subject=new EditText(this);
+        subject.setHint("Assunto");
+        subject.setHintTextColor(Color.rgb(115,137,163));
+        subject.setTextColor(Color.WHITE);
+        subject.setSingleLine(true);
+        subject.setBackground(bg(CARD,Color.rgb(48,77,106),14));
+        subject.setPadding(dp(14),0,dp(14),0);
+        fp=new LinearLayout.LayoutParams(-1,dp(52));
+        fp.setMargins(0,dp(8),0,0);
+        body.addView(subject,fp);
+
+        EditText message=new EditText(this);
+        message.setHint("Digite sua dúvida ou mensagem");
+        message.setHintTextColor(Color.rgb(115,137,163));
+        message.setTextColor(Color.WHITE);
+        message.setGravity(Gravity.TOP|Gravity.START);
+        message.setInputType(android.text.InputType.TYPE_CLASS_TEXT|android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        message.setBackground(bg(CARD,Color.rgb(48,77,106),14));
+        message.setPadding(dp(14),dp(12),dp(14),dp(12));
+        fp=new LinearLayout.LayoutParams(-1,dp(150));
+        fp.setMargins(0,dp(8),0,0);
+        body.addView(message,fp);
+
+        Button send=btn("💬 ENVIAR PARA O SUPORTE");
+        send.setTextSize(14);
+        fp=new LinearLayout.LayoutParams(-1,dp(54));
+        fp.setMargins(0,dp(14),0,dp(8));
+        body.addView(send,fp);
+
+        TextView ai=txt("🤖 Em uma próxima evolução, a IA poderá responder dúvidas comuns imediatamente e encaminhar casos específicos para a equipe.",10,false);
+        ai.setTextColor(MUTED);
+        body.addView(ai);
+
+        send.setOnClickListener(v->{
+            String n=name.getText().toString().trim();
+            String e=email.getText().toString().trim();
+            String s=subject.getText().toString().trim();
+            String m=message.getText().toString().trim();
+            if(n.length()==0||e.length()==0||s.length()==0||m.length()==0){
+                Toast.makeText(this,"Preencha todos os campos.",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            send.setEnabled(false);
+            new Thread(()->{
+                HttpURLConnection conn=null;
+                try{
+                    URL u=new URL("https://multiplay-site.onrender.com/api/educacao/support/tickets");
+                    conn=(HttpURLConnection)u.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setConnectTimeout(10000);
+                    conn.setReadTimeout(15000);
+                    conn.setDoOutput(true);
+                    conn.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+                    String json="{\"name\":\""+jsonEscape(n)+"\",\"email\":\""+jsonEscape(e)+"\",\"subject\":\""+jsonEscape(s)+"\",\"message\":\""+jsonEscape(m)+"\"}";
+                    OutputStream out=conn.getOutputStream();
+                    out.write(json.getBytes("UTF-8"));
+                    out.close();
+                    int code=conn.getResponseCode();
+                    runOnUiThread(()->{
+                        send.setEnabled(true);
+                        if(code>=200&&code<300){
+                            message.setText("");
+                            subject.setText("");
+                            Toast.makeText(this,"Dúvida enviada. A equipe responderá pelo suporte.",Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(this,"Não foi possível enviar agora. Tente novamente.",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }catch(Exception ex){
+                    runOnUiThread(()->{
+                        send.setEnabled(true);
+                        Toast.makeText(this,"Sem conexão com o suporte. Tente novamente.",Toast.LENGTH_LONG).show();
+                    });
+                }finally{
+                    if(conn!=null)conn.disconnect();
+                }
+            }).start();
+        });
+    }
+
+    String jsonEscape(String value){
+        if(value==null)return "";
+        return value.replace("\\","\\\\").replace("\"","\\\"").replace("\r","\\r").replace("\n","\\n");
+    }
+
+
     @Override public void onBackPressed(){ home(); }
 }
