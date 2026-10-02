@@ -1,0 +1,24 @@
+name: Multiplay Server Check
+on:
+  push:
+    paths:
+      - 'server.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'educacao-admin.html'
+  workflow_dispatch:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm install --ignore-scripts
+      - name: Check server syntax
+        run: node --check server.js
+      - name: Check panel
+        run: test -s educacao-admin.html
