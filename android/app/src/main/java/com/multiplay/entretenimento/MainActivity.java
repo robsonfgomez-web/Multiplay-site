@@ -7,6 +7,10 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.Gravity;
 import android.widget.*;
+import android.net.Uri;
+import androidx.media3.common.MediaItem;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.ui.PlayerView;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Locale;
@@ -27,9 +31,11 @@ public class MainActivity extends Activity {
  TextView info=tv("Identificador próprio do Multiplay para vincular a playlist.\nO MAC físico pode não estar disponível em Android comum.",12,false);info.setGravity(Gravity.CENTER);root.addView(info,new LinearLayout.LayoutParams(-1,dp(58)));
  Button a=btn("ATIVAR / SINCRONIZAR DISPOSITIVO");root.addView(a,new LinearLayout.LayoutParams(-1,dp(52)));a.setOnClickListener(v->home());
  TextView l=tv("Use somente conteúdo próprio, licenciado ou autorizado.",11,false);l.setGravity(Gravity.CENTER);root.addView(l,new LinearLayout.LayoutParams(-1,dp(45)));}
+ void openPlayer(String url,String title){ base(); TextView h=tv(title,20,true); root.addView(h,new LinearLayout.LayoutParams(-1,dp(55))); PlayerView pv=new PlayerView(this); root.addView(pv,new LinearLayout.LayoutParams(-1,0,1)); Button back=btn("← Voltar"); root.addView(back,new LinearLayout.LayoutParams(-1,dp(48))); ExoPlayer player=new ExoPlayer.Builder(this).build(); pv.setPlayer(player); player.setMediaItem(MediaItem.fromUri(Uri.parse(url))); player.prepare(); player.play(); back.setOnClickListener(v->{player.release();home();}); }
+ void module(String title,String body){ base(); TextView h=tv(title,26,true); h.setTextColor(Color.rgb(40,140,255)); root.addView(h,new LinearLayout.LayoutParams(-1,dp(65))); TextView b=tv(body,16,false); b.setGravity(Gravity.TOP); root.addView(b,new LinearLayout.LayoutParams(-1,0,1)); Button back=btn("← Voltar"); root.addView(back,new LinearLayout.LayoutParams(-1,dp(50))); back.setOnClickListener(v->home()); }
  void home(){base();LinearLayout top=new LinearLayout(this);top.setGravity(Gravity.CENTER_VERTICAL);TextView logo=tv("MULTIPLAY",28,true);logo.setTextColor(Color.rgb(40,140,255));top.addView(logo,new LinearLayout.LayoutParams(0,dp(55),1));top.addView(tv("DEVICE KEY  "+deviceKey,12,false),new LinearLayout.LayoutParams(dp(180),dp(55)));root.addView(top);
- LinearLayout nav=new LinearLayout(this);for(String s:new String[]{"INÍCIO","TV AO VIVO","FILMES","SÉRIES","LIVROS","AUDIOBOOK","E-BOOKS"}){Button x=btn(s);nav.addView(x,new LinearLayout.LayoutParams(0,dp(45),1));}root.addView(nav);
+ LinearLayout nav=new LinearLayout(this);for(String s:new String[]{"INÍCIO","TV AO VIVO","FILMES","SÉRIES","LIVROS","AUDIOBOOK","E-BOOKS"}){Button x=btn(s);nav.addView(x,new LinearLayout.LayoutParams(0,dp(45),1)); if(s.equals("TV AO VIVO"))x.setOnClickListener(v->module("TV AO VIVO","Canais vinculados à playlist autorizada do dispositivo aparecerão aqui.")); if(s.equals("FILMES"))x.setOnClickListener(v->module("FILMES","Catálogo VOD da playlist autorizada.")); if(s.equals("SÉRIES"))x.setOnClickListener(v->module("SÉRIES","Séries e temporadas da playlist autorizada.")); if(s.equals("LIVROS"))x.setOnClickListener(v->module("LIVROS","Biblioteca digital de livros disponibilizados legalmente.")); if(s.equals("AUDIOBOOK"))x.setOnClickListener(v->module("AUDIOBOOKS","Audiobooks e conteúdos em áudio.")); if(s.equals("E-BOOKS"))x.setOnClickListener(v->module("E-BOOKS","E-books e publicações digitais."));}root.addView(nav);
  TextView h=tv("Sua central de entretenimento",25,true);h.setPadding(dp(10),dp(16),dp(10),dp(4));root.addView(h,new LinearLayout.LayoutParams(-1,dp(62)));
  LinearLayout grid=new LinearLayout(this);for(String s:new String[]{"📺  Canais","🎬  Filmes","📚  Livros","🎧  Audiobooks","📖  E-books","🎓  Cursos"}){TextView c=tv(s,15,true);c.setGravity(Gravity.CENTER);c.setBackgroundColor(Color.rgb(15,22,40));LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,dp(110),1);p.setMargins(dp(5),dp(5),dp(5),dp(5));grid.addView(c,p);}root.addView(grid,new LinearLayout.LayoutParams(-1,dp(125)));
- TextView st=tv("Playlist: aguardando vínculo no painel\nDevice ID: "+deviceId,12,false);st.setGravity(Gravity.CENTER);root.addView(st,new LinearLayout.LayoutParams(-1,dp(55)));}
+ TextView st=tv("Playlist: aguardando vínculo no painel\nDevice ID: "+deviceId+"\nCursos: gratuitos; certificado somente quando oferecido pela instituição responsável.",12,false);st.setGravity(Gravity.CENTER);root.addView(st,new LinearLayout.LayoutParams(-1,dp(55)));}
 }
