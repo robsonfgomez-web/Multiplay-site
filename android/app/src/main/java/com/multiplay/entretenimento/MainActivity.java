@@ -121,13 +121,13 @@ public class MainActivity extends Activity {
         String url=json(data,"playlist_url");playlistName=json(data,"playlist_name");
         if(url==null||url.isEmpty()){runOnUiThread(()->home("Playlist não encontrada. Toque em Atualizar novamente."));return;}
         parseM3U(getAbsolute(url));
-        runOnUiThread(()->home("Playlist ""+(playlistName.isEmpty()?"Multiplay":playlistName)+"" sincronizada • "+items.size()+" conteúdos"));
+        runOnUiThread(()->home("Playlist \\"" +(playlistName.isEmpty()?"Multiplay":playlistName)+ "\" sincronizada • "+items.size()+" conteúdos"));
       }catch(Exception e){runOnUiThread(()->home("Não foi possível atualizar agora. Toque em Atualizar novamente."));}
     }).start();
   }
   void postRegister()throws Exception{
     URL u=new URL(API+"/api/device/register");HttpURLConnection c=(HttpURLConnection)u.openConnection();c.setRequestMethod("POST");c.setDoOutput(true);c.setConnectTimeout(15000);c.setReadTimeout(15000);c.setRequestProperty("Content-Type","application/json");
-    String body="{"device_id":""+deviceId+"","device_key":""+deviceKey+""}";c.getOutputStream().write(body.getBytes(StandardCharsets.UTF_8));c.getInputStream().close();
+    String body="{\"device_id\":\""+deviceId+"\",\"device_key\":\""+deviceKey+"\"}";c.getOutputStream().write(body.getBytes(StandardCharsets.UTF_8));c.getInputStream().close();
   }
   String get(String path)throws Exception{URL u=new URL(API+path);HttpURLConnection c=(HttpURLConnection)u.openConnection();c.setRequestMethod("GET");c.setConnectTimeout(15000);c.setReadTimeout(60000);InputStream in=c.getResponseCode()>=400?c.getErrorStream():c.getInputStream();if(in==null)throw new IOException("HTTP");BufferedReader r=new BufferedReader(new InputStreamReader(in,StandardCharsets.UTF_8));StringBuilder s=new StringBuilder();String l;while((l=r.readLine())!=null)s.append(l);r.close();return s.toString();}
   String getAbsolute(String url)throws Exception{HttpURLConnection c=(HttpURLConnection)new URL(url).openConnection();c.setConnectTimeout(15000);c.setReadTimeout(60000);c.setRequestProperty("User-Agent","Multiplay/2.0.2");InputStream in=c.getInputStream();BufferedReader r=new BufferedReader(new InputStreamReader(in,StandardCharsets.UTF_8));StringBuilder s=new StringBuilder();StringBuilder out=new StringBuilder();String l;while((l=r.readLine())!=null)out.append(l).append("\n");r.close();return out.toString();}
