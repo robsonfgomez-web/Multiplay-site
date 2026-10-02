@@ -2208,7 +2208,12 @@ app.get('/api/device/manage/status', async (req,res)=>{
   if(!device_id||!device_key) return res.status(400).json({success:false,message:'Device ID e Device Key são obrigatórios.'});
   try{
     const q=await pool.query('SELECT device_id,customer_username,active,expires_at,trial_started_at,trial_expires_at,activation_expires_at,activated_at,playlist_name,playlist_url,epg_url FROM multiplay_devices WHERE device_id=$1 AND device_key=$2',[device_id,device_key]);
-    if(!q.rows.length) return res.json({success:true,registered:false});
+    if(!q.rows.length){
+      const trialStart=new Date();
+      const trialEnd=new Date(trialStart.getTime()+7*86400000);
+      await pool.query('INSERT INTO multiplay_devices(device_id,device_key,active,expires_at,trial_started_at,trial_expires_at) VALUES($1,$2,TRUE,$3,$4,$3)',[device_id,device_key,trialEnd,trialStart]);
+      return res.json({success:true,registered:true,created:true,active:true,status:'TESTE',trial_started_at:trialStart,trial_expires_at:trialEnd,expires_at:trialEnd,days_remaining:7,requires_activation:false,playlist_name:null,playlist_url:null,epg_url:null});
+    }
     const d=q.rows[0], st=estadoDispositivo(d);
     return res.json({
       success:true, registered:true, active:st.active, status:st.status,
