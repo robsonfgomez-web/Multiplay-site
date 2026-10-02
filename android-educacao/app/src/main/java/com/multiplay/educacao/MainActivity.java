@@ -21,7 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
-    LinearLayout root, content;
+    LinearLayout root, content, body;
     ScrollView scroll;
     int dp(float v){return (int)(v*getResources().getDisplayMetrics().density+.5f);}
 
