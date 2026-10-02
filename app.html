@@ -12,7 +12,7 @@
 .tabs{max-width:1250px;margin:auto;padding:0 18px 12px;display:flex;gap:8px;overflow:auto}.tab{white-space:nowrap;border:1px solid var(--line);background:#0c1720;color:#b9c8d4;border-radius:999px;padding:9px 14px}.tab.active{background:var(--blue);border-color:var(--blue);color:#fff}
 main{max-width:1250px;margin:auto;padding:22px 18px 50px}.hero{padding:24px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(135deg,#102637,#0c1720);margin-bottom:24px}.hero h1{margin:0 0 8px;font-size:30px}.hero p{margin:0;color:var(--muted)}.notice{margin-top:14px;color:#ffd6b5;font-size:13px}
 .section{margin:28px 0}.section h2{margin:0 0 14px;font-size:20px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:13px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;overflow:hidden;min-height:205px;display:flex;flex-direction:column}.poster{height:145px;background:linear-gradient(145deg,#14304a,#111c26);display:flex;align-items:center;justify-content:center;font-size:43px}.poster.channel{height:120px}.poster.book{height:125px}.cardbody{padding:11px}.title{font-weight:800;line-height:1.25}.meta{font-size:12px;color:var(--muted);margin-top:5px}.card button{margin:10px;border:0;border-radius:9px;background:#172a38;color:#fff;padding:8px}.empty{color:var(--muted);padding:25px;border:1px dashed var(--line);border-radius:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;overflow:hidden;min-height:205px;display:flex;flex-direction:column}.poster{height:145px;background:linear-gradient(145deg,#14304a,#111c26);display:flex;align-items:center;justify-content:center;font-size:43px}.poster.channel{height:120px}.poster.book{height:125px}.cardbody{padding:11px}.title{font-weight:800;line-height:1.25}.meta{font-size:12px;color:var(--muted);margin-top:5px}.card button,.cardopen{margin:10px;border:0;border-radius:9px;background:#172a38;color:#fff;padding:10px;text-align:center;text-decoration:none;font-size:14px;cursor:pointer}.poster img{width:100%;height:100%;object-fit:cover;display:block}.empty{color:var(--muted);padding:25px;border:1px dashed var(--line);border-radius:14px}
 @media(max-width:600px){.top{padding:12px}.user{display:none}.hero h1{font-size:24px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.poster{height:125px}}
 </style></head>
 <body>
@@ -48,225 +48,111 @@ Catálogo de demonstração: canais, filmes e séries estão organizados para ap
 </main>
 
 <script>
-
-const user=
-localStorage.getItem('mp_user')||
-sessionStorage.getItem('mp_user')||
-'';
-
-const catalog={
-
-canais:[
-['Globo','TV Aberta','📺'],
-['SBT','TV Aberta','📺'],
-['Record','TV Aberta','📺'],
-['Band','TV Aberta','📺'],
-['CNN Brasil','Notícias','📰'],
-['GloboNews','Notícias','📰'],
-['SporTV','Esportes','⚽'],
-['Canal Brasil','Cinema','🎬'],
-['TV Cultura','Cultura','📚'],
-['GNT','Entretenimento','✨'],
-['RedeTV!','TV Aberta','📡'],
-['BandNews','Notícias','📰']
-],
-
-filmes:[
-['A Minecraft Movie','Aventura','🎬'],
-['Riot','Ação','🍿'],
-['UNABOMBER','Crime','🎞️'],
-['Black Adam','Ação','🎬'],
-['Daredevil','Ação','🍿'],
-['Shrek','Animação','🎬'],
-['Shrek 2','Animação','🎬'],
-['War Machine','Ação','🎞️'],
-['Blood Work','Suspense','🎬'],
-['Kissing Is the Easy Part','Comédia','🍿'],
-['Best of the Best','Ação','🎞️'],
-['How to Lose a Popularity Contest','Comédia','🎬']
-],
-
-series:[
-['Monstro: A História de Lizzie Borden','Drama','📺'],
-['Wonka: O Bilhete Dourado','Família','⭐'],
-['A Garota do Remo','Drama','🎭'],
-['Um Mundo Diferente','Drama','⭐'],
-['Magnatas do Crime','Crime','🎬'],
-['A Casa Mágica da Gabby','Infantil','🌈'],
-['RAW: 2026','Esportes','🏆'],
-['The Great British Baking Show','Reality','🍰'],
-['Danny Go!','Infantil','🧸'],
-['Habeas Corpus','Drama','🎭']
-],
-
-livros:[
-['Dom Casmurro','Machado de Assis','📚'],
-['O Alienista','Machado de Assis','📖'],
-['Memórias Póstumas de Brás Cubas','Machado de Assis','📚'],
-['A Arte da Guerra','Sun Tzu','📖'],
-['O Príncipe','Nicolau Maquiavel','📚'],
-['A República','Platão','📖'],
-['Frankenstein','Mary Shelley','📚'],
-['Alice no País das Maravilhas','Lewis Carroll','📖']
-],
-
-ebooks:[
-['The Adventures of Sherlock Holmes','Project Gutenberg','📱'],
-['Alice’s Adventures in Wonderland','Project Gutenberg','📖'],
-['Frankenstein','Project Gutenberg','💻'],
-['Pride and Prejudice','Project Gutenberg','📱'],
-['The Time Machine','Project Gutenberg','📖'],
-['The Art of War','Project Gutenberg','💻'],
-['Meditations','Project Gutenberg','📱'],
-['A Christmas Carol','Project Gutenberg','📖']
-],
-
-audiobooks:[
-['Alice’s Adventures in Wonderland','LibriVox','🎧'],
-['The Adventures of Sherlock Holmes','LibriVox','🔊'],
-['Frankenstein','LibriVox','🎧'],
-['The Time Machine','LibriVox','🎙️'],
-['Pride and Prejudice','LibriVox','🎧'],
-['A Christmas Carol','LibriVox','🔊']
-]
-
-};
-
-const labels={
-inicio:'Início',
-canais:'Canais',
-filmes:'Filmes',
-series:'Séries',
-livros:'Livros',
-ebooks:'E-books',
-audiobooks:'Audiobooks'
-};
-
+const user = sessionStorage.getItem('mp_user') || localStorage.getItem('mp_user') || '';
+const labels = {inicio:'Início',canais:'Canais',filmes:'Filmes',series:'Séries',livros:'Livros',ebooks:'E-books',audiobooks:'Audiobooks'};
 let tab='inicio';
+let catalog={canais:[],filmes:[],series:[],livros:[],ebooks:[],audiobooks:[]};
+const fallbackBooks={
+ livros:[
+  ['Dom Casmurro','Machado de Assis','📚','https://www.gutenberg.org/ebooks/search/?query=dom+casmurro'],
+  ['O Alienista','Machado de Assis','📖','https://www.gutenberg.org/ebooks/search/?query=o+alienista'],
+  ['Memórias Póstumas de Brás Cubas','Machado de Assis','📚','https://www.gutenberg.org/ebooks/search/?query=memorias+postumas+bras+cubas'],
+  ['Frankenstein','Mary Shelley','📚','https://www.gutenberg.org/ebooks/search/?query=frankenstein'],
+  ['Alice no País das Maravilhas','Lewis Carroll','📖','https://www.gutenberg.org/ebooks/search/?query=alice+wonderland']
+ ],
+ ebooks:[
+  ['Sherlock Holmes','Project Gutenberg','📱','https://www.gutenberg.org/ebooks/search/?query=sherlock+holmes'],
+  ['Alice’s Adventures in Wonderland','Project Gutenberg','📖','https://www.gutenberg.org/ebooks/search/?query=alice+wonderland'],
+  ['Pride and Prejudice','Project Gutenberg','💻','https://www.gutenberg.org/ebooks/search/?query=pride+prejudice'],
+  ['The Time Machine','Project Gutenberg','📖','https://www.gutenberg.org/ebooks/search/?query=time+machine']
+ ],
+ audiobooks:[
+  ['Alice’s Adventures in Wonderland','LibriVox','🎧','https://librivox.org/search?search_form=get_results&search_page=1&search_category=title&search_term=alice'],
+  ['Frankenstein','LibriVox','🎧','https://librivox.org/search?search_form=get_results&search_page=1&search_category=title&search_term=frankenstein'],
+  ['The Time Machine','LibriVox','🎙️','https://librivox.org/search?search_form=get_results&search_page=1&search_category=title&search_term=time+machine']
+ ]};
+Object.assign(catalog,fallbackBooks);
+document.getElementById('userLabel').textContent=user?'Cliente: '+user:'MultiPlay';
 
-document.getElementById('userLabel').textContent=
-user?'Cliente: '+user:'MultiPlay';
+function esc(x){return String(x??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 
 function setupTabs(){
+ document.getElementById('tabs').innerHTML=Object.entries(labels).map(([k,v])=>
+ '<button class="tab '+(tab===k?'active':'')+'" onclick="tab=\''+k+'\';setupTabs();render()">'+v+'</button>').join('');
+}
 
-tabs.innerHTML=
-Object.entries(labels)
-.map(([k,v])=>
-'<button class="tab '+(tab===k?'active':'')+
-'" onclick="tab=\''+k+'\';setupTabs();render()">'+
-v+'</button>'
-).join('');
+function openMedia(x,type){
+ if(!x.stream_id && !x.streamId){alert('Este conteúdo não possui um identificador de reprodução.');return;}
+ sessionStorage.setItem('mp_stream_id',String(x.stream_id||x.streamId));
+ sessionStorage.setItem('mp_stream_name',x.name||x.title||'MultiPlay');
+ sessionStorage.setItem('mp_stream_type',type==='canais'?'canal':type==='series'?'serie':'filme');
+ sessionStorage.setItem('mp_stream_image',x.stream_icon||x.cover||'');
+ sessionStorage.setItem('mp_stream_extension',x.container_extension||'');
+ location.href='/player.html';
+}
 
+function openSeries(x){
+ if(!x.series_id){alert('Esta série não possui identificador.');return;}
+ location.href='/serie.html?series_id='+encodeURIComponent(x.series_id);
 }
 
 function card(x,type){
-
-return '<article class="card">'+
-
-'<div class="poster '+
-(type==='canais'?'channel ':'')+
-(type==='livros'||type==='ebooks'||type==='audiobooks'?'book':'')+
-'">'+x[2]+'</div>'+
-
-'<div class="cardbody">'+
-'<div class="title">'+esc(x[0])+'</div>'+
-'<div class="meta">'+esc(x[1])+'</div>'+
-'</div>'+
-
-'<button onclick="demo()">Abrir</button>'+
-
-'</article>';
-
+ const isApi=typeof x==='object'&&!Array.isArray(x);
+ const name=isApi?(x.name||x.title||'Sem título'):x[0];
+ const meta=isApi?(x.category_name||x.genre||'Conteúdo'):x[1];
+ const icon=isApi?(x.stream_icon?'🖼️':'🎬'):x[2];
+ const image=isApi?(x.stream_icon||x.cover||''):x[3]||'';
+ let button='';
+ if(type==='livros'||type==='ebooks'||type==='audiobooks'){
+   button=image?'<a class="cardopen" target="_blank" rel="noopener" href="'+esc(image)+'">Abrir</a>':'<button class="cardopen" onclick="alert(\'Link do conteúdo não disponível.\')">Abrir</button>';
+ } else if(type==='series'){
+   button=isApi?'<button class="cardopen" onclick="openSeries('+JSON.stringify(x).replace(/"/g,'&quot;')+')">Abrir</button>':'<button class="cardopen" onclick="alert(\'Série disponível no catálogo do cliente.\')">Abrir</button>';
+ } else {
+   button=isApi?'<button class="cardopen" onclick="openMedia('+JSON.stringify(x).replace(/"/g,'&quot;')+',\''+type+'\')">Abrir</button>':'<button class="cardopen" onclick="alert(\'Conteúdo de demonstração.\')">Abrir</button>';
+ }
+ return '<article class="card">'+
+ '<div class="poster '+(type==='canais'?'channel ':'')+(type==='livros'||type==='ebooks'||type==='audiobooks'?'book':'')+'">'+
+ (image&&isApi?'<img src="'+esc(image)+'" alt="" loading="lazy" onerror="this.style.display=\'none\'">':icon)+'</div>'+
+ '<div class="cardbody"><div class="title">'+esc(name)+'</div><div class="meta">'+esc(meta)+'</div></div>'+button+'</article>';
 }
 
 function section(title,type){
-
-const q=
-search.value.toLowerCase().trim();
-
-const arr=
-catalog[type].filter(x=>
-!q||x[0].toLowerCase().includes(q)
-);
-
-return arr.length?
-
-'<section class="section">'+
-'<h2>'+title+'</h2>'+
-'<div class="grid">'+
-arr.map(x=>card(x,type)).join('')+
-'</div>'+
-'</section>'
-
-:'';
-
+ const q=document.getElementById('search').value.toLowerCase().trim();
+ const arr=(catalog[type]||[]).filter(x=>{const n=Array.isArray(x)?x[0]:(x.name||x.title||'');return !q||n.toLowerCase().includes(q);});
+ return arr.length?'<section class="section"><h2>'+title+'</h2><div class="grid">'+arr.map(x=>card(x,type)).join('')+'</div></section>':'';
 }
 
 function render(){
-
-setupTabs();
-
-let h=
-tab==='inicio'
-
-?
-section('Canais em destaque','canais')+
-section('Filmes','filmes')+
-section('Séries','series')+
-section('Livros','livros')+
-section('E-books','ebooks')+
-section('Audiobooks','audiobooks')
-
-:
-section(labels[tab],tab);
-
-content.innerHTML=
-h||
-'<div class="empty">Nenhum conteúdo encontrado.</div>';
-
+ setupTabs();
+ const h=tab==='inicio'
+  ?section('Canais em destaque','canais')+section('Filmes','filmes')+section('Séries','series')+section('Livros','livros')+section('E-books','ebooks')+section('Audiobooks','audiobooks')
+  :section(labels[tab],tab);
+ document.getElementById('content').innerHTML=h||'<div class="empty">Nenhum conteúdo encontrado.</div>';
 }
 
-function demo(){
-
-alert(
-'Este conteúdo está no catálogo de demonstração. A reprodução será ativada posteriormente, por cliente.'
-);
-
+async function loadCatalog(){
+ if(!user){location.href='/login.html';return;}
+ try{
+   const r=await fetch('/api/catalogo?username='+encodeURIComponent(user),{cache:'no-store'});
+   const d=await r.json();
+   if(!r.ok) throw new Error(d.error||'Não foi possível carregar o catálogo.');
+   catalog.canais=Array.isArray(d.canais)?d.canais:[];
+   catalog.filmes=Array.isArray(d.filmes)?d.filmes:[];
+   catalog.series=Array.isArray(d.series)?d.series:[];
+   render();
+   const diag=d.diagnostico||{};
+   const failures=Object.entries(diag).filter(([k,v])=>['canais','filmes','series'].includes(k)&&v&&v.status==='erro');
+   if(failures.length) console.warn('Catálogo com itens indisponíveis:',failures);
+ }catch(e){
+   console.error(e);
+   catalog.canais=[];catalog.filmes=[];catalog.series=[];
+   render();
+   document.querySelector('.notice').textContent='Biblioteca disponível. Para canais, filmes e séries, cadastre as credenciais de conteúdo do cliente no painel administrativo.';
+ }
 }
 
-function esc(x){
-
-return String(x).replace(
-/[&<>"]/g,
-c=>({
-'&':'&amp;',
-'<':'&lt;',
-'>':'&gt;',
-'"':'&quot;'
-}[c])
-);
-
-}
-
-function sair(){
-
-localStorage.removeItem('mp_user');
-sessionStorage.removeItem('mp_user');
-
-location.href='/login.html';
-
-}
-
-if(!user){
-
-location.href='/login.html';
-
-}else{
-
-render();
-
-}
-
+document.getElementById('search').addEventListener('input',render);
+loadCatalog();
 </script>
 
 </body>
