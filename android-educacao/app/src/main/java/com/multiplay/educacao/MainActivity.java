@@ -80,14 +80,14 @@ public class MainActivity extends Activity {
     }
 
     void base(){
-        scroll=new ScrollView(this);
-        scroll.setFillViewport(true);
-        scroll.setBackgroundColor(Color.rgb(5,8,16));
-        root=new LinearLayout(this); root.setOrientation(LinearLayout.VERTICAL);
-        root.setPadding(dp(14),dp(10),dp(14),dp(18));
-        root.setBackgroundColor(Color.rgb(5,8,16));
-        scroll.addView(root,new ScrollView.LayoutParams(-1,-2));
-        setContentView(scroll);
+        root=new LinearLayout(this); root.setOrientation(LinearLayout.VERTICAL); root.setBackgroundColor(BG);
+        body=new LinearLayout(this); body.setOrientation(LinearLayout.VERTICAL);
+        body.setPadding(dp(14),dp(10),dp(14),dp(90));
+        scroll=new ScrollView(this); scroll.setFillViewport(true); scroll.setBackgroundColor(BG);
+        scroll.addView(body,new ScrollView.LayoutParams(-1,-1));
+        root.addView(scroll,new LinearLayout.LayoutParams(-1,0,1));
+        root.addView(bottomNav());
+        setContentView(root);
     }
 
     void home(){
