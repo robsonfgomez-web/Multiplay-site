@@ -4,7 +4,6 @@ const statusElement = document.getElementById("status");
 const errorElement = document.getElementById("error");
 
 const user = sessionStorage.getItem("mp_user");
-const pass = sessionStorage.getItem("mp_pass");
 
 const streamId =
   sessionStorage.getItem("mp_stream_id");
@@ -26,7 +25,8 @@ const resumePosition =
     sessionStorage.getItem("mp_resume_position") || 0
   );
 
-const historyKey = "multiplay_history";
+const historyKey =
+  `multiplay_history_${user || "guest"}`;
 
 let hls = null;
 let lastSavedPosition = 0;
@@ -36,7 +36,7 @@ let lastSavedPosition = 0;
    SESSÃO
 ================================ */
 
-if (!user || !pass) {
+if (!user) {
   window.location.href = "/login.html";
 }
 
@@ -72,6 +72,7 @@ function getHistory() {
     return [];
 
   }
+
 }
 
 
@@ -89,7 +90,7 @@ function saveHistory(history) {
 
 function registerHistory() {
 
-  if (!streamId) {
+  if (!streamId || !user) {
     return;
   }
 
@@ -99,8 +100,7 @@ function registerHistory() {
   const existing =
     history.find(
       item =>
-        String(item.id) ===
-          String(streamId) &&
+        String(item.id) === String(streamId) &&
         item.type === streamType
     );
 
@@ -177,8 +177,7 @@ function saveProgress() {
   const item =
     history.find(
       x =>
-        String(x.id) ===
-          String(streamId) &&
+        String(x.id) === String(streamId) &&
         x.type === streamType
     );
 
@@ -206,7 +205,7 @@ function saveProgress() {
 
 
 /* ==============================
-   POSIÇÃO INICIAL
+   RESTAURAR POSIÇÃO
 ================================ */
 
 function restorePosition() {
@@ -275,48 +274,63 @@ function showError(message) {
 
 
 /* ==============================
-   URL DO STREAM
+   LIMPAR ERRO
 ================================ */
 
-function buildStreamUrl() {
+function hideError() {
 
-  if (!streamId) {
+  if (errorElement) {
+    errorElement.style.display =
+      "none";
+  }
+
+}
+
+
+/* ==============================
+   URL DO PLAYER
+================================ */
+
+/*
+  IMPORTANTE:
+
+  O navegador NÃO recebe o usuário
+  e a senha Xtream.
+
+  O servidor MultiPlay identifica
+  o cliente pelo usuário logado e
+  usa as credenciais Xtream cadastradas
+  para aquele cliente.
+
+  Endpoint:
+
+  /api/media
+
+  recebe apenas a identificação do
+  conteúdo e o tipo.
+*/
+
+function buildPlayerUrl() {
+
+  if (!user || !streamId) {
     return null;
   }
 
-  if (!user || !pass) {
-    return null;
-  }
+  const params =
+    new URLSearchParams({
 
-  /*
-    Conteúdo deve ser reproduzido
-    somente quando o usuário possui
-    autorização de acesso.
-  */
+      user:
+        user,
 
-  if (streamType === "canal") {
+      stream_id:
+        String(streamId),
 
-    return (
-      "http://u.l0.ms/live/" +
-      encodeURIComponent(user) +
-      "/" +
-      encodeURIComponent(pass) +
-      "/" +
-      encodeURIComponent(streamId) +
-      ".m3u8"
-    );
+      type:
+        streamType
 
-  }
+    });
 
-  return (
-    "http://u.l0.ms/movie/" +
-    encodeURIComponent(user) +
-    "/" +
-    encodeURIComponent(pass) +
-    "/" +
-    encodeURIComponent(streamId) +
-    ".mp4"
-  );
+  return `/api/media?${params.toString()}`;
 
 }
 
@@ -325,49 +339,147 @@ function buildStreamUrl() {
    REPRODUÇÃO
 ================================ */
 
-function initializePlayer() {
+async function initializePlayer() {
 
   if (!video) {
     return;
   }
 
-  registerHistory();
+  if (!user) {
 
-  const streamUrl =
-    buildStreamUrl();
+    window.location.href =
+      "/login.html";
 
-  if (!streamUrl) {
+    return;
+
+  }
+
+  if (!streamId) {
 
     showError(
-      "Não foi possível identificar este conteúdo."
+      "Não foi possível identificar o conteúdo."
     );
 
     return;
+
   }
+
+  registerHistory();
+
+  const playerUrl =
+    buildPlayerUrl();
+
+  if (!playerUrl) {
+
+    showError(
+      "Não foi possível preparar a reprodução."
+    );
+
+    return;
+
+  }
+
+  hideError();
 
   setStatus(
     "Conectando ao conteúdo..."
   );
 
+
   /*
-    HLS
+    O servidor MultiPlay fará
+    a validação do cliente e
+    buscará as credenciais Xtream.
   */
 
+  if (streamType === "canal") {
+
+    initializeHls(
+      playerUrl
+    );
+
+    return;
+
+  }
+
+
+  /*
+    Filmes e episódios.
+  */
+
+  video.src =
+    playerUrl;
+
+  video.addEventListener(
+    "loadedmetadata",
+    () => {
+
+      setStatus(
+        "Reprodução iniciada."
+      );
+
+      hideError();
+
+      restorePosition();
+
+      video.play()
+        .catch(() => {});
+
+    },
+    { once: true }
+  );
+
+
+  video.addEventListener(
+    "canplay",
+    () => {
+
+      if (
+        statusElement &&
+        statusElement.textContent !==
+          "Reprodução iniciada."
+      ) {
+
+        setStatus(
+          "Conteúdo pronto."
+        );
+        }
+
+
+/* ==============================
+   HLS
+================================ */
+
+function initializeHls(playerUrl) {
+
   if (
-    streamUrl.includes(".m3u8") &&
+    !video ||
+    !playerUrl
+  ) {
+    return;
+  }
+
+  if (
     window.Hls &&
     Hls.isSupported()
   ) {
 
     hls =
       new Hls({
-        enableWorker: true,
+
+        enableWorker:
+          true,
+
         lowLatencyMode:
-          streamType === "canal"
+          true,
+
+        backBufferLength:
+          30
+
       });
 
     hls.loadSource(
-      streamUrl
+      playerUrl
     );
 
     hls.attachMedia(
@@ -382,7 +494,7 @@ function initializePlayer() {
           "Reprodução iniciada."
         );
 
-        restorePosition();
+        hideError();
 
         video.play()
           .catch(() => {});
@@ -395,7 +507,7 @@ function initializePlayer() {
       (event, data) => {
 
         console.error(
-          "HLS:",
+          "Erro HLS:",
           data
         );
 
@@ -405,8 +517,16 @@ function initializePlayer() {
         ) {
 
           showError(
-            "Não foi possível reproduzir este conteúdo."
+            "Não foi possível reproduzir este canal."
           );
+
+          try {
+
+            hls.destroy();
+
+          } catch {}
+
+          hls = null;
 
         }
 
@@ -417,19 +537,18 @@ function initializePlayer() {
   }
 
 
-  /*
-    Safari / HLS nativo
-  */
+  /* ==============================
+     HLS NATIVO
+  ================================ */
 
   if (
-    streamUrl.includes(".m3u8") &&
     video.canPlayType(
       "application/vnd.apple.mpegurl"
     )
   ) {
 
     video.src =
-      streamUrl;
+      playerUrl;
 
     video.addEventListener(
       "loadedmetadata",
@@ -439,7 +558,7 @@ function initializePlayer() {
           "Reprodução iniciada."
         );
 
-        restorePosition();
+        hideError();
 
         video.play()
           .catch(() => {});
@@ -452,28 +571,8 @@ function initializePlayer() {
   }
 
 
-  /*
-    MP4
-  */
-
-  video.src =
-    streamUrl;
-
-  video.addEventListener(
-    "loadedmetadata",
-    () => {
-
-      setStatus(
-        "Reprodução iniciada."
-      );
-
-      restorePosition();
-
-      video.play()
-        .catch(() => {});
-
-    },
-    { once: true }
+  showError(
+    "Este dispositivo não suporta reprodução HLS."
   );
 
 }
@@ -497,11 +596,6 @@ if (video) {
 
       const current =
         Number(video.currentTime) || 0;
-
-      /*
-        Salva aproximadamente
-        a cada 5 segundos.
-      */
 
       if (
         current -
@@ -539,12 +633,6 @@ if (video) {
 
       saveProgress();
 
-      /*
-        Quando terminou,
-        mantém no histórico,
-        mas zera a posição.
-      */
-
       const history =
         getHistory();
 
@@ -564,7 +652,9 @@ if (video) {
         item.updatedAt =
           Date.now();
 
-        saveHistory(history);
+        saveHistory(
+          history
+        );
 
       }
 
@@ -597,10 +687,22 @@ function goBack() {
   if (hls) {
 
     try {
+
       hls.destroy();
+
     } catch {}
 
     hls = null;
+
+  }
+
+  if (video) {
+
+    try {
+
+      video.pause();
+
+    } catch {}
 
   }
 
@@ -623,7 +725,9 @@ window.addEventListener(
     if (hls) {
 
       try {
+
         hls.destroy();
+
       } catch {}
 
       hls = null;
