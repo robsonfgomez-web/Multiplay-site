@@ -1983,6 +1983,8 @@ async function criarTabelas() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
 
+      CREATE TABLE IF NOT EXISTS multiplay_devices ( device_id VARCHAR(128) PRIMARY KEY, device_key VARCHAR(128) NOT NULL, customer_username VARCHAR(100), active BOOLEAN DEFAULT TRUE, expires_at TIMESTAMP NULL, playlist_name VARCHAR(200), playlist_url TEXT, epg_url TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP );
+
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         username VARCHAR(100) UNIQUE NOT NULL,
