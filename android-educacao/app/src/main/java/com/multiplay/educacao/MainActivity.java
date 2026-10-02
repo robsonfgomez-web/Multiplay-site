@@ -210,4 +210,66 @@ public class MainActivity extends Activity {
         WebView web=new WebView(this);WebSettings ws=web.getSettings();ws.setJavaScriptEnabled(true);ws.setDomStorageEnabled(true);ws.setBuiltInZoomControls(false);ws.setMediaPlaybackRequiresUserGesture(true);web.setWebViewClient(new WebViewClient());web.setBackgroundColor(Color.WHITE);body.addView(web,new LinearLayout.LayoutParams(-1,0,1));web.loadUrl(item.url);
     }
 
+    void buildCatalog(){
+        String G="https://www.gutenberg.org/cache/epub/";
+        addBook("Orgulho e Preconceito","Jane Austen","Clássico completo para leitura online.","https://www.gutenberg.org/ebooks/1342",G+"1342/pg1342.cover.medium.jpg");
+        addBook("Alice no País das Maravilhas","Lewis Carroll","Clássico completo.","https://www.gutenberg.org/ebooks/11",G+"11/pg11.cover.medium.jpg");
+        addBook("Frankenstein","Mary Shelley","Romance completo.","https://www.gutenberg.org/ebooks/84",G+"84/pg84.cover.medium.jpg");
+        addBook("As Aventuras de Sherlock Holmes","Arthur Conan Doyle","Contos completos.","https://www.gutenberg.org/ebooks/1661",G+"1661/pg1661.cover.medium.jpg");
+        addBook("Moby Dick","Herman Melville","Romance completo.","https://www.gutenberg.org/ebooks/2701",G+"2701/pg2701.cover.medium.jpg");
+        addBook("Um Conto de Duas Cidades","Charles Dickens","Romance completo.","https://www.gutenberg.org/ebooks/98",G+"98/pg98.cover.medium.jpg");
+        addBook("Grandes Esperanças","Charles Dickens","Romance completo.","https://www.gutenberg.org/ebooks/1400",G+"1400/pg1400.cover.medium.jpg");
+        addBook("As Aventuras de Tom Sawyer","Mark Twain","Clássico completo.","https://www.gutenberg.org/ebooks/74",G+"74/pg74.cover.medium.jpg");
+        addBook("As Aventuras de Huckleberry Finn","Mark Twain","Clássico completo.","https://www.gutenberg.org/ebooks/76",G+"76/pg76.cover.medium.jpg");
+        addBook("Jane Eyre","Charlotte Brontë","Romance completo.","https://www.gutenberg.org/ebooks/1260",G+"1260/pg1260.cover.medium.jpg");
+        addBook("O Morro dos Ventos Uivantes","Emily Brontë","Romance completo.","https://www.gutenberg.org/ebooks/768",G+"768/pg768.cover.medium.jpg");
+        addBook("Mulherzinhas","Louisa May Alcott","Romance completo.","https://www.gutenberg.org/ebooks/514",G+"514/pg514.cover.medium.jpg");
+        addBook("O Maravilhoso Mágico de Oz","L. Frank Baum","Clássico infantil completo.","https://www.gutenberg.org/ebooks/55",G+"55/pg55.cover.medium.jpg");
+        addBook("O Jardim Secreto","Frances Hodgson Burnett","Clássico completo.","https://www.gutenberg.org/ebooks/113",G+"113/pg113.cover.medium.jpg");
+        addBook("A Máquina do Tempo","H. G. Wells","Ficção científica completa.","https://www.gutenberg.org/ebooks/35",G+"35/pg35.cover.medium.jpg");
+        addBook("O Retrato de Dorian Gray","Oscar Wilde","Romance completo.","https://www.gutenberg.org/ebooks/174",G+"174/pg174.cover.medium.jpg");
+        addBook("O Conde de Monte Cristo","Alexandre Dumas","Romance completo.","https://www.gutenberg.org/ebooks/1184",G+"1184/pg1184.cover.medium.jpg");
+        addBook("A Metamorfose","Franz Kafka","Novela completa.","https://www.gutenberg.org/ebooks/5200",G+"5200/pg5200.cover.medium.jpg");
+        addBook("Guerra e Paz","Leo Tolstoy","Romance completo.","https://www.gutenberg.org/ebooks/2600",G+"2600/pg2600.cover.medium.jpg");
+        addBook("Um Conto de Natal","Charles Dickens","Clássico completo.","https://www.gutenberg.org/ebooks/46",G+"46/pg46.cover.medium.jpg");
 
+        addAudio("Alice's Adventures in Wonderland","LibriVox","Audiobook completo • inglês.","https://librivox.org/alices-adventures-in-wonderland-by-lewis-carroll/",G+"11/pg11.cover.medium.jpg");
+        addAudio("Dracula","LibriVox","Audiobook completo • inglês.","https://librivox.org/dracula-by-bram-stoker",G+"345/pg345.cover.medium.jpg");
+        addAudio("Frankenstein; or The Modern Prometheus","LibriVox","Audiobook completo • inglês.","https://librivox.org/frankenstein-or-the-modern-prometheus-1818-by-mary-wollstonecraft-shelley/",G+"84/pg84.cover.medium.jpg");
+        addAudio("The Count of Monte Cristo","LibriVox","Audiobook completo • inglês.","https://librivox.org/the-count-of-monte-cristo-by-alexandre-dumas/",G+"1184/pg1184.cover.medium.jpg");
+        addAudio("The Adventures of Sherlock Holmes","LibriVox","Audiobook completo • inglês.","https://librivox.org/the-adventures-of-sherlock-holmes-by-arthur-conan-doyle/",G+"1661/pg1661.cover.medium.jpg");
+        addAudio("The Time Machine","LibriVox","Audiobook completo • inglês.","https://librivox.org/the-time-machine-by-h-g-wells/",G+"35/pg35.cover.medium.jpg");
+        addAudio("Jane Eyre","LibriVox","Audiobook completo • inglês.","https://librivox.org/jane-eyre-by-charlotte-bronte/",G+"1260/pg1260.cover.medium.jpg");
+        addAudio("The Picture of Dorian Gray","LibriVox","Audiobook completo • inglês.","https://librivox.org/the-picture-of-dorian-gray-by-oscar-wilde/",G+"174/pg174.cover.medium.jpg");
+
+        addEbook("College Algebra","OpenStax","Livro-texto completo e gratuito online.","https://openstax.org/books/college-algebra/pages/1-introduction-to-prerequisites","MATEMÁTICA");
+        addEbook("Psychology 2e","OpenStax","Livro-texto completo e gratuito online.","https://openstax.org/books/psychology-2e/pages/1-introduction","PSICOLOGIA");
+        addEbook("Principles of Management","OpenStax","Livro-texto completo e gratuito online.","https://openstax.org/books/principles-management/pages/1-introduction","ADMINISTRAÇÃO");
+        addEbook("Algebra 1","OpenStax","Currículo aberto completo online.","https://openstax.org/books/algebra-1/pages/about-this-course","MATEMÁTICA");
+        addEbook("College Success","OpenStax","Recursos educacionais gratuitos.","https://openstax.org/subjects/college-success","DESENVOLVIMENTO");
+        addEbook("Business","OpenStax","Biblioteca de materiais de negócios.","https://openstax.org/subjects/business","NEGÓCIOS");
+        addEbook("Computer Science","OpenStax","Materiais gratuitos de computação.","https://openstax.org/subjects/computer-science","TECNOLOGIA");
+        addEbook("Science","OpenStax","Biblioteca de ciências.","https://openstax.org/subjects/science","CIÊNCIAS");
+
+        addCourse("Excel na Prática","Fundação Bradesco","16h • online • certificado gratuito após aprovação.","https://www.ev.org.br/cursos/excel-na-pratica");
+        addCourse("Atendimento ao Público","Fundação Bradesco","10h • online • certificado conforme regras do curso.","https://www.ev.org.br/cursos/atendimento-ao-publico");
+        addCourse("Introdução à Administração","Fundação Bradesco","12h • online.","https://www.ev.org.br/cursos/introducao-a-administracao");
+        addCourse("Introdução à Gestão de Projetos","Fundação Bradesco","10h • online.","https://www.ev.org.br/cursos/introducao-a-gestao-de-projetos");
+        addCourse("Comunicação Escrita: Ortografia, Gramática e Texto","Fundação Bradesco","16h • online.","https://www.ev.org.br/cursos/comunicacao_escrita");
+        addCourse("Introdução à Análise de Dados - Microsoft Power BI","Fundação Bradesco","5h • online.","https://www.ev.org.br/cursos/introducao-a-analise-de-dados-microsoft-power-bi");
+        addCourse("Análise de Dados no Power BI","Fundação Bradesco","4h • online.","https://www.ev.org.br/cursos/analise-de-dados-no-power-bi");
+        addCourse("FluêncIA em Inteligência Artificial","Fundação Bradesco","4h • online • certificado após aprovação.","https://www.ev.org.br/cursos/fluencia");
+        addCourse("Inteligência Artificial para Estudantes","Fundação Bradesco","4h • online • certificado após aprovação.","https://www.ev.org.br/cursos/iaestudantes");
+        addCourse("Inteligência Artificial para Educadores","Fundação Bradesco","4h • online • certificado após aprovação.","https://www.ev.org.br/cursos/iaeduc");
+        addCourse("Inteligência Artificial para Pequenas e Médias Empresas","Fundação Bradesco","4h • online.","https://www.ev.org.br/cursos/pmes");
+        addCourse("IA para seu novo emprego: Do currículo à entrevista","Fundação Bradesco","2h • online.","https://www.ev.org.br/cursos/iaempregos");
+    }
+
+    void addBook(String t,String a,String d,String u,String c){books.add(new Item(t,a,d,u,c,"LIVRO")); }
+    void addAudio(String t,String a,String d,String u,String c){audios.add(new Item(t,a,d,u,c,"AUDIO")); }
+    void addEbook(String t,String a,String d,String u,String m){ebooks.add(new Item(t,a,d,u,"",m));}
+    void addCourse(String t,String a,String d,String u){courses.add(new Item(t,a,d,u,"","CURSO"));}
+
+
+    @Override public void onBackPressed(){ home(); }
+}
