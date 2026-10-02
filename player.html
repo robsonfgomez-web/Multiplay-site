@@ -10,6 +10,11 @@
     content="width=device-width, initial-scale=1.0"
   >
 
+  <meta
+    name="theme-color"
+    content="#000000"
+  >
+
   <title>MultiPlay - Player</title>
 
   <style>
@@ -18,18 +23,27 @@
       box-sizing: border-box;
     }
 
+    html,
     body {
       margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
       background: #000;
       color: #fff;
       font-family: Arial, sans-serif;
+    }
+
+    body {
       min-height: 100vh;
     }
 
     header {
       height: 60px;
+      width: 100%;
       display: flex;
       align-items: center;
+      gap: 12px;
       padding: 0 15px;
       background: #111;
       border-bottom: 1px solid #222;
@@ -38,15 +52,20 @@
     .voltar {
       background: #222;
       color: #fff;
-      border: none;
+      border: 1px solid #333;
       border-radius: 8px;
       padding: 10px 15px;
       font-size: 15px;
       cursor: pointer;
     }
 
+    .voltar:hover {
+      background: #333;
+    }
+
     .titulo {
-      margin-left: 15px;
+      flex: 1;
+      min-width: 0;
       font-size: 18px;
       font-weight: bold;
       white-space: nowrap;
@@ -56,7 +75,7 @@
 
     main {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
     }
 
@@ -70,12 +89,13 @@
       width: 100%;
       height: auto;
       min-height: 250px;
-      max-height: 75vh;
+      max-height: 78vh;
       display: block;
       background: #000;
     }
 
     .status {
+      min-height: 45px;
       padding: 15px;
       text-align: center;
       color: #aaa;
@@ -84,9 +104,13 @@
 
     .erro {
       display: none;
-      padding: 20px;
+      margin: 0 15px 20px;
+      padding: 15px;
       text-align: center;
-      color: #ff6b6b;
+      color: #ff7777;
+      background: #210909;
+      border: 1px solid #5b1515;
+      border-radius: 8px;
       font-size: 15px;
     }
 
@@ -125,6 +149,7 @@
         controls
         autoplay
         playsinline
+        preload="metadata"
       ></video>
 
     </div>
@@ -134,7 +159,7 @@
       class="status"
       id="status"
     >
-      Carregando transmissão...
+      Preparando reprodução...
     </div>
 
 
@@ -148,14 +173,10 @@
   </main>
 
 
-  <!-- HLS.js -->
-
   <script
     src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"
   ></script>
 
-
-  <!-- Player MultiPlay -->
 
   <script src="/player.js"></script>
 
