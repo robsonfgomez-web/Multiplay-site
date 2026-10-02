@@ -472,13 +472,15 @@ async function criarTabelas() {
       );
 
       CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        username VARCHAR(100) UNIQUE NOT NULL,
-        password_hash TEXT NOT NULL,
-        active BOOLEAN DEFAULT TRUE,
-        expires_at TIMESTAMP NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );
+        
+      );id SERIAL PRIMARY KEY,
+username VARCHAR(100) UNIQUE NOT NULL,
+password_hash TEXT NOT NULL,
+active BOOLEAN DEFAULT TRUE,
+expires_at TIMESTAMP NULL,
+xtream_user VARCHAR(100),
+xtream_pass VARCHAR(255),
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     `);
 
     console.log('MultiPlay: tabelas verificadas com sucesso');
