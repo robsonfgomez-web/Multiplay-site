@@ -125,7 +125,7 @@ function section(title,type){
 function render(){
  setupTabs();
  const h=tab==='inicio'
-  ?section('Canais em destaque','canais')+section('Filmes','filmes')+section('Séries','series')+section('Livros','livros')+section('E-books','ebooks')+section('Audiobooks','audiobooks')
+  ?section('Canais em destaque','canais')+section('Filmes','filmes')+section('Séries','series')
   :section(labels[tab],tab);
  document.getElementById('content').innerHTML=h||'<div class="empty">Nenhum conteúdo encontrado.</div>';
 }
