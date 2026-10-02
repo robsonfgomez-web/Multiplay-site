@@ -21,7 +21,7 @@ import java.util.regex.*;
 
 public class MainActivity extends Activity {
   private final String API="https://multiplay-site.onrender.com";
-  private final String PANEL=API+"/admin-dispositivos.html";
+  private final String PANEL=API+"/gerenciar.html";
   private LinearLayout root, listBox;
   private String deviceId,deviceKey,playlistName="";
   private ArrayList<Item> items=new ArrayList<>();
@@ -53,8 +53,8 @@ public class MainActivity extends Activity {
     TextView info=tv("Como no modelo de players por painel: o aplicativo mostra o identificador e a chave. A playlist é cadastrada no painel web.",13,false);info.setGravity(Gravity.CENTER);root.addView(info,new LinearLayout.LayoutParams(-1,dp(68)));
     root.addView(cardText("DEVICE ID\n"+deviceId),new LinearLayout.LayoutParams(-1,dp(72)));
     root.addView(cardText("DEVICE KEY\n"+deviceKey),new LinearLayout.LayoutParams(-1,dp(72)));
-    TextView url=tv("PAINEL MULTIPLAY\n"+PANEL,12,false);url.setGravity(Gravity.CENTER);root.addView(url,new LinearLayout.LayoutParams(-1,dp(62)));
-    Button open=btn("ABRIR PAINEL NO NAVEGADOR");root.addView(open,new LinearLayout.LayoutParams(-1,dp(48)));open.setOnClickListener(v->{startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(PANEL)));});
+    TextView url=tv("SITE MULTIPLAY\n"+PANEL,12,false);url.setGravity(Gravity.CENTER);root.addView(url,new LinearLayout.LayoutParams(-1,dp(62)));
+    Button open=btn("ABRIR SITE DE ATIVAÇÃO");root.addView(open,new LinearLayout.LayoutParams(-1,dp(48)));open.setOnClickListener(v->{startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(PANEL)));});
     Button sync=btn("ATUALIZAR / CONTINUAR");root.addView(sync,new LinearLayout.LayoutParams(-1,dp(52)));sync.setOnClickListener(v->sync());
     if(!message.isEmpty()){TextView m=tv(message,13,true);m.setGravity(Gravity.CENTER);m.setTextColor(Color.rgb(255,190,80));root.addView(m,new LinearLayout.LayoutParams(-1,dp(50)));}
     TextView legal=tv("Use somente playlists e conteúdos próprios, licenciados ou autorizados.",11,false);legal.setGravity(Gravity.CENTER);root.addView(legal,new LinearLayout.LayoutParams(-1,dp(45)));
