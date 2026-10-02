@@ -2085,6 +2085,14 @@ async function criarAdminInicial() {
 criarAdminInicial();
 
 /* =========================
+   MINHA ASSINATURA
+========================= */
+app.get('/api/minha-assinatura', async (req,res)=>{
+ const username=String(req.query.username||'').trim(); if(!username)return res.status(400).json({message:'Usuário não informado.'});
+ try{const r=await pool.query('SELECT username, active, created_at, expires_at FROM users WHERE username=$1',[username]);if(!r.rows.length)return res.status(404).json({message:'Cliente não encontrado.'});const u=r.rows[0];let days=null,expired=false;if(u.expires_at){const end=new Date(u.expires_at);end.setHours(23,59,59,999);days=Math.max(0,Math.ceil((end.getTime()-Date.now())/86400000));expired=end<new Date();}res.json({username:u.username,plan:'Multiplay Completo',active:!!u.active,created_at:u.created_at,expires_at:u.expires_at,days_remaining:days,expired});}catch(e){console.error('Erro assinatura:',e.message);res.status(500).json({message:'Não foi possível carregar a assinatura.'});}
+});
+
+/* =========================
    STATUS
 ========================= */
 
@@ -2101,7 +2109,7 @@ app.get(
         'online',
 
       versao:
-        '6.1.0',
+        '7.0.0',
 
       catalogo: [
         'canais',
