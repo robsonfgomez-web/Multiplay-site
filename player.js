@@ -3,7 +3,8 @@ const titleElement = document.getElementById("title");
 const statusElement = document.getElementById("status");
 const errorElement = document.getElementById("error");
 
-const user = sessionStorage.getItem("mp_user");
+const user =
+  sessionStorage.getItem("mp_user");
 
 const streamId =
   sessionStorage.getItem("mp_stream_id");
@@ -18,6 +19,10 @@ const streamType =
 
 const streamImage =
   sessionStorage.getItem("mp_stream_image") ||
+  "";
+
+const streamExtension =
+  sessionStorage.getItem("mp_stream_extension") ||
   "";
 
 const resumePosition =
@@ -37,7 +42,10 @@ let lastSavedPosition = 0;
 ================================ */
 
 if (!user) {
-  window.location.href = "/login.html";
+
+  window.location.href =
+    "/login.html";
+
 }
 
 
@@ -46,7 +54,10 @@ if (!user) {
 ================================ */
 
 if (titleElement) {
-  titleElement.textContent = streamName;
+
+  titleElement.textContent =
+    streamName;
+
 }
 
 
@@ -60,7 +71,9 @@ function getHistory() {
 
     const history =
       JSON.parse(
-        localStorage.getItem(historyKey) || "[]"
+        localStorage.getItem(
+          historyKey
+        ) || "[]"
       );
 
     return Array.isArray(history)
@@ -79,10 +92,13 @@ function getHistory() {
 function saveHistory(history) {
 
   localStorage.setItem(
+
     historyKey,
+
     JSON.stringify(
       history.slice(0, 100)
     )
+
   );
 
 }
@@ -90,19 +106,33 @@ function saveHistory(history) {
 
 function registerHistory() {
 
-  if (!streamId || !user) {
+  if (
+    !streamId ||
+    !user
+  ) {
+
     return;
+
   }
+
 
   const history =
     getHistory();
 
+
   const existing =
     history.find(
+
       item =>
-        String(item.id) === String(streamId) &&
-        item.type === streamType
+
+        String(item.id) ===
+          String(streamId) &&
+
+        item.type ===
+          streamType
+
     );
+
 
   if (existing) {
 
@@ -112,6 +142,11 @@ function registerHistory() {
     existing.image =
       streamImage ||
       existing.image ||
+      "";
+
+    existing.extension =
+      streamExtension ||
+      existing.extension ||
       "";
 
     existing.updatedAt =
@@ -133,6 +168,9 @@ function registerHistory() {
       type:
         streamType,
 
+      extension:
+        streamExtension,
+
       position:
         resumePosition || 0,
 
@@ -146,6 +184,7 @@ function registerHistory() {
 
   }
 
+
   saveHistory(history);
 
 }
@@ -158,45 +197,83 @@ function registerHistory() {
 function saveProgress() {
 
   if (
+
     !streamId ||
+
     !video ||
-    !Number.isFinite(video.currentTime)
+
+    !Number.isFinite(
+      video.currentTime
+    )
+
   ) {
+
     return;
+
   }
 
+
   const position =
-    Number(video.currentTime) || 0;
+    Number(
+      video.currentTime
+    ) || 0;
+
 
   const duration =
-    Number(video.duration) || 0;
+    Number(
+      video.duration
+    ) || 0;
+
 
   const history =
     getHistory();
 
+
   const item =
     history.find(
+
       x =>
-        String(x.id) === String(streamId) &&
-        x.type === streamType
+
+        String(x.id) ===
+          String(streamId) &&
+
+        x.type ===
+          streamType
+
     );
 
+
   if (!item) {
+
     return;
+
   }
+
 
   item.position =
     position;
 
+
   item.duration =
     Number.isFinite(duration)
+
       ? duration
+
       : item.duration || 0;
+
+
+  item.extension =
+    streamExtension ||
+    item.extension ||
+    "";
+
 
   item.updatedAt =
     Date.now();
 
+
   saveHistory(history);
+
 
   lastSavedPosition =
     position;
@@ -211,18 +288,32 @@ function saveProgress() {
 function restorePosition() {
 
   if (
+
     !video ||
+
     !resumePosition ||
-    streamType === "canal"
+
+    streamType ===
+      "canal"
+
   ) {
+
     return;
+
   }
+
 
   try {
 
     if (
-      Number.isFinite(video.duration) &&
-      video.duration > resumePosition
+
+      Number.isFinite(
+        video.duration
+      ) &&
+
+      video.duration >
+        resumePosition
+
     ) {
 
       video.currentTime =
@@ -233,8 +324,11 @@ function restorePosition() {
   } catch (error) {
 
     console.warn(
+
       "Não foi possível restaurar posição:",
+
       error
+
     );
 
   }
@@ -249,8 +343,10 @@ function restorePosition() {
 function setStatus(message) {
 
   if (statusElement) {
+
     statusElement.textContent =
       message;
+
   }
 
 }
@@ -268,21 +364,55 @@ function showError(message) {
 
   }
 
+
   setStatus("");
 
 }
 
 
-/* ==============================
-   LIMPAR ERRO
-================================ */
-
 function hideError() {
 
   if (errorElement) {
+
     errorElement.style.display =
       "none";
+
   }
+
+}
+
+
+/* ==============================
+   EXTENSÃO
+================================ */
+
+function normalizeExtension(
+  extension
+) {
+
+  if (!extension) {
+
+    return "";
+
+  }
+
+
+  let value =
+    String(
+      extension
+    )
+      .trim()
+      .toLowerCase();
+
+
+  value =
+    value.replace(
+      /^\./,
+      ""
+    );
+
+
+  return value;
 
 }
 
@@ -291,44 +421,55 @@ function hideError() {
    URL DO PLAYER
 ================================ */
 
-/*
-  IMPORTANTE:
-
-  O navegador NÃO recebe o usuário
-  e a senha Xtream.
-
-  O servidor MultiPlay identifica
-  o cliente pelo usuário logado e
-  usa as credenciais Xtream cadastradas
-  para aquele cliente.
-
-  Endpoint:
-
-  /api/media
-
-  recebe apenas a identificação do
-  conteúdo e o tipo.
-*/
-
 function buildPlayerUrl() {
 
-  if (!user || !streamId) {
+  if (
+    !user ||
+    !streamId
+  ) {
+
     return null;
+
   }
 
+
   const params =
-    new URLSearchParams({
+    new URLSearchParams();
 
-      user:
-        user,
 
-      stream_id:
-        String(streamId),
+  params.set(
+    "user",
+    user
+  );
 
-      type:
-        streamType
 
-    });
+  params.set(
+    "stream_id",
+    String(streamId)
+  );
+
+
+  params.set(
+    "type",
+    streamType
+  );
+
+
+  const extension =
+    normalizeExtension(
+      streamExtension
+    );
+
+
+  if (extension) {
+
+    params.set(
+      "extension",
+      extension
+    );
+
+  }
+
 
   return `/api/media?${params.toString()}`;
 
@@ -342,8 +483,11 @@ function buildPlayerUrl() {
 async function initializePlayer() {
 
   if (!video) {
+
     return;
+
   }
+
 
   if (!user) {
 
@@ -353,6 +497,7 @@ async function initializePlayer() {
     return;
 
   }
+
 
   if (!streamId) {
 
@@ -364,10 +509,13 @@ async function initializePlayer() {
 
   }
 
+
   registerHistory();
+
 
   const playerUrl =
     buildPlayerUrl();
+
 
   if (!playerUrl) {
 
@@ -379,7 +527,9 @@ async function initializePlayer() {
 
   }
 
+
   hideError();
+
 
   setStatus(
     "Conectando ao conteúdo..."
@@ -387,12 +537,15 @@ async function initializePlayer() {
 
 
   /*
-    O servidor MultiPlay fará
-    a validação do cliente e
-    buscará as credenciais Xtream.
+    CANAIS
+
+    Canais normalmente usam HLS.
   */
 
-  if (streamType === "canal") {
+  if (
+    streamType ===
+      "canal"
+  ) {
 
     initializeHls(
       playerUrl
@@ -404,34 +557,48 @@ async function initializePlayer() {
 
 
   /*
-    Filmes e episódios.
+    FILMES E EPISÓDIOS
   */
 
   video.src =
     playerUrl;
 
+
   video.addEventListener(
+
     "loadedmetadata",
+
     () => {
 
       setStatus(
         "Reprodução iniciada."
       );
 
+
       hideError();
+
 
       restorePosition();
 
+
       video.play()
-        .catch(() => {});
+        .catch(
+          () => {}
+        );
 
     },
-    { once: true }
+
+    {
+      once: true
+    }
+
   );
 
 
   video.addEventListener(
+
     "canplay",
+
     () => {
 
       if (
@@ -443,21 +610,37 @@ async function initializePlayer() {
         setStatus(
           "Conteúdo pronto."
         );
-        }
+
+      }
+
+    },
+
+    {
+      once: true
+    }
+
+  );
+
+}
 
 
 /* ==============================
    HLS
 ================================ */
 
-function initializeHls(playerUrl) {
+function initializeHls(
+  playerUrl
+) {
 
   if (
     !video ||
     !playerUrl
   ) {
+
     return;
+
   }
+
 
   if (
     window.Hls &&
@@ -478,38 +661,55 @@ function initializeHls(playerUrl) {
 
       });
 
+
     hls.loadSource(
       playerUrl
     );
+
 
     hls.attachMedia(
       video
     );
 
+
     hls.on(
+
       Hls.Events.MANIFEST_PARSED,
+
       () => {
 
         setStatus(
           "Reprodução iniciada."
         );
 
+
         hideError();
 
+
         video.play()
-          .catch(() => {});
+          .catch(
+            () => {}
+          );
 
       }
+
     );
 
+
     hls.on(
+
       Hls.Events.ERROR,
-      (event, data) => {
+
+      (
+        event,
+        data
+      ) => {
 
         console.error(
           "Erro HLS:",
           data
         );
+
 
         if (
           data &&
@@ -520,20 +720,25 @@ function initializeHls(playerUrl) {
             "Não foi possível reproduzir este canal."
           );
 
+
           try {
 
             hls.destroy();
 
           } catch {}
 
+
           hls = null;
 
         }
 
       }
+
     );
 
+
     return;
+
   }
 
 
@@ -542,32 +747,49 @@ function initializeHls(playerUrl) {
   ================================ */
 
   if (
+
     video.canPlayType(
+
       "application/vnd.apple.mpegurl"
+
     )
+
   ) {
 
     video.src =
       playerUrl;
 
+
     video.addEventListener(
+
       "loadedmetadata",
+
       () => {
 
         setStatus(
           "Reprodução iniciada."
         );
 
+
         hideError();
 
+
         video.play()
-          .catch(() => {});
+          .catch(
+            () => {}
+          );
 
       },
-      { once: true }
+
+      {
+        once: true
+      }
+
     );
 
+
     return;
+
   }
 
 
@@ -584,23 +806,35 @@ function initializeHls(playerUrl) {
 
 if (video) {
 
+
   video.addEventListener(
+
     "timeupdate",
+
     () => {
 
       if (
-        streamType === "canal"
+        streamType ===
+          "canal"
       ) {
+
         return;
+
       }
 
+
       const current =
-        Number(video.currentTime) || 0;
+        Number(
+          video.currentTime
+        ) || 0;
+
 
       if (
+
         current -
           lastSavedPosition >=
         5
+
       ) {
 
         saveProgress();
@@ -608,49 +842,69 @@ if (video) {
       }
 
     }
+
   );
 
 
   video.addEventListener(
+
     "pause",
+
     () => {
 
       saveProgress();
 
     }
+
   );
 
 
   video.addEventListener(
+
     "ended",
+
     () => {
 
       if (
-        streamType === "canal"
+        streamType ===
+          "canal"
       ) {
+
         return;
+
       }
 
+
       saveProgress();
+
 
       const history =
         getHistory();
 
+
       const item =
         history.find(
+
           x =>
+
             String(x.id) ===
               String(streamId) &&
-            x.type === streamType
+
+            x.type ===
+              streamType
+
         );
+
 
       if (item) {
 
         item.position =
           0;
 
+
         item.updatedAt =
           Date.now();
+
 
         saveHistory(
           history
@@ -659,11 +913,14 @@ if (video) {
       }
 
     }
+
   );
 
 
   video.addEventListener(
+
     "error",
+
     () => {
 
       showError(
@@ -671,6 +928,7 @@ if (video) {
       );
 
     }
+
   );
 
 }
@@ -684,6 +942,7 @@ function goBack() {
 
   saveProgress();
 
+
   if (hls) {
 
     try {
@@ -692,9 +951,11 @@ function goBack() {
 
     } catch {}
 
+
     hls = null;
 
   }
+
 
   if (video) {
 
@@ -705,6 +966,7 @@ function goBack() {
     } catch {}
 
   }
+
 
   window.location.href =
     "/app.html";
@@ -717,10 +979,13 @@ function goBack() {
 ================================ */
 
 window.addEventListener(
+
   "pagehide",
+
   () => {
 
     saveProgress();
+
 
     if (hls) {
 
@@ -730,11 +995,13 @@ window.addEventListener(
 
       } catch {}
 
+
       hls = null;
 
     }
 
   }
+
 );
 
 
