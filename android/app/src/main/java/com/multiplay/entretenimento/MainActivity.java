@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
   Toast.makeText(this,"Sincronizando dispositivo...",Toast.LENGTH_SHORT).show();
   new Thread(()->{
     try{
-      String api=getString(getResources().getIdentifier("server_url","string",getPackageName()));
+      String api="https://multiplay-site.onrender.com";
       URL u=new URL(api+"/api/device/status?device_id="+deviceId+"&device_key="+deviceKey);
       HttpURLConnection c=(HttpURLConnection)u.openConnection(); c.setConnectTimeout(10000); c.setReadTimeout(10000);
       BufferedReader br=new BufferedReader(new InputStreamReader(c.getInputStream()));
