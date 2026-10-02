@@ -2364,6 +2364,59 @@ app.post('/api/admin/educacao/certificates',exigirAdmin,uploadEducacao.single('f
 app.get('/api/admin/educacao/certificates/:id/file',exigirAdmin,async(req,res)=>{try{const q=await pool.query("SELECT file_name,mime_type,file_data FROM edu_certificates WHERE id=$1",[Number(req.params.id)]);if(!q.rows.length||!q.rows[0].file_data)return res.status(404).send('Certificado não encontrado.');res.setHeader('Content-Type',q.rows[0].mime_type||'application/pdf');res.setHeader('Content-Disposition','inline; filename="'+String(q.rows[0].file_name||'certificado.pdf').replace(/"/g,'')+'"');res.send(q.rows[0].file_data);}catch(e){res.status(500).send('Erro ao abrir certificado.');}});
 app.patch('/api/admin/educacao/certificates/:id',exigirAdmin,async(req,res)=>{try{const q=await pool.query("UPDATE edu_certificates SET status=COALESCE($1,status) WHERE id=$2 RETURNING id,status",[req.body?.status,Number(req.params.id)]);if(!q.rows.length)return res.status(404).json({success:false,message:'Certificado não encontrado.'});res.json({success:true,certificate:q.rows[0]});}catch(e){res.status(500).json({success:false,message:'Erro ao atualizar certificado.'});}});
 
+
+/* =========================================================
+   MULTIPLAY EDUCAÇÃO — SUPORTE / DÚVIDAS
+========================================================= */
+async function garantirTabelasSuporteEducacao(){
+  await pool.query("CREATE TABLE IF NOT EXISTS edu_support_tickets(id SERIAL PRIMARY KEY,student_id INTEGER REFERENCES edu_students(id) ON DELETE SET NULL,name VARCHAR(180) NOT NULL,email VARCHAR(180),subject VARCHAR(220) NOT NULL,status VARCHAR(30) DEFAULT 'ABERTO',priority VARCHAR(20) DEFAULT 'NORMAL',created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,last_reply_at TIMESTAMP NULL); CREATE TABLE IF NOT EXISTS edu_support_messages(id BIGSERIAL PRIMARY KEY,ticket_id INTEGER NOT NULL REFERENCES edu_support_tickets(id) ON DELETE CASCADE,sender_type VARCHAR(20) NOT NULL,message TEXT NOT NULL,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP); CREATE INDEX IF NOT EXISTS idx_edu_support_status ON edu_support_tickets(status); CREATE INDEX IF NOT EXISTS idx_edu_support_ticket ON edu_support_messages(ticket_id)");
+}
+garantirTabelasSuporteEducacao().catch(e=>console.error('MultiPlay Suporte:',e.message));
+
+app.post('/api/educacao/support/tickets',async(req,res)=>{
+  const aluno=verificarTokenEducacao(obterTokenEducacao(req));
+  const {name,email,subject,message}=req.body||{};
+  if(!subject||!message)return res.status(400).json({success:false,message:'Assunto e mensagem são obrigatórios.'});
+  try{
+    const s=aluno?await pool.query('SELECT name,email FROM edu_students WHERE id=$1',[aluno.id]):null;
+    const nome=(aluno&&s?.rows[0]?.name)||name||'Aluno';
+    const mail=(aluno&&s?.rows[0]?.email)||email||null;
+    const t=await pool.query("INSERT INTO edu_support_tickets(student_id,name,email,subject) VALUES($1,$2,$3,$4) RETURNING id,subject,status,created_at",[aluno?.id||null,nome,mail,subject]);
+    await pool.query("INSERT INTO edu_support_messages(ticket_id,sender_type,message) VALUES($1,'ALUNO',$2)",[t.rows[0].id,String(message).slice(0,5000)]);
+    res.status(201).json({success:true,ticket:t.rows[0]});
+  }catch(e){res.status(500).json({success:false,message:'Não foi possível abrir o chamado.'});}
+});
+
+app.get('/api/educacao/support/tickets',async(req,res)=>{
+  const aluno=verificarTokenEducacao(obterTokenEducacao(req));if(!aluno)return res.status(401).json({success:false,message:'Faça login para consultar suas dúvidas.'});
+  try{const q=await pool.query("SELECT id,subject,status,priority,created_at,updated_at,last_reply_at FROM edu_support_tickets WHERE student_id=$1 ORDER BY updated_at DESC",[aluno.id]);res.json({success:true,tickets:q.rows});}catch(e){res.status(500).json({success:false,message:'Erro ao carregar chamados.'});}
+});
+
+app.get('/api/educacao/support/tickets/:id',async(req,res)=>{
+  const aluno=verificarTokenEducacao(obterTokenEducacao(req));if(!aluno)return res.status(401).json({success:false,message:'Faça login.'});
+  try{const q=await pool.query("SELECT id,subject,status,priority,created_at,updated_at FROM edu_support_tickets WHERE id=$1 AND student_id=$2",[Number(req.params.id),aluno.id]);if(!q.rows.length)return res.status(404).json({success:false,message:'Chamado não encontrado.'});const m=await pool.query("SELECT sender_type,message,created_at FROM edu_support_messages WHERE ticket_id=$1 ORDER BY created_at",[q.rows[0].id]);res.json({success:true,ticket:q.rows[0],messages:m.rows});}catch(e){res.status(500).json({success:false,message:'Erro ao carregar conversa.'});}
+});
+
+app.post('/api/educacao/support/tickets/:id/messages',async(req,res)=>{
+  const aluno=verificarTokenEducacao(obterTokenEducacao(req));if(!aluno)return res.status(401).json({success:false,message:'Faça login.'});
+  const message=String(req.body?.message||'').trim();if(!message)return res.status(400).json({success:false,message:'Mensagem vazia.'});
+  try{const q=await pool.query("SELECT id FROM edu_support_tickets WHERE id=$1 AND student_id=$2",[Number(req.params.id),aluno.id]);if(!q.rows.length)return res.status(404).json({success:false,message:'Chamado não encontrado.'});await pool.query("INSERT INTO edu_support_messages(ticket_id,sender_type,message) VALUES($1,'ALUNO',$2)",[q.rows[0].id,message.slice(0,5000)]);await pool.query("UPDATE edu_support_tickets SET status='ABERTO',updated_at=NOW() WHERE id=$1",[q.rows[0].id]);res.json({success:true});}catch(e){res.status(500).json({success:false,message:'Erro ao enviar mensagem.'});}
+});
+
+app.get('/api/admin/educacao/support/tickets',exigirAdmin,async(req,res)=>{
+  try{const q=await pool.query("SELECT t.id,t.name,t.email,t.subject,t.status,t.priority,t.created_at,t.updated_at,t.last_reply_at,COUNT(m.id)::int message_count FROM edu_support_tickets t LEFT JOIN edu_support_messages m ON m.ticket_id=t.id GROUP BY t.id ORDER BY CASE WHEN t.status='ABERTO' THEN 0 ELSE 1 END,t.updated_at DESC");res.json({success:true,tickets:q.rows});}catch(e){res.status(500).json({success:false,message:'Erro ao listar suporte.'});}
+});
+app.get('/api/admin/educacao/support/tickets/:id',exigirAdmin,async(req,res)=>{
+  try{const q=await pool.query("SELECT * FROM edu_support_tickets WHERE id=$1",[Number(req.params.id)]);if(!q.rows.length)return res.status(404).json({success:false,message:'Chamado não encontrado.'});const m=await pool.query("SELECT sender_type,message,created_at FROM edu_support_messages WHERE ticket_id=$1 ORDER BY created_at",[q.rows[0].id]);res.json({success:true,ticket:q.rows[0],messages:m.rows});}catch(e){res.status(500).json({success:false,message:'Erro ao abrir chamado.'});}
+});
+app.post('/api/admin/educacao/support/tickets/:id/messages',exigirAdmin,async(req,res)=>{
+  const message=String(req.body?.message||'').trim();if(!message)return res.status(400).json({success:false,message:'Mensagem vazia.'});
+  try{const id=Number(req.params.id);const q=await pool.query("SELECT id FROM edu_support_tickets WHERE id=$1",[id]);if(!q.rows.length)return res.status(404).json({success:false,message:'Chamado não encontrado.'});await pool.query("INSERT INTO edu_support_messages(ticket_id,sender_type,message) VALUES($1,'SUPORTE',$2)",[id,message.slice(0,5000)]);await pool.query("UPDATE edu_support_tickets SET status='RESPONDIDO',last_reply_at=NOW(),updated_at=NOW() WHERE id=$1",[id]);res.json({success:true});}catch(e){res.status(500).json({success:false,message:'Erro ao responder.'});}
+});
+app.patch('/api/admin/educacao/support/tickets/:id',exigirAdmin,async(req,res)=>{
+  try{const q=await pool.query("UPDATE edu_support_tickets SET status=COALESCE($1,status),priority=COALESCE($2,priority),updated_at=NOW() WHERE id=$3 RETURNING id,status,priority",[req.body?.status,req.body?.priority,Number(req.params.id)]);if(!q.rows.length)return res.status(404).json({success:false,message:'Chamado não encontrado.'});res.json({success:true,ticket:q.rows[0]});}catch(e){res.status(500).json({success:false,message:'Erro ao atualizar chamado.'});}
+});
+
 /* =========================
    SERVIDOR
 ========================= */
