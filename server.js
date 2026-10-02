@@ -22,10 +22,14 @@ const XTREAM_HOST = 'http://u.l0.ms';
 
 const SESSION_SECRET = crypto
   .createHash('sha256')
-  .update(process.env.DATABASE_URL || 'multiplay-session-secret')
+  .update(
+    process.env.DATABASE_URL ||
+    'multiplay-session-secret'
+  )
   .digest('hex');
 
-const ADMIN_SESSION_MAX_AGE = 8 * 60 * 60 * 1000;
+const ADMIN_SESSION_MAX_AGE =
+  8 * 60 * 60 * 1000;
 
 app.use(express.json());
 app.use(express.static(__dirname));
@@ -106,11 +110,17 @@ async function xtreamRequest(
       `&action=${encodeURIComponent(action)}`;
   }
 
-  const response = await fetch(url);
+  console.log(
+    `MultiPlay: consultando Xtream - ${action}`
+  );
+
+  const response = await fetch(url, {
+    timeout: 20000
+  });
 
   if (!response.ok) {
     throw new Error(
-      'Servidor de conteúdo indisponível'
+      `Servidor de conteúdo indisponível (HTTP ${response.status})`
     );
   }
 
@@ -438,18 +448,29 @@ app.post(
       }
 
       if (usuario.expires_at) {
-  const vencimento = new Date(usuario.expires_at);
 
-  vencimento.setHours(23, 59, 59, 999);
+        const vencimento =
+          new Date(
+            usuario.expires_at
+          );
 
-  if (vencimento < new Date()) {
-    return res.status(403).json({
-      success: false,
-      message:
-        'Acesso expirado.'
-    });
-  }
-}
+        vencimento.setHours(
+          23,
+          59,
+          59,
+          999
+        );
+
+        if (
+          vencimento < new Date()
+        ) {
+          return res.status(403).json({
+            success: false,
+            message:
+              'Acesso expirado.'
+          });
+        }
+      }
 
       if (
         !verificarSenha(
@@ -944,16 +965,27 @@ async function obterCredenciaisXtream(
   }
 
   if (usuario.expires_at) {
-  const vencimento = new Date(usuario.expires_at);
 
-  vencimento.setHours(23, 59, 59, 999);
+    const vencimento =
+      new Date(
+        usuario.expires_at
+      );
 
-  if (vencimento < new Date()) {
-    throw new Error(
-      'Acesso expirado'
+    vencimento.setHours(
+      23,
+      59,
+      59,
+      999
     );
+
+    if (
+      vencimento < new Date()
+    ) {
+      throw new Error(
+        'Acesso expirado'
+      );
+    }
   }
-}
 
   if (
     !usuario.xtream_user ||
@@ -998,31 +1030,74 @@ app.get(
           username
         );
 
-      const [
-        canais,
-        filmes,
-        series
-      ] = await Promise.all([
-        xtreamRequest(
-          credenciais.user,
-          credenciais.pass,
-          'get_live_streams'
-        ),
+      /*
+       * Cada categoria é consultada
+       * separadamente.
+       *
+       * Se uma falhar, as outras
+       * continuam funcionando.
+       */
 
-        xtreamRequest(
-          credenciais.user,
-          credenciais.pass,
-          'get_vod_streams'
-        ),
+      const resultados =
+        await Promise.allSettled([
+          xtreamRequest(
+            credenciais.user,
+            credenciais.pass,
+            'get_live_streams'
+          ),
 
-        xtreamRequest(
-          credenciais.user,
-          credenciais.pass,
-          'get_series'
-        )
-      ]);
+          xtreamRequest(
+            credenciais.user,
+            credenciais.pass,
+            'get_vod_streams'
+          ),
+
+          xtreamRequest(
+            credenciais.user,
+            credenciais.pass,
+            'get_series'
+          )
+        ]);
+
+      const canais =
+        resultados[0].status === 'fulfilled'
+          ? resultados[0].value
+          : [];
+
+      const filmes =
+        resultados[1].status === 'fulfilled'
+          ? resultados[1].value
+          : [];
+
+      const series =
+        resultados[2].status === 'fulfilled'
+          ? resultados[2].value
+          : [];
+
+      resultados.forEach(
+        (resultado, index) => {
+
+          if (
+            resultado.status ===
+            'rejected'
+          ) {
+
+            const nomes = [
+              'canais',
+              'filmes',
+              'series'
+            ];
+
+            console.error(
+              `Erro catálogo ${nomes[index]}:`,
+              resultado.reason
+            );
+          }
+        }
+      );
 
       return res.json({
+
         canais:
           Array.isArray(canais)
             ? canais
@@ -1037,6 +1112,7 @@ app.get(
           Array.isArray(series)
             ? series
             : []
+
       });
 
     } catch (error) {
@@ -1262,7 +1338,12 @@ app.get(
         )}`;
 
       const response =
-        await fetch(url);
+        await fetch(
+          url,
+          {
+            timeout: 20000
+          }
+        );
 
       if (!response.ok) {
         return res.status(502).json({
@@ -1347,26 +1428,12 @@ app.get(
 
     try {
 
-      /*
-       * Busca as credenciais Xtream
-       * vinculadas ao cliente MultiPlay.
-       *
-       * A senha Xtream NÃO é enviada
-       * pelo aplicativo.
-       */
-
       const credenciais =
         await obterCredenciaisXtream(
           username
         );
 
       let source;
-
-      /*
-       * Se for uma requisição de segmento
-       * HLS, usamos o recurso informado
-       * pelo próprio servidor.
-       */
 
       if (resource) {
 
@@ -1376,16 +1443,6 @@ app.get(
           );
 
       } else {
-
-        /*
-         * Normaliza a extensão recebida
-         * pelo player.
-         *
-         * Aceitamos somente extensões
-         * conhecidas para evitar que uma
-         * extensão arbitrária seja usada
-         * na URL do servidor.
-         */
 
         const extensoesPermitidas = [
           'mp4',
@@ -1414,12 +1471,6 @@ app.get(
           extension = 'mp4';
         }
 
-        /*
-         * CANAL
-         *
-         * Canal sempre utiliza HLS.
-         */
-
         if (
           type === 'canal'
         ) {
@@ -1438,10 +1489,6 @@ app.get(
 
         }
 
-        /*
-         * FILME
-         */
-
         else if (
           type === 'filme'
         ) {
@@ -1459,10 +1506,6 @@ app.get(
             )}.${extension}`;
 
         }
-
-        /*
-         * SÉRIE / EPISÓDIO
-         */
 
         else if (
           type === 'serie'
@@ -1493,12 +1536,6 @@ app.get(
 
       }
 
-      /*
-       * Segurança:
-       * o servidor só pode acessar
-       * o domínio Xtream configurado.
-       */
-
       const parsed =
         new URL(source);
 
@@ -1514,25 +1551,19 @@ app.get(
 
       }
 
-      /*
-       * Encaminha Range para filmes
-       * e episódios.
-       */
-
       const headers = {};
 
       if (req.headers.range) {
-
         headers.Range =
           req.headers.range;
-
       }
 
       const response =
         await fetch(
           source,
           {
-            headers
+            headers,
+            timeout: 20000
           }
         );
 
@@ -1545,11 +1576,6 @@ app.get(
           );
 
       }
-
-      /*
-       * Copia os cabeçalhos importantes
-       * para o navegador/player.
-       */
 
       const headersToCopy = [
         'content-type',
@@ -1590,14 +1616,6 @@ app.get(
         'no-cache'
       );
 
-      /*
-       * HLS:
-       *
-       * A playlist precisa ser reescrita
-       * para que os segmentos também
-       * passem pelo servidor MultiPlay.
-       */
-
       const contentType =
         response.headers.get(
           'content-type'
@@ -1632,10 +1650,6 @@ app.get(
 
                 const trimmed =
                   line.trim();
-
-                /*
-                 * Linha de segmento
-                 */
 
                 if (
                   trimmed &&
@@ -1673,11 +1687,6 @@ app.get(
                   }
 
                 }
-
-                /*
-                 * URI dentro de uma
-                 * tag HLS.
-                 */
 
                 if (
                   trimmed.includes(
@@ -1744,10 +1753,6 @@ app.get(
         );
 
       }
-
-      /*
-       * Filme / episódio / segmento.
-       */
 
       if (
         response.status === 206
@@ -1928,7 +1933,7 @@ app.get(
         'online',
 
       versao:
-        '6.0.0',
+        '6.1.0',
 
       catalogo: [
         'canais',
