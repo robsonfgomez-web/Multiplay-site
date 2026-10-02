@@ -1,10 +1,8 @@
-name: Multiplay 2.0 Android
-
+name: Multiplay Android 2.0
 on:
   push:
     branches: [main]
   workflow_dispatch:
-
 jobs:
   android:
     runs-on: ubuntu-latest
@@ -14,14 +12,17 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-      - name: Build native Android
+      - uses: android-actions/setup-android@v3
+      - name: Build Android nativo
         working-directory: android
-        run: gradle --no-daemon assembleDebug
+        run: |
+          gradle wrapper --gradle-version 8.9
+          ./gradlew --no-daemon assembleDebug
       - name: Verify APK
         run: |
           test -f android/app/build/outputs/apk/debug/app-debug.apk
           $ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -1)/apksigner verify android/app/build/outputs/apk/debug/app-debug.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: Multiplay-2.0-Android
+          name: Multiplay-2.0.1-Android
           path: android/app/build/outputs/apk/debug/app-debug.apk
