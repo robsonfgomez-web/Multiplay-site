@@ -1,77 +1,27 @@
-name: Gerar APK MultiPlay
+name: Multiplay 2.0 Android
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   android:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Baixar código
-        uses: actions/checkout@v4
-
-      - name: Configurar Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Configurar Java
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
-
-      - name: Instalar dependências
-        run: npm install
-
-      - name: Criar projeto Android
-        run: npx cap add android
-
-      - name: Sincronizar Capacitor
-        run: npx cap sync android
-
-      - name: Gerar chave de assinatura
-        run: |
-          keytool -genkeypair \
-            -v \
-            -keystore multiplay-release.keystore \
-            -alias multiplay \
-            -keyalg RSA \
-            -keysize 2048 \
-            -validity 10000 \
-            -storepass multiplay123 \
-            -keypass multiplay123 \
-            -dname "CN=MultiPlay, OU=MultiPlay, O=MultiPlay, L=Curitiba, ST=Parana, C=BR"
-
-      - name: Gerar APK Release
+      - name: Build native Android
         working-directory: android
-        run: ./gradlew assembleRelease
-
-      - name: Assinar APK
+        run: gradle --no-daemon assembleDebug
+      - name: Verify APK
         run: |
-          $ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -1)/apksigner sign \
-            --ks multiplay-release.keystore \
-            --ks-key-alias multiplay \
-            --ks-pass pass:multiplay123 \
-            --key-pass pass:multiplay123 \
-            android/app/build/outputs/apk/release/app-release-unsigned.apk
-
-      - name: Verificar assinatura
-        run: |
-          $ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -1)/apksigner verify \
-            android/app/build/outputs/apk/release/app-release-unsigned.apk
-
-      - name: Renomear APK
-        run: |
-          mv android/app/build/outputs/apk/release/app-release-unsigned.apk \
-             android/app/build/outputs/apk/release/MultiPlay-TCL-Android13.apk
-
-      - name: Disponibilizar APK
-        uses: actions/upload-artifact@v4
+          test -f android/app/build/outputs/apk/debug/app-debug.apk
+          $ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -1)/apksigner verify android/app/build/outputs/apk/debug/app-debug.apk
+      - uses: actions/upload-artifact@v4
         with:
-          name: MultiPlay-TCL-Android13
-          path: android/app/build/outputs/apk/release/MultiPlay-TCL-Android13.apk
+          name: Multiplay-2.0-Android
+          path: android/app/build/outputs/apk/debug/app-debug.apk
