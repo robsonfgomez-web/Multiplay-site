@@ -18,6 +18,7 @@ import android.graphics.BitmapFactory;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
