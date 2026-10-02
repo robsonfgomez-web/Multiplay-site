@@ -95,7 +95,17 @@ public class MainActivity extends Activity {
         header("Seu espaço para aprender, ler e ouvir.");
         LinearLayout hero=new LinearLayout(this); hero.setOrientation(LinearLayout.VERTICAL);
         hero.setPadding(dp(18),dp(18),dp(18),dp(18)); hero.setBackground(bg(Color.rgb(10,34,60),Color.rgb(35,105,170),22));
-        TextView a=txt("MULTIPLAY EDUCAÇÃO",25,true); a.setTextColor(CYAN); hero.addView(a);
+        LinearLayout heroLogo=new LinearLayout(this); heroLogo.setGravity(Gravity.CENTER_VERTICAL);
+        LinearLayout heroMark=new LinearLayout(this); heroMark.setOrientation(LinearLayout.VERTICAL); heroMark.setGravity(Gravity.CENTER);
+        heroMark.setBackground(bg(Color.rgb(15,83,150),CYAN,18));
+        TextView hm=txt("M",27,true); hm.setGravity(Gravity.CENTER); hm.setPadding(0,0,0,0); heroMark.addView(hm,new LinearLayout.LayoutParams(-1,dp(34)));
+        TextView he=txt("EDU",9,true); he.setGravity(Gravity.CENTER); he.setTextColor(CYAN); he.setPadding(0,0,0,0); heroMark.addView(he,new LinearLayout.LayoutParams(-1,dp(15)));
+        heroLogo.addView(heroMark,new LinearLayout.LayoutParams(dp(58),dp(58)));
+        LinearLayout heroNames=new LinearLayout(this); heroNames.setOrientation(LinearLayout.VERTICAL); heroNames.setPadding(dp(12),0,0,0);
+        TextView a=txt("MULTIPLAY",25,true); a.setTextColor(CYAN); heroNames.addView(a);
+        TextView ae=txt("EDUCAÇÃO",12,true); ae.setTextColor(Color.WHITE); heroNames.addView(ae);
+        heroLogo.addView(heroNames,new LinearLayout.LayoutParams(0,-2,1));
+        hero.addView(heroLogo);
         TextView b=txt("Aprenda. Leia. Ouça. Evolua.",21,true); b.setPadding(0,dp(5),0,0); hero.addView(b);
         TextView c=txt("Sua biblioteca digital para estudar e aproveitar conteúdo online.",12,false); c.setTextColor(Color.rgb(194,218,242)); hero.addView(c);
         LinearLayout chips=new LinearLayout(this); chips.setPadding(0,dp(14),0,0);
@@ -120,10 +130,14 @@ public class MainActivity extends Activity {
     void header(String sub){
         LinearLayout h=new LinearLayout(this); h.setGravity(Gravity.CENTER_VERTICAL);
         LinearLayout brand=new LinearLayout(this); brand.setGravity(Gravity.CENTER_VERTICAL);
-        TextView mark=txt("M",23,true); mark.setGravity(Gravity.CENTER); mark.setBackground(bg(BLUE,CYAN,14)); brand.addView(mark,new LinearLayout.LayoutParams(dp(42),dp(42)));
-        LinearLayout names=new LinearLayout(this); names.setOrientation(LinearLayout.VERTICAL);
-        TextView l=txt("MULTIPLAY",17,true); l.setTextColor(CYAN); names.addView(l);
-        TextView e=txt("EDUCAÇÃO",9,true); names.addView(e); brand.addView(names);
+        LinearLayout logo=new LinearLayout(this); logo.setOrientation(LinearLayout.VERTICAL); logo.setGravity(Gravity.CENTER);
+        logo.setPadding(dp(4),dp(3),dp(4),dp(3)); logo.setBackground(bg(Color.rgb(15,83,150),CYAN,14));
+        TextView mark=txt("M",22,true); mark.setGravity(Gravity.CENTER); mark.setTextColor(Color.WHITE); mark.setPadding(0,0,0,0); logo.addView(mark,new LinearLayout.LayoutParams(-1,dp(27)));
+        TextView edu=txt("EDU",8,true); edu.setGravity(Gravity.CENTER); edu.setTextColor(CYAN); edu.setPadding(0,0,0,0); logo.addView(edu,new LinearLayout.LayoutParams(-1,dp(14)));
+        brand.addView(logo,new LinearLayout.LayoutParams(dp(50),dp(50)));
+        LinearLayout names=new LinearLayout(this); names.setOrientation(LinearLayout.VERTICAL); names.setPadding(dp(9),0,0,0);
+        TextView l=txt("MULTIPLAY",18,true); l.setTextColor(CYAN); names.addView(l);
+        TextView e=txt("EDUCAÇÃO • APRENDA • LEIA • OUÇA",8,true); e.setTextColor(Color.rgb(190,210,235)); names.addView(e); brand.addView(names);
         h.addView(brand,new LinearLayout.LayoutParams(0,-2,1));
         Button search=btn("⌕"); search.setTextSize(22); h.addView(search,new LinearLayout.LayoutParams(dp(52),dp(46))); search.setOnClickListener(v->searchScreen());
         body.addView(h);
