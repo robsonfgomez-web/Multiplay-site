@@ -92,7 +92,7 @@ async function xtreamRequest(user, pass, action) {
 
   try {
     const resultado = await pool.query(
-      `SELECT id, username, password_hash, active,
+      `SELECT id, username, password_hash, active
        FROM admins
        WHERE username = $1`,
       [username]
