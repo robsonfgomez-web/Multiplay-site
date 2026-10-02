@@ -2116,10 +2116,7 @@ app.get(
       catalogo: [
         'canais',
         'filmes',
-        'series',
-        'livros',
-        'ebooks',
-        'audiobooks'
+        'series'
       ]
 
     });
