@@ -1,1677 +1,1157 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <meta
-    name="theme-color"
-    content="#090909"
-  >
-
-  <title>MultiPlay - Aplicativo</title>
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      background: #090909;
-      color: #fff;
-      font-family: Arial, sans-serif;
-    }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: #111;
-      border-bottom: 1px solid #252525;
-    }
-
-    .topbar {
-      max-width: 1500px;
-      margin: auto;
-      min-height: 64px;
-      padding: 10px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .logo {
-      font-size: 25px;
-      font-weight: 900;
-      letter-spacing: 1px;
-    }
-
-    .logo span {
-      color: #e50914;
-    }
-
-    .user-area {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .user-name {
-      color: #ccc;
-      font-size: 14px;
-    }
-
-    .logout {
-      background: #e50914;
-      color: #fff;
-      border: 0;
-      border-radius: 7px;
-      padding: 9px 14px;
-      cursor: pointer;
-    }
-
-    main {
-      max-width: 1500px;
-      margin: auto;
-      padding: 25px 18px 60px;
-    }
-
-    .welcome h1 {
-      margin: 0 0 6px;
-      font-size: 28px;
-    }
-
-    .welcome p {
-      margin: 0 0 20px;
-      color: #999;
-    }
-
-    .search-box {
-      margin-bottom: 20px;
-    }
-
-    .search-box input {
-      width: 100%;
-      padding: 14px 17px;
-      background: #171717;
-      color: #fff;
-      border: 1px solid #292929;
-      border-radius: 9px;
-      outline: none;
-    }
-
-    .search-box input:focus {
-      border-color: #e50914;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 10px;
-      margin-bottom: 25px;
-    }
-
-    .tabs button {
-      flex-shrink: 0;
-      background: #181818;
-      color: #bbb;
-      border: 1px solid #292929;
-      border-radius: 8px;
-      padding: 11px 15px;
-      cursor: pointer;
-    }
-
-    .tabs button.active {
-      background: #e50914;
-      color: #fff;
-      border-color: #e50914;
-    }
-
-    .section {
-      margin-bottom: 35px;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .section-title h2 {
-      margin: 0;
-      font-size: 21px;
-    }
-
-    .section-title span {
-      color: #777;
-      font-size: 12px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .card {
-      background: #151515;
-      border: 1px solid #252525;
-      border-radius: 9px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      border-color: #e50914;
-    }
-
-    .poster {
-      width: 100%;
-      aspect-ratio: 2 / 3;
-      background: #222;
-      overflow: hidden;
-    }
-
-    .poster img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .poster-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 42px;
-      color: #555;
-    }
-
-    .card-info {
-      padding: 10px;
-    }
-
-    .card-info h3 {
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.3;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .card-info p {
-      margin: 5px 0 0;
-      color: #777;
-      font-size: 11px;
-    }
-
-    .continue-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .continue-card {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      padding: 10px;
-      background: #151515;
-      border: 1px solid #252525;
-      border-radius: 9px;
-      cursor: pointer;
-    }
-
-    .continue-thumb {
-      width: 120px;
-      height: 70px;
-      flex-shrink: 0;
-      border-radius: 6px;
-      overflow: hidden;
-      background: #222;
-    }
-
-    .continue-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .continue-info {
-      min-width: 0;
-      flex: 1;
-    }
-
-    .continue-info strong {
-      display: block;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .continue-info small {
-      color: #888;
-    }
-
-    .progress {
-      height: 4px;
-      background: #333;
-      border-radius: 5px;
-      margin-top: 8px;
-      overflow: hidden;
-    }
-
-    .progress div {
-      height: 100%;
-      background: #e50914;
-    }
-
-    .empty,
-    .loading,
-    .error {
-      padding: 40px 20px;
-      text-align: center;
-      color: #777;
-      grid-column: 1 / -1;
-    }
-
-    .error {
-      color: #ff7777;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      background: rgba(0,0,0,.82);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-box {
-      width: 100%;
-      max-width: 600px;
-      max-height: 85vh;
-      overflow-y: auto;
-      background: #151515;
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 20px;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .modal-header h2 {
-      margin: 0;
-    }
-
-    .close {
-      background: #333;
-      color: #fff;
-      border: 0;
-      border-radius: 7px;
-      padding: 8px 12px;
-      cursor: pointer;
-    }
-
-    .episode {
-      width: 100%;
-      text-align: left;
-      padding: 12px;
-      margin-bottom: 8px;
-      background: #222;
-      color: #fff;
-      border: 1px solid #333;
-      border-radius: 7px;
-      cursor: pointer;
-    }
-
-    .episode:hover {
-      border-color: #e50914;
-    }
-
-    @media (min-width: 700px) {
-
-      .grid {
-        grid-template-columns:
-          repeat(4, minmax(0, 1fr));
-      }
-
-    }
-
-    @media (min-width: 1100px) {
-
-      .grid {
-        grid-template-columns:
-          repeat(6, minmax(0, 1fr));
-      }
-
-    }
-
-    @media (min-width: 1400px) {
-
-      .grid {
-        grid-template-columns:
-          repeat(7, minmax(0, 1fr));
-      }
-
-    }
-
-    @media (max-width: 600px) {
-
-      .user-name {
-        display: none;
-      }
-
-      .welcome h1 {
-        font-size: 23px;
-      }
-
-      .continue-thumb {
-        width: 95px;
-        height: 60px;
-      }
-
-    }
-
-  </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080808">
+<title>MultiPlay - Aplicativo</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #080808;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8,8,8,.97);
+  border-bottom: 1px solid #242424;
+  backdrop-filter: blur(10px);
+}
+
+.header-inner {
+  max-width: 1400px;
+  margin: auto;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.logo span {
+  color: #ff7a00;
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-name {
+  color: #ddd;
+  font-size: 14px;
+}
+
+.logout-btn {
+  border: 0;
+  border-radius: 8px;
+  background: #242424;
+  color: #fff;
+  padding: 9px 13px;
+}
+
+.logout-btn:hover {
+  background: #333;
+}
+
+.container {
+  width: min(1400px, calc(100% - 28px));
+  margin: auto;
+  padding: 22px 0 50px;
+}
+
+.welcome {
+  margin-bottom: 18px;
+}
+
+.welcome h1 {
+  margin: 0 0 6px;
+  font-size: 27px;
+}
+
+.welcome p {
+  margin: 0;
+  color: #aaa;
+}
+
+.search-box {
+  margin: 20px 0;
+}
+
+.search-box input {
+  width: 100%;
+  border: 1px solid #303030;
+  background: #151515;
+  color: #fff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  outline: none;
+}
+
+.search-box input:focus {
+  border-color: #ff7a00;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+  margin-bottom: 25px;
+  scrollbar-width: thin;
+}
+
+.tab {
+  white-space: nowrap;
+  border: 1px solid #292929;
+  background: #151515;
+  color: #bbb;
+  padding: 10px 15px;
+  border-radius: 10px;
+}
+
+.tab:hover,
+.tab.active {
+  background: #ff7a00;
+  border-color: #ff7a00;
+  color: #fff;
+}
+
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+.section-title {
+  margin: 28px 0 14px;
+  font-size: 20px;
+}
+
+.section-title:first-child {
+  margin-top: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: #131313;
+  border: 1px solid #252525;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: .18s ease;
+  min-width: 0;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: #ff7a00;
+}
+
+.card-image {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  background: #202020;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 45px;
+  color: #777;
+}
+
+.card-body {
+  padding: 11px;
+}
+
+.card-title {
+  font-size: 14px;
+  line-height: 1.35;
+  font-weight: 700;
+  min-height: 38px;
+}
+
+.card-meta {
+  margin-top: 7px;
+  color: #999;
+  font-size: 12px;
+}
+
+.card-progress {
+  height: 4px;
+  background: #333;
+  margin-top: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card-progress span {
+  display: block;
+  height: 100%;
+  background: #ff7a00;
+}
+
+.empty {
+  background: #111;
+  border: 1px dashed #333;
+  border-radius: 12px;
+  padding: 30px 18px;
+  text-align: center;
+  color: #999;
+}
+
+.empty strong {
+  display: block;
+  color: #ddd;
+  margin-bottom: 8px;
+}
+
+.loading {
+  color: #aaa;
+  padding: 25px 0;
+}
+
+.error {
+  color: #ff7777;
+  padding: 20px 0;
+}
+
+.library-intro {
+  background: linear-gradient(135deg, #171717, #0f0f0f);
+  border: 1px solid #292929;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 20px;
+}
+
+.library-intro h2 {
+  margin: 0 0 7px;
+}
+
+.library-intro p {
+  color: #aaa;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.library-categories {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin: 14px 0 22px;
+}
+
+.category-chip {
+  border: 1px solid #333;
+  background: #171717;
+  color: #bbb;
+  padding: 8px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.category-chip:hover {
+  border-color: #ff7a00;
+  color: #fff;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0,0,0,.85);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.modal.show {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.modal-box {
+  width: min(850px, 100%);
+  margin-top: 40px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 18px;
+  border-bottom: 1px solid #292929;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.modal-header h2 {
+  margin: 0;
+}
+
+.close-btn {
+  border: 0;
+  background: #272727;
+  color: #fff;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  font-size: 20px;
+}
+
+.modal-content {
+  padding: 18px;
+}
+
+.season {
+  margin-bottom: 20px;
+}
+
+.season h3 {
+  margin: 0 0 10px;
+}
+
+.episode {
+  width: 100%;
+  text-align: left;
+  border: 1px solid #292929;
+  background: #181818;
+  color: #fff;
+  padding: 13px;
+  border-radius: 9px;
+  margin-bottom: 8px;
+}
+
+.episode:hover {
+  border-color: #ff7a00;
+}
+
+.library-note {
+  color: #777;
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+@media (max-width: 700px) {
+  .header-inner {
+    padding: 12px;
+  }
+
+  .container {
+    width: calc(100% - 20px);
+    padding-top: 17px;
+  }
+
+  .logo {
+    font-size: 21px;
+  }
+
+  .user-name {
+    display: none;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .card-body {
+    padding: 9px;
+  }
+
+  .card-title {
+    font-size: 13px;
+  }
+
+  .welcome h1 {
+    font-size: 23px;
+  }
+
+  .tabs {
+    margin-left: -2px;
+    margin-right: -2px;
+  }
+}
+</style>
 </head>
-
 
 <body>
 
-
-<header>
-
-  <div class="topbar">
-
-    <div class="logo">
-      MULTI<span>PLAY</span>
-    </div>
-
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">MULTI<span>PLAY</span></div>
 
     <div class="user-area">
-
-      <div
-        id="userName"
-        class="user-name"
-      >
-        Cliente
-      </div>
-
-
-      <button
-        class="logout"
-        onclick="logout()"
-      >
-        Sair
-      </button>
-
+      <span class="user-name" id="userName"></span>
+      <button class="logout-btn" onclick="logout()">Sair</button>
     </div>
-
   </div>
-
 </header>
 
-
-<main>
-
+<main class="container">
 
   <div class="welcome">
-
-    <h1>
-
-      Olá,
-      <span id="welcomeName">
-        Cliente
-      </span>
-      👋
-
-    </h1>
-
-
-    <p>
-      Escolha o que deseja assistir, ler ou ouvir.
-    </p>
-
+    <h1>Olá, Cliente 👋</h1>
+    <p>Bem-vindo ao seu MultiPlay.</p>
   </div>
 
-
   <div class="search-box">
-
     <input
       id="searchInput"
       type="search"
-      placeholder="🔎 Buscar filmes, séries, canais, livros..."
+      placeholder="🔎 Pesquisar canais, filmes, séries, livros..."
       autocomplete="off"
     >
-
   </div>
 
-
-  <div class="tabs">
-
-    <button
-      class="active"
-      data-section="home"
-    >
-      🏠 Início
-    </button>
-
-    <button data-section="canais">
-      📺 Canais
-    </button>
-
-    <button data-section="filmes">
-      🎬 Filmes
-    </button>
-
-    <button data-section="series">
-      📺 Séries
-    </button>
-
-    <button data-section="livros">
-      📖 Livros
-    </button>
-
-    <button data-section="ebooks">
-      📚 E-books
-    </button>
-
-    <button data-section="audiobooks">
-      🎧 Audiobooks
-    </button>
-
-  </div>
-
+  <nav class="tabs">
+    <button class="tab active" data-section="home">Início</button>
+    <button class="tab" data-section="canais">📺 Canais</button>
+    <button class="tab" data-section="filmes">🎬 Filmes</button>
+    <button class="tab" data-section="series">🎞️ Séries</button>
+    <button class="tab" data-section="livros">📖 Livros</button>
+    <button class="tab" data-section="ebooks">📚 E-books</button>
+    <button class="tab" data-section="audiobooks">🎧 Audiobooks</button>
+  </nav>
 
   <!-- INÍCIO -->
+  <section id="homeSection" class="section active">
 
-  <section id="homeSection">
+    <div id="continueSection" style="display:none;">
+      <h2 class="section-title">▶️ Continuar assistindo</h2>
+      <div id="continueGrid" class="grid"></div>
+    </div>
 
+    <h2 class="section-title">🔥 Filmes</h2>
+    <div id="homeMovies" class="grid"></div>
 
-    <section
-      id="continueSection"
-      class="section hidden"
-    >
+    <h2 class="section-title">🎞️ Séries</h2>
+    <div id="homeSeries" class="grid"></div>
 
-      <div class="section-title">
-
-        <h2>
-          ▶️ Continuar de onde parou
-        </h2>
-
-        <span>
-          Seus conteúdos
-        </span>
-
-      </div>
-
-
-      <div
-        id="continueList"
-        class="continue-list"
-      ></div>
-
-    </section>
-
-
-    <section
-      id="recentSection"
-      class="section hidden"
-    >
-
-      <div class="section-title">
-
-        <h2>
-          🕘 Vistos recentemente
-        </h2>
-
-        <span>
-          Histórico
-        </span>
-
-      </div>
-
-
-      <div
-        id="recentGrid"
-        class="grid"
-      ></div>
-
-    </section>
-
-
-    <section class="section">
-
-      <div class="section-title">
-        <h2>🎬 Filmes</h2>
-      </div>
-
-
-      <div
-        id="homeMovies"
-        class="grid"
-      >
-
-        <div class="loading">
-          Carregando...
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <section class="section">
-
-      <div class="section-title">
-        <h2>📺 Séries</h2>
-      </div>
-
-
-      <div
-        id="homeSeries"
-        class="grid"
-      >
-
-        <div class="loading">
-          Carregando...
-        </div>
-
-      </div>
-
-    </section>
+    <h2 class="section-title">📚 Biblioteca</h2>
+    <div id="homeLibrary" class="grid"></div>
 
   </section>
-
 
   <!-- CANAIS -->
-
-  <section
-    id="canaisSection"
-    class="section hidden"
-  >
-
-    <div class="section-title">
-      <h2>📺 Canais</h2>
-    </div>
-
-
-    <div
-      id="channelsGrid"
-      class="grid"
-    >
-
-      <div class="loading">
-        Carregando canais...
-      </div>
-
-    </div>
-
+  <section id="canaisSection" class="section">
+    <h2 class="section-title">📺 Canais</h2>
+    <div id="channelsGrid" class="grid"></div>
   </section>
-
 
   <!-- FILMES -->
-
-  <section
-    id="filmesSection"
-    class="section hidden"
-  >
-
-    <div class="section-title">
-      <h2>🎬 Filmes</h2>
-    </div>
-
-
-    <div
-      id="moviesGrid"
-      class="grid"
-    >
-
-      <div class="loading">
-        Carregando filmes...
-      </div>
-
-    </div>
-
+  <section id="filmesSection" class="section">
+    <h2 class="section-title">🎬 Filmes</h2>
+    <div id="moviesGrid" class="grid"></div>
   </section>
-
 
   <!-- SÉRIES -->
-
-  <section
-    id="seriesSection"
-    class="section hidden"
-  >
-
-    <div class="section-title">
-      <h2>📺 Séries</h2>
-    </div>
-
-
-    <div
-      id="seriesGrid"
-      class="grid"
-    >
-
-      <div class="loading">
-        Carregando séries...
-      </div>
-
-    </div>
-
+  <section id="seriesSection" class="section">
+    <h2 class="section-title">🎞️ Séries</h2>
+    <div id="seriesGrid" class="grid"></div>
   </section>
-
 
   <!-- LIVROS -->
+  <section id="livrosSection" class="section">
 
-  <section
-    id="livrosSection"
-    class="section hidden"
-  >
-
-    <div class="section-title">
+    <div class="library-intro">
       <h2>📖 Livros</h2>
+      <p>
+        Biblioteca MultiPlay com obras disponibilizadas de forma autorizada,
+        licenciada ou em domínio público.
+      </p>
     </div>
 
+    <div class="library-categories" id="booksCategories">
+      <button class="category-chip" onclick="filterLibrary('livros','Todos')">Todos</button>
+      <button class="category-chip" onclick="filterLibrary('livros','Literatura')">Literatura</button>
+      <button class="category-chip" onclick="filterLibrary('livros','Filosofia')">Filosofia</button>
+      <button class="category-chip" onclick="filterLibrary('livros','História')">História</button>
+      <button class="category-chip" onclick="filterLibrary('livros','Educação')">Educação</button>
+      <button class="category-chip" onclick="filterLibrary('livros','Finanças')">Finanças</button>
+      <button class="category-chip" onclick="filterLibrary('livros','Negócios')">Negócios</button>
+      <button class="category-chip" onclick="filterLibrary('livros','Agronegócio')">Agronegócio</button>
+    </div>
 
-    <div
-      id="booksGrid"
-      class="grid"
-    ></div>
-
+    <div id="booksGrid" class="grid"></div>
   </section>
 
+  <!-- EBOOKS -->
+  <section id="ebooksSection" class="section">
 
-  <!-- E-BOOKS -->
-
-  <section
-    id="ebooksSection"
-    class="section hidden"
-  >
-
-    <div class="section-title">
+    <div class="library-intro">
       <h2>📚 E-books</h2>
+      <p>
+        Leia seus e-books diretamente pelo MultiPlay. O catálogo poderá receber
+        PDF, EPUB e outros formatos compatíveis.
+      </p>
     </div>
 
+    <div class="library-categories">
+      <button class="category-chip" onclick="filterLibrary('ebooks','Todos')">Todos</button>
+      <button class="category-chip" onclick="filterLibrary('ebooks','Desenvolvimento pessoal')">Desenvolvimento pessoal</button>
+      <button class="category-chip" onclick="filterLibrary('ebooks','Empreendedorismo')">Empreendedorismo</button>
+      <button class="category-chip" onclick="filterLibrary('ebooks','Marketing')">Marketing</button>
+      <button class="category-chip" onclick="filterLibrary('ebooks','Vendas')">Vendas</button>
+      <button class="category-chip" onclick="filterLibrary('ebooks','Tecnologia')">Tecnologia</button>
+      <button class="category-chip" onclick="filterLibrary('ebooks','Educação')">Educação</button>
+      <button class="category-chip" onclick="filterLibrary('ebooks','Finanças')">Finanças</button>
+    </div>
 
-    <div
-      id="ebooksGrid"
-      class="grid"
-    ></div>
-
+    <div id="ebooksGrid" class="grid"></div>
   </section>
-
 
   <!-- AUDIOBOOKS -->
+  <section id="audiobooksSection" class="section">
 
-  <section
-    id="audiobooksSection"
-    class="section hidden"
-  >
-
-    <div class="section-title">
+    <div class="library-intro">
       <h2>🎧 Audiobooks</h2>
+      <p>
+        Ouça seus audiobooks pelo MultiPlay e continue de onde parou.
+      </p>
     </div>
 
+    <div class="library-categories">
+      <button class="category-chip" onclick="filterLibrary('audiobooks','Todos')">Todos</button>
+      <button class="category-chip" onclick="filterLibrary('audiobooks','Desenvolvimento pessoal')">Desenvolvimento pessoal</button>
+      <button class="category-chip" onclick="filterLibrary('audiobooks','Negócios')">Negócios</button>
+      <button class="category-chip" onclick="filterLibrary('audiobooks','Empreendedorismo')">Empreendedorismo</button>
+      <button class="category-chip" onclick="filterLibrary('audiobooks','Educação')">Educação</button>
+      <button class="category-chip" onclick="filterLibrary('audiobooks','Literatura')">Literatura</button>
+    </div>
 
-    <div
-      id="audioGrid"
-      class="grid"
-    ></div>
-
+    <div id="audioGrid" class="grid"></div>
   </section>
 
 </main>
 
-
-<!-- MODAL DE EPISÓDIOS -->
-
-<div
-  id="seriesModal"
-  class="modal hidden"
->
-
+<!-- MODAL SÉRIE -->
+<div id="seriesModal" class="modal">
   <div class="modal-box">
 
     <div class="modal-header">
-
-      <h2 id="modalTitle">
-        Série
-      </h2>
-
-
-      <button
-        class="close"
-        onclick="closeSeriesModal()"
-      >
-        Fechar
-      </button>
-
+      <h2 id="modalTitle">Série</h2>
+      <button class="close-btn" onclick="closeSeriesModal()">×</button>
     </div>
 
-
-    <div id="episodesList">
-      Carregando episódios...
-    </div>
+    <div id="episodesList" class="modal-content"></div>
 
   </div>
-
 </div>
 
-
 <script>
+"use strict";
 
-/* =========================
-   SESSÃO MULTIPLAY
-========================= */
+/* =========================================================
+   SESSÃO
+========================================================= */
 
-const user =
-  sessionStorage.getItem(
-    "mp_user"
-  );
-
-const type =
-  sessionStorage.getItem(
-    "mp_type"
-  );
-
+const user = sessionStorage.getItem("mp_user");
+const type = sessionStorage.getItem("mp_type");
 
 if (!user) {
-
-  window.location.href =
-    "/login.html";
-
+  window.location.href = "/login.html";
 }
 
+document.getElementById("userName").textContent = user || "";
 
-/* =========================
-   HISTÓRICO
-========================= */
-
-const historyKey =
-  `multiplay_history_${user}`;
-
+const historyKey = `multiplay_history_${user}`;
 
 let catalog = {
-
   canais: [],
   filmes: [],
   series: []
-
 };
 
-
 let livrosData = {
-
   livros: [],
   ebooks: [],
   audiobooks: []
+};
 
+let currentLibraryFilter = {
+  livros: "Todos",
+  ebooks: "Todos",
+  audiobooks: "Todos"
 };
 
 
-/* =========================
+/* =========================================================
+   PROXY DE IMAGEM
+========================================================= */
+
+function imagemProxy(url) {
+
+  if (!url) return "";
+
+  const valor = String(url).trim();
+
+  if (!valor) return "";
+
+  if (valor.startsWith("/api/imagem?")) {
+    return valor;
+  }
+
+  if (valor.startsWith("data:")) {
+    return valor;
+  }
+
+  if (valor.startsWith("/")) {
+    return valor;
+  }
+
+  return "/api/imagem?url=" + encodeURIComponent(valor);
+}
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHtml(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
    HISTÓRICO
-========================= */
+========================================================= */
 
 function getHistory() {
 
   try {
 
-    const data =
-      JSON.parse(
-        localStorage.getItem(
-          historyKey
-        ) || "[]"
-      );
+    const data = JSON.parse(
+      localStorage.getItem(historyKey) || "[]"
+    );
 
-    return Array.isArray(data)
-      ? data
-      : [];
+    return Array.isArray(data) ? data : [];
 
   } catch {
 
     return [];
-
   }
-
 }
 
 
 function saveHistory(history) {
 
   localStorage.setItem(
-
     historyKey,
-
-    JSON.stringify(
-      history.slice(0, 100)
-    )
-
+    JSON.stringify(history.slice(0, 100))
   );
-
 }
 
 
 function registerHistory(item) {
 
-  if (
-    !item ||
-    !item.id
-  ) {
+  if (!item || !item.id) return;
 
-    return;
+  const history = getHistory();
 
-  }
+  const id = String(item.id);
 
+  const existingIndex = history.findIndex(
+    x => String(x.id) === id && x.type === item.type
+  );
 
-  const history =
-    getHistory();
+  const entry = {
 
+    id,
 
-  const existing =
-    history.find(
-      x =>
-        String(x.id) ===
-          String(item.id) &&
-        x.type === item.type
-    );
+    name: item.name || "Conteúdo",
 
-
-  if (existing) {
-
-    existing.name =
-      item.name;
-
-    existing.image =
+    image:
       item.image ||
-      existing.image;
+      item.stream_icon ||
+      item.cover ||
+      item.cover_big ||
+      item.cover_url ||
+      item.movie_image ||
+      item.image_url ||
+      item.logo ||
+      item.poster ||
+      "",
 
-    existing.extension =
+    type: item.type || "filme",
+
+    extension:
       item.extension ||
-      existing.extension ||
-      "";
+      item.container_extension ||
+      "",
 
-    existing.updatedAt =
-      Date.now();
+    position: Number(item.position || 0),
 
-  } else {
+    duration: Number(item.duration || 0),
 
-    history.unshift({
+    updatedAt: Date.now()
+  };
 
-      id:
-        String(item.id),
-
-      name:
-        item.name,
-
-      image:
-        item.image || "",
-
-      type:
-        item.type,
-
-      extension:
-        item.extension || "",
-
-      position:
-        0,
-
-      duration:
-        0,
-
-      updatedAt:
-        Date.now()
-
-    });
-
+  if (existingIndex >= 0) {
+    history.splice(existingIndex, 1);
   }
 
+  history.unshift(entry);
 
   saveHistory(history);
 
   renderHistory();
-
 }
 
 
-function updateProgress(
-  id,
-  contentType,
-  position,
-  duration
-) {
+function updateProgress(id, contentType, position, duration) {
 
-  const history =
-    getHistory();
+  const history = getHistory();
 
+  const item = history.find(
+    x =>
+      String(x.id) === String(id) &&
+      x.type === contentType
+  );
 
-  const item =
-    history.find(
-      x =>
-        String(x.id) ===
-          String(id) &&
-        x.type === contentType
-    );
+  if (!item) return;
 
-
-  if (!item) {
-
-    return;
-
-  }
-
-
-  item.position =
-    Number(position) || 0;
-
-  item.duration =
-    Number(duration) || 0;
-
-  item.updatedAt =
-    Date.now();
-
+  item.position = Number(position || 0);
+  item.duration = Number(duration || 0);
+  item.updatedAt = Date.now();
 
   saveHistory(history);
 
+  renderHistory();
 }
 
-
-/* =========================
-   RENDER HISTÓRICO
-========================= */
 
 function renderHistory() {
 
-  const history =
-    getHistory();
+  const history = getHistory();
 
+  const valid = history.filter(item => {
 
-  const recentSection =
-    document.getElementById(
-      "recentSection"
-    );
+    const position = Number(item.position || 0);
+    const duration = Number(item.duration || 0);
 
-
-  const continueSection =
-    document.getElementById(
-      "continueSection"
-    );
-
-
-  const recentGrid =
-    document.getElementById(
-      "recentGrid"
-    );
-
-
-  const continueList =
-    document.getElementById(
-      "continueList"
-    );
-
-
-  recentGrid.innerHTML =
-    "";
-
-  continueList.innerHTML =
-    "";
-
-
-  if (!history.length) {
-
-    recentSection.classList.add(
-      "hidden"
-    );
-
-    continueSection.classList.add(
-      "hidden"
-    );
-
-    return;
-
-  }
-
-
-  recentSection.classList.remove(
-    "hidden"
-  );
-
-
-  history
-    .slice()
-    .sort(
-      (a, b) =>
-        Number(
-          b.updatedAt || 0
-        ) -
-        Number(
-          a.updatedAt || 0
-        )
-    )
-    .slice(0, 12)
-    .forEach(
-      item => {
-
-        recentGrid.appendChild(
-          createCard(
-            item,
-            true
-          )
-        );
-
-      }
-    );
-
-
-  const continueItems =
-    history
-      .filter(
-        item =>
-          Number(
-            item.position || 0
-          ) > 5 &&
-          (
-            !item.duration ||
-            Number(item.position) <
-              Number(item.duration) - 10
-          )
-      )
-      .slice()
-      .sort(
-        (a, b) =>
-          Number(
-            b.updatedAt || 0
-          ) -
-          Number(
-            a.updatedAt || 0
-          )
-      )
-      .slice(0, 10);
-
-
-  if (!continueItems.length) {
-
-    continueSection.classList.add(
-      "hidden"
-    );
-
-    return;
-
-  }
-
-
-  continueSection.classList.remove(
-    "hidden"
-  );
-
-
-  continueItems.forEach(
-    item => {
-
-      const card =
-        document.createElement(
-          "div"
-        );
-
-
-      card.className =
-        "continue-card";
-
-
-      const percent =
-        item.duration > 0
-          ? Math.min(
-              100,
-              (
-                item.position /
-                item.duration
-              ) * 100
-            )
-          : 0;
-
-
-      card.innerHTML = `
-
-        <div class="continue-thumb">
-
-          ${
-            item.image
-
-              ? `
-                <img
-                  src="${escapeHtml(
-                    item.image
-                  )}"
-                  alt=""
-                >
-              `
-
-              : `
-                <div class="poster-placeholder">
-                  ▶
-                </div>
-              `
-          }
-
-        </div>
-
-
-        <div class="continue-info">
-
-          <strong>
-            ${escapeHtml(
-              item.name
-            )}
-          </strong>
-
-
-          <small>
-            ${typeLabel(
-              item.type
-            )}
-          </small>
-
-
-          <div class="progress">
-
-            <div
-              style="width:${percent}%"
-            ></div>
-
-          </div>
-
-        </div>
-
-      `;
-
-
-      card.onclick =
-        () =>
-          openHistoryItem(
-            item
-          );
-
-
-      continueList.appendChild(
-        card
-      );
-
+    if (duration > 0 && position >= duration - 15) {
+      return false;
     }
-  );
 
+    return position > 5;
+  });
+
+  const section = document.getElementById("continueSection");
+  const grid = document.getElementById("continueGrid");
+
+  if (!valid.length) {
+
+    section.style.display = "none";
+    grid.innerHTML = "";
+
+    return;
+  }
+
+  section.style.display = "block";
+
+  grid.innerHTML = "";
+
+  valid.slice(0, 12).forEach(item => {
+
+    grid.appendChild(
+      createCard(item, true)
+    );
+
+  });
 }
 
-
-/* =========================
-   ABRIR HISTÓRICO
-========================= */
 
 function openHistoryItem(item) {
 
   sessionStorage.setItem(
     "mp_stream_id",
-    String(item.id)
+    item.id
   );
-
 
   sessionStorage.setItem(
     "mp_stream_name",
     item.name
   );
 
-
   sessionStorage.setItem(
     "mp_stream_type",
     item.type
   );
-
 
   sessionStorage.setItem(
     "mp_stream_image",
     item.image || ""
   );
 
-
   sessionStorage.setItem(
     "mp_stream_extension",
     item.extension || ""
   );
 
-
   sessionStorage.setItem(
     "mp_resume_position",
-    String(
-      item.position || 0
-    )
+    String(item.position || 0)
   );
 
-
-  window.location.href =
-    "/player.html";
-
+  window.location.href = "/player.html";
 }
 
 
-/* =========================
-   TIPO
-========================= */
+/* =========================================================
+   TIPOS
+========================================================= */
 
 function typeLabel(type) {
 
   const labels = {
 
-    canal:
-      "Canal",
+    canal: "📺 Canal",
 
-    filme:
-      "Filme",
+    filme: "🎬 Filme",
 
-    serie:
-      "Série",
+    serie: "🎞️ Série",
 
-    livro:
-      "Livro",
+    livro: "📖 Livro",
 
-    ebook:
-      "E-book",
+    ebook: "📚 E-book",
 
-    audiobook:
-      "Audiobook"
-
+    audiobook: "🎧 Audiobook"
   };
 
-
-  return labels[type] ||
-    "Conteúdo";
-
+  return labels[type] || "📚 Biblioteca";
 }
 
 
-/* =========================
-   SEGURANÇA HTML
-========================= */
+function detectType(item) {
 
-function escapeHtml(value) {
+  if (!item) return "filme";
 
-  return String(
-    value || ""
-  )
+  if (
+    item.type === "canal" ||
+    item.type === "filme" ||
+    item.type === "serie" ||
+    item.type === "livro" ||
+    item.type === "ebook" ||
+    item.type === "audiobook"
+  ) {
+    return item.type;
+  }
 
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
+  return "filme";
 }
 
 
-/* =========================
-   CRIAR CARD
-========================= */
+/* =========================================================
+   CARD
+========================================================= */
 
-function createCard(
-  item,
-  fromHistory = false
-) {
+function createCard(item, fromHistory = false) {
 
-  const card =
-    document.createElement(
-      "div"
-    );
-
-
-  card.className =
-    "card";
-
-
-  const image =
-    item.image ||
-    item.stream_icon ||
-    item.cover ||
-    item.cover_big ||
-    item.movie_image ||
-    "";
-
+  const type = detectType(item);
 
   const id =
     item.id ||
     item.stream_id ||
-    item.series_id;
-
+    item.series_id ||
+    item.book_id ||
+    item.ebook_id ||
+    item.audio_id ||
+    `item-${Math.random().toString(36).slice(2)}`;
 
   const name =
     item.name ||
     item.title ||
     "Conteúdo";
 
-
-  const contentType =
-    item.type ||
-    detectType(item);
-
+  const image =
+    item.image ||
+    item.stream_icon ||
+    item.cover ||
+    item.cover_big ||
+    item.cover_url ||
+    item.movie_image ||
+    item.image_url ||
+    item.logo ||
+    item.poster ||
+    item.backdrop ||
+    "";
 
   const extension =
     item.extension ||
     item.container_extension ||
     "";
 
+  const card = document.createElement("div");
 
-  let icon =
-    "📖";
+  card.className = "card";
 
+  const imageUrl = imagemProxy(image);
 
-  if (
-    contentType ===
-    "canal"
-  ) {
+  let imageHtml;
 
-    icon =
-      "📺";
+  if (imageUrl) {
 
+    imageHtml = `
+      <img
+        src="${escapeHtml(imageUrl)}"
+        alt="${escapeHtml(name)}"
+        loading="lazy"
+        onerror="this.parentElement.innerHTML='<div class=&quot;card-placeholder&quot;>${type === "audiobook" ? "🎧" : type === "ebook" ? "📚" : type === "livro" ? "📖" : "🎬"}</div>'"
+      >
+    `;
+
+  } else {
+
+    const emoji =
+      type === "audiobook"
+        ? "🎧"
+        : type === "ebook"
+        ? "📚"
+        : type === "livro"
+        ? "📖"
+        : type === "canal"
+        ? "📺"
+        : type === "serie"
+        ? "🎞️"
+        : "🎬";
+
+    imageHtml = `
+      <div class="card-placeholder">${emoji}</div>
+    `;
   }
 
+  let progress = "";
 
-  if (
-    contentType ===
-    "filme"
-  ) {
+  if (fromHistory) {
 
-    icon =
-      "🎬";
+    const duration = Number(item.duration || 0);
+    const position = Number(item.position || 0);
 
+    if (duration > 0) {
+
+      const percentage = Math.max(
+        0,
+        Math.min(100, (position / duration) * 100)
+      );
+
+      progress = `
+        <div class="card-progress">
+          <span style="width:${percentage}%"></span>
+        </div>
+      `;
+    }
   }
 
-
-  if (
-    contentType ===
-    "serie"
-  ) {
-
-    icon =
-      "📺";
-
-  }
-
-
-  if (
-    contentType ===
-    "audiobook"
-  ) {
-
-    icon =
-      "🎧";
-
-  }
-
+  const author =
+    item.author ||
+    item.narrator ||
+    item.category ||
+    "";
 
   card.innerHTML = `
-
-    <div class="poster">
-
-      ${
-        image
-
-          ? `
-            <img
-              src="${escapeHtml(
-                image
-              )}"
-              alt="${escapeHtml(
-                name
-              )}"
-              loading="lazy"
-            >
-          `
-
-          : `
-            <div class="poster-placeholder">
-              ${icon}
-            </div>
-          `
-      }
-
+    <div class="card-image">
+      ${imageHtml}
     </div>
 
+    <div class="card-body">
 
-    <div class="card-info">
+      <div class="card-title">
+        ${escapeHtml(name)}
+      </div>
 
-      <h3>
+      <div class="card-meta">
         ${escapeHtml(
-          name
+          author || typeLabel(type)
         )}
-      </h3>
+      </div>
 
-
-      <p>
-        ${typeLabel(
-          contentType
-        )}
-      </p>
+      ${progress}
 
     </div>
-
   `;
 
+  card.addEventListener("click", () => {
 
-  card.onclick =
-    () => {
+    if (fromHistory) {
 
-      if (fromHistory) {
+      openHistoryItem(item);
+      return;
+    }
 
-        openHistoryItem(
-          item
-        );
+    if (type === "serie") {
 
-        return;
+      openSeries(item);
+      return;
+    }
 
-      }
+    if (
+      type === "livro" ||
+      type === "ebook" ||
+      type === "audiobook"
+    ) {
 
+      openLibraryItem(item);
+      return;
+    }
 
-      if (
-        contentType ===
-        "serie"
-      ) {
+    playItem({
+      ...item,
+      id,
+      name,
+      image,
+      type,
+      extension
+    });
 
-        openSeries(
-          item
-        );
-
-        return;
-
-      }
-
-
-      playItem({
-
-        id:
-          id,
-
-        name:
-          name,
-
-        image:
-          image,
-
-        type:
-          contentType,
-
-        extension:
-          extension
-
-      });
-
-    };
-
+  });
 
   return card;
-
 }
 
 
-/* =========================
-   DETECTAR TIPO
-========================= */
-
-function detectType(item) {
-
-  if (
-    item.series_id ||
-    item.type ===
-      "series"
-  ) {
-
-    return "serie";
-
-  }
-
-
-  if (
-    item.stream_id ||
-    item.stream_type ===
-      "live"
-  ) {
-
-    return "canal";
-
-  }
-
-
-  return "filme";
-
-}
-
-
-/* =========================
-   ABRIR CONTEÚDO
-========================= */
+/* =========================================================
+   PLAYER
+========================================================= */
 
 function playItem(item) {
 
-  registerHistory(
-    item
-  );
+  if (!item || !item.id) return;
 
+  registerHistory({
+    ...item,
+    position: 0,
+    duration: 0
+  });
 
   sessionStorage.setItem(
     "mp_stream_id",
-    String(
-      item.id
-    )
+    String(item.id)
   );
-
 
   sessionStorage.setItem(
     "mp_stream_name",
-    item.name
+    item.name || "Conteúdo"
   );
-
 
   sessionStorage.setItem(
     "mp_stream_type",
-    item.type
+    item.type || "filme"
   );
-
 
   sessionStorage.setItem(
     "mp_stream_image",
     item.image || ""
   );
 
-
   sessionStorage.setItem(
     "mp_stream_extension",
     item.extension || ""
   );
 
-
-  sessionStorage.removeItem(
-    "mp_resume_position"
+  sessionStorage.setItem(
+    "mp_resume_position",
+    "0"
   );
 
-
-  window.location.href =
-    "/player.html";
-
+  window.location.href = "/player.html";
 }
 
 
-/* =========================
-   CATÁLOGO STREAMING
-========================= */
+/* =========================================================
+   CATÁLOGO XTREAM
+========================================================= */
 
 async function loadCatalog() {
 
+  const channelsGrid =
+    document.getElementById("channelsGrid");
+
+  const moviesGrid =
+    document.getElementById("moviesGrid");
+
+  const seriesGrid =
+    document.getElementById("seriesGrid");
+
+  channelsGrid.innerHTML =
+    '<div class="loading">Carregando canais...</div>';
+
+  moviesGrid.innerHTML =
+    '<div class="loading">Carregando filmes...</div>';
+
+  seriesGrid.innerHTML =
+    '<div class="loading">Carregando séries...</div>';
+
   try {
 
-    const response =
-      await fetch(
-        `/api/catalogo?user=${encodeURIComponent(
-          user
-        )}`
-      );
-
+    const response = await fetch(
+      `/api/catalogo?user=${encodeURIComponent(user)}`
+    );
 
     if (
-      response.status ===
-        401 ||
-      response.status ===
-        403
+      response.status === 401 ||
+      response.status === 403
     ) {
 
       sessionStorage.clear();
@@ -1680,1005 +1160,1311 @@ async function loadCatalog() {
         "/login.html";
 
       return;
-
     }
-
 
     if (!response.ok) {
-
-      throw new Error(
-        "Catálogo indisponível"
-      );
-
+      throw new Error("Catálogo indisponível");
     }
-
 
     const data =
       await response.json();
 
-
     catalog.canais =
-      Array.isArray(
-        data.canais
-      )
+      Array.isArray(data.canais)
         ? data.canais
         : [];
 
-
     catalog.filmes =
-      Array.isArray(
-        data.filmes
-      )
+      Array.isArray(data.filmes)
         ? data.filmes
         : [];
 
-
     catalog.series =
-      Array.isArray(
-        data.series
-      )
+      Array.isArray(data.series)
         ? data.series
         : [];
 
-
     renderChannels();
-
     renderMovies();
-
     renderSeries();
-
+    renderHome();
 
   } catch (error) {
 
-    console.error(
-      error
-    );
-
+    console.error(error);
 
     showError(
       "channelsGrid",
       "Não foi possível carregar os canais."
     );
 
-
     showError(
       "moviesGrid",
       "Não foi possível carregar os filmes."
     );
 
-
     showError(
       "seriesGrid",
       "Não foi possível carregar as séries."
     );
-
   }
-
 }
 
 
-/* =========================
-   LIVROS
-========================= */
-
-async function loadBooks() {
-
-  try {
-
-    const response =
-      await fetch(
-        "/api/livros"
-      );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        "Livros indisponíveis"
-      );
-
-    }
-
-
-    const data =
-      await response.json();
-
-
-    livrosData = {
-
-      livros:
-        Array.isArray(
-          data.livros
-        )
-          ? data.livros
-          : [],
-
-      ebooks:
-        Array.isArray(
-          data.ebooks
-        )
-          ? data.ebooks
-          : [],
-
-      audiobooks:
-        Array.isArray(
-          data.audiobooks
-        )
-          ? data.audiobooks
-          : []
-
-    };
-
-
-    renderBooks();
-
-    renderEbooks();
-
-    renderAudiobooks();
-
-
-  } catch (error) {
-
-    console.error(
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================
+/* =========================================================
    CANAIS
-========================= */
+========================================================= */
 
 function renderChannels() {
 
   const grid =
-    document.getElementById(
-      "channelsGrid"
-    );
+    document.getElementById("channelsGrid");
 
+  grid.innerHTML = "";
 
-  grid.innerHTML =
-    "";
+  if (!catalog.canais.length) {
 
-
-  if (
-    !catalog.canais.length
-  ) {
-
-    grid.innerHTML =
-      `
-        <div class="empty">
-          Nenhum canal disponível.
-        </div>
-      `;
+    grid.innerHTML = `
+      <div class="empty">
+        <strong>Nenhum canal encontrado</strong>
+        Aguarde a atualização do catálogo.
+      </div>
+    `;
 
     return;
-
   }
 
+  catalog.canais.forEach(channel => {
 
-  catalog.canais.forEach(
-    channel => {
+    const item = {
 
-      grid.appendChild(
+      ...channel,
 
-        createCard({
+      id:
+        channel.stream_id ||
+        channel.id,
 
-          ...channel,
+      name:
+        channel.name ||
+        "Canal",
 
-          id:
-            channel.stream_id,
+      image:
+        channel.stream_icon ||
+        channel.logo ||
+        channel.image ||
+        channel.cover ||
+        "",
 
-          name:
-            channel.name,
+      type: "canal",
 
-          image:
-            channel.stream_icon,
+      extension:
+        channel.container_extension ||
+        "m3u8"
+    };
 
-          type:
-            "canal",
-
-          extension:
-            "m3u8"
-
-        })
-
-      );
-
-    }
-  );
-
+    grid.appendChild(
+      createCard(item)
+    );
+  });
 }
 
 
-/* =========================
+/* =========================================================
    FILMES
-========================= */
+========================================================= */
 
 function renderMovies() {
 
   const grid =
-    document.getElementById(
-      "moviesGrid"
-    );
+    document.getElementById("moviesGrid");
 
+  grid.innerHTML = "";
 
-  const home =
-    document.getElementById(
-      "homeMovies"
-    );
+  if (!catalog.filmes.length) {
 
-
-  grid.innerHTML =
-    "";
-
-  home.innerHTML =
-    "";
-
-
-  if (
-    !catalog.filmes.length
-  ) {
-
-    grid.innerHTML =
-      `
-        <div class="empty">
-          Nenhum filme disponível.
-        </div>
-      `;
-
-
-    home.innerHTML =
-      `
-        <div class="empty">
-          Nenhum filme disponível.
-        </div>
-      `;
+    grid.innerHTML = `
+      <div class="empty">
+        <strong>Nenhum filme encontrado</strong>
+        Aguarde a atualização do catálogo.
+      </div>
+    `;
 
     return;
-
   }
 
+  catalog.filmes.forEach(movie => {
 
-  catalog.filmes
-    .slice(0, 30)
-    .forEach(
-      movie => {
+    const item = {
 
-        const item = {
+      ...movie,
 
-          ...movie,
+      id:
+        movie.stream_id ||
+        movie.id,
 
-          id:
-            movie.stream_id,
+      name:
+        movie.name ||
+        movie.title ||
+        "Filme",
 
-          name:
-            movie.name,
+      image:
+        movie.stream_icon ||
+        movie.cover ||
+        movie.cover_big ||
+        movie.cover_url ||
+        movie.movie_image ||
+        movie.image ||
+        "",
 
-          image:
-            movie.stream_icon,
+      type: "filme",
 
-          type:
-            "filme",
+      extension:
+        movie.container_extension ||
+        movie.extension ||
+        ""
+    };
 
-          extension:
-            movie.container_extension ||
-            ""
-
-        };
-
-
-        grid.appendChild(
-          createCard(
-            item
-          )
-        );
-
-
-        if (
-          home.children.length <
-          12
-        ) {
-
-          home.appendChild(
-            createCard(
-              item
-            )
-          );
-
-        }
-
-      }
+    grid.appendChild(
+      createCard(item)
     );
-
+  });
 }
 
 
-/* =========================
+/* =========================================================
    SÉRIES
-========================= */
+========================================================= */
 
 function renderSeries() {
 
   const grid =
-    document.getElementById(
-      "seriesGrid"
-    );
+    document.getElementById("seriesGrid");
 
+  grid.innerHTML = "";
 
-  const home =
-    document.getElementById(
-      "homeSeries"
-    );
+  if (!catalog.series.length) {
 
-
-  grid.innerHTML =
-    "";
-
-  home.innerHTML =
-    "";
-
-
-  if (
-    !catalog.series.length
-  ) {
-
-    grid.innerHTML =
-      `
-        <div class="empty">
-          Nenhuma série disponível.
-        </div>
-      `;
-
-
-    home.innerHTML =
-      `
-        <div class="empty">
-          Nenhuma série disponível.
-        </div>
-      `;
+    grid.innerHTML = `
+      <div class="empty">
+        <strong>Nenhuma série encontrada</strong>
+        Aguarde a atualização do catálogo.
+      </div>
+    `;
 
     return;
-
   }
 
+  catalog.series.forEach(series => {
 
-  catalog.series
-    .slice(0, 30)
-    .forEach(
-      series => {
+    const item = {
 
-        const item = {
+      ...series,
 
-          ...series,
+      id:
+        series.series_id ||
+        series.id,
 
-          id:
-            series.series_id,
+      name:
+        series.name ||
+        series.title ||
+        "Série",
 
-          name:
-            series.name,
+      image:
+        series.cover ||
+        series.cover_big ||
+        series.cover_url ||
+        series.image ||
+        series.poster ||
+        "",
 
-          image:
-            series.cover ||
-            series.cover_big ||
-            "",
+      type: "serie",
 
-          type:
-            "serie",
+      extension: ""
+    };
 
-          extension:
-            ""
-
-        };
-
-
-        grid.appendChild(
-          createCard(
-            item
-          )
-        );
-
-
-        if (
-          home.children.length <
-          12
-        ) {
-
-          home.appendChild(
-            createCard(
-              item
-            )
-          );
-
-        }
-
-      }
+    grid.appendChild(
+      createCard(item)
     );
-
+  });
 }
 
 
-/* =========================
-   LIVROS
-========================= */
+/* =========================================================
+   HOME
+========================================================= */
+
+function renderHome() {
+
+  const homeMovies =
+    document.getElementById("homeMovies");
+
+  const homeSeries =
+    document.getElementById("homeSeries");
+
+  homeMovies.innerHTML = "";
+
+  homeSeries.innerHTML = "";
+
+  catalog.filmes
+    .slice(0, 12)
+    .forEach(movie => {
+
+      homeMovies.appendChild(
+        createCard({
+          ...movie,
+          id:
+            movie.stream_id ||
+            movie.id,
+          name:
+            movie.name ||
+            movie.title ||
+            "Filme",
+          image:
+            movie.stream_icon ||
+            movie.cover ||
+            movie.cover_big ||
+            movie.cover_url ||
+            movie.movie_image ||
+            movie.image ||
+            "",
+          type: "filme",
+          extension:
+            movie.container_extension ||
+            ""
+        })
+      );
+
+    });
+
+  catalog.series
+    .slice(0, 12)
+    .forEach(series => {
+
+      homeSeries.appendChild(
+        createCard({
+          ...series,
+          id:
+            series.series_id ||
+            series.id,
+          name:
+            series.name ||
+            series.title ||
+            "Série",
+          image:
+            series.cover ||
+            series.cover_big ||
+            series.cover_url ||
+            series.image ||
+            "",
+          type: "serie",
+          extension: ""
+        })
+      );
+
+    });
+
+  renderHomeLibrary();
+}
+
+
+function renderHomeLibrary() {
+
+  const grid =
+    document.getElementById("homeLibrary");
+
+  grid.innerHTML = "";
+
+  const combined = [
+
+    ...livrosData.livros.map(item => ({
+      ...item,
+      type: "livro"
+    })),
+
+    ...livrosData.ebooks.map(item => ({
+      ...item,
+      type: "ebook"
+    })),
+
+    ...livrosData.audiobooks.map(item => ({
+      ...item,
+      type: "audiobook"
+    }))
+
+  ];
+
+  if (!combined.length) {
+
+    grid.innerHTML = `
+      <div class="empty">
+        <strong>Biblioteca sendo preparada 📚</strong>
+        Em breve seu acervo estará disponível aqui.
+      </div>
+    `;
+
+    return;
+  }
+
+  combined
+    .slice(0, 12)
+    .forEach(item => {
+
+      grid.appendChild(
+        createCard(item)
+      );
+
+    });
+}
+
+
+/* =========================================================
+   LIVROS / EBOOKS / AUDIOBOOKS
+========================================================= */
+
+async function loadBooks() {
+
+  const grids = [
+
+    document.getElementById("booksGrid"),
+    document.getElementById("ebooksGrid"),
+    document.getElementById("audioGrid")
+
+  ];
+
+  grids.forEach(grid => {
+
+    grid.innerHTML =
+      '<div class="loading">Carregando biblioteca...</div>';
+
+  });
+
+  try {
+
+    const response = await fetch(
+      `/api/livros?user=${encodeURIComponent(user)}`
+    );
+
+    if (
+      response.status === 401 ||
+      response.status === 403
+    ) {
+
+      sessionStorage.clear();
+
+      window.location.href =
+        "/login.html";
+
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error("Biblioteca indisponível");
+    }
+
+    const data =
+      await response.json();
+
+    livrosData = {
+
+      livros:
+        Array.isArray(data.livros)
+          ? data.livros
+          : [],
+
+      ebooks:
+        Array.isArray(data.ebooks)
+          ? data.ebooks
+          : [],
+
+      audiobooks:
+        Array.isArray(data.audiobooks)
+          ? data.audiobooks
+          : []
+    };
+
+    renderBooks();
+    renderEbooks();
+    renderAudiobooks();
+    renderHomeLibrary();
+
+  } catch (error) {
+
+    console.error(error);
+
+    renderBooks();
+    renderEbooks();
+    renderAudiobooks();
+    renderHomeLibrary();
+  }
+}
+
+
+function normalizeLibraryItem(
+  item,
+  contentType,
+  index
+) {
+
+  return {
+
+    ...item,
+
+    id:
+      item.id ||
+      item.book_id ||
+      item.ebook_id ||
+      item.audio_id ||
+      `local-${contentType}-${index}`,
+
+    name:
+      item.name ||
+      item.title ||
+      "Conteúdo",
+
+    title:
+      item.title ||
+      item.name ||
+      "Conteúdo",
+
+    author:
+      item.author ||
+      item.autor ||
+      "",
+
+    narrator:
+      item.narrator ||
+      item.narrador ||
+      "",
+
+    category:
+      item.category ||
+      item.categoria ||
+      "Geral",
+
+    description:
+      item.description ||
+      item.descricao ||
+      "",
+
+    image:
+      item.image ||
+      item.cover ||
+      item.cover_url ||
+      item.cover_big ||
+      item.poster ||
+      item.image_url ||
+      "",
+
+    pdf:
+      item.pdf ||
+      item.pdf_url ||
+      item.pdfUrl ||
+      "",
+
+    epub:
+      item.epub ||
+      item.epub_url ||
+      item.epubUrl ||
+      "",
+
+    audio:
+      item.audio ||
+      item.audio_url ||
+      item.audioUrl ||
+      "",
+
+    extension:
+      item.extension ||
+      item.container_extension ||
+      "",
+
+    type: contentType
+  };
+}
+
 
 function renderBooks() {
 
   renderSimpleCollection(
     "booksGrid",
     livrosData.livros,
-    "livro"
+    "livro",
+    currentLibraryFilter.livros
   );
-
 }
 
-
-/* =========================
-   EBOOKS
-========================= */
 
 function renderEbooks() {
 
   renderSimpleCollection(
     "ebooksGrid",
     livrosData.ebooks,
-    "ebook"
+    "ebook",
+    currentLibraryFilter.ebooks
   );
-
 }
 
-
-/* =========================
-   AUDIOBOOKS
-========================= */
 
 function renderAudiobooks() {
 
   renderSimpleCollection(
     "audioGrid",
     livrosData.audiobooks,
-    "audiobook"
+    "audiobook",
+    currentLibraryFilter.audiobooks
   );
-
 }
 
 
-/* =========================
-   COLEÇÕES
-========================= */
-
 function renderSimpleCollection(
-  elementId,
-  items,
-  contentType
+  gridId,
+  data,
+  contentType,
+  filter
 ) {
 
   const grid =
-    document.getElementById(
-      elementId
+    document.getElementById(gridId);
+
+  grid.innerHTML = "";
+
+  let items = Array.isArray(data)
+    ? data.map((item, index) =>
+        normalizeLibraryItem(
+          item,
+          contentType,
+          index
+        )
+      )
+    : [];
+
+  if (filter && filter !== "Todos") {
+
+    items = items.filter(item =>
+      String(item.category || "")
+        .toLowerCase() ===
+      String(filter)
+        .toLowerCase()
     );
-
-
-  grid.innerHTML =
-    "";
-
-
-  if (
-    !items.length
-  ) {
-
-    grid.innerHTML =
-      `
-        <div class="empty">
-          Conteúdo disponível em breve.
-        </div>
-      `;
-
-    return;
-
   }
 
+  if (!items.length) {
 
-  items.forEach(
-    (
-      item,
-      index
-    ) => {
+    grid.innerHTML = `
+      <div class="empty">
+        <strong>
+          ${
+            contentType === "livro"
+              ? "Nenhum livro disponível"
+              : contentType === "ebook"
+              ? "Nenhum e-book disponível"
+              : "Nenhum audiobook disponível"
+          }
+        </strong>
 
-      const normalized = {
-
-        ...item,
-
-        id:
-          item.id ||
-          item.book_id ||
-          item.ebook_id ||
-          item.audio_id ||
-          `local-${contentType}-${index}`,
-
-        name:
-          item.name ||
-          item.title ||
-          "Conteúdo",
-
-        image:
-          item.image ||
-          item.cover ||
-          "",
-
-        type:
-          contentType,
-
-        extension:
-          item.extension ||
-          item.container_extension ||
-          ""
-
-      };
-
-
-      grid.appendChild(
-        createCard(
-          normalized
-        )
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================
-   SÉRIE / EPISÓDIOS
-========================= */
-
-async function openSeries(
-  series
-) {
-
-  const modal =
-    document.getElementById(
-      "seriesModal"
-    );
-
-
-  const title =
-    document.getElementById(
-      "modalTitle"
-    );
-
-
-  const list =
-    document.getElementById(
-      "episodesList"
-    );
-
-
-  title.textContent =
-    series.name ||
-    "Série";
-
-
-  list.innerHTML =
-    `
-      <div class="loading">
-        Carregando episódios...
+        O acervo poderá ser adicionado pelo painel administrativo.
       </div>
     `;
 
+    return;
+  }
 
-  modal.classList.remove(
-    "hidden"
+  items.forEach(item => {
+
+    grid.appendChild(
+      createCard(item)
+    );
+
+  });
+}
+
+
+/* =========================================================
+   FILTROS DA BIBLIOTECA
+========================================================= */
+
+function filterLibrary(
+  contentType,
+  category
+) {
+
+  currentLibraryFilter[contentType] =
+    category;
+
+  if (contentType === "livros") {
+
+    renderBooks();
+
+  } else if (contentType === "ebooks") {
+
+    renderEbooks();
+
+  } else if (contentType === "audiobooks") {
+
+    renderAudiobooks();
+  }
+}
+
+
+/* =========================================================
+   ABRIR LIVRO / EBOOK / AUDIOBOOK
+========================================================= */
+
+function openLibraryItem(item) {
+
+  const normalized = normalizeLibraryItem(
+    item,
+    item.type,
+    0
   );
 
+  if (
+    normalized.type === "audiobook"
+  ) {
+
+    openAudiobook(normalized);
+
+    return;
+  }
+
+  if (
+    normalized.pdf
+  ) {
+
+    window.open(
+      normalized.pdf,
+      "_blank"
+    );
+
+    return;
+  }
+
+  if (
+    normalized.epub
+  ) {
+
+    window.open(
+      normalized.epub,
+      "_blank"
+    );
+
+    return;
+  }
+
+  if (
+    normalized.url
+  ) {
+
+    window.open(
+      normalized.url,
+      "_blank"
+    );
+
+    return;
+  }
+
+  alert(
+    "Este conteúdo ainda não possui um arquivo disponível."
+  );
+}
+
+
+function openAudiobook(item) {
+
+  const audioUrl =
+    item.audio ||
+    item.audio_url ||
+    item.url ||
+    "";
+
+  if (!audioUrl) {
+
+    alert(
+      "Este audiobook ainda não possui áudio disponível."
+    );
+
+    return;
+  }
+
+  const playerWindow =
+    window.open("", "_blank");
+
+  if (!playerWindow) {
+
+    alert(
+      "Permita a abertura de novas janelas para ouvir o audiobook."
+    );
+
+    return;
+  }
+
+  const title =
+    escapeHtml(
+      item.name ||
+      item.title ||
+      "Audiobook"
+    );
+
+  const author =
+    escapeHtml(
+      item.author ||
+      item.narrator ||
+      ""
+    );
+
+  const image =
+    imagemProxy(
+      item.image ||
+      item.cover ||
+      ""
+    );
+
+  playerWindow.document.write(`
+    <!DOCTYPE html>
+
+    <html lang="pt-BR">
+
+    <head>
+
+      <meta charset="UTF-8">
+
+      <meta
+        name="viewport"
+        content="width=device-width,initial-scale=1"
+      >
+
+      <title>MultiPlay - Audiobook</title>
+
+      <style>
+
+        body {
+          margin:0;
+          min-height:100vh;
+          background:#080808;
+          color:#fff;
+          font-family:Arial,sans-serif;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          padding:20px;
+        }
+
+        .box {
+          width:min(500px,100%);
+          background:#141414;
+          border:1px solid #292929;
+          border-radius:18px;
+          padding:25px;
+          text-align:center;
+        }
+
+        img {
+          width:220px;
+          height:300px;
+          object-fit:cover;
+          border-radius:12px;
+          margin-bottom:20px;
+          background:#222;
+        }
+
+        h1 {
+          font-size:22px;
+        }
+
+        p {
+          color:#aaa;
+        }
+
+        audio {
+          width:100%;
+          margin-top:20px;
+        }
+
+        .brand {
+          color:#ff7a00;
+          font-weight:bold;
+          margin-bottom:15px;
+        }
+
+      </style>
+
+    </head>
+
+    <body>
+
+      <div class="box">
+
+        <div class="brand">
+          MULTIPLAY
+        </div>
+
+        ${
+          image
+            ? `<img src="${image}" alt="${title}">`
+            : ""
+        }
+
+        <h1>${title}</h1>
+
+        <p>${author}</p>
+
+        <audio controls autoplay>
+
+          <source
+            src="${escapeHtml(audioUrl)}"
+          >
+
+          Seu navegador não suporta áudio.
+
+        </audio>
+
+      </div>
+
+    </body>
+
+    </html>
+  `);
+
+  playerWindow.document.close();
+}
+
+
+/* =========================================================
+   SÉRIE / EPISÓDIOS
+========================================================= */
+
+async function openSeries(series) {
+
+  const modal =
+    document.getElementById("seriesModal");
+
+  const title =
+    document.getElementById("modalTitle");
+
+  const list =
+    document.getElementById("episodesList");
+
+  title.textContent =
+    series.name || "Série";
+
+  list.innerHTML =
+    '<div class="loading">Carregando episódios...</div>';
+
+  modal.classList.add("show");
 
   try {
 
     const response =
       await fetch(
-        `/api/serie?user=${encodeURIComponent(
-          user
-        )}&series_id=${encodeURIComponent(
-          series.id
-        )}`
+        `/api/serie?user=${encodeURIComponent(user)}&series_id=${encodeURIComponent(series.id)}`
       );
-
 
     if (
-      response.status ===
-        401 ||
-      response.status ===
-        403
+      response.status === 401 ||
+      response.status === 403
     ) {
 
-      modal.classList.add(
-        "hidden"
-      );
+      sessionStorage.clear();
 
       window.location.href =
         "/login.html";
 
       return;
-
     }
-
 
     if (!response.ok) {
-
       throw new Error(
-        "Erro ao carregar série."
+        "Não foi possível carregar os episódios."
       );
-
     }
-
 
     const data =
       await response.json();
 
-
-    list.innerHTML =
-      "";
-
-
-    const seasons =
+    const episodes =
       data.episodes || {};
 
+    list.innerHTML = "";
 
-    let count =
-      0;
+    const seasons =
+      Object.keys(episodes);
 
+    if (!seasons.length) {
 
-    Object.keys(
-      seasons
-    )
-      .forEach(
-        season => {
-
-          const episodes =
-            Array.isArray(
-              seasons[season]
-            )
-              ? seasons[season]
-              : [];
-
-
-          const heading =
-            document.createElement(
-              "h3"
-            );
-
-
-          heading.textContent =
-            `Temporada ${season}`;
-
-
-          list.appendChild(
-            heading
-          );
-
-
-          episodes.forEach(
-            episode => {
-
-              count++;
-
-
-              const button =
-                document.createElement(
-                  "button"
-                );
-
-
-              button.className =
-                "episode";
-
-
-              button.textContent =
-                `${
-                  episode.episode_num ||
-                  count
-                }. ${
-                  episode.title ||
-                  "Episódio"
-                }`;
-
-
-              button.onclick =
-                () => {
-
-                  playItem({
-
-                    id:
-                      episode.id ||
-                      episode.stream_id,
-
-                    name:
-                      `${
-                        series.name
-                      } - ${
-                        episode.title ||
-                        "Episódio"
-                      }`,
-
-                    image:
-                      series.cover ||
-                      series.cover_big ||
-                      "",
-
-                    type:
-                      "serie",
-
-                    extension:
-                      episode.container_extension ||
-                      ""
-
-                  });
-
-                };
-
-
-              list.appendChild(
-                button
-              );
-
-            }
-          );
-
-        }
-      );
-
-
-    if (
-      !count
-    ) {
-
-      list.innerHTML =
-        `
-          <div class="empty">
-            Nenhum episódio disponível.
-          </div>
-        `;
-
-    }
-
-
-  } catch (error) {
-
-    console.error(
-      error
-    );
-
-
-    list.innerHTML =
-      `
-        <div class="error">
-          Não foi possível carregar os episódios.
+      list.innerHTML = `
+        <div class="empty">
+          Nenhum episódio encontrado.
         </div>
       `;
 
-  }
+      return;
+    }
 
+    seasons.forEach(seasonNumber => {
+
+      const season =
+        document.createElement("div");
+
+      season.className = "season";
+
+      const heading =
+        document.createElement("h3");
+
+      heading.textContent =
+        `Temporada ${seasonNumber}`;
+
+      season.appendChild(heading);
+
+      const episodeArray =
+        Array.isArray(episodes[seasonNumber])
+          ? episodes[seasonNumber]
+          : [];
+
+      episodeArray.forEach(episode => {
+
+        const button =
+          document.createElement("button");
+
+        button.className =
+          "episode";
+
+        button.textContent =
+          `${episode.episode_num ? "Episódio " + episode.episode_num + " — " : ""}${episode.title || "Episódio"}`;
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            playItem({
+
+              id:
+                episode.id ||
+                episode.stream_id,
+
+              name:
+                `${series.name} - ${episode.title || "Episódio"}`,
+
+              image:
+                series.cover ||
+                series.cover_big ||
+                series.cover_url ||
+                series.image ||
+                "",
+
+              type: "serie",
+
+              extension:
+                episode.container_extension ||
+                episode.extension ||
+                ""
+            });
+
+          }
+        );
+
+        season.appendChild(button);
+
+      });
+
+      list.appendChild(season);
+
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    list.innerHTML = `
+      <div class="error">
+        Não foi possível carregar os episódios.
+      </div>
+    `;
+  }
 }
 
-
-/* =========================
-   FECHAR MODAL
-========================= */
 
 function closeSeriesModal() {
 
   document
-    .getElementById(
-      "seriesModal"
-    )
-    .classList.add(
-      "hidden"
-    );
-
+    .getElementById("seriesModal")
+    .classList.remove("show");
 }
 
 
-/* =========================
-   SEÇÕES
-========================= */
+document
+  .getElementById("seriesModal")
+  .addEventListener("click", event => {
 
-function showSection(
-  section
-) {
+    if (
+      event.target.id === "seriesModal"
+    ) {
 
-  const sections = [
+      closeSeriesModal();
+    }
 
-    "home",
-    "canais",
-    "filmes",
-    "series",
-    "livros",
-    "ebooks",
-    "audiobooks"
-
-  ];
+  });
 
 
-  sections.forEach(
-    name => {
+/* =========================================================
+   ABAS
+========================================================= */
 
-      const element =
-        document.getElementById(
-          `${name}Section`
-        );
+function showSection(section) {
+
+  document
+    .querySelectorAll(".section")
+    .forEach(element => {
+
+      element.classList.remove("active");
+
+    });
+
+  const target =
+    document.getElementById(
+      `${section}Section`
+    );
+
+  if (target) {
+    target.classList.add("active");
+  }
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(tab => {
+
+      tab.classList.toggle(
+        "active",
+        tab.dataset.section === section
+      );
+
+    });
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
 
 
-      if (element) {
+document
+  .querySelectorAll(".tab")
+  .forEach(tab => {
 
-        element.classList.toggle(
-          "hidden",
-          name !== section
+    tab.addEventListener(
+      "click",
+      () => {
+
+        showSection(
+          tab.dataset.section
         );
 
       }
+    );
 
+  });
+
+
+/* =========================================================
+   PESQUISA
+========================================================= */
+
+function searchAll(term) {
+
+  const value =
+    String(term || "")
+      .trim()
+      .toLowerCase();
+
+  if (!value) {
+
+    showSection("home");
+
+    renderHome();
+
+    return;
+  }
+
+  const results = [];
+
+  catalog.canais.forEach(channel => {
+
+    const name =
+      channel.name || "";
+
+    if (
+      name
+        .toLowerCase()
+        .includes(value)
+    ) {
+
+      results.push({
+
+        ...channel,
+
+        id:
+          channel.stream_id ||
+          channel.id,
+
+        name,
+
+        image:
+          channel.stream_icon ||
+          channel.logo ||
+          channel.image ||
+          "",
+
+        type: "canal",
+
+        extension: "m3u8"
+      });
+    }
+  });
+
+
+  catalog.filmes.forEach(movie => {
+
+    const name =
+      movie.name ||
+      movie.title ||
+      "";
+
+    if (
+      name
+        .toLowerCase()
+        .includes(value)
+    ) {
+
+      results.push({
+
+        ...movie,
+
+        id:
+          movie.stream_id ||
+          movie.id,
+
+        name,
+
+        image:
+          movie.stream_icon ||
+          movie.cover ||
+          movie.cover_big ||
+          movie.cover_url ||
+          movie.movie_image ||
+          movie.image ||
+          "",
+
+        type: "filme",
+
+        extension:
+          movie.container_extension ||
+          ""
+      });
+    }
+  });
+
+
+  catalog.series.forEach(series => {
+
+    const name =
+      series.name ||
+      series.title ||
+      "";
+
+    if (
+      name
+        .toLowerCase()
+        .includes(value)
+    ) {
+
+      results.push({
+
+        ...series,
+
+        id:
+          series.series_id ||
+          series.id,
+
+        name,
+
+        image:
+          series.cover ||
+          series.cover_big ||
+          series.cover_url ||
+          series.image ||
+          "",
+
+        type: "serie",
+
+        extension: ""
+      });
+    }
+  });
+
+
+  livrosData.livros.forEach(
+    (item, index) => {
+
+      const normalized =
+        normalizeLibraryItem(
+          item,
+          "livro",
+          index
+        );
+
+      const text =
+        `${normalized.name} ${normalized.author} ${normalized.category}`
+          .toLowerCase();
+
+      if (text.includes(value)) {
+
+        results.push(normalized);
+      }
     }
   );
 
 
-  document
-    .querySelectorAll(
-      ".tabs button"
-    )
-    .forEach(
-      button => {
+  livrosData.ebooks.forEach(
+    (item, index) => {
 
-        button.classList.toggle(
-
-          "active",
-
-          button.dataset.section ===
-            section
-
+      const normalized =
+        normalizeLibraryItem(
+          item,
+          "ebook",
+          index
         );
 
+      const text =
+        `${normalized.name} ${normalized.author} ${normalized.category}`
+          .toLowerCase();
+
+      if (text.includes(value)) {
+
+        results.push(normalized);
       }
-    );
-
-
-  window.scrollTo({
-
-    top:
-      0,
-
-    behavior:
-      "smooth"
-
-  });
-
-}
-
-
-/* =========================
-   BUSCA
-========================= */
-
-function performSearch(
-  value
-) {
-
-  const query =
-    String(
-      value || ""
-    )
-      .trim()
-      .toLowerCase();
-
-
-  if (!query) {
-
-    renderMovies();
-
-    renderSeries();
-
-    return;
-
-  }
-
-
-  showSection(
-    "home"
+    }
   );
 
 
-  const all = [
+  livrosData.audiobooks.forEach(
+    (item, index) => {
 
-    ...catalog.canais.map(
-      x => ({
+      const normalized =
+        normalizeLibraryItem(
+          item,
+          "audiobook",
+          index
+        );
 
-        ...x,
+      const text =
+        `${normalized.name} ${normalized.author} ${normalized.narrator} ${normalized.category}`
+          .toLowerCase();
 
-        id:
-          x.stream_id,
+      if (text.includes(value)) {
 
-        name:
-          x.name,
-
-        image:
-          x.stream_icon,
-
-        type:
-          "canal",
-
-        extension:
-          "m3u8"
-
-      })
-    ),
-
-
-    ...catalog.filmes.map(
-      x => ({
-
-        ...x,
-
-        id:
-          x.stream_id,
-
-        name:
-          x.name,
-
-        image:
-          x.stream_icon,
-
-        type:
-          "filme",
-
-        extension:
-          x.container_extension ||
-          ""
-
-      })
-    ),
-
-
-    ...catalog.series.map(
-      x => ({
-
-        ...x,
-
-        id:
-          x.series_id,
-
-        name:
-          x.name,
-
-        image:
-          x.cover ||
-          x.cover_big,
-
-        type:
-          "serie",
-
-        extension:
-          ""
-
-      })
-    )
-
-  ];
-
-
-  const results =
-    all.filter(
-      item =>
-        String(
-          item.name || ""
-        )
-          .toLowerCase()
-          .includes(
-            query
-          )
-    );
+        results.push(normalized);
+      }
+    }
+  );
 
 
   const homeMovies =
@@ -2686,201 +2472,139 @@ function performSearch(
       "homeMovies"
     );
 
-
   const homeSeries =
     document.getElementById(
       "homeSeries"
     );
 
+  const homeLibrary =
+    document.getElementById(
+      "homeLibrary"
+    );
 
-  homeMovies.innerHTML =
-    "";
+  homeMovies.innerHTML = "";
+  homeSeries.innerHTML = "";
+  homeLibrary.innerHTML = "";
 
-  homeSeries.innerHTML =
-    "";
+  document.getElementById(
+    "continueSection"
+  ).style.display = "none";
 
 
-  if (
-    !results.length
-  ) {
+  if (!results.length) {
 
-    homeMovies.innerHTML =
-      `
-        <div class="empty">
-          Nenhum resultado encontrado.
-        </div>
-      `;
+    homeMovies.innerHTML = `
+      <div class="empty">
+        <strong>Nenhum resultado encontrado</strong>
+        Tente pesquisar por outro nome.
+      </div>
+    `;
+
+    showSection("home");
 
     return;
-
   }
 
 
-  results.forEach(
-    item => {
+  results.forEach(item => {
 
-      homeMovies.appendChild(
-        createCard(
-          item
-        )
+    const card =
+      createCard(item);
+
+    if (item.type === "serie") {
+
+      homeSeries.appendChild(card);
+
+    } else if (
+      item.type === "livro" ||
+      item.type === "ebook" ||
+      item.type === "audiobook"
+    ) {
+
+      homeLibrary.appendChild(card);
+
+    } else {
+
+      homeMovies.appendChild(card);
+    }
+
+  });
+
+  showSection("home");
+}
+
+
+document
+  .getElementById("searchInput")
+  .addEventListener(
+    "input",
+    event => {
+
+      searchAll(
+        event.target.value
       );
 
     }
   );
 
-}
 
-
-/* =========================
-   LOGOUT
-========================= */
-
-function logout() {
-
-  sessionStorage.removeItem(
-    "mp_user"
-  );
-
-  sessionStorage.removeItem(
-    "mp_type"
-  );
-
-  sessionStorage.removeItem(
-    "mp_stream_id"
-  );
-
-  sessionStorage.removeItem(
-    "mp_stream_name"
-  );
-
-  sessionStorage.removeItem(
-    "mp_stream_type"
-  );
-
-  sessionStorage.removeItem(
-    "mp_stream_image"
-  );
-
-  sessionStorage.removeItem(
-    "mp_stream_extension"
-  );
-
-  sessionStorage.removeItem(
-    "mp_resume_position"
-  );
-
-
-  window.location.href =
-    "/login.html";
-
-}
-
-
-/* =========================
-   ERRO
-========================= */
+/* =========================================================
+   ERROS
+========================================================= */
 
 function showError(
-  id,
+  elementId,
   message
 ) {
 
   const element =
     document.getElementById(
-      id
+      elementId
     );
 
+  if (!element) return;
 
-  if (element) {
-
-    element.innerHTML =
-      `
-        <div class="error">
-          ${escapeHtml(
-            message
-          )}
-        </div>
-      `;
-
-  }
-
+  element.innerHTML = `
+    <div class="error">
+      ${escapeHtml(message)}
+    </div>
+  `;
 }
 
 
-/* =========================
-   TABS
-========================= */
+/* =========================================================
+   LOGOUT
+========================================================= */
 
-document
-  .querySelectorAll(
-    ".tabs button"
-  )
-  .forEach(
-    button => {
+function logout() {
 
-      button.addEventListener(
-        "click",
-        () =>
-          showSection(
-            button.dataset.section
-          )
-      );
+  const keys = [
 
-    }
+    "mp_user",
+    "mp_type",
+
+    "mp_stream_id",
+    "mp_stream_name",
+    "mp_stream_type",
+    "mp_stream_image",
+    "mp_stream_extension",
+    "mp_resume_position"
+
+  ];
+
+  keys.forEach(
+    key =>
+      sessionStorage.removeItem(key)
   );
 
-
-/* =========================
-   BUSCA ENTER
-========================= */
-
-document
-  .getElementById(
-    "searchInput"
-  )
-  .addEventListener(
-    "keydown",
-    event => {
-
-      if (
-        event.key ===
-        "Enter"
-      ) {
-
-        performSearch(
-          event.target.value
-        );
-
-      }
-
-    }
-  );
+  window.location.href =
+    "/login.html";
+}
 
 
-/* =========================
-   NOME DO CLIENTE
-========================= */
-
-const username =
-  user ||
-  "Cliente";
-
-
-document.getElementById(
-  "userName"
-).textContent =
-  username;
-
-
-document.getElementById(
-  "welcomeName"
-).textContent =
-  username;
-
-
-/* =========================
+/* =========================================================
    INICIALIZAÇÃO
-========================= */
+========================================================= */
 
 renderHistory();
 
@@ -2891,5 +2615,4 @@ loadBooks();
 </script>
 
 </body>
-
 </html>
