@@ -29,7 +29,7 @@ main{max-width:1250px;margin:auto;padding:22px 18px 50px}.hero{padding:24px;bord
 
 <nav class="tabs" id="tabs"></nav>
 <div style="max-width:1250px;margin:auto;padding:0 18px 14px">
-<a href="/biblioteca.html" style="display:inline-block;text-decoration:none;background:#168cff;color:#fff;border-radius:10px;padding:10px 14px;font-weight:700">📚 Abrir Biblioteca Completa</a>
+<a href="/educacao.html" style="display:inline-block;text-decoration:none;background:#168cff;color:#fff;border-radius:10px;padding:10px 14px;font-weight:700">🎓 Abrir Multiplay Educação</a>
 </div>
 </header>
 
@@ -37,9 +37,9 @@ main{max-width:1250px;margin:auto;padding:22px 18px 50px}.hero{padding:24px;bord
 
 <section class="hero">
 <h1>Seu entretenimento em um só lugar</h1>
-<p>TV, filmes, séries, livros, e-books e audiobooks em uma experiência única da <b>Multiplay</b>.</p><img src="/assets/multiplay-logo.svg" alt="Multiplay" style="width:min(190px,50vw);display:block;margin:0 auto">
+<p>TV, filmes e séries em uma experiência de entretenimento da <b>Multiplay</b>.</p><img src="/assets/multiplay-logo.svg" alt="Multiplay" style="width:min(190px,50vw);display:block;margin:0 auto">
 <div class="notice">
-Seu catálogo é carregado de acordo com o acesso do cliente. Canais, filmes e séries usam as credenciais cadastradas no painel; livros, e-books e audiobooks ficam na Biblioteca.
+Canais, filmes e séries são carregados de acordo com o acesso autorizado de cada cliente. Para cursos, livros, e-books e audiobooks, use o aplicativo Multiplay Educação.
 </div>
 </section>
 
@@ -49,9 +49,9 @@ Seu catálogo é carregado de acordo com o acesso do cliente. Canais, filmes e s
 
 <script>
 const user = sessionStorage.getItem('mp_user') || localStorage.getItem('mp_user') || '';
-const labels = {inicio:'Início',canais:'Canais',filmes:'Filmes',series:'Séries',livros:'Livros',ebooks:'E-books',audiobooks:'Audiobooks'};
+const labels = {inicio:'Início',canais:'Canais',filmes:'Filmes',series:'Séries'};
 let tab='inicio';
-let catalog={canais:[],filmes:[],series:[],livros:[],ebooks:[],audiobooks:[]};
+let catalog={canais:[],filmes:[],series:[]};
 const fallbackBooks={
  livros:[
   ['Dom Casmurro','Machado de Assis','📚','https://www.gutenberg.org/ebooks/search/?query=dom+casmurro'],
@@ -71,7 +71,7 @@ const fallbackBooks={
   ['Frankenstein','LibriVox','🎧','https://librivox.org/search?search_form=get_results&search_page=1&search_category=title&search_term=frankenstein'],
   ['The Time Machine','LibriVox','🎙️','https://librivox.org/search?search_form=get_results&search_page=1&search_category=title&search_term=time+machine']
  ]};
-Object.assign(catalog,fallbackBooks);
+
 document.getElementById('userLabel').textContent=user?'Cliente: '+user:'MultiPlay';
 
 function esc(x){return String(x??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
