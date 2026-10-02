@@ -80,8 +80,7 @@ async function xtreamRequest(user, pass, action) {
    LOGIN
 ========================= */
 
-app.post('/api/login', async (req, res) => {
-
+ app.post('/api/login', async (req, res) => {
   const { username, password } = req.body || {};
 
   if (!username || !password) {
@@ -92,46 +91,60 @@ app.post('/api/login', async (req, res) => {
   }
 
   try {
-
-    const data = await xtreamRequest(
-      username,
-      password
+    const resultado = await pool.query(
+      `SELECT id, username, password_hash, active, expires_at
+       FROM admins
+       WHERE username = $1`,
+      [username]
     );
 
-    const userInfo = data && data.user_info;
-
-    if (
-      !userInfo ||
-      userInfo.auth === 0 ||
-      userInfo.auth === false
-    ) {
-
+    if (resultado.rows.length === 0) {
       return res.status(401).json({
         success: false,
         message: 'Usuário ou senha inválidos.'
       });
+    }
 
+    const usuario = resultado.rows[0];
+
+    if (!usuario.active) {
+      return res.status(403).json({
+        success: false,
+        message: 'Usuário desativado.'
+      });
+    }
+
+    const [salt, hashArmazenado] =
+      usuario.password_hash.split(':');
+
+    const hashInformado = crypto
+      .scryptSync(password, salt, 64)
+      .toString('hex');
+
+    if (hashInformado !== hashArmazenado) {
+      return res.status(401).json({
+        success: false,
+        message: 'Usuário ou senha inválidos.'
+      });
     }
 
     return res.json({
       success: true,
       message: 'Login realizado com sucesso.',
       user: {
-        username: username
+        id: usuario.id,
+        username: usuario.username
       }
     });
 
   } catch (error) {
+    console.error('Erro no login MultiPlay:', error);
 
-    console.error('Erro no login:', error);
-
-    return res.status(502).json({
+    return res.status(500).json({
       success: false,
-      message: 'Não foi possível verificar o acesso.'
+      message: 'Erro interno ao realizar login.'
     });
-
   }
-
 });
 
 
