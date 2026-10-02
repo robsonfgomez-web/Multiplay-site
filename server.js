@@ -1030,8 +1030,28 @@ app.get(
           username
         );
 
+      /* =====================
+         DIAGNÓSTICO
+         Não mostra usuário ou senha
+      ===================== */
+
+      const diagnostico = {
+        cliente: 'OK',
+        credenciais: 'OK',
+        canais: {
+          status: 'testando'
+        },
+        filmes: {
+          status: 'testando'
+        },
+        series: {
+          status: 'testando'
+        }
+      };
+
       const resultados =
         await Promise.allSettled([
+
           xtreamRequest(
             credenciais.user,
             credenciais.pass,
@@ -1049,75 +1069,97 @@ app.get(
             credenciais.pass,
             'get_series'
           )
+
         ]);
 
-      const canais =
-        resultados[0].status === 'fulfilled'
-          ? resultados[0].value
-          : [];
+      const nomes = [
+        'canais',
+        'filmes',
+        'series'
+      ];
 
-      const filmes =
-        resultados[1].status === 'fulfilled'
-          ? resultados[1].value
-          : [];
-
-      const series =
-        resultados[2].status === 'fulfilled'
-          ? resultados[2].value
-          : [];
+      const dados = {
+        canais: [],
+        filmes: [],
+        series: []
+      };
 
       resultados.forEach(
         (resultado, index) => {
 
+          const nome =
+            nomes[index];
+
           if (
             resultado.status ===
-            'rejected'
+            'fulfilled'
           ) {
 
-            const nomes = [
-              'canais',
-              'filmes',
-              'series'
-            ];
+            const valor =
+              Array.isArray(
+                resultado.value
+              )
+                ? resultado.value
+                : [];
+
+            dados[nome] =
+              valor;
+
+            diagnostico[nome] = {
+              status: 'OK',
+              quantidade:
+                valor.length
+            };
+
+          } else {
+
+            diagnostico[nome] = {
+              status: 'ERRO',
+              mensagem:
+                resultado.reason &&
+                resultado.reason.message
+                  ? resultado.reason.message
+                  : 'Erro desconhecido'
+            };
 
             console.error(
-              `Erro catálogo ${nomes[index]}:`,
+              `Erro catálogo ${nome}:`,
               resultado.reason
             );
           }
+
         }
       );
 
       return res.json({
 
-        canais:
-          Array.isArray(canais)
-            ? canais
-            : [],
+        ...dados,
 
-        filmes:
-          Array.isArray(filmes)
-            ? filmes
-            : [],
-
-        series:
-          Array.isArray(series)
-            ? series
-            : []
+        diagnostico
 
       });
 
     } catch (error) {
 
       console.error(
-        'Erro catálogo:',
+        'Erro catálogo geral:',
         error
       );
 
       return res.status(500).json({
+
         error:
-          'Não foi possível carregar o catálogo'
+          'Não foi possível carregar o catálogo',
+
+        diagnostico: {
+          cliente: 'ERRO',
+          mensagem:
+            error.message ||
+            'Erro desconhecido'
+        }
+
       });
+
     }
   }
 );
@@ -1402,11 +1444,6 @@ app.get(
 
       const parsed =
         new URL(imagem);
-
-      /*
-       * Por segurança, o proxy aceita
-       * somente imagens HTTP/HTTPS.
-       */
 
       if (
         parsed.protocol !== 'http:' &&
