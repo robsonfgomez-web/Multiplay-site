@@ -482,13 +482,12 @@ xtream_user VARCHAR(100),
 xtream_pass VARCHAR(255),
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
-
-    console.log('MultiPlay: tabelas verificadas com sucesso');
 ALTER TABLE users
       ADD COLUMN IF NOT EXISTS xtream_user VARCHAR(100);
 
       ALTER TABLE users
       ADD COLUMN IF NOT EXISTS xtream_pass VARCHAR(255);
+    console.log('MultiPlay: tabelas verificadas com sucesso');
   } catch (error) {
     console.error(
       'MultiPlay: erro ao criar tabelas:',
