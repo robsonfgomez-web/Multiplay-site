@@ -56,8 +56,14 @@ public class MainActivity extends Activity {
   String key(){android.content.SharedPreferences p=getSharedPreferences("multiplay",0);String k=p.getString("device_key",null);if(k==null){k=hash(deviceId+"|MULTIPLAY|"+UUID.randomUUID()).substring(0,10).toUpperCase(Locale.US);p.edit().putString("device_key",k).apply();}return k;}
   String hash(String s){try{byte[] x=MessageDigest.getInstance("SHA-256").digest(s.getBytes(StandardCharsets.UTF_8));StringBuilder h=new StringBuilder();for(byte v:x)h.append(String.format("%02x",v));return h.toString();}catch(Exception e){return UUID.randomUUID().toString().replace("-","");}}
   void base(){
-    root=new LinearLayout(this); root.setOrientation(LinearLayout.VERTICAL); root.setPadding(dp(14),dp(8),dp(14),dp(10));
-    root.setBackgroundColor(Color.rgb(8,2,25)); setContentView(root);
+    ScrollView page=new ScrollView(this);
+    page.setFillViewport(true);
+    page.setBackgroundColor(Color.rgb(8,2,25));
+    root=new LinearLayout(this); root.setOrientation(LinearLayout.VERTICAL);
+    root.setPadding(dp(14),dp(8),dp(14),dp(10));
+    root.setBackgroundColor(Color.rgb(8,2,25));
+    page.addView(root,new ScrollView.LayoutParams(-1,-2));
+    setContentView(page);
   }
   TextView pill(String s){
     TextView t=text(s,12,true); t.setGravity(Gravity.CENTER);
@@ -95,7 +101,8 @@ public class MainActivity extends Activity {
     }root.addView(cats,new LinearLayout.LayoutParams(-1,LinearLayout.LayoutParams.WRAP_CONTENT));
 
     EditText q=search();LinearLayout.LayoutParams qp=new LinearLayout.LayoutParams(-1,dp(46));qp.setMargins(0,dp(8),0,dp(6));root.addView(q,qp);
-    listBox=new LinearLayout(this);listBox.setOrientation(LinearLayout.VERTICAL);ScrollView sv=new ScrollView(this);sv.addView(listBox);root.addView(sv,new LinearLayout.LayoutParams(-1,0,1));
+    listBox=new LinearLayout(this);listBox.setOrientation(LinearLayout.VERTICAL);
+    root.addView(listBox,new LinearLayout.LayoutParams(-1,LinearLayout.LayoutParams.WRAP_CONTENT));
     q.addTextChangedListener(new TextWatcher(){public void beforeTextChanged(CharSequence s,int a,int c,int d){}public void onTextChanged(CharSequence s,int a,int b,int c){showList(currentFilter,s.toString());}public void afterTextChanged(Editable e){}});
     showList("TODOS","");
   }
@@ -144,9 +151,19 @@ public class MainActivity extends Activity {
         String data=get("/api/device/playlist?device_id="+enc(deviceId)+"&device_key="+enc(deviceKey));
         String url=json(data,"playlist_url");playlistName=json(data,"playlist_name");
         if(url==null||url.isEmpty()){runOnUiThread(()->home("Playlist não encontrada. Toque em Atualizar novamente."));return;}
-        String m3u=getRaw("/api/device/playlist/content?device_id="+enc(deviceId)+"&device_key="+enc(deviceKey));
+        String m3u="";
+        try {
+          m3u=getRaw("/api/device/playlist/content?device_id="+enc(deviceId)+"&device_key="+enc(deviceKey));
+        } catch(Exception proxyError) {
+          // Se o proxy retornar 404/502, tenta a M3U autorizada diretamente.
+          m3u=getAbsolute(url);
+        }
         parseM3U(m3u);
-        if(items.isEmpty()) parseM3U(getAbsolute(url));
+        if(items.isEmpty()) {
+          m3u=getAbsolute(url);
+          parseM3U(m3u);
+        }
+        if(items.isEmpty()) throw new IOException("A playlist foi encontrada, mas não contém entradas M3U válidas.");
         runOnUiThread(()->home("Playlist sincronizada: "+(playlistName.isEmpty()?"Multiplay":playlistName)+" • "+items.size()+" conteúdos"));
       }catch(Exception e){String msg=e.getMessage();if(msg==null||msg.isEmpty())msg="erro de conexão";String finalMsg=msg;runOnUiThread(()->home("Falha ao atualizar: "+finalMsg+"\nAbra MEU DISPOSITIVO e confira ID + KEY."));}
     }).start();
