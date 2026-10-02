@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MultiPlay - Administração</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: #fff;
+    }
+
+    header {
+      background: #111c33;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 1px solid #263552;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    header span {
+      color: #38bdf8;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-sair {
+      background: #ef4444;
+      color: white;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: #111c33;
+      border: 1px solid #263552;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 19px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #cbd5e1;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #0b1220;
+      color: white;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #38bdf8;
+    }
+
+    .acoes-form {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-salvar {
+      background: #22c55e;
+      color: white;
+    }
+
+    .btn-cancelar {
+      background: #64748b;
+      color: white;
+      display: none;
+    }
+
+    .mensagem {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .sucesso {
+      background: #14532d;
+      color: #bbf7d0;
+    }
+
+    .erro {
+      background: #7f1d1d;
+      color: #fecaca;
+    }
+
+    .tabela-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 750px;
+    }
+
+    th,
+    td {
+      padding: 12px 10px;
+      text-align: left;
+      border-bottom: 1px solid #263552;
+    }
+
+    th {
+      color: #38bdf8;
+      font-size: 14px;
+    }
+
+    td {
+      font-size: 14px;
+    }
+
+    .ativo {
+      color: #4ade80;
+      font-weight: bold;
+    }
+
+    .inativo {
+      color: #f87171;
+      font-weight: bold;
+    }
+
+    .expirado {
+      color: #f87171;
+    }
+
+    .acoes {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn-editar {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-status {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .btn-excluir {
+      background: #dc2626;
+      color: white;
+    }
+
+    .vazio {
+      text-align: center;
+      color: #94a3b8;
+      padding: 25px;
+    }
+
+    @media (max-width: 700px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .container {
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>MultiPlay <span>Administração</span></h1>
+  <button class="btn-sair" onclick="sair()">Sair</button>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2 id="tituloForm">
+      Cadastrar cliente</h2>
+
+    <input type="hidden" id="clienteId">
+
+    <div class="grid">
+
+      <div>
+        <label>Usuário MultiPlay</label>
+        <input
+          type="text"
+          id="username"
+          autocomplete="off"
+          placeholder="Ex: cliente01"
+        >
+      </div>
+
+      <div>
+        <label>Senha MultiPlay</label>
+        <input
+          type="password"
+          id="password"
+          autocomplete="new-password"
+          placeholder="Senha do aplicativo"
+        >
+      </div>
+
+      <div>
+        <label>Usuário Xtream</label>
+        <input
+          type="text"
+          id="xtream_user"
+          autocomplete="off"
+          placeholder="Usuário do streaming"
+        >
+      </div>
+
+      <div>
+        <label>Senha Xtream</label>
+        <input
+          type="password"
+          id="xtream_pass"
+          autocomplete="new-password"
+          placeholder="Senha do streaming"
+        >
+      </div>
+
+      <div>
+        <label>Data de vencimento</label>
+        <input type="date" id="expires_at">
+      </div>
+
+    </div>
+
+    <div class="acoes-form">
+      <button class="btn-salvar" onclick="salvarCliente()">
+        Salvar cliente
+      </button>
+
+      <button
+        class="btn-cancelar"
+        id="btnCancelar"
+        onclick="cancelarEdicao()"
+      >
+        Cancelar
+      </button>
+    </div>
+
+    <div id="mensagem" class="mensagem"></div>
+  </div>
+
+
+  <div class="card">
+    <h2>Clientes MultiPlay</h2>
+
+    <div class="tabela-wrapper">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Usuário</th>
+            <th>Status</th>
+            <th>Vencimento</th>
+            <th>Usuário Xtream</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+
+        <tbody id="listaClientes">
+          <tr>
+            <td colspan="5" class="vazio">
+              Carregando clientes...
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+
+  let clientes = [];
+
+  async function verificarAdmin() {
+
+    try {
+
+      const resposta = await fetch("/api/admin/me", {
+        credentials: "same-origin"
+      });
+
+      if (!resposta.ok) {
+        window.location.href = "/login.html";
+        return false;
+      }
+
+      return true;
+
+    } catch (erro) {
+
+      window.location.href = "/login.html";
+      return false;
+
+    }
+  }
+
+
+  async function carregarClientes() {
+
+    try {
+
+      const resposta = await fetch("/api/admin/users", {
+        credentials: "same-origin"
+      });
+
+      if (resposta.status === 401) {
+        window.location.href = "/login.html";
+        return;
+      }
+
+      if (!resposta.ok) {
+        throw new Error("Não foi possível carregar os clientes.");
+      }
+
+      clientes = await resposta.json();
+
+      renderizarClientes();
+
+    } catch (erro) {
+
+      mostrarMensagem(
+        erro.message || "Erro ao carregar clientes.",
+        "erro"
+      );
+
+    }
+  }
+
+
+  function renderizarClientes() {
+
+    const lista = document.getElementById("listaClientes");
+
+    if (!clientes.length) {
+
+      lista.innerHTML = `
+        <tr>
+          <td colspan="5" class="vazio">
+            Nenhum cliente cadastrado.
+          </td>
+        </tr>
+      `;
+
+      return;
+    }
+
+    lista.innerHTML = clientes.map(cliente => {
+
+      const vencimento = cliente.expires_at
+        ? formatarData(cliente.expires_at)
+        : "Sem vencimento";
+
+      const status = cliente.active
+        ? `<span class="ativo">ATIVO</span>`
+        : `<span class="inativo">INATIVO</span>`;
+
+      return `
+        <tr>
+
+          <td>${escapar(cliente.username)}</td>
+
+          <td>${status}</td>
+
+          <td>${escapar(vencimento)}</td>
+
+          <td>${escapar(cliente.xtream_user || "-")}</td>
+
+          <td>
+            <div class="acoes">
+
+              <button
+                class="btn-editar"
+                onclick="editarCliente(${cliente.id})"
+              >
+                Editar
+              </button>
+
+              <button
+                class="btn-status"
+                onclick="alterarStatus(${cliente.id}, ${!cliente.active})"
+              >
+                ${cliente.active ? "Desativar" : "Ativar"}
+              </button>
+
+              <button
+                class="btn-excluir"
+                onclick="excluirCliente(${cliente.id})"
+              >
+                Excluir
+              </button>
+
+            </div>
+          </td>
+
+        </tr>
+      `;
+
+    }).join("");
+  }
+
+
+  async function salvarCliente() {
+
+    const id = document.getElementById("clienteId").value;
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+    const xtream_user = document.getElementById("xtream_user").value.trim();
+    const xtream_pass = document.getElementById("xtream_pass").value;
+    const expires_at = document.getElementById("expires_at").value;
+
+    if (!username) {
+      mostrarMensagem("Informe o usuário MultiPlay.", "erro");
+      return;
+    }
+
+    if (!id && !password) {
+      mostrarMensagem("Informe a senha MultiPlay.", "erro");
+      return;
+    }
+
+    const dados = {
+      username,
+      xtream_user,
+      xtream_pass,
+      expires_at: expires_at || null
+    };
+
+    if (password) {
+      dados.password = password;
+    }
+
+    try {
+
+      let resposta;
+
+      if (id) {
+
+        resposta = await fetch(
+          `/api/admin/users/${id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            credentials: "same-origin",
+            body: JSON.stringify(dados)
+          }
+        );
+
+      } else {
+
+        resposta = await fetch(
+          "/api/admin/users",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            credentials: "same-origin",
+            body: JSON.stringify(dados)
+          }
+        );
+
+      }
+
+      const resultado = await resposta.json();
+
+      if (!resposta.ok) {
+        throw new Error(
+          resultado.error || "Não foi possível salvar o cliente."
+        );
+      }
+
+      mostrarMensagem(
+        id
+          ? "Cliente atualizado com sucesso."
+          : "Cliente cadastrado com sucesso.",
+        "sucesso"
+      );
+
+      limparFormulario();
+
+      await carregarClientes();
+
+    } catch (erro) {
+
+      mostrarMensagem(
+        erro.message || "Erro ao salvar cliente.",
+        "erro"
+      );
+
+    }
+  }
+
+
+  function editarCliente(id) {
+
+    const cliente = clientes.find(c => Number(c.id) === Number(id));
+
+    if (!cliente) return;
+
+    document.getElementById("clienteId").value = cliente.id;
+    document.getElementById("username").value = cliente.username || "";
+    document.getElementById("password").value = "";
+    document.getElementById("xtream_user").value =
+      cliente.xtream_user || "";
+    document.getElementById("xtream_pass").value = "";
+
+    if (cliente.expires_at) {
+
+      document.getElementById("expires_at").value =
+        cliente.expires_at.substring(0, 10);
+
+    } else {
+
+      document.getElementById("expires_at").value = "";
+
+    }
+
+    document.getElementById("tituloForm").textContent =
+      "Editar cliente";
+
+    document.getElementById("btnCancelar").style.display =
+      "inline-block";
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+
+  function cancelarEdicao() {
+    limparFormulario();
+  }
+
+
+  function limparFormulario() {
+
+    document.getElementById("clienteId").value = "";
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("xtream_user").value = "";
+    document.getElementById("xtream_pass").value = "";
+    document.getElementById("expires_at").value = "";
+
+    document.getElementById("tituloForm").textContent =
+      "Cadastrar cliente";
+
+    document.getElementById("btnCancelar").style.display =
+      "none";
+  }
+
+
+  async function alterarStatus(id, ativo) {
+
+    try {
+
+      const resposta = await fetch(
+        `/api/admin/users/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          credentials: "same-origin",
+          body: JSON.stringify({
+            active: ativo
+          })
+        }
+      );
+
+      const resultado = await resposta.json();
+
+      if (!resposta.ok) {
+        throw new Error(
+          resultado.error || "Não foi possível alterar o status."
+        );
+      }
+
+      await carregarClientes();
+
+    } catch (erro) {
+
+      mostrarMensagem(
+        erro.message || "Erro ao alterar status.",
+        "erro"
+      );
+
+    }
+  }
+
+
+  async function excluirCliente(id) {
+
+    const cliente = clientes.find(
+      c => Number(c.id) === Number(id)
+    );
+
+    if (!cliente) return;
+
+    const confirmar = confirm(
+      `Excluir o cliente "${cliente.username}"?`
+    );
+
+    if (!confirmar) return;
+
+    try {
+
+      const resposta = await fetch(
+        `/api/admin/users/${id}`,
+        {
+          method: "DELETE",
+          credentials: "same-origin"
+        }
+      );
+
+      const resultado = await resposta.json();
+
+      if (!resposta.ok) {
+        throw new Error(
+          resultado.error || "Não foi possível excluir o cliente."
+        );
+      }
+
+      mostrarMensagem(
+        "Cliente excluído com sucesso.",
+        "sucesso"
+      );
+
+      await carregarClientes();
+
+    } catch (erro) {
+
+      mostrarMensagem(
+        erro.message || "Erro ao excluir cliente.",
+        "erro"
+      );
+
+    }
+  }
+
+
+  async function sair() {
+
+    try {
+
+      await fetch("/api/admin/logout", {
+        method: "POST",
+        credentials: "same-origin"
+      });
+
+    } finally {
+
+      window.location.href = "/login.html";
+
+    }
+  }
+
+
+  function formatarData(data) {
+
+    if (!data) return "-";
+
+    const dataObj = new Date(data);
+
+    if (Number.isNaN(dataObj.getTime())) {
+      return data;
+    }
+
+    return dataObj.toLocaleDateString("pt-BR");
+  }
+
+
+  function escapar(valor) {
+
+    return String(valor ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+
+  function mostrarMensagem(texto, tipo) {
+
+    const elemento = document.getElementById("mensagem");
+
+    elemento.textContent = texto;
+    elemento.className =
+      `mensagem ${tipo}`;
+
+    elemento.style.display = "block";
+
+    setTimeout(() => {
+      elemento.style.display = "none";
+    }, 4000);
+  }
+
+
+  async function iniciar() {
+
+    const autorizado = await verificarAdmin();
+
+    if (!autorizado) return;
+
+    await carregarClientes();
+  }
+
+
+  iniciar();
+
+</script>
+
+</body>
+</html>
