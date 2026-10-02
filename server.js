@@ -1290,6 +1290,7 @@ app.get(
 /* =========================
    LIVROS / EBOOKS / AUDIOBOOKS
 ========================= */
+
 app.get(
   '/api/livros',
   (req, res) => {
@@ -1325,6 +1326,8 @@ app.get(
     const resource =
       req.query.resource;
 
+    const extensionRaw =
+      req.query.extension;
 
     if (
       !username ||
@@ -1337,7 +1340,6 @@ app.get(
       });
 
     }
-
 
     try {
 
@@ -1354,9 +1356,7 @@ app.get(
           username
         );
 
-
       let source;
-
 
       /*
        * Se for uma requisição de segmento
@@ -1374,7 +1374,46 @@ app.get(
       } else {
 
         /*
+         * Normaliza a extensão recebida
+         * pelo player.
+         *
+         * Aceitamos somente extensões
+         * conhecidas para evitar que uma
+         * extensão arbitrária seja usada
+         * na URL do servidor.
+         */
+
+        const extensoesPermitidas = [
+          'mp4',
+          'mkv',
+          'avi',
+          'mov',
+          'webm',
+          'flv',
+          'ts',
+          'm3u8'
+        ];
+
+        let extension =
+          String(
+            extensionRaw || ''
+          )
+            .trim()
+            .toLowerCase()
+            .replace(/^\./, '');
+
+        if (
+          !extensoesPermitidas.includes(
+            extension
+          )
+        ) {
+          extension = 'mp4';
+        }
+
+        /*
          * CANAL
+         *
+         * Canal sempre utiliza HLS.
          */
 
         if (
@@ -1395,7 +1434,6 @@ app.get(
 
         }
 
-
         /*
          * FILME
          */
@@ -1414,10 +1452,9 @@ app.get(
             )}/` +
             `${encodeURIComponent(
               streamId
-            )}.mp4`;
+            )}.${extension}`;
 
         }
-
 
         /*
          * SÉRIE / EPISÓDIO
@@ -1437,10 +1474,9 @@ app.get(
             )}/` +
             `${encodeURIComponent(
               streamId
-            )}.mp4`;
+            )}.${extension}`;
 
         }
-
 
         else {
 
@@ -1453,7 +1489,6 @@ app.get(
 
       }
 
-
       /*
        * Segurança:
        * o servidor só pode acessar
@@ -1462,7 +1497,6 @@ app.get(
 
       const parsed =
         new URL(source);
-
 
       if (
         parsed.hostname !==
@@ -1475,7 +1509,6 @@ app.get(
         });
 
       }
-
 
       /*
        * Encaminha Range para filmes
@@ -1491,7 +1524,6 @@ app.get(
 
       }
 
-
       const response =
         await fetch(
           source,
@@ -1499,7 +1531,6 @@ app.get(
             headers
           }
         );
-
 
       if (!response.ok) {
 
@@ -1510,7 +1541,6 @@ app.get(
           );
 
       }
-
 
       /*
        * Copia os cabeçalhos importantes
@@ -1525,7 +1555,6 @@ app.get(
         'etag',
         'last-modified'
       ];
-
 
       headersToCopy.forEach(
         header => {
@@ -1547,18 +1576,15 @@ app.get(
         }
       );
 
-
       res.setHeader(
         'Access-Control-Allow-Origin',
         '*'
       );
 
-
       res.setHeader(
         'Cache-Control',
         'no-cache'
       );
-
 
       /*
        * HLS:
@@ -1573,7 +1599,6 @@ app.get(
           'content-type'
         ) || '';
 
-
       const isHls =
         contentType.includes(
           'mpegurl'
@@ -1585,18 +1610,15 @@ app.get(
           '.m3u8'
         );
 
-
       if (isHls) {
 
         const playlist =
           await response.text();
 
-
         const baseUrl =
           new URL(
             source
           );
-
 
         const rewritten =
           playlist
@@ -1606,7 +1628,6 @@ app.get(
 
                 const trimmed =
                   line.trim();
-
 
                 /*
                  * Linha de segmento
@@ -1624,7 +1645,6 @@ app.get(
                         trimmed,
                         baseUrl
                       ).toString();
-
 
                     return (
                       `/api/media?` +
@@ -1649,7 +1669,6 @@ app.get(
                   }
 
                 }
-
 
                 /*
                  * URI dentro de uma
@@ -1677,7 +1696,6 @@ app.get(
                             baseUrl
                           ).toString();
 
-
                         const proxyUrl =
                           `/api/media?` +
                           `user=${encodeURIComponent(
@@ -1693,7 +1711,6 @@ app.get(
                             resourceUrl
                           )}`;
 
-
                         return `URI="${proxyUrl}"`;
 
                       } catch {
@@ -1707,26 +1724,22 @@ app.get(
 
                 }
 
-
                 return line;
 
               }
             )
             .join('\n');
 
-
         res.setHeader(
           'Content-Type',
           'application/vnd.apple.mpegurl'
         );
-
 
         return res.send(
           rewritten
         );
 
       }
-
 
       /*
        * Filme / episódio / segmento.
@@ -1739,7 +1752,6 @@ app.get(
         res.status(206);
 
       }
-
 
       if (
         response.body
@@ -1767,7 +1779,6 @@ app.get(
         error
       );
 
-
       return res.status(500).json({
         error:
           'Erro ao reproduzir conteúdo'
@@ -1777,8 +1788,6 @@ app.get(
 
   }
 );
-
-      
 
 /* =========================
    CRIAR TABELAS
