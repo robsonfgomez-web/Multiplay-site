@@ -2168,6 +2168,33 @@ app.post('/api/device/register', async (req,res)=>{
   }catch(e){return res.status(500).json({success:false,message:'Erro ao registrar dispositivo.'});}
 });
 
+app.get('/api/device/manage/status', async (req,res)=>{
+  const {device_id,device_key}=req.query||{};
+  if(!device_id||!device_key) return res.status(400).json({success:false,message:'Device ID e Device Key são obrigatórios.'});
+  try{
+    const q=await pool.query('SELECT device_id,customer_username,active,expires_at,playlist_name,playlist_url,epg_url FROM multiplay_devices WHERE device_id=$1 AND device_key=$2',[device_id,device_key]);
+    if(!q.rows.length) return res.json({success:true,registered:false});
+    const d=q.rows[0], expired=d.expires_at&&new Date(d.expires_at)<new Date();
+    return res.json({success:true,registered:true,active:!!d.active&&!expired,expires_at:d.expires_at,playlist_name:d.playlist_name||null,playlist_url:d.playlist_url||null,epg_url:d.epg_url||null,customer_username:d.customer_username||null});
+  }catch(e){return res.status(500).json({success:false,message:'Erro ao consultar dispositivo.'});}
+});
+
+app.post('/api/device/manage', async (req,res)=>{
+  const {device_id,device_key,playlist_name,playlist_url,epg_url}=req.body||{};
+  if(!device_id||!device_key||!playlist_url) return res.status(400).json({success:false,message:'Device ID, Device Key e URL M3U são obrigatórios.'});
+  if(!/^https?:\\/\\//i.test(playlist_url)) return res.status(400).json({success:false,message:'A M3U precisa ser uma URL HTTP/HTTPS.'});
+  try{
+    const current=await pool.query('SELECT device_id,active,expires_at FROM multiplay_devices WHERE device_id=$1 AND device_key=$2',[device_id,device_key]);
+    if(!current.rows.length) return res.status(404).json({success:false,message:'Dispositivo não cadastrado.'});
+    const d=current.rows[0], expired=d.expires_at&&new Date(d.expires_at)<new Date();
+    if(!d.active||expired) return res.status(403).json({success:false,message:'Dispositivo inativo ou expirado.'});
+    const duplicada=await pool.query('SELECT device_id FROM multiplay_devices WHERE playlist_url=$1 AND device_id<>$2 LIMIT 1',[playlist_url,device_id]);
+    if(duplicada.rows.length) return res.status(409).json({success:false,message:'Esta M3U já está vinculada a outro cliente. Cada cliente deve usar uma M3U exclusiva.'});
+    await pool.query('UPDATE multiplay_devices SET playlist_name=$1,playlist_url=$2,epg_url=$3,updated_at=NOW() WHERE device_id=$4 AND device_key=$5',[playlist_name||'Multiplay',playlist_url,epg_url||null,device_id,device_key]);
+    return res.json({success:true,message:'Playlist exclusiva salva com sucesso.'});
+  }catch(e){return res.status(500).json({success:false,message:'Erro ao salvar playlist.'});}
+});
+
 app.get('/api/device/playlist', async (req,res)=>{
   const {device_id,device_key}=req.query||{};
   if(!device_id||!device_key) return res.status(400).json({success:false,message:'Credenciais do dispositivo ausentes.'});
