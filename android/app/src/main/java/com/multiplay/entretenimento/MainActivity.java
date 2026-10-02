@@ -121,7 +121,7 @@ public class MainActivity extends Activity {
         String url=json(data,"playlist_url");playlistName=json(data,"playlist_name");
         if(url==null||url.isEmpty()){runOnUiThread(()->home("Playlist não encontrada. Toque em Atualizar novamente."));return;}
         parseM3U(getAbsolute(url));
-        runOnUiThread(()->home("Playlist \\"" +(playlistName.isEmpty()?"Multiplay":playlistName)+ "\" sincronizada • "+items.size()+" conteúdos"));
+        runOnUiThread(()->home("Playlist sincronizada: "+(playlistName.isEmpty()?"Multiplay":playlistName)+" • "+items.size()+" conteúdos"));
       }catch(Exception e){runOnUiThread(()->home("Não foi possível atualizar agora. Toque em Atualizar novamente."));}
     }).start();
   }
