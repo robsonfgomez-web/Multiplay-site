@@ -65,9 +65,9 @@ public class MainActivity extends Activity {
     new Thread(()->{
       try{
         String status=get("/api/device/status?device_id="+enc(deviceId)+"&device_key="+enc(deviceKey));
-        boolean registered=status.contains(""registered":true");
-        boolean active=status.contains(""active":true");
-        boolean has=status.contains(""has_playlist":true");
+        boolean registered=jsonBool(status,"registered");
+        boolean active=jsonBool(status,"active");
+        boolean has=jsonBool(status,"has_playlist");
         if(!registered){runOnUiThread(()->deviceScreen("Dispositivo ainda não cadastrado no painel."));return;}
         if(!active){runOnUiThread(()->deviceScreen("Dispositivo inativo ou expirado."));return;}
         if(!has){runOnUiThread(()->deviceScreen("Dispositivo ativo, mas ainda sem playlist."));return;}
@@ -84,6 +84,7 @@ public class MainActivity extends Activity {
   String get(String path)throws Exception{URL u=new URL(API+path);HttpURLConnection c=(HttpURLConnection)u.openConnection();c.setRequestMethod("GET");c.setConnectTimeout(15000);c.setReadTimeout(30000);c.setRequestProperty("Accept","application/json");InputStream in=c.getResponseCode()>=400?c.getErrorStream():c.getInputStream();if(in==null)throw new IOException("HTTP");BufferedReader r=new BufferedReader(new InputStreamReader(in,StandardCharsets.UTF_8));StringBuilder s=new StringBuilder();String l;while((l=r.readLine())!=null)s.append(l);r.close();return s.toString();}
   String getAbsolute(String url)throws Exception{URL u=new URL(url);HttpURLConnection c=(HttpURLConnection)u.openConnection();c.setConnectTimeout(15000);c.setReadTimeout(60000);c.setRequestProperty("User-Agent","Multiplay/2.1");InputStream in=c.getInputStream();BufferedReader r=new BufferedReader(new InputStreamReader(in,StandardCharsets.UTF_8));StringBuilder s=new StringBuilder();String l;while((l=r.readLine())!=null)s.append(l).append("\n");r.close();return s.toString();}
   String enc(String s)throws Exception{return URLEncoder.encode(s,"UTF-8");}
+  boolean jsonBool(String j,String key){Matcher m=Pattern.compile("\\"" + Pattern.quote(key) + "\\"\\s*:\\s*(true|false)",Pattern.CASE_INSENSITIVE).matcher(j);return m.find()&&"true".equalsIgnoreCase(m.group(1));}
   String json(String j,String key){Matcher m=Pattern.compile("\""+Pattern.quote(key)+"\"\\s*:\\s*\"([^\"]*)\"").matcher(j);return m.find()?m.group(1).replace("\\\"","\""):null;}
 
   void parseM3U(String m3u){
