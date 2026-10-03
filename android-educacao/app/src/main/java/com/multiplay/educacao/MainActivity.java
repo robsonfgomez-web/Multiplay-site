@@ -458,7 +458,7 @@ public class MainActivity extends Activity {
             {"The Adventures of Huckleberry Finn","Mark Twain","76"}
         };
         for(String[] a:moreAudio){
-            addAudio(a[0],"LibriVox","Audiobook disponível online • inglês.","https://librivox.org/search?title="+java.net.URLEncoder.encode(a[0],java.nio.charset.StandardCharsets.UTF_8),G+a[2]+"/pg"+a[2]+".cover.medium.jpg");
+            addAudio(a[0],"LibriVox","Audiobook disponível online • inglês.","https://librivox.org/search?title="+a[0].replace(" ","+").replace("&","%26"),G+a[2]+"/pg"+a[2]+".cover.medium.jpg");
         }
 
         String[][] moreEbooks={
