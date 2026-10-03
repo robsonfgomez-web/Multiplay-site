@@ -54,7 +54,7 @@ img,svg,video,canvas{max-width:100%;height:auto}
 <section class="hero">
 <div class="eyebrow">🎓 MULTIPLAY EDUCAÇÃO</div><div style="max-width:760px">
 <h1>Conhecimento para hoje.<br>Mais oportunidades para sempre.</h1>
-<p>Cursos, livros, e-books e audiobooks para aprender, desenvolver habilidades e aproveitar conhecimento em qualquer lugar.</p>
+<p>Cursos, livros, e-books e audiobooks em uma experiência completa de educação, leitura e áudio.</p>
 </div></section>
 
 <section id="categorias" class="section"><h2>Escolha o que você quer aprender</h2><p>Educação, leitura e áudio em uma experiência única.</p><div class="grid4">
@@ -99,7 +99,7 @@ img,svg,video,canvas{max-width:100%;height:auto}
 <div class="product" style="max-width:900px">
 <h3>Multiplay Educação</h3>
 <p>Oferta comercial para pontos de venda: combinação de cursos, livros, e-books e audiobooks da Multiplay Educação. Os direitos e conteúdos de cada serviço serão disponibilizados conforme seus respectivos catálogos e autorizações.</p>
-<a class="btn" href="/login.html">QUERO CONHECER OS COMBOS</a>
+<a class="btn" href="https://wa.me/554199145644?text=Ol%C3%A1%2C%20quero%20comprar%20cursos%2C%20livros%2C%20e-books%20e%20audiobooks%20da%20Multiplay%20Educa%C3%A7%C3%A3o." target="_blank" rel="noopener">QUERO CONHECER OS COMBOS</a>
 </div>
 </section>
 
@@ -110,33 +110,11 @@ img,svg,video,canvas{max-width:100%;height:auto}
 <details><summary>Os cursos, livros e audiobooks têm todos os direitos comerciais?</summary><p>O catálogo pode reunir conteúdo aberto, público ou licenciado. Conteúdo comercial só deve ser disponibilizado quando houver autorização adequada.</p></details>
 </div></section>
 
-<section class="section"><div class="combo"><div><h2>📲 Fale com a Multiplay Educação</h2><p>Quer conhecer os cursos, combos, livros, e-books ou audiobooks? Nossa equipe pode orientar você pelo WhatsApp.</p></div><div><a class="btn" href="https://wa.me/554199145644?text=Ol%C3%A1%2C%20quero%20conhecer%20os%20cursos%2C%20livros%2C%20e-books%20e%20audiobooks%20da%20Multiplay%20Educa%C3%A7%C3%A3o." target="_blank" rel="noopener">💬 FALAR PELO WHATSAPP</a></div></div></section><footer style="margin-top:60px;padding:30px 0;border-top:1px solid #ffffff12;color:#8297ad;font-size:12px">© 2026 Multiplay Educação · <a href="/" style="color:#75eaff">Multiplay Entretenimento</a> · <a href="/login.html" style="color:#75eaff">Entrar</a></footer>
+<footer style="margin-top:60px;padding:30px 0;border-top:1px solid #ffffff12;color:#8297ad;font-size:12px">© 2026 Multiplay Educação · <a href="/educacao.html" style="color:#75eaff">Conheça a plataforma</a> · <a href="/login.html" style="color:#75eaff">Entrar</a></footer>
 </div>
 
-<div id="modal" class="modal"><div class="modalbox"><button class="close" onclick="closeModal()">×</button><h2>Entrar para continuar</h2><p style="color:#9eacbd">Use sua conta Multiplay Educação para iniciar a compra.</p><input id="user" class="field" placeholder="Usuário ou e-mail"><input id="pass" type="password" class="field" placeholder="Senha"><div id="err" class="err"></div><button class="btn" onclick="doSubscribe()">CONTINUAR PARA PAGAMENTO</button><p style="font-size:11px;color:#72879d">Ainda não tem conta? Acesse a área do aluno para criar seu cadastro.</p></div></div>
 
-<script>
-async function loadPlans(){
- try{
-  const r=await fetch('/api/educacao/plans');const d=await r.json();const el=document.getElementById('plans');
-  if(!d.success)throw new Error();
-  el.innerHTML=d.plans.map((p,i)=>'<article class="plan '+(i===1?'featured':'')+'">'+(i===1?'<span class="tag">MAIS COMPLETO</span>':'')+
-  '<h2>'+p.name+'</h2><p style="color:#9eacbd">'+p.description+'</p><div class="price">R$ '+Number(p.price).toFixed(2).replace('.',',')+' <small>/mês</small></div>'+
-  '<ul><li>Acesso em celular, tablet e computador</li><li>Progresso sincronizado</li><li>Conteúdos incluídos conforme catálogo</li></ul>'+
-  '<button class="btn" onclick="subscribe(\''+p.code+'\')">ASSINAR AGORA</button></article>').join('');
- }catch(e){document.getElementById('plans').innerHTML='<div class="product">Não foi possível carregar os planos agora.</div>'}
-}
-async function subscribe(code){
- const username=prompt('Digite seu usuário ou e-mail da Multiplay Educação:');const password=prompt('Digite sua senha:');
- if(!username||!password)return;
- const login=await fetch('/api/educacao/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password})});const ld=await login.json();
- if(!ld.success){alert(ld.message||'Login inválido.');return}
- localStorage.setItem('mp_edu_token',ld.token);
- const r=await fetch('/api/educacao/subscriptions/checkout',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+ld.token},body:JSON.stringify({plan_code:code})});const d=await r.json();
- if(!d.success){alert(d.message||'Não foi possível iniciar a assinatura.');return}window.location.href=d.checkout_url;
-}
-loadPlans();
-</script>
-<a class="float-whatsapp" href="https://wa.me/554199145644?text=Ol%C3%A1%2C%20quero%20conhecer%20e%20comprar%20cursos%2C%20livros%2C%20e-books%20e%20audiobooks%20da%20Multiplay%20Educa%C3%A7%C3%A3o." target="_blank" rel="noopener" aria-label="Falar com a Multiplay Educação pelo WhatsApp">◉</a>
-</body>
+
+
+<a class="float-whatsapp" href="https://wa.me/554199145644?text=Ol%C3%A1%2C%20quero%20comprar%20cursos%2C%20livros%2C%20e-books%20e%20audiobooks%20da%20Multiplay%20Educa%C3%A7%C3%A3o." target="_blank" rel="noopener" aria-label="Falar com a Multiplay Educação pelo WhatsApp">◉</a></body>
 </html>
