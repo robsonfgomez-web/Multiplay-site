@@ -50,8 +50,151 @@ public class MainActivity extends Activity {
         buildCatalog();
         loadRecent();
         rebuildAll();
-        home();
+        if(prefs.getString("edu_token","").trim().length()>0) home(); else loginScreen();
     }
+    void loginScreen(){
+        base();
+        body.setGravity(Gravity.CENTER_HORIZONTAL);
+        body.setPadding(dp(22),dp(24),dp(22),dp(70));
+
+        ImageView logo=new ImageView(this);
+        logo.setImageResource(com.multiplay.educacao.R.drawable.ic_multiplay_edu);
+        logo.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        logo.setBackground(bg(Color.rgb(10,35,62),Color.rgb(24,143,255),24));
+        LinearLayout.LayoutParams lpLogo=new LinearLayout.LayoutParams(dp(118),dp(118));
+        lpLogo.setMargins(0,dp(18),0,dp(14));
+        body.addView(logo,lpLogo);
+
+        TextView brand=txt("MULTIPLAY",28,true);
+        brand.setGravity(Gravity.CENTER);
+        brand.setPadding(0,0,0,0);
+        body.addView(brand,new LinearLayout.LayoutParams(-1,dp(38)));
+        TextView edu=txt("EDUCAÇÃO",14,true);
+        edu.setTextColor(Color.rgb(255,145,20));
+        edu.setGravity(Gravity.CENTER);
+        edu.setPadding(0,0,0,dp(8));
+        body.addView(edu,new LinearLayout.LayoutParams(-1,dp(30)));
+
+        TextView title=txt("Acesso do aluno",22,true);
+        title.setGravity(Gravity.CENTER);
+        body.addView(title,new LinearLayout.LayoutParams(-1,dp(42)));
+        TextView sub=txt("Entre com seu usuário e senha para continuar seus estudos.",12,false);
+        sub.setTextColor(MUTED);
+        sub.setGravity(Gravity.CENTER);
+        body.addView(sub,new LinearLayout.LayoutParams(-1,dp(44)));
+
+        EditText user=new EditText(this);
+        user.setHint("Usuário ou e-mail");
+        user.setTextColor(Color.WHITE);
+        user.setSingleLine(true);
+        user.setInputType(android.text.InputType.TYPE_CLASS_TEXT|android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        user.setBackground(bg(CARD,Color.rgb(48,77,106),14));
+        user.setPadding(dp(14),0,dp(14),0);
+        user.setHintTextColor(Color.rgb(125,148,177));
+        user.setImeOptions(android.view.inputmethod.EditorInfo.IME_ACTION_NEXT);
+        LinearLayout.LayoutParams fp=new LinearLayout.LayoutParams(-1,dp(54));
+        fp.setMargins(0,dp(12),0,0);
+        body.addView(user,fp);
+
+        EditText pass=new EditText(this);
+        pass.setHint("Senha");
+        pass.setTextColor(Color.WHITE);
+        pass.setSingleLine(true);
+        pass.setInputType(android.text.InputType.TYPE_CLASS_TEXT|android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        pass.setBackground(bg(CARD,Color.rgb(48,77,106),14));
+        pass.setPadding(dp(14),0,dp(14),0);
+        pass.setHintTextColor(Color.rgb(125,148,177));
+        pass.setImeOptions(android.view.inputmethod.EditorInfo.IME_ACTION_DONE);
+        fp=new LinearLayout.LayoutParams(-1,dp(54));
+        fp.setMargins(0,dp(9),0,0);
+        body.addView(pass,fp);
+
+        TextView error=txt("",11,false);
+        error.setTextColor(Color.rgb(255,125,138));
+        error.setGravity(Gravity.CENTER);
+        body.addView(error,new LinearLayout.LayoutParams(-1,dp(38)));
+
+        Button entrar=btn("🔐 ENTRAR NA MULTIPLAY EDUCAÇÃO");
+        entrar.setTextSize(14);
+        LinearLayout.LayoutParams bp=new LinearLayout.LayoutParams(-1,dp(56));
+        bp.setMargins(0,dp(4),0,dp(8));
+        body.addView(entrar,bp);
+
+        TextView support=txt("Ainda não possui acesso? Solicite seu cadastro pelo suporte.",11,false);
+        support.setTextColor(MUTED);
+        support.setGravity(Gravity.CENTER);
+        body.addView(support);
+        support.setOnClickListener(v->supportScreen());
+
+        View.OnClickListener doLogin=v->{
+            String u=user.getText().toString().trim();
+            String p=pass.getText().toString();
+            if(u.length()==0||p.length()==0){error.setText("Informe usuário e senha.");return;}
+            entrar.setEnabled(false);
+            entrar.setText("ENTRANDO...");
+            error.setText("");
+            new Thread(()->{
+                HttpURLConnection conn=null;
+                try{
+                    URL url=new URL("https://multiplay-site.onrender.com/api/educacao/login");
+                    conn=(HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setConnectTimeout(10000);
+                    conn.setReadTimeout(15000);
+                    conn.setDoOutput(true);
+                    conn.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+                    String json="{\"username\":\""+jsonEscape(u)+"\",\"password\":\""+jsonEscape(p)+"\"}";
+                    OutputStream out=conn.getOutputStream();
+                    out.write(json.getBytes("UTF-8")); out.close();
+                    int code=conn.getResponseCode();
+                    InputStream stream=code>=200&&code<400?conn.getInputStream():conn.getErrorStream();
+                    StringBuilder sb=new StringBuilder();
+                    if(stream!=null){byte[] buf=new byte[1024];int n;while((n=stream.read(buf))!=-1)sb.append(new String(buf,0,n,"UTF-8"));stream.close();}
+                    String response=sb.toString();
+                    final boolean ok=code>=200&&code<300&&response.contains("\"success\":true");
+                    final String token=extractJson(response,"token");
+                    final String name=extractJson(response,"name");
+                    final String message=extractJson(response,"message");
+                    runOnUiThread(()->{
+                        entrar.setEnabled(true); entrar.setText("🔐 ENTRAR NA MULTIPLAY EDUCAÇÃO");
+                        if(ok&&token.length()>0){
+                            prefs.edit().putString("edu_token",token).putString("edu_username",u).putString("edu_name",name).apply();
+                            ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(pass.getWindowToken(),0);
+                            Toast.makeText(this,"Bem-vindo à Multiplay Educação!",Toast.LENGTH_SHORT).show();
+                            home();
+                        }else error.setText(message.length()>0?message:"Usuário ou senha inválidos.");
+                    });
+                }catch(Exception ex){
+                    runOnUiThread(()->{entrar.setEnabled(true);entrar.setText("🔐 ENTRAR NA MULTIPLAY EDUCAÇÃO");error.setText("Não foi possível conectar ao servidor. Tente novamente.");});
+                }finally{if(conn!=null)conn.disconnect();}
+            }).start();
+        };
+        entrar.setOnClickListener(doLogin);
+        pass.setOnEditorActionListener((v,action,event)->{doLogin.onClick(v);return true;});
+    }
+
+    String extractJson(String json,String key){
+        if(json==null)return "";
+        String needle="\""+key+"\":\"";
+        int i=json.indexOf(needle);
+        if(i<0)return "";
+        int start=i+needle.length();
+        StringBuilder out=new StringBuilder(); boolean esc=false;
+        for(int j=start;j<json.length();j++){
+            char ch=json.charAt(j);
+            if(esc){out.append(ch);esc=false;continue;}
+            if(ch=='\\'){esc=true;continue;}
+            if(ch=='"')break;
+            out.append(ch);
+        }
+        return out.toString();
+    }
+
+    void logoutEducation(){
+        prefs.edit().remove("edu_token").remove("edu_username").remove("edu_name").apply();
+        loginScreen();
+    }
+
     void hideSystem(){
         getWindow().getDecorView().setSystemUiVisibility(
             View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|
@@ -282,7 +425,7 @@ public class MainActivity extends Activity {
         h.addView(brand,new LinearLayout.LayoutParams(0,-2,1));
         Button search=btn("⌕"); search.setTextSize(22); h.addView(search,new LinearLayout.LayoutParams(dp(52),dp(46))); search.setOnClickListener(v->searchScreen());
         body.addView(h);
-        TextView st=txt(sub,11,false); st.setTextColor(MUTED); st.setPadding(0,dp(4),0,dp(8)); body.addView(st);    }
+        TextView st=txt(sub,11,false); st.setTextColor(MUTED); st.setPadding(0,dp(4),0,dp(2)); body.addView(st); Button account=btn("👤 "+(prefs.getString("edu_username","Aluno"))); account.setTextSize(9); account.setBackgroundColor(Color.TRANSPARENT); body.addView(account,new LinearLayout.LayoutParams(-1,dp(32))); account.setOnClickListener(v->logoutEducation());    }
 
     View bottomNav(){
         LinearLayout bar=new LinearLayout(this); bar.setGravity(Gravity.CENTER); bar.setPadding(dp(5),dp(5),dp(5),dp(5)); bar.setBackground(bg(Color.rgb(9,15,27),Color.rgb(34,52,76),18));
