@@ -1,21 +1,141 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Multiplay Educação</title><style>:root{--b:#168cff;--c:#16e0ff;--bg:#050810;--p:#0d1522;--m:#9eacbd}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#12315c,#050810 42%);color:#fff;font-family:Arial,sans-serif} .hero{position:relative;overflow:hidden}.hero:after{content:"";position:absolute;right:-80px;bottom:-120px;width:430px;height:430px;background:url('/assets/multiplay-educacao-logo.svg') center/contain no-repeat;opacity:.12;pointer-events:none}.hero>*{position:relative;z-index:1}.wrap{max-width:1200px;margin:auto;padding:24px}.nav{display:flex;align-items:center;gap:14px}.nav img{width:52px}.nav b{font-size:22px}.nav span{color:var(--c)}.hero{margin-top:35px;padding:45px 30px;border:1px solid #1d324d;border-radius:24px;background:linear-gradient(135deg,#0d2038,#0a111c)}h1{font-size:clamp(38px,6vw,65px);margin:10px 0}.hero p{color:#c0ccd9;max-width:650px;font-size:18px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-top:25px}.card{padding:24px;border:1px solid #20334a;border-radius:18px;background:var(--p);min-height:160px}.ico{font-size:42px}.card h2{margin:12px 0 5px}.card p{color:var(--m);font-size:13px}.btn{display:inline-block;margin-top:22px;background:linear-gradient(135deg,var(--b),#1257ff);padding:13px 18px;border-radius:10px;font-weight:900;text-decoration:none;color:#fff}@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:500px){.grid{grid-template-columns:1fr}.wrap{padding:16px}}
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Multiplay Educação — Cursos, Livros, E-books e Audiobooks</title><meta name="theme-color" content="#06101f">
+<style>
+:root{--bg:#050810;--card:#0c1727;--line:#213a56;--blue:#168cff;--cyan:#16e0ff;--orange:#ff9518;--green:#62e6b2;--muted:#9eacbd}
+*{box-sizing:border-box}html{width:100%;max-width:100%;overflow-x:hidden}body{width:100%;max-width:100%;min-width:0;margin:0;background:radial-gradient(circle at 80% 0,#123d6e,#050810 45%);color:#fff;font-family:Arial,sans-serif;overflow-x:hidden}.wrap{width:100%;max-width:1200px;margin:auto;padding:20px 18px 60px;min-width:0}.wrap *{max-width:100%;min-width:0}img{max-width:100%;height:auto}.nav,.navlinks,.hero,.hero>div,.section,.grid4,.plans,.products,.benefits,.combo,.product,.category,.benefit{min-width:0}.nav{width:100%}.nav{display:flex;align-items:center;gap:12px}.nav img{width:55px;height:55px}.brand b{font-size:20px}.brand span{display:block;color:var(--orange);font-size:11px;font-weight:800}.navlinks{margin-left:auto;display:flex;gap:18px;align-items:center}.navlinks a{color:#dcecff;text-decoration:none;font-weight:700}.hero{min-height:500px;margin-top:30px;padding:52px 40px;display:flex;align-items:center;border:1px solid #244563;border-radius:28px;background:linear-gradient(90deg,#061326 0%,#07172aeF 42%,#07172a55 100%),url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1800&q=85') center/cover;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;right:-80px;bottom:-130px;width:420px;height:420px;background:url('/assets/multiplay-educacao-logo.svg') center/contain no-repeat;opacity:.10}.hero>*{position:relative;z-index:1}.eyebrow{color:#6ceaff;font-weight:900;font-size:12px;letter-spacing:1px}.hero h1{font-size:clamp(40px,6vw,70px);max-width:760px;line-height:1.02;margin:12px 0}.hero p{max-width:680px;color:#c5d3e2;font-size:18px;line-height:1.55}.section{margin-top:58px}.hero .eyebrow{display:inline-block;background:#0c3758;border:1px solid #2a668c;border-radius:99px;padding:8px 12px}.hero .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.hero .actions .btn{width:auto}.trust{display:flex;gap:18px;flex-wrap:wrap;margin-top:20px;color:#a9bed3;font-size:12px}.trust b{color:#fff}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.category{background:linear-gradient(180deg,#102039,#0b1320);border:1px solid var(--line);border-radius:20px;padding:20px;min-height:175px}.category .ico{font-size:36px}.category p{color:var(--muted);line-height:1.5;font-size:14px}.category a{color:#75eaff;text-decoration:none;font-weight:800;font-size:13px}.benefits{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.benefit{background:linear-gradient(180deg,#102039,#0b1320);border:1px solid var(--line);border-radius:20px;padding:20px}.benefit .ico{font-size:32px}.benefit p{color:var(--muted);line-height:1.5;font-size:13px}.combo{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;background:linear-gradient(120deg,#142b46,#0a1422);border:1px solid #345775;border-radius:25px;padding:26px}.faq{border-top:1px solid var(--line)}details{border-bottom:1px solid var(--line);padding:17px 0}summary{cursor:pointer;font-weight:800}details p{color:var(--muted);line-height:1.6}.modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:20px;z-index:50}.modal.show{display:flex}.modalbox{width:min(430px,100%);background:#0b1727;border:1px solid #294966;border-radius:24px;padding:25px;box-shadow:0 30px 100px #000}.field{width:100%;height:50px;margin:7px 0;background:#07111f;border:1px solid #29435e;border-radius:12px;color:#fff;padding:0 14px}.close{float:right;background:none;border:0;color:#9fb1c6;font-size:22px;cursor:pointer}.err{color:#ff9d9d;font-size:12px;min-height:18px}.section h2{font-size:28px;margin-bottom:8px}.section>p{color:var(--muted)}.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.plan,.product{background:linear-gradient(180deg,#102039,#0b1320);border:1px solid var(--line);border-radius:22px;padding:24px}.plan.featured{border-color:var(--cyan);box-shadow:0 20px 55px #0006}.tag{display:inline-block;background:#0a4b6c;color:#c9f6ff;border-radius:99px;padding:6px 10px;font-size:11px;font-weight:900}.price{font-size:34px;color:var(--cyan);font-weight:900;margin:15px 0}.price small{font-size:13px;color:var(--muted)}ul{color:#d7e6f5;line-height:1.8;padding-left:20px}.btn{display:inline-block;border:0;border-radius:12px;padding:14px 18px;color:#fff;background:linear-gradient(90deg,var(--blue),#19cfff);font-weight:900;cursor:pointer;text-decoration:none;width:100%;text-align:center}.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.product .ico{font-size:42px}.product p{color:var(--muted);font-size:14px;line-height:1.5}.soon{color:#78dfff;font-size:12px;font-weight:800}.campaign{margin-top:40px;padding:28px;border-radius:22px;border:1px solid #61431c;background:linear-gradient(135deg,#21170a,#0e1219)}.cards{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}.cardbrand{padding:11px 15px;border-radius:10px;background:#fff;color:#111;font-weight:900}.note{color:#aebdcd;font-size:12px;line-height:1.5}@media(max-width:850px){.wrap{padding-left:14px;padding-right:14px}.plans{grid-template-columns:1fr}.products,.grid4,.benefits{grid-template-columns:repeat(2,minmax(0,1fr))}.navlinks{display:none}.combo{grid-template-columns:1fr}.hero{padding-left:28px;padding-right:28px}}@media(max-width:600px){.wrap{padding:14px 12px 42px}.nav{gap:8px}.nav img{width:46px;height:46px;flex:0 0 46px}.brand b{font-size:18px}.hero{margin-top:18px;padding:28px 18px;min-height:500px;border-radius:22px}.hero h1{font-size:clamp(34px,10vw,42px);overflow-wrap:anywhere}.hero p{font-size:15px;line-height:1.5}.section{margin-top:42px}.section h2{font-size:24px}.products,.grid4,.benefits{grid-template-columns:1fr;gap:12px}.category,.benefit,.product,.plan{padding:18px;border-radius:18px}.combo{padding:18px;border-radius:20px}.campaign{padding:20px;border-radius:18px}.campaign h2{font-size:23px}.trust,.cards{gap:8px}.cardbrand{padding:9px 12px}.modal{padding:12px}.modalbox{padding:20px;border-radius:20px}.field,.btn{max-width:100%}footer{overflow-wrap:anywhere}}
+
 html,body{width:100%;max-width:100%;min-width:0;overflow-x:hidden}
 *,*::before,*::after{box-sizing:border-box}
 img,svg,video,canvas{max-width:100%;height:auto}
 .wrap{width:100%;min-width:0}
-.nav{min-width:0;flex-wrap:wrap}
-.nav b{min-width:0;overflow-wrap:anywhere}
-.hero{width:100%;min-width:0}
-.hero h1,.hero p{overflow-wrap:anywhere;word-break:break-word}
-.grid,.card{min-width:0}
-.card{overflow:hidden}
-.btn{max-width:100%;white-space:normal}
+.nav{width:100%;min-width:0;flex-wrap:wrap}
+.navlinks{min-width:0}
+.brand{min-width:0}
+.brand b,.brand span,h1,h2,h3,p,a,button{overflow-wrap:anywhere;word-break:break-word}
+.hero,.section,.category,.benefit,.plan,.product,.combo,.campaign{width:100%;min-width:0}
+.hero>div{min-width:0}
+.hero h1{max-width:100%}
+.grid4,.plans,.products,.benefits{width:100%;min-width:0}
+.grid4>* ,.plans>* ,.products>* ,.benefits>*{min-width:0}
+.btn{white-space:normal;max-width:100%}
 @media(max-width:600px){
- .wrap{padding:14px 12px 36px}
- .nav{gap:8px}
- .nav b{font-size:18px}
- .hero{margin-top:18px;padding:28px 18px}
- h1{font-size:clamp(32px,9.5vw,44px)}
- .grid{grid-template-columns:1fr!important}
+ .nav{align-items:center}
+ .nav img{flex:0 0 46px}
+ .brand{flex:1 1 auto}
+ .hero{width:100%;padding:26px 16px;min-height:420px}
+ .hero h1{font-size:clamp(30px,9vw,42px);line-height:1.08}
+ .hero p{font-size:15px}
+ .hero .actions{width:100%;flex-direction:column}
+ .hero .actions .btn{width:100%}
+ .section{margin-top:36px}
+ .campaign{margin-top:30px}
 }
-</style></head><body><div class="wrap"><nav class="nav"><img src="/assets/multiplay-educacao-logo.svg"><b>MULTI<span>PLAY</span> EDUCAÇÃO</b><a style="margin-left:auto;color:#fff" href="/">← Entretenimento</a></nav><section class="hero"><small style="color:#62eaff;font-weight:900">MULTIPLAY EDUCAÇÃO</small><h1>Aprenda. Leia. Ouça. Evolua.</h1><p>Uma nova área da Multiplay dedicada a cursos, livros, e-books e audiobooks, com uma experiência simples e moderna.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="/educacao-app.html">ACESSAR ÁREA DO ALUNO →</a><a class="btn" style="background:linear-gradient(90deg,#ff8a00,#ffb02e)" href="/loja.html">ABRIR LOJA MULTIPLAY →</a><a class="btn" style="background:#12233a" href="/">← MULTIPLAY ENTRETENIMENTO</a></div></section><div class="grid"><article class="card"><div class="ico">🎓</div><h2>Cursos</h2><p>Catálogo de cursos para aprendizado e desenvolvimento profissional.</p><a class="btn" href="/educacao-app.html">Explorar</a></article><article class="card"><div class="ico">📚</div><h2>Livros</h2><p>Biblioteca digital organizada por temas e categorias.</p><a class="btn" href="/biblioteca.html">Explorar</a></article><article class="card"><div class="ico">📖</div><h2>E-books</h2><p>Conteúdos digitais para leitura no celular, tablet ou computador.</p><a class="btn" href="/biblioteca.html">Explorar</a></article><article class="card"><div class="ico">🎧</div><h2>Audiobooks</h2><p>Aprenda e aproveite conteúdos em áudio onde estiver.</p><a class="btn" href="/biblioteca.html">Explorar</a></article></div><section style="margin-top:45px;padding:28px;border-radius:18px;background:linear-gradient(135deg,#0d1b2e,#071226);border:1px solid #284b70"><h2>📚 Loja Multiplay Educação</h2><p style="color:#c4d1df">Planos, combos e conteúdos para estudar, ler e ouvir. O catálogo poderá combinar conteúdos próprios, conteúdos abertos e títulos de parceiros licenciados.</p><div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" style="background:linear-gradient(90deg,#168cff,#16e0ff)" href="/loja.html">VER LOJA E COMBOS</a></div></section><section style="margin-top:45px;padding:28px;border-radius:18px;background:#0b1420;border:1px solid #1d324d"><h2>Certificados</h2><p style="color:#9eacbd">Quando o curso oferecer certificação, ela será disponibilizada conforme as regras da instituição ou responsável pelo conteúdo.</p></section></div></body></html>
+
+@media(max-width:600px){
+  .hero{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;width:100%!important;overflow:hidden!important}
+  .hero>.eyebrow{width:auto!important;max-width:100%!important;flex:0 0 auto!important}
+  .hero>div{width:100%!important;max-width:none!important;flex:0 0 auto!important}
+  .hero h1{width:100%!important;max-width:100%!important;margin:14px 0 12px!important;font-size:clamp(30px,9vw,40px)!important;line-height:1.08!important;white-space:normal!important;overflow:visible!important;word-break:normal!important;overflow-wrap:break-word!important}
+  .hero p{width:100%!important;max-width:100%!important;overflow:visible!important;word-break:normal!important;overflow-wrap:break-word!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="nav">
+<img src="/assets/multiplay-educacao-logo.svg" alt="Multiplay Educação">
+<div class="brand"><b>MULTIPLAY</b><span>EDUCAÇÃO</span></div>
+<div class="navlinks"><a href="#categorias">Categorias</a><a href="#planos">Planos</a><a href="#combos">Combos</a><a href="/educacao-app.html">Área do aluno</a></div>
+</nav>
+
+<section class="hero">
+<div class="eyebrow">🎓 MULTIPLAY EDUCAÇÃO</div><div style="max-width:760px">
+<h1>Conhecimento para hoje.<br>Mais oportunidades para sempre.</h1>
+<p>Cursos, livros, e-books e audiobooks para aprender, desenvolver habilidades e aproveitar conhecimento em qualquer lugar.</p>
+</div></section>
+
+<section id="categorias" class="section"><h2>Escolha o que você quer aprender</h2><p>Educação, leitura e áudio em uma experiência única.</p><div class="grid4">
+<article class="category"><div class="ico">🎓</div><h3>Cursos</h3><p>Formação profissional, tecnologia, gestão e desenvolvimento.</p><a href="/educacao-app.html">Explorar →</a></article>
+<article class="category"><div class="ico">📚</div><h3>Livros</h3><p>Biblioteca digital com obras abertas e títulos licenciados quando disponíveis.</p><a href="/biblioteca.html">Biblioteca →</a></article>
+<article class="category"><div class="ico">🎧</div><h3>Audiobooks</h3><p>Conteúdo em áudio para ouvir durante estudos e atividades.</p><a href="/educacao-app.html">Ouvir →</a></article>
+<article class="category"><div class="ico">📖</div><h3>E-books</h3><p>Leitura digital em dispositivos compatíveis.</p><a href="/biblioteca.html">Ver e-books →</a></article>
+</div></section>
+
+<section id="planos" class="section">
+<h2>⭐ Planos Multiplay</h2>
+<p>Assine e tenha acesso aos conteúdos incluídos no seu plano, com progresso sincronizado.</p>
+<div id="plans" class="plans"></div>
+</section>
+
+<section class="section">
+<h2>📚 O que você encontra na Loja</h2>
+<div class="products">
+<article class="product"><div class="ico">🎓</div><h3>Cursos</h3><p>Cursos de desenvolvimento pessoal e profissional, incluindo catálogos parceiros.</p><span class="soon">CATÁLOGO EM EXPANSÃO</span></article>
+<article class="product"><div class="ico">📚</div><h3>Livros</h3><p>Biblioteca digital com obras abertas e títulos licenciados conforme disponibilidade.</p><span class="soon">CATÁLOGO EM EXPANSÃO</span></article>
+<article class="product"><div class="ico">📖</div><h3>E-books</h3><p>Leitura digital para celular, tablet, notebook e computador.</p><span class="soon">CATÁLOGO EM EXPANSÃO</span></article>
+<article class="product"><div class="ico">🎧</div><h3>Audiobooks</h3><p>Conteúdos em áudio para ouvir durante seus estudos e atividades.</p><span class="soon">CATÁLOGO EM EXPANSÃO</span></article>
+</div>
+</section>
+
+<section class="section"><h2>🚀 Uma experiência completa</h2><p>Feita para acompanhar sua rotina de aprendizado.</p><div class="benefits">
+<div class="benefit"><div class="ico">📱</div><h3>Multiplataforma</h3><p>Acesse em celular, tablet e computador.</p></div>
+<div class="benefit"><div class="ico">🔄</div><h3>Sincronização</h3><p>Seu progresso fica associado à sua conta.</p></div>
+<div class="benefit"><div class="ico">🏆</div><h3>Certificados</h3><p>Quando previstos, são emitidos pelas instituições responsáveis.</p></div>
+<div class="benefit"><div class="ico">💬</div><h3>Suporte</h3><p>Envie dúvidas e acompanhe o atendimento.</p></div>
+</div></section>
+
+<section class="campaign">
+<h2>🎁 Campanha Multiplay Educação</h2>
+<p>Participe da nossa ação presencial e conheça os produtos educacionais. Em ações promocionais específicas, clientes participantes poderão receber brinde conforme as regras e disponibilidade da campanha.</p>
+<div class="cards"><span class="cardbrand">VISA</span><span class="cardbrand">MASTERCARD</span><span class="cardbrand">HIPERCARD</span><span class="cardbrand">ELO</span></div>
+<p class="note">As marcas de cartões são citadas apenas para indicar meios de pagamento aceitos quando disponíveis no checkout. A campanha não implica patrocínio ou parceria com essas bandeiras.</p>
+</section>
+
+<section class="section">
+<h2>📦 Combos Multiplay</h2>
+<div class="product" style="max-width:900px">
+<h3>Multiplay Educação</h3>
+<p>Oferta comercial para pontos de venda: combinação de cursos, livros, e-books e audiobooks da Multiplay Educação. Os direitos e conteúdos de cada serviço serão disponibilizados conforme seus respectivos catálogos e autorizações.</p>
+<a class="btn" href="/login.html">QUERO CONHECER OS COMBOS</a>
+</div>
+</section>
+
+<section class="section"><h2>❓ Dúvidas frequentes</h2><div class="faq">
+<details><summary>Como faço para comprar?</summary><p>Escolha um plano, entre na sua conta e siga para o checkout. O pagamento é processado pelo Mercado Pago.</p></details>
+<details><summary>A cobrança do plano é recorrente?</summary><p>Sim. Os planos de assinatura usam cobrança recorrente conforme a periodicidade configurada.</p></details>
+<details><summary>Quais meios de pagamento aparecem?</summary><p>As opções disponíveis dependem da configuração do checkout e da conta de pagamento. O Mercado Pago oferece soluções com cartão, Pix e outros meios conforme a integração.</p></details>
+<details><summary>Os cursos, livros e audiobooks têm todos os direitos comerciais?</summary><p>O catálogo pode reunir conteúdo aberto, público ou licenciado. Conteúdo comercial só deve ser disponibilizado quando houver autorização adequada.</p></details>
+</div></section>
+
+<section class="section"><div class="combo"><div><h2>📲 Fale com a Multiplay Educação</h2><p>Quer conhecer os cursos, combos, livros, e-books ou audiobooks? Nossa equipe pode orientar você pelo WhatsApp.</p></div><div><a class="btn" href="https://wa.me/554199145644?text=Ol%C3%A1%2C%20quero%20conhecer%20os%20cursos%2C%20livros%2C%20e-books%20e%20audiobooks%20da%20Multiplay%20Educa%C3%A7%C3%A3o." target="_blank" rel="noopener">💬 FALAR PELO WHATSAPP</a></div></div></section><footer style="margin-top:60px;padding:30px 0;border-top:1px solid #ffffff12;color:#8297ad;font-size:12px">© 2026 Multiplay Educação · <a href="/" style="color:#75eaff">Multiplay Entretenimento</a> · <a href="/login.html" style="color:#75eaff">Entrar</a></footer>
+</div>
+
+<div id="modal" class="modal"><div class="modalbox"><button class="close" onclick="closeModal()">×</button><h2>Entrar para continuar</h2><p style="color:#9eacbd">Use sua conta Multiplay Educação para iniciar a compra.</p><input id="user" class="field" placeholder="Usuário ou e-mail"><input id="pass" type="password" class="field" placeholder="Senha"><div id="err" class="err"></div><button class="btn" onclick="doSubscribe()">CONTINUAR PARA PAGAMENTO</button><p style="font-size:11px;color:#72879d">Ainda não tem conta? Acesse a área do aluno para criar seu cadastro.</p></div></div>
+
+<script>
+async function loadPlans(){
+ try{
+  const r=await fetch('/api/educacao/plans');const d=await r.json();const el=document.getElementById('plans');
+  if(!d.success)throw new Error();
+  el.innerHTML=d.plans.map((p,i)=>'<article class="plan '+(i===1?'featured':'')+'">'+(i===1?'<span class="tag">MAIS COMPLETO</span>':'')+
+  '<h2>'+p.name+'</h2><p style="color:#9eacbd">'+p.description+'</p><div class="price">R$ '+Number(p.price).toFixed(2).replace('.',',')+' <small>/mês</small></div>'+
+  '<ul><li>Acesso em celular, tablet e computador</li><li>Progresso sincronizado</li><li>Conteúdos incluídos conforme catálogo</li></ul>'+
+  '<button class="btn" onclick="subscribe(\''+p.code+'\')">ASSINAR AGORA</button></article>').join('');
+ }catch(e){document.getElementById('plans').innerHTML='<div class="product">Não foi possível carregar os planos agora.</div>'}
+}
+async function subscribe(code){
+ const username=prompt('Digite seu usuário ou e-mail da Multiplay Educação:');const password=prompt('Digite sua senha:');
+ if(!username||!password)return;
+ const login=await fetch('/api/educacao/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password})});const ld=await login.json();
+ if(!ld.success){alert(ld.message||'Login inválido.');return}
+ localStorage.setItem('mp_edu_token',ld.token);
+ const r=await fetch('/api/educacao/subscriptions/checkout',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+ld.token},body:JSON.stringify({plan_code:code})});const d=await r.json();
+ if(!d.success){alert(d.message||'Não foi possível iniciar a assinatura.');return}window.location.href=d.checkout_url;
+}
+loadPlans();
+</script>
+</body>
+</html>
