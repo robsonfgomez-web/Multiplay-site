@@ -96,58 +96,145 @@ public class MainActivity extends Activity {
 
     void home(){
         base();
-        header("Seu espaço para aprender, ler e ouvir.");
-        LinearLayout hero=new LinearLayout(this); hero.setOrientation(LinearLayout.VERTICAL);
-        hero.setPadding(dp(18),dp(18),dp(18),dp(18)); hero.setBackground(bg(Color.rgb(10,34,60),Color.rgb(35,105,170),22));
-        LinearLayout heroLogo=new LinearLayout(this); heroLogo.setGravity(Gravity.CENTER_VERTICAL);
-        ImageView heroMark=new ImageView(this);
-        heroMark.setImageResource(com.multiplay.educacao.R.drawable.ic_multiplay_edu);
-        heroMark.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        heroMark.setBackground(bg(Color.rgb(15,83,150),CYAN,18));
-        heroLogo.addView(heroMark,new LinearLayout.LayoutParams(dp(58),dp(58)));
-        LinearLayout heroNames=new LinearLayout(this); heroNames.setOrientation(LinearLayout.VERTICAL); heroNames.setPadding(dp(12),0,0,0);
-        TextView a=txt("MULTIPLAY",25,true); a.setTextColor(Color.WHITE); heroNames.addView(a);
-        TextView ae=txt("EDUCAÇÃO",12,true); ae.setTextColor(Color.rgb(255,138,0)); heroNames.addView(ae);
-        heroLogo.addView(heroNames,new LinearLayout.LayoutParams(0,-2,1));
-        hero.addView(heroLogo);
-        TextView b=txt("Aprenda. Leia. Ouça. Evolua.",21,true); b.setPadding(0,dp(5),0,0); hero.addView(b);
-        TextView c=txt("Sua biblioteca digital para estudar e aproveitar conteúdo online.",12,false); c.setTextColor(Color.rgb(194,218,242)); hero.addView(c);
-        LinearLayout chips=new LinearLayout(this); chips.setPadding(0,dp(14),0,0);
-        String[] names={"🎓 Cursos","📚 Livros","🎧 Audiobooks","📖 E-books"};
-        for(String n:names){ Button x=btn(n); x.setTextSize(10); LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,dp(42),1); p.setMargins(dp(2),0,dp(2),0); chips.addView(x,p);
+
+        // Cabeçalho compacto: evita corte em celulares e tablets estreitos.
+        LinearLayout h=new LinearLayout(this);
+        h.setGravity(Gravity.CENTER_VERTICAL);
+        ImageView logo=new ImageView(this);
+        logo.setImageResource(com.multiplay.educacao.R.drawable.ic_multiplay_edu);
+        logo.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        logo.setBackground(bg(Color.rgb(8,39,78),CYAN,14));
+        h.addView(logo,new LinearLayout.LayoutParams(dp(44),dp(44)));
+
+        LinearLayout brand=new LinearLayout(this);
+        brand.setOrientation(LinearLayout.VERTICAL);
+        brand.setPadding(dp(8),0,dp(6),0);
+        TextView bt=txt("MULTIPLAY",16,true); bt.setTextColor(Color.WHITE); brand.addView(bt);
+        TextView be=txt("EDUCAÇÃO",9,true); be.setTextColor(Color.rgb(255,138,0)); brand.addView(be);
+        h.addView(brand,new LinearLayout.LayoutParams(0,-2,1));
+
+        Button search=btn("⌕");
+        search.setTextSize(21);
+        search.setPadding(0,0,0,0);
+        h.addView(search,new LinearLayout.LayoutParams(dp(48),dp(44)));
+        search.setOnClickListener(v->searchScreen());
+        body.addView(h);
+
+        TextView tagline=txt("Conhecimento para hoje.",13,true);
+        tagline.setTextColor(Color.WHITE);
+        tagline.setPadding(0,dp(5),0,0);
+        body.addView(tagline);
+        TextView tagline2=txt("Mais oportunidades para sempre.",12,true);
+        tagline2.setTextColor(Color.rgb(255,166,35));
+        body.addView(tagline2);
+
+        // Hero principal inspirado no layout de referência: marca, chamada, busca e categorias.
+        LinearLayout hero=new LinearLayout(this);
+        hero.setOrientation(LinearLayout.VERTICAL);
+        hero.setPadding(dp(18),dp(18),dp(18),dp(18));
+        hero.setBackground(bg(Color.rgb(7,31,65),Color.rgb(28,111,205),24));
+
+        LinearLayout heroTop=new LinearLayout(this);
+        heroTop.setGravity(Gravity.CENTER_VERTICAL);
+        ImageView hm=new ImageView(this);
+        hm.setImageResource(com.multiplay.educacao.R.drawable.ic_multiplay_edu);
+        hm.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        hm.setBackground(bg(Color.rgb(7,45,96),CYAN,18));
+        heroTop.addView(hm,new LinearLayout.LayoutParams(dp(66),dp(66)));
+        LinearLayout hn=new LinearLayout(this);
+        hn.setOrientation(LinearLayout.VERTICAL);
+        hn.setPadding(dp(12),0,0,0);
+        TextView h1=txt("MULTIPLAY",24,true); h1.setTextColor(Color.WHITE); hn.addView(h1);
+        TextView h2=txt("EDUCAÇÃO",13,true); h2.setTextColor(Color.rgb(255,138,0)); hn.addView(h2);
+        TextView h3=txt("Aprenda. Leia. Ouça. Evolua.",12,true); h3.setTextColor(Color.rgb(208,232,255)); hn.addView(h3);
+        heroTop.addView(hn,new LinearLayout.LayoutParams(0,-2,1));
+        hero.addView(heroTop);
+
+        EditText q=new EditText(this);
+        q.setSingleLine(true);
+        q.setHint("O que você quer aprender hoje?");
+        q.setHintTextColor(Color.rgb(115,145,178));
+        q.setTextColor(Color.WHITE);
+        q.setTextSize(12);
+        q.setPadding(dp(14),0,dp(14),0);
+        q.setBackground(bg(Color.WHITE,0,12));
+        LinearLayout.LayoutParams qp=new LinearLayout.LayoutParams(-1,dp(46));
+        qp.setMargins(0,dp(16),0,dp(8));
+        hero.addView(q,qp);
+        q.setOnEditorActionListener((v,action,event)->{ String term=q.getText().toString().trim(); if(!term.isEmpty()) searchScreen(); return true; });
+
+        LinearLayout cats=new LinearLayout(this);
+        cats.setGravity(Gravity.CENTER);
+        String[] names={"🎓 Cursos","📚 Livros","🎧 Audiobooks","📖 E-books","🏆 Certificados"};
+        for(String n:names){
+            Button x=btn(n);
+            x.setTextSize(9);
+            x.setPadding(dp(2),0,dp(2),0);
+            LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,dp(46),1);
+            p.setMargins(dp(2),0,dp(2),0);
+            cats.addView(x,p);
             if(n.contains("Cursos"))x.setOnClickListener(v->catalog("CURSOS",courses));
             else if(n.contains("Livros"))x.setOnClickListener(v->catalog("LIVROS",books));
             else if(n.contains("Audiobooks"))x.setOnClickListener(v->catalog("AUDIOBOOKS",audios));
-            else x.setOnClickListener(v->catalog("E-BOOKS",ebooks));
+            else if(n.contains("E-books"))x.setOnClickListener(v->catalog("E-BOOKS",ebooks));
+            else x.setOnClickListener(v->certificates());
         }
-        hero.addView(chips); body.addView(hero,new LinearLayout.LayoutParams(-1,-2));
-        LinearLayout stats=new LinearLayout(this); stats.setPadding(0,dp(10),0,dp(2));
-        stats.addView(statBox("900+","CURSOS"),new LinearLayout.LayoutParams(0,dp(62),1));
-        stats.addView(statBox(String.valueOf(books.size()),"LIVROS"),new LinearLayout.LayoutParams(0,dp(62),1));
-        stats.addView(statBox(String.valueOf(audios.size()),"ÁUDIO"),new LinearLayout.LayoutParams(0,dp(62),1));
-        stats.addView(statBox(String.valueOf(ebooks.size()),"E-BOOKS"),new LinearLayout.LayoutParams(0,dp(62),1)); body.addView(stats);
-        if(!recent.isEmpty()){ body.addView(section("▶ Continuar de onde parou")); horizontal(recent,4); }
-        body.addView(section("🔥 Destaques")); horizontal(books,8);
-        body.addView(section("🎧 Ouça agora")); horizontal(audios,6);
-        body.addView(section("🎓 Comece um curso"));
-        Button evg=btn("🎓 CATÁLOGO COMPLETO EV.G — 900+ CURSOS");
-        evg.setTextSize(13);
-        LinearLayout.LayoutParams evgp=new LinearLayout.LayoutParams(-1,dp(54));
-        evgp.setMargins(0,dp(4),0,dp(8));
-        body.addView(evg,evgp);
+        hero.addView(cats);
+        body.addView(hero,new LinearLayout.LayoutParams(-1,-2));
+
+        // Indicadores compactos.
+        LinearLayout stats=new LinearLayout(this);
+        stats.setPadding(0,dp(10),0,dp(4));
+        stats.addView(statBox("900+","CURSOS"),new LinearLayout.LayoutParams(0,dp(68),1));
+        stats.addView(statBox(String.valueOf(books.size()),"LIVROS"),new LinearLayout.LayoutParams(0,dp(68),1));
+        stats.addView(statBox(String.valueOf(audios.size()),"AUDIOBOOKS"),new LinearLayout.LayoutParams(0,dp(68),1));
+        stats.addView(statBox(String.valueOf(ebooks.size()),"E-BOOKS"),new LinearLayout.LayoutParams(0,dp(68),1));
+        body.addView(stats);
+
+        if(!recent.isEmpty()){
+            body.addView(section("▶  Continuar estudando"));
+            horizontal(recent,4);
+        }
+
+        // Destaques agora prioriza cursos, como na referência visual.
+        body.addView(section("🔥  Cursos em destaque"));
+        horizontal(courses,6);
+
+        body.addView(section("📚  Livros e e-books"));
+        horizontal(books,5);
+
+        body.addView(section("🎧  Audiobooks"));
+        horizontal(audios,5);
+
+        body.addView(section("🎓  Catálogo de cursos"));
+        Button evg=btn("MAIS DE 800 CURSOS • CATÁLOGO EV.G");
+        evg.setTextSize(12);
+        LinearLayout.LayoutParams ep=new LinearLayout.LayoutParams(-1,dp(52));
+        ep.setMargins(0,dp(4),0,dp(6));
+        body.addView(evg,ep);
         evg.setOnClickListener(v->openCatalogWeb("https://www.escolavirtual.gov.br/catalogo","Catálogo EV.G • cursos gratuitos"));
-        Button mec=btn("📘 CATÁLOGO APRENDA MAIS — MEC");
-        mec.setTextSize(13);
-        LinearLayout.LayoutParams mecp=new LinearLayout.LayoutParams(-1,dp(54));
-        mecp.setMargins(0,0,0,dp(10));
-        body.addView(mec,mecp);
+
+        Button mec=btn("CATÁLOGO APRENDA MAIS • MEC");
+        mec.setTextSize(12);
+        LinearLayout.LayoutParams mp=new LinearLayout.LayoutParams(-1,dp(52));
+        mp.setMargins(0,0,0,dp(8));
+        body.addView(mec,mp);
         mec.setOnClickListener(v->openCatalogWeb("https://aprendamais.mec.gov.br/course/index.php?lang=pt_br","Aprenda Mais • MEC"));
-        TextView src=txt("Os catálogos oficiais são carregados online para acompanhar novos cursos e atualizações das instituições responsáveis.",10,false);
+
+        TextView src=txt("Os catálogos oficiais são carregados online e podem receber novos cursos sem precisar atualizar o aplicativo.",10,false);
         src.setTextColor(MUTED);
         body.addView(src);
-        horizontal(courses,6);
-        body.addView(section("📖 Biblioteca digital")); horizontal(ebooks,6);
-        TextView f=txt("Conteúdo acessado online nas plataformas responsáveis. Certificados são emitidos pelas instituições quando previstos.",10,false); f.setTextColor(MUTED); f.setPadding(0,dp(20),0,dp(20)); body.addView(f);
+
+        body.addView(section("🏆  Certificados e histórico"));
+        Button cert=btn("VER MEUS CERTIFICADOS");
+        cert.setTextSize(12);
+        body.addView(cert,new LinearLayout.LayoutParams(-1,dp(50)));
+        cert.setOnClickListener(v->certificates());
+
+        TextView f=txt("Conteúdos acessados online nas plataformas responsáveis. Certificados são emitidos pelas instituições quando previstos.",10,false);
+        f.setTextColor(MUTED);
+        f.setPadding(0,dp(16),0,dp(20));
+        body.addView(f);
     }
 
     LinearLayout statBox(String n,String label){ LinearLayout c=new LinearLayout(this); c.setOrientation(LinearLayout.VERTICAL); c.setGravity(Gravity.CENTER); c.setBackground(bg(CARD,Color.rgb(34,54,80),14)); TextView a=txt(n,18,true); a.setGravity(Gravity.CENTER); a.setTextColor(CYAN); c.addView(a); TextView b=txt(label,8,true); b.setGravity(Gravity.CENTER); b.setTextColor(MUTED); c.addView(b); return c; }
