@@ -400,6 +400,96 @@ public class MainActivity extends Activity {
         addEbook("Computer Science","OpenStax","Materiais gratuitos de computação.","https://openstax.org/subjects/computer-science","TECNOLOGIA");
         addEbook("Science","OpenStax","Biblioteca de ciências.","https://openstax.org/subjects/science","CIÊNCIAS");
 
+        // Ampliação da biblioteca: obras em domínio público e catálogos educacionais abertos.
+        String[][] moreBooks={
+            {"O Grande Gatsby","F. Scott Fitzgerald","Romance clássico disponível gratuitamente.","64317"},
+            {"A Odisseia","Homero","Épico clássico em tradução para inglês.","1727"},
+            {"A Ilíada","Homero","Épico clássico em tradução para inglês.","3059"},
+            {"Anne de Green Gables","L. M. Montgomery","Clássico juvenil.","45"},
+            {"O Médico e o Monstro","Robert Louis Stevenson","Clássico de suspense.","43"},
+            {"As Aventuras de Pinóquio","Carlo Collodi","Clássico infantil.","500"},
+            {"O Pequeno Príncipe","Antoine de Saint-Exupéry","Obra literária amplamente conhecida; disponibilidade depende da edição/região.","-1"},
+            {"O Livro da Selva","Rudyard Kipling","Clássico de aventura.","236"},
+            {"Peter Pan","J. M. Barrie","Clássico infantil.","16"},
+            {"A Ilha do Tesouro","Robert Louis Stevenson","Clássico de aventura.","120"},
+            {"O Chamado da Selva","Jack London","Clássico de aventura.","215"},
+            {"Caninos Brancos","Jack London","Clássico de aventura.","910"},
+            {"A Letra Escarlate","Nathaniel Hawthorne","Romance clássico.","25344"},
+            {"A Casa dos Sete Gables","Nathaniel Hawthorne","Romance clássico.","512"},
+            {"Middlemarch","George Eliot","Romance clássico.","145"},
+            {"David Copperfield","Charles Dickens","Romance clássico.","766"},
+            {"Oliver Twist","Charles Dickens","Romance clássico.","730"},
+            {"A Ilha Misteriosa","Jules Verne","Aventura e ficção científica.","1268"},
+            {"Vinte Mil Léguas Submarinas","Jules Verne","Aventura e ficção científica.","164"},
+            {"Da Terra à Lua","Jules Verne","Ficção científica clássica.","18857"},
+            {"A Volta ao Mundo em 80 Dias","Jules Verne","Aventura clássica.","103"},
+            {"Os Três Mosqueteiros","Alexandre Dumas","Aventura clássica.","1257"},
+            {"Os Miseráveis","Victor Hugo","Romance clássico.","135"},
+            {"O Conde de Monte Cristo — edição adicional","Alexandre Dumas","Outra edição pública do clássico.","1184"}
+        };
+        for(String[] b:moreBooks){
+            if(!"-1".equals(b[3])) addBook(b[0],b[1],b[2],"https://www.gutenberg.org/ebooks/"+b[3],G+b[3]+"/pg"+b[3]+".cover.medium.jpg");
+        }
+
+        String[][] moreAudio={
+            {"The Great Gatsby","F. Scott Fitzgerald","64317"},
+            {"The Odyssey","Homer","1727"},
+            {"The Iliad","Homer","3059"},
+            {"Anne of Green Gables","L. M. Montgomery","45"},
+            {"The Strange Case of Dr Jekyll and Mr Hyde","R. L. Stevenson","43"},
+            {"The Jungle Book","Rudyard Kipling","236"},
+            {"Peter Pan","J. M. Barrie","16"},
+            {"Treasure Island","R. L. Stevenson","120"},
+            {"The Call of the Wild","Jack London","215"},
+            {"White Fang","Jack London","910"},
+            {"The Scarlet Letter","Nathaniel Hawthorne","25344"},
+            {"David Copperfield","Charles Dickens","766"},
+            {"Oliver Twist","Charles Dickens","730"},
+            {"The Mysterious Island","Jules Verne","1268"},
+            {"Twenty Thousand Leagues Under the Sea","Jules Verne","164"},
+            {"Around the World in Eighty Days","Jules Verne","103"},
+            {"The Three Musketeers","Alexandre Dumas","1257"},
+            {"Les Misérables","Victor Hugo","135"},
+            {"The Wonderful Wizard of Oz","L. Frank Baum","55"},
+            {"A Christmas Carol","Charles Dickens","46"},
+            {"The Secret Garden","Frances Hodgson Burnett","113"},
+            {"The Wind in the Willows","Kenneth Grahame","289"},
+            {"The Adventures of Tom Sawyer","Mark Twain","74"},
+            {"The Adventures of Huckleberry Finn","Mark Twain","76"}
+        };
+        for(String[] a:moreAudio){
+            addAudio(a[0],"LibriVox","Audiobook disponível online • inglês.","https://librivox.org/search?title="+java.net.URLEncoder.encode(a[0],java.nio.charset.StandardCharsets.UTF_8),G+a[2]+"/pg"+a[2]+".cover.medium.jpg");
+        }
+
+        String[][] moreEbooks={
+            {"Biology 2e","OpenStax","https://openstax.org/books/biology-2e/pages/1-introduction","BIOLOGIA"},
+            {"Chemistry 2e","OpenStax","https://openstax.org/books/chemistry-2e/pages/1-introduction","QUÍMICA"},
+            {"Anatomy and Physiology 2e","OpenStax","https://openstax.org/books/anatomy-and-physiology-2e/pages/1-introduction","SAÚDE"},
+            {"Microbiology","OpenStax","https://openstax.org/books/microbiology/pages/1-introduction","BIOLOGIA"},
+            {"Nutrition 2e","OpenStax","https://openstax.org/books/nutrition-2e/pages/1-introduction","NUTRIÇÃO"},
+            {"Astronomy 2e","OpenStax","https://openstax.org/books/astronomy-2e/pages/1-introduction","ASTRONOMIA"},
+            {"Introduction to Sociology 3e","OpenStax","https://openstax.org/books/introduction-sociology-3e/pages/1-introduction","SOCIOLOGIA"},
+            {"Principles of Economics 3e","OpenStax","https://openstax.org/books/principles-economics-3e/pages/1-introduction","ECONOMIA"},
+            {"Introduction to Business","OpenStax","https://openstax.org/books/introduction-business/pages/1-introduction","NEGÓCIOS"},
+            {"Organizational Behavior","OpenStax","https://openstax.org/books/organizational-behavior/pages/1-introduction","GESTÃO"},
+            {"Principles of Marketing","OpenStax","https://openstax.org/books/principles-marketing/pages/1-introduction","MARKETING"},
+            {"Business Law I","OpenStax","https://openstax.org/books/business-law-i/pages/1-introduction","DIREITO"},
+            {"Financial Accounting","OpenStax","https://openstax.org/books/financial-accounting/pages/1-introduction","CONTABILIDADE"},
+            {"Managerial Accounting","OpenStax","https://openstax.org/books/managerial-accounting/pages/1-introduction","CONTABILIDADE"},
+            {"Calculus Volume 1","OpenStax","https://openstax.org/books/calculus-volume-1/pages/1-introduction","MATEMÁTICA"},
+            {"Calculus Volume 2","OpenStax","https://openstax.org/books/calculus-volume-2/pages/1-introduction","MATEMÁTICA"},
+            {"Calculus Volume 3","OpenStax","https://openstax.org/books/calculus-volume-3/pages/1-introduction","MATEMÁTICA"},
+            {"University Physics Volume 1","OpenStax","https://openstax.org/books/university-physics-volume-1/pages/1-introduction","FÍSICA"},
+            {"University Physics Volume 2","OpenStax","https://openstax.org/books/university-physics-volume-2/pages/1-introduction","FÍSICA"},
+            {"University Physics Volume 3","OpenStax","https://openstax.org/books/university-physics-volume-3/pages/1-introduction","FÍSICA"},
+            {"Physics 2e","OpenStax","https://openstax.org/books/physics-2e/pages/1-introduction","FÍSICA"},
+            {"College Physics 2e","OpenStax","https://openstax.org/books/college-physics-2e/pages/1-introduction","FÍSICA"},
+            {"Prealgebra 2e","OpenStax","https://openstax.org/books/prealgebra-2e/pages/1-introduction","MATEMÁTICA"},
+            {"Elementary Algebra 2e","OpenStax","https://openstax.org/books/elementary-algebra-2e/pages/1-introduction","MATEMÁTICA"},
+            {"Intermediate Algebra 2e","OpenStax","https://openstax.org/books/intermediate-algebra-2e/pages/1-introduction","MATEMÁTICA"}
+        };
+        for(String[] e:moreEbooks) addEbook(e[0],"OpenStax","Livro-texto aberto e gratuito online.",e[2],e[3]);
+
         addCourse("Excel na Prática","Fundação Bradesco","16h • online • certificado gratuito após aprovação.","https://www.ev.org.br/cursos/excel-na-pratica");
         addCourse("Atendimento ao Público","Fundação Bradesco","10h • online • certificado conforme regras do curso.","https://www.ev.org.br/cursos/atendimento-ao-publico");
         addCourse("Introdução à Administração","Fundação Bradesco","12h • online.","https://www.ev.org.br/cursos/introducao-a-administracao");
