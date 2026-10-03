@@ -417,11 +417,47 @@ public class MainActivity extends Activity {
         TextView st=txt(sub,11,false); st.setTextColor(MUTED); st.setPadding(0,dp(4),0,dp(2)); body.addView(st); Button account=btn("👤 "+(prefs.getString("edu_username","Aluno"))); account.setTextSize(9); account.setBackgroundColor(Color.TRANSPARENT); body.addView(account,new LinearLayout.LayoutParams(-1,dp(32))); account.setOnClickListener(v->logoutEducation());    }
 
     View bottomNav(){
-        LinearLayout bar=new LinearLayout(this); bar.setGravity(Gravity.CENTER); bar.setPadding(dp(5),dp(5),dp(5),dp(5)); bar.setBackground(bg(Color.rgb(9,15,27),Color.rgb(34,52,76),18));
-        String[] names={"⌂\\nInício","🎓\\nCursos","📚\\nBiblioteca","♥\\nFavoritos"};
-        for(String n:names){ Button b=btn(n); b.setTextSize(10); b.setBackgroundColor(Color.TRANSPARENT); LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,dp(56),1); bar.addView(b,p);
-            if(n.startsWith("⌂"))b.setOnClickListener(v->home()); else if(n.startsWith("🎓"))b.setOnClickListener(v->catalog("CURSOS",courses)); else if(n.startsWith("📚"))b.setOnClickListener(v->catalog("BIBLIOTECA",books,ebooks,audios)); else if(n.startsWith("♥"))b.setOnClickListener(v->favorites()); else b.setOnClickListener(v->supportScreen());
-        } return bar;
+        LinearLayout bar=new LinearLayout(this);
+        bar.setGravity(Gravity.CENTER);
+        bar.setPadding(dp(4),dp(4),dp(4),dp(4));
+        bar.setBackground(bg(Color.rgb(8,14,26),Color.rgb(38,61,88),16));
+
+        String[][] items={
+            {"⌂","INÍCIO"},
+            {"🎓","CURSOS"},
+            {"📚","BIBLIOTECA"},
+            {"♥","FAVORITOS"}
+        };
+
+        for(String[] item:items){
+            LinearLayout cell=new LinearLayout(this);
+            cell.setOrientation(LinearLayout.VERTICAL);
+            cell.setGravity(Gravity.CENTER);
+            cell.setPadding(dp(2),dp(3),dp(2),dp(2));
+            cell.setBackgroundColor(Color.TRANSPARENT);
+
+            TextView icon=txt(item[0],22,true);
+            icon.setGravity(Gravity.CENTER);
+            icon.setPadding(0,0,0,0);
+            icon.setTextColor(Color.WHITE);
+            cell.addView(icon,new LinearLayout.LayoutParams(-1,dp(30)));
+
+            TextView label=txt(item[1],9,true);
+            label.setGravity(Gravity.CENTER);
+            label.setPadding(0,0,0,0);
+            label.setTextColor(MUTED);
+            cell.addView(label,new LinearLayout.LayoutParams(-1,dp(22)));
+
+            LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,dp(62),1);
+            p.setMargins(dp(2),0,dp(2),0);
+            bar.addView(cell,p);
+
+            if(item[1].equals("INÍCIO")) cell.setOnClickListener(v->home());
+            else if(item[1].equals("CURSOS")) cell.setOnClickListener(v->catalog("CURSOS",courses));
+            else if(item[1].equals("BIBLIOTECA")) cell.setOnClickListener(v->catalog("BIBLIOTECA",books,ebooks,audios));
+            else cell.setOnClickListener(v->favorites());
+        }
+        return bar;
     }
 
     void horizontal(ArrayList<Item> data,int max){
