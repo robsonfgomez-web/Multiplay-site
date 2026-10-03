@@ -387,6 +387,21 @@ app.post(
         });
       }
 
+
+      return res.status(401).json({
+        success: false,
+        message: 'Usuário ou senha inválidos.'
+      });
+    } catch (e) {
+      console.error('Erro no login administrativo:', e);
+      return res.status(500).json({
+        success: false,
+        message: 'Erro ao realizar login.'
+      });
+    }
+  }
+);
+
 /* =========================
    LOGOUT ADMIN
 ========================= */
