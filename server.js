@@ -96,6 +96,10 @@ app.get('/assinatura.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'assinatura.html'));
 });
 
+app.get('/loja.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'loja.html'));
+});
+
 /* =========================
    XTREAM
 ========================= */
