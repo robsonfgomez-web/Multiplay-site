@@ -674,3 +674,4 @@ public class MainActivity extends Activity {
 
     @Override public void onBackPressed(){ home(); }
 }
+// Multiplay Educação 1.3.2 — hero landing visual.
