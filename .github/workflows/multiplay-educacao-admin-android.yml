@@ -1,0 +1,38 @@
+name: Multiplay Educação Admin Android
+on:
+  push:
+    paths:
+      - 'android-admin/**'
+      - '.github/workflows/multiplay-educacao-admin-android.yml'
+  workflow_dispatch:
+jobs:
+  android-admin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Build release
+        working-directory: android-admin
+        run: |
+          gradle wrapper --gradle-version 8.9
+          ./gradlew --no-daemon assembleRelease
+      - name: Sign and package APK
+        run: |
+          set -e
+          BUILD_TOOLS="$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)"
+          keytool -genkeypair -v -keystore /tmp/multiplay-admin-test.jks -alias multiplay-admin -keyalg RSA -keysize 2048 -validity 10000 -storepass multiplaytest -keypass multiplaytest -dname "CN=Multiplay Educação Admin, OU=Test, O=Multiplay, L=Curitiba, ST=PR, C=BR"
+          "$BUILD_TOOLS/zipalign" -f 4 android-admin/app/build/outputs/apk/release/app-release-unsigned.apk /tmp/multiplay-admin-aligned.apk
+          "$BUILD_TOOLS/apksigner" sign --ks /tmp/multiplay-admin-test.jks --ks-key-alias multiplay-admin --ks-pass pass:multiplaytest --key-pass pass:multiplaytest --out android-admin/app/build/outputs/apk/release/Multiplay-Educacao-Admin-1.0.0.apk /tmp/multiplay-admin-aligned.apk
+      - name: Verify APK
+        run: |
+          set -e
+          test -f android-admin/app/build/outputs/apk/release/Multiplay-Educacao-Admin-1.0.0.apk
+          "$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)/apksigner" verify --verbose android-admin/app/build/outputs/apk/release/Multiplay-Educacao-Admin-1.0.0.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Multiplay-Educacao-Admin-1.0.0-Android
+          path: android-admin/app/build/outputs/apk/release/Multiplay-Educacao-Admin-1.0.0.apk
+          if-no-files-found: error
