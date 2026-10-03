@@ -1,7 +1,7 @@
 {
   "name": "multiplay-site",
   "version": "4.0.0",
-  "description": "MultiPlay Entretenimento - Site e Aplicativo",
+  "description": "Multiplay Educação — plataforma educacional, loja e painel administrativo",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
