@@ -14,24 +14,27 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 21
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
       - name: Build release
         working-directory: android-admin
-        run: |
-          gradle wrapper --gradle-version 8.9
-          ./gradlew --no-daemon --stacktrace assembleRelease
+        run: gradle --no-daemon --stacktrace assembleRelease
       - name: Sign and package APK
         run: |
-          set -e
+          set -euo pipefail
           BUILD_TOOLS="$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)"
           keytool -genkeypair -v -keystore /tmp/multiplay-admin-test.jks -alias multiplay-admin -keyalg RSA -keysize 2048 -validity 10000 -storepass multiplaytest -keypass multiplaytest -dname "CN=Multiplay Educação Admin, OU=Test, O=Multiplay, L=Curitiba, ST=PR, C=BR"
           "$BUILD_TOOLS/zipalign" -f 4 android-admin/app/build/outputs/apk/release/app-release-unsigned.apk /tmp/multiplay-admin-aligned.apk
           "$BUILD_TOOLS/apksigner" sign --ks /tmp/multiplay-admin-test.jks --ks-key-alias multiplay-admin --ks-pass pass:multiplaytest --key-pass pass:multiplaytest --out android-admin/app/build/outputs/apk/release/Multiplay-Educacao-Admin-1.0.0.apk /tmp/multiplay-admin-aligned.apk
       - name: Verify APK
         run: |
-          set -e
-          test -f android-admin/app/build/outputs/apk/release/Multiplay-Educacao-Admin-1.0.0.apk
-          "$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)/apksigner" verify --verbose android-admin/app/build/outputs/apk/release/Multiplay-Educacao-Admin-1.0.0.apk
+          set -euo pipefail
+          APK="android-admin/app/build/outputs/apk/release/Multiplay-Educacao-Admin-1.0.0.apk"
+          test -s "$APK"
+          "$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)/apksigner" verify --verbose "$APK"
       - uses: actions/upload-artifact@v4
         with:
           name: Multiplay-Educacao-Admin-1.0.0-Android
