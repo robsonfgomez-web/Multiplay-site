@@ -3,6 +3,7 @@ const crypto = require('crypto');
 module.exports = function registerEducacaoAssinaturas({ app, pool, fetch, exigirAlunoEducacao, exigirAdmin }) {
   const PUBLIC_URL = (process.env.MULTIPLAY_PUBLIC_URL || 'https://multiplay-site.onrender.com').replace(/\/$/, '');
   const MP_TOKEN = process.env.MERCADOPAGO_ACCESS_TOKEN || '';
+  const MP_WEBHOOK_SECRET = process.env.MERCADOPAGO_WEBHOOK_SECRET || '';
 
   const PLAN_SEED = [
     {
@@ -27,6 +28,8 @@ module.exports = function registerEducacaoAssinaturas({ app, pool, fetch, exigir
 
   async function ensureTables() {
     await pool.query(`
+      CREATE TABLE IF NOT EXISTS edu_students(id SERIAL PRIMARY KEY,name VARCHAR(180) NOT NULL,email VARCHAR(180) UNIQUE NOT NULL,username VARCHAR(100) UNIQUE NOT NULL,password_hash TEXT NOT NULL,phone VARCHAR(40),plan VARCHAR(80) DEFAULT 'Multiplay Educação',active BOOLEAN DEFAULT TRUE,access_until TIMESTAMP NULL,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,last_login_at TIMESTAMP NULL);
+      CREATE TABLE IF NOT EXISTS edu_courses(id SERIAL PRIMARY KEY,title VARCHAR(220) NOT NULL,description TEXT,category VARCHAR(100),provider VARCHAR(180),workload_hours NUMERIC(8,2) DEFAULT 0,content_url TEXT,cover_url TEXT,active BOOLEAN DEFAULT TRUE,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
       CREATE TABLE IF NOT EXISTS edu_plans(
         id SERIAL PRIMARY KEY,
         code VARCHAR(60) UNIQUE NOT NULL,
@@ -169,6 +172,23 @@ module.exports = function registerEducacaoAssinaturas({ app, pool, fetch, exigir
 
   async function handleWebhook(req, res) {
     try {
+      if (MP_WEBHOOK_SECRET) {
+        const signature = String(req.headers['x-signature'] || '');
+        const requestId = String(req.headers['x-request-id'] || '');
+        const dataId = String(req.query?.['data.id'] || req.body?.data?.id || req.body?.id || '');
+        const parts = Object.fromEntries(signature.split(',').map(x => x.split('=').map(v => v.trim())));
+        const ts = parts.ts || '';
+        const v1 = parts.v1 || '';
+        const manifestParts=[];
+        if (dataId) manifestParts.push('id:' + dataId + ';');
+        if (requestId) manifestParts.push('request-id:' + requestId + ';');
+        if (ts) manifestParts.push('ts:' + ts + ';');
+        const manifest=manifestParts.join('');
+        const expected=crypto.createHmac('sha256',MP_WEBHOOK_SECRET).update(manifest).digest('hex');
+        if (!v1 || v1.length !== expected.length || !crypto.timingSafeEqual(Buffer.from(v1),Buffer.from(expected))) return res.status(401).json({success:false});
+      } else if (process.env.NODE_ENV === 'production') {
+        return res.status(503).json({success:false,message:'Webhook do Mercado Pago sem segredo configurado.'});
+      }
       const type = String(req.body?.type || req.body?.topic || 'unknown');
       const dataId = String(req.body?.data?.id || req.body?.id || '');
       if (!dataId) return res.status(200).json({ received: true });
