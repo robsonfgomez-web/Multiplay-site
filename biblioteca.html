@@ -17,7 +17,21 @@
     .open{display:inline-block;text-align:center;text-decoration:none;background:#2563eb;color:white;padding:11px 14px;border-radius:10px}
     .empty{text-align:center;color:#9aa7b9;padding:35px 10px}.back{display:inline-block;color:#9cc4ff;text-decoration:none;margin-bottom:16px}
     @media(max-width:600px){.wrap{padding:16px}h1{font-size:25px}}
-  </style>
+  <style id="mobile-fix">
+html,body{width:100%;max-width:100%;min-width:0;overflow-x:hidden}
+*,*::before,*::after{box-sizing:border-box}
+.wrap{width:100%;min-width:0}
+.hero,.grid,.card{min-width:0;max-width:100%}
+.card{overflow:hidden}
+h1,h3,p,a,button{overflow-wrap:anywhere;word-break:break-word}
+.search{display:block;max-width:100%;min-width:0}
+@media(max-width:600px){
+ .wrap{padding:14px 12px}
+ h1{font-size:24px;line-height:1.15}
+ .search{font-size:16px}
+ .grid{grid-template-columns:1fr!important}
+}
+</style></style>
 </head>
 <body>
   <main class="wrap">
