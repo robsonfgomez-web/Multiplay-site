@@ -738,6 +738,11 @@ public class MainActivity extends Activity {
         base();
         header("Tire suas dúvidas com a equipe Multiplay");
 
+        TextView support=txt("Suporte WhatsApp: (41) 98439-4315",14,true);
+        support.setTextColor(Color.rgb(255,170,40));
+        support.setGravity(Gravity.CENTER);
+        body.addView(support,new LinearLayout.LayoutParams(-1,dp(34)));
+
         TextView intro=txt("Envie sua dúvida, solicitação ou dificuldade. Nossa equipe poderá responder e acompanhar o atendimento por aqui.",12,false);
         intro.setTextColor(MUTED);
         body.addView(intro);
