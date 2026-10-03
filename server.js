@@ -33,6 +33,19 @@ const ADMIN_SESSION_MAX_AGE =
 app.use(express.json());
 app.use(express.static(__dirname));
 
+/* Evita que celulares mantenham uma versão antiga das páginas HTML */
+app.use((req, res, next) => {
+  if (req.path === '/' || req.path.endsWith('.html')) {
+    res.set(
+      'Cache-Control',
+      'no-store, no-cache, must-revalidate, proxy-revalidate'
+    );
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+  }
+  next();
+});
+
 /* =========================
    BANCO
 ========================= */
