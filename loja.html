@@ -33,7 +33,15 @@ img,svg,video,canvas{max-width:100%;height:auto}
  .section{margin-top:36px}
  .campaign{margin-top:30px}
 }
-</style></style>
+<style id="hero-mobile-fix">
+@media(max-width:600px){
+  .hero{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;width:100%!important;overflow:hidden!important}
+  .hero>.eyebrow{width:auto!important;max-width:100%!important;flex:0 0 auto!important}
+  .hero>div{width:100%!important;max-width:none!important;flex:0 0 auto!important}
+  .hero h1{width:100%!important;max-width:100%!important;margin:14px 0 12px!important;font-size:clamp(30px,9vw,40px)!important;line-height:1.08!important;white-space:normal!important;overflow:visible!important;word-break:normal!important;overflow-wrap:break-word!important}
+  .hero p{width:100%!important;max-width:100%!important;overflow:visible!important;word-break:normal!important;overflow-wrap:break-word!important}
+}
+</style></style></style>
 </head>
 <body>
 <div class="wrap">
