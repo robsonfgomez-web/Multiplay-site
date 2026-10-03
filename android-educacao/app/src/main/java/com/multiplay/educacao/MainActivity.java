@@ -76,12 +76,14 @@ public class MainActivity extends Activity {
 
         TextView slogan=txt("Conhecimento para hoje.",18,true);
         slogan.setGravity(Gravity.CENTER);
-        body.addView(slogan,new LinearLayout.LayoutParams(-1,dp(32)));
+        slogan.setPadding(0,dp(2),0,dp(2));
+        body.addView(slogan,new LinearLayout.LayoutParams(-1,-2));
 
         TextView slogan2=txt("Mais oportunidades para sempre.",12,true);
         slogan2.setTextColor(Color.rgb(255,170,40));
         slogan2.setGravity(Gravity.CENTER);
-        body.addView(slogan2,new LinearLayout.LayoutParams(-1,dp(28)));
+        slogan2.setPadding(0,dp(2),0,dp(2));
+        body.addView(slogan2,new LinearLayout.LayoutParams(-1,-2));
 
         EditText user=new EditText(this);
         user.setHint("Usuário ou e-mail");
