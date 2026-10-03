@@ -31,7 +31,6 @@ const ADMIN_SESSION_MAX_AGE =
   8 * 60 * 60 * 1000;
 
 app.use(express.json());
-app.use(express.static(__dirname));
 
 /* Evita que celulares mantenham uma versão antiga das páginas HTML */
 app.use((req, res, next) => {
@@ -45,6 +44,8 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+app.use(express.static(__dirname));
 
 /* =========================
    BANCO
@@ -74,9 +75,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/index.html', (req, res) => {
-  res.sendFile(
-    path.join(__dirname, 'index.html')
-  );
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/entretenimento.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'entretenimento.html'));
 });
 
 app.get('/login.html', (req, res) => {
