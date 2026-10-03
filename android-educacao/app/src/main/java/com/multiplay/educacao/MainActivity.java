@@ -177,7 +177,7 @@ public class MainActivity extends Activity {
             else if(n.contains("Livros"))x.setOnClickListener(v->catalog("LIVROS",books));
             else if(n.contains("Audiobooks"))x.setOnClickListener(v->catalog("AUDIOBOOKS",audios));
             else if(n.contains("E-books"))x.setOnClickListener(v->catalog("E-BOOKS",ebooks));
-            else x.setOnClickListener(v->certificates());
+            else x.setOnClickListener(v->supportScreen());
         }
         hero.addView(cats);
         body.addView(hero,new LinearLayout.LayoutParams(-1,-2));
@@ -224,12 +224,6 @@ public class MainActivity extends Activity {
         TextView src=txt("Os catálogos oficiais são carregados online e podem receber novos cursos sem precisar atualizar o aplicativo.",10,false);
         src.setTextColor(MUTED);
         body.addView(src);
-
-        body.addView(section("🏆  Certificados e histórico"));
-        Button cert=btn("VER MEUS CERTIFICADOS");
-        cert.setTextSize(12);
-        body.addView(cert,new LinearLayout.LayoutParams(-1,dp(50)));
-        cert.setOnClickListener(v->certificates());
 
         TextView f=txt("Conteúdos acessados online nas plataformas responsáveis. Certificados são emitidos pelas instituições quando previstos.",10,false);
         f.setTextColor(MUTED);
