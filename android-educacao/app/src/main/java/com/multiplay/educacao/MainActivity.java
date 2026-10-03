@@ -277,15 +277,21 @@ public class MainActivity extends Activity {
         edu.setPadding(0,0,0,dp(3));
         brandBlock.addView(edu,new LinearLayout.LayoutParams(-1,dp(22)));
 
-        TextView slogan=txt("Conhecimento para hoje.",18,true);
+        TextView slogan=txt("Conhecimento para hoje.",19,true);
         slogan.setGravity(Gravity.CENTER);
         slogan.setTextColor(Color.WHITE);
-        brandBlock.addView(slogan,new LinearLayout.LayoutParams(-1,dp(30)));
+        slogan.setIncludeFontPadding(true);
+        slogan.setMinHeight(dp(42));
+        slogan.setPadding(0,dp(4),0,dp(4));
+        brandBlock.addView(slogan,new LinearLayout.LayoutParams(-1,dp(42)));
 
-        TextView slogan2=txt("Mais oportunidades para sempre.",12,true);
+        TextView slogan2=txt("Mais oportunidades para sempre.",13,true);
         slogan2.setGravity(Gravity.CENTER);
         slogan2.setTextColor(Color.rgb(255,170,40));
-        brandBlock.addView(slogan2,new LinearLayout.LayoutParams(-1,dp(24)));
+        slogan2.setIncludeFontPadding(true);
+        slogan2.setMinHeight(dp(32));
+        slogan2.setPadding(0,dp(3),0,dp(3));
+        brandBlock.addView(slogan2,new LinearLayout.LayoutParams(-1,dp(32)));
 
         body.addView(brandBlock,new LinearLayout.LayoutParams(-1,-2));
 
