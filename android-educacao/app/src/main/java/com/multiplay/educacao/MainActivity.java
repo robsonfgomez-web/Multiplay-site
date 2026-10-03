@@ -55,45 +55,45 @@ public class MainActivity extends Activity {
     void loginScreen(){
         base();
         body.setGravity(Gravity.CENTER_HORIZONTAL);
-        body.setPadding(dp(22),dp(24),dp(22),dp(70));
+        body.setPadding(dp(24),dp(18),dp(24),dp(60));
 
         ImageView logo=new ImageView(this);
         logo.setImageResource(com.multiplay.educacao.R.drawable.ic_multiplay_edu);
         logo.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        logo.setBackground(bg(Color.rgb(10,35,62),Color.rgb(24,143,255),24));
-        LinearLayout.LayoutParams lpLogo=new LinearLayout.LayoutParams(dp(118),dp(118));
-        lpLogo.setMargins(0,dp(18),0,dp(14));
+        logo.setBackground(bg(Color.rgb(7,24,46),Color.rgb(18,105,190),20));
+        LinearLayout.LayoutParams lpLogo=new LinearLayout.LayoutParams(dp(112),dp(112));
+        lpLogo.setMargins(0,dp(12),0,dp(10));
         body.addView(logo,lpLogo);
 
-        TextView brand=txt("MULTIPLAY",28,true);
+        TextView brand=txt("MULTIPLAY",25,true);
         brand.setGravity(Gravity.CENTER);
-        brand.setPadding(0,0,0,0);
-        body.addView(brand,new LinearLayout.LayoutParams(-1,dp(38)));
-        TextView edu=txt("EDUCAÇÃO",14,true);
+        body.addView(brand,new LinearLayout.LayoutParams(-1,dp(32)));
+
+        TextView edu=txt("EDUCAÇÃO",12,true);
         edu.setTextColor(Color.rgb(255,145,20));
         edu.setGravity(Gravity.CENTER);
-        edu.setPadding(0,0,0,dp(8));
-        body.addView(edu,new LinearLayout.LayoutParams(-1,dp(30)));
+        body.addView(edu,new LinearLayout.LayoutParams(-1,dp(24)));
 
-        TextView title=txt("Acesso do aluno",22,true);
-        title.setGravity(Gravity.CENTER);
-        body.addView(title,new LinearLayout.LayoutParams(-1,dp(42)));
-        TextView sub=txt("Entre com seu usuário e senha para continuar seus estudos.",12,false);
-        sub.setTextColor(MUTED);
-        sub.setGravity(Gravity.CENTER);
-        body.addView(sub,new LinearLayout.LayoutParams(-1,dp(44)));
+        TextView slogan=txt("Conhecimento para hoje.",18,true);
+        slogan.setGravity(Gravity.CENTER);
+        body.addView(slogan,new LinearLayout.LayoutParams(-1,dp(32)));
+
+        TextView slogan2=txt("Mais oportunidades para sempre.",12,true);
+        slogan2.setTextColor(Color.rgb(255,170,40));
+        slogan2.setGravity(Gravity.CENTER);
+        body.addView(slogan2,new LinearLayout.LayoutParams(-1,dp(28)));
 
         EditText user=new EditText(this);
         user.setHint("Usuário ou e-mail");
         user.setTextColor(Color.WHITE);
         user.setSingleLine(true);
         user.setInputType(android.text.InputType.TYPE_CLASS_TEXT|android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-        user.setBackground(bg(CARD,Color.rgb(48,77,106),14));
+        user.setBackground(bg(CARD,Color.rgb(48,77,106),12));
         user.setPadding(dp(14),0,dp(14),0);
         user.setHintTextColor(Color.rgb(125,148,177));
         user.setImeOptions(android.view.inputmethod.EditorInfo.IME_ACTION_NEXT);
-        LinearLayout.LayoutParams fp=new LinearLayout.LayoutParams(-1,dp(54));
-        fp.setMargins(0,dp(12),0,0);
+        LinearLayout.LayoutParams fp=new LinearLayout.LayoutParams(-1,dp(52));
+        fp.setMargins(0,dp(12),0,dp(8));
         body.addView(user,fp);
 
         EditText pass=new EditText(this);
@@ -101,30 +101,38 @@ public class MainActivity extends Activity {
         pass.setTextColor(Color.WHITE);
         pass.setSingleLine(true);
         pass.setInputType(android.text.InputType.TYPE_CLASS_TEXT|android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        pass.setBackground(bg(CARD,Color.rgb(48,77,106),14));
+        pass.setBackground(bg(CARD,Color.rgb(48,77,106),12));
         pass.setPadding(dp(14),0,dp(14),0);
         pass.setHintTextColor(Color.rgb(125,148,177));
         pass.setImeOptions(android.view.inputmethod.EditorInfo.IME_ACTION_DONE);
-        fp=new LinearLayout.LayoutParams(-1,dp(54));
-        fp.setMargins(0,dp(9),0,0);
+        fp=new LinearLayout.LayoutParams(-1,dp(52));
+        fp.setMargins(0,0,0,dp(7));
         body.addView(pass,fp);
 
         TextView error=txt("",11,false);
         error.setTextColor(Color.rgb(255,125,138));
         error.setGravity(Gravity.CENTER);
-        body.addView(error,new LinearLayout.LayoutParams(-1,dp(38)));
+        body.addView(error,new LinearLayout.LayoutParams(-1,dp(32)));
 
-        Button entrar=btn("🔐 ENTRAR NA MULTIPLAY EDUCAÇÃO");
+        Button entrar=btn("ENTRAR");
         entrar.setTextSize(14);
-        LinearLayout.LayoutParams bp=new LinearLayout.LayoutParams(-1,dp(56));
-        bp.setMargins(0,dp(4),0,dp(8));
+        entrar.setBackground(bg(Color.rgb(9,158,241),Color.rgb(29,198,255),12));
+        LinearLayout.LayoutParams bp=new LinearLayout.LayoutParams(-1,dp(52));
+        bp.setMargins(0,dp(2),0,dp(7));
         body.addView(entrar,bp);
 
-        TextView support=txt("Ainda não possui acesso? Solicite seu cadastro pelo suporte.",11,false);
+        Button criar=btn("CRIAR CONTA");
+        criar.setTextSize(13);
+        criar.setBackground(bg(Color.TRANSPARENT,Color.rgb(58,112,165),12));
+        LinearLayout.LayoutParams cp=new LinearLayout.LayoutParams(-1,dp(50));
+        cp.setMargins(0,0,0,dp(10));
+        body.addView(criar,cp);
+        criar.setOnClickListener(v->supportScreen());
+
+        TextView support=txt("Conhecimento para hoje.\nMais oportunidades para sempre.",10,false);
         support.setTextColor(MUTED);
         support.setGravity(Gravity.CENTER);
         body.addView(support);
-        support.setOnClickListener(v->supportScreen());
 
         View.OnClickListener doLogin=v->{
             String u=user.getText().toString().trim();
@@ -156,7 +164,7 @@ public class MainActivity extends Activity {
                     final String name=extractJson(response,"name");
                     final String message=extractJson(response,"message");
                     runOnUiThread(()->{
-                        entrar.setEnabled(true); entrar.setText("🔐 ENTRAR NA MULTIPLAY EDUCAÇÃO");
+                        entrar.setEnabled(true); entrar.setText("ENTRAR");
                         if(ok&&token.length()>0){
                             prefs.edit().putString("edu_token",token).putString("edu_username",u).putString("edu_name",name).apply();
                             ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(pass.getWindowToken(),0);
@@ -165,7 +173,7 @@ public class MainActivity extends Activity {
                         }else error.setText(message.length()>0?message:"Usuário ou senha inválidos.");
                     });
                 }catch(Exception ex){
-                    runOnUiThread(()->{entrar.setEnabled(true);entrar.setText("🔐 ENTRAR NA MULTIPLAY EDUCAÇÃO");error.setText("Não foi possível conectar ao servidor. Tente novamente.");});
+                    runOnUiThread(()->{entrar.setEnabled(true);entrar.setText("ENTRAR");error.setText("Não foi possível conectar ao servidor. Tente novamente.");});
                 }finally{if(conn!=null)conn.disconnect();}
             }).start();
         };
@@ -239,93 +247,71 @@ public class MainActivity extends Activity {
 
     void home(){
         base();
+        body.setPadding(dp(12),dp(10),dp(12),dp(82));
 
-        // Entrada premium: foto em tela cheia, marca Multiplay Educação sobre a imagem
-        // e chamada principal, seguindo a referência visual aprovada.
-        FrameLayout heroVisual=new FrameLayout(this);
-        heroVisual.setBackground(bg(Color.rgb(7,20,38),Color.rgb(28,111,205),24));
+        // HOME OFICIAL — fiel ao esboço aprovado da Multiplay Educação:
+        // logo compacta, chamada, busca, atalhos, indicadores e cursos.
+        LinearLayout brandBlock=new LinearLayout(this);
+        brandBlock.setOrientation(LinearLayout.VERTICAL);
+        brandBlock.setGravity(Gravity.CENTER_HORIZONTAL);
+        brandBlock.setPadding(0,dp(8),0,dp(4));
 
-        ImageView heroPhoto=new ImageView(this);
-        heroPhoto.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        heroPhoto.setBackgroundColor(Color.rgb(7,20,38));
-        heroVisual.addView(heroPhoto,new FrameLayout.LayoutParams(-1,dp(255)));
-        loadCover(heroPhoto,
-            "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=85",
-            "Multiplay Educação");
+        ImageView logo=new ImageView(this);
+        logo.setImageResource(com.multiplay.educacao.R.drawable.ic_multiplay_edu);
+        logo.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        logo.setBackground(bg(Color.rgb(7,24,46),Color.rgb(18,105,190),18));
+        LinearLayout.LayoutParams lpLogo=new LinearLayout.LayoutParams(dp(92),dp(92));
+        lpLogo.setMargins(0,0,0,dp(5));
+        brandBlock.addView(logo,lpLogo);
 
-        View shade=new View(this);
-        GradientDrawable shadeBg=new GradientDrawable(
-            GradientDrawable.Orientation.TOP_BOTTOM,
-            new int[]{Color.argb(55,2,12,25),Color.argb(225,2,12,25)}
-        );
-        shade.setBackground(shadeBg);
-        heroVisual.addView(shade,new FrameLayout.LayoutParams(-1,dp(255)));
+        TextView brand=txt("MULTIPLAY",24,true);
+        brand.setGravity(Gravity.CENTER);
+        brand.setPadding(0,0,0,0);
+        brandBlock.addView(brand,new LinearLayout.LayoutParams(-1,dp(30)));
 
-        LinearLayout heroContent=new LinearLayout(this);
-        heroContent.setOrientation(LinearLayout.VERTICAL);
-        heroContent.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM);
-        heroContent.setPadding(dp(18),dp(18),dp(18),dp(18));
+        TextView edu=txt("EDUCAÇÃO",11,true);
+        edu.setTextColor(Color.rgb(255,145,20));
+        edu.setGravity(Gravity.CENTER);
+        edu.setPadding(0,0,0,dp(3));
+        brandBlock.addView(edu,new LinearLayout.LayoutParams(-1,dp(22)));
 
-        ImageView bigLogo=new ImageView(this);
-        bigLogo.setImageResource(com.multiplay.educacao.R.drawable.ic_multiplay_edu);
-        bigLogo.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        bigLogo.setAlpha(0.98f);
-        FrameLayout.LayoutParams lpLogo=new FrameLayout.LayoutParams(dp(112),dp(112),Gravity.CENTER_HORIZONTAL);
-        lpLogo.topMargin=dp(18);
-        heroContent.addView(bigLogo,lpLogo);
+        TextView slogan=txt("Conhecimento para hoje.",18,true);
+        slogan.setGravity(Gravity.CENTER);
+        slogan.setTextColor(Color.WHITE);
+        brandBlock.addView(slogan,new LinearLayout.LayoutParams(-1,dp(30)));
 
-        TextView heroBrand=txt("MULTIPLAY",26,true);
-        heroBrand.setGravity(Gravity.CENTER);
-        heroBrand.setPadding(0,0,0,0);
-        heroContent.addView(heroBrand,new LinearLayout.LayoutParams(-1,dp(34)));
+        TextView slogan2=txt("Mais oportunidades para sempre.",12,true);
+        slogan2.setGravity(Gravity.CENTER);
+        slogan2.setTextColor(Color.rgb(255,170,40));
+        brandBlock.addView(slogan2,new LinearLayout.LayoutParams(-1,dp(24)));
 
-        TextView heroEdu=txt("EDUCAÇÃO",13,true);
-        heroEdu.setTextColor(Color.rgb(255,145,20));
-        heroEdu.setGravity(Gravity.CENTER);
-        heroEdu.setPadding(0,0,0,0);
-        heroContent.addView(heroEdu,new LinearLayout.LayoutParams(-1,dp(24)));
+        body.addView(brandBlock,new LinearLayout.LayoutParams(-1,-2));
 
-        TextView heroTitle=txt("Conhecimento para hoje.",19,true);
-        heroTitle.setGravity(Gravity.CENTER);
-        heroTitle.setPadding(0,dp(5),0,0);
-        heroContent.addView(heroTitle);
-
-        TextView heroSub=txt("Mais oportunidades para sempre.",13,true);
-        heroSub.setTextColor(Color.rgb(255,178,55));
-        heroSub.setGravity(Gravity.CENTER);
-        heroSub.setPadding(0,0,0,dp(4));
-        heroContent.addView(heroSub);
-
-        FrameLayout.LayoutParams cp=new FrameLayout.LayoutParams(-1,-2,Gravity.BOTTOM);
-        heroVisual.addView(heroContent,cp);
-        body.addView(heroVisual,new LinearLayout.LayoutParams(-1,dp(255)));
-
-        // Busca em destaque, logo abaixo do hero.
         EditText q=new EditText(this);
         q.setSingleLine(true);
-        q.setHint("🔎  O que você quer aprender hoje?");
-        q.setHintTextColor(Color.rgb(115,145,178));
+        q.setHint("⌕  O que você quer aprender hoje?");
+        q.setHintTextColor(Color.rgb(145,158,178));
         q.setTextColor(Color.rgb(20,30,45));
-        q.setTextSize(13);
-        q.setPadding(dp(15),0,dp(15),0);
+        q.setTextSize(12);
+        q.setPadding(dp(14),0,dp(14),0);
         q.setBackground(bg(Color.WHITE,0,14));
         LinearLayout.LayoutParams qp=new LinearLayout.LayoutParams(-1,dp(50));
-        qp.setMargins(0,dp(10),0,dp(8));
+        qp.setMargins(0,dp(7),0,dp(8));
         body.addView(q,qp);
         q.setOnEditorActionListener((v,action,event)->{
-            String term=q.getText().toString().trim();
-            if(!term.isEmpty()) searchScreen();
+            if(!q.getText().toString().trim().isEmpty()) searchScreen();
             return true;
         });
 
-        // Navegação visual por categorias.
         LinearLayout cats=new LinearLayout(this);
         cats.setGravity(Gravity.CENTER);
         String[] names={"🎓 Cursos","📚 Livros","🎧 Audiobooks","📖 E-books","🏆 Certificados"};
         for(String n:names){
             Button x=btn(n);
-            x.setTextSize(9);
-            x.setPadding(dp(2),0,dp(2),0);
+            x.setTextSize(8);
+            x.setPadding(dp(1),0,dp(1),0);
+            x.setTextColor(Color.WHITE);
+            x.setBackground(bg(Color.rgb(7,154,235),Color.rgb(18,191,255),7));
             LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,dp(48),1);
             p.setMargins(dp(2),0,dp(2),0);
             cats.addView(x,p);
@@ -338,21 +324,22 @@ public class MainActivity extends Activity {
         body.addView(cats);
 
         LinearLayout stats=new LinearLayout(this);
-        stats.setPadding(0,dp(10),0,dp(4));
+        stats.setPadding(0,dp(9),0,dp(4));
         stats.addView(statBox("900+","CURSOS"),new LinearLayout.LayoutParams(0,dp(68),1));
         stats.addView(statBox(String.valueOf(books.size()),"LIVROS"),new LinearLayout.LayoutParams(0,dp(68),1));
         stats.addView(statBox(String.valueOf(audios.size()),"AUDIOBOOKS"),new LinearLayout.LayoutParams(0,dp(68),1));
         stats.addView(statBox(String.valueOf(ebooks.size()),"E-BOOKS"),new LinearLayout.LayoutParams(0,dp(68),1));
         body.addView(stats);
 
-        Button loja=btn("🛍  LOJA MULTIPLAY EDUCAÇÃO");
-        loja.setTextSize(13);
+        Button loja=btn("🛍  MINHA MULTIPLAY EDUCAÇÃO");
+        loja.setTextSize(12);
+        loja.setBackground(bg(Color.rgb(9,158,241),Color.rgb(29,198,255),5));
         LinearLayout.LayoutParams lojaP=new LinearLayout.LayoutParams(-1,dp(52));
-        lojaP.setMargins(0,dp(4),0,dp(8));
+        lojaP.setMargins(0,dp(4),0,dp(5));
         body.addView(loja,lojaP);
         loja.setOnClickListener(v->openCatalogWeb(
-            "https://multiplay-site.onrender.com/loja.html",
-            "Loja Multiplay Educação"
+            "https://multiplay-site.onrender.com/educacao.html",
+            "Multiplay Educação"
         ));
 
         if(!recent.isEmpty()){
