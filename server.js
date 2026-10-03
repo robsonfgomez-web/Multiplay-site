@@ -82,6 +82,11 @@ app.get('/entretenimento.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'entretenimento.html'));
 });
 
+// Alias sem extensão para facilitar acesso por links, APK e navegador.
+app.get('/entretenimento', (req, res) => {
+  res.sendFile(path.join(__dirname, 'entretenimento.html'));
+});
+
 app.get('/login.html', (req, res) => {
   res.sendFile(
     path.join(__dirname, 'login.html')
