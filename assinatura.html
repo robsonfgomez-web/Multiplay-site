@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Assinatura • Multiplay Educação</title>
+<style>
+:root{--bg:#050810;--card:#0d1625;--line:#203956;--blue:#168cff;--cyan:#16e0ff;--orange:#ff9a18;--muted:#9eacbd}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#123b70,#050810 48%);color:#fff;font-family:Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:28px 18px 50px}.top{display:flex;align-items:center;gap:12px}.top img{width:58px;height:58px}.brand b{font-size:20px}.brand span{display:block;color:var(--orange);font-size:11px;font-weight:700;margin-top:2px}.hero{text-align:center;padding:40px 10px 24px}.hero h1{font-size:38px;margin:0 0 10px}.hero p{color:var(--muted);font-size:17px;max-width:700px;margin:0 auto}.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.plan{background:linear-gradient(180deg,#102039,#0b1320);border:1px solid var(--line);border-radius:24px;padding:25px;box-shadow:0 18px 45px #0005}.plan.featured{border-color:var(--cyan);transform:translateY(-5px)}.tag{display:inline-block;background:#0b426a;color:#bcefff;border-radius:99px;padding:6px 10px;font-size:11px;font-weight:700}.plan h2{margin:14px 0 6px}.price{font-size:34px;font-weight:800;color:var(--cyan);margin:16px 0}.price small{font-size:13px;color:var(--muted)}ul{padding-left:20px;color:#d9e7f6;line-height:1.8}.btn{display:block;width:100%;padding:14px;border:0;border-radius:13px;background:linear-gradient(90deg,var(--blue),#18cfff);color:#fff;font-weight:800;font-size:15px;cursor:pointer}.note{margin-top:24px;padding:16px;border:1px solid #27425f;border-radius:16px;background:#091321;color:var(--muted);font-size:13px}.status{margin:20px 0;padding:14px;border-radius:14px;background:#0b1828;border:1px solid #23415f;display:none}.back{display:inline-block;color:#bfeeff;margin-top:22px;text-decoration:none}@media(max-width:800px){.plans{grid-template-columns:1fr}.plan.featured{transform:none}.hero h1{font-size:30px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <img src="/assets/multiplay-educacao-logo.svg" alt="Multiplay Educação">
+    <div class="brand"><b>MULTIPLAY</b><span>EDUCAÇÃO</span></div>
+  </div>
+  <section class="hero">
+    <h1>Conhecimento para hoje. Mais oportunidades para sempre.</h1>
+    <p>Uma assinatura para estudar, ler e ouvir em um só lugar. Conteúdos próprios e parceiros licenciados entram no catálogo conforme os direitos de distribuição.</p>
+  </section>
+  <div id="status" class="status"></div>
+  <section id="plans" class="plans"></section>
+  <div class="note"><b>Como funciona:</b> você escolhe o plano, faz a assinatura no Mercado Pago e o Multiplay atualiza automaticamente o acesso quando a assinatura for autorizada. A cobrança recorrente e os eventos de assinatura são tratados pelo Mercado Pago.</div>
+  <a class="back" href="/educacao.html">← Voltar para Multiplay Educação</a>
+</div>
+<script>
+async function loadPlans(){
+  const r=await fetch('/api/educacao/plans'); const d=await r.json();
+  const el=document.getElementById('plans');
+  if(!d.success){el.innerHTML='<div class="note">Não foi possível carregar os planos.</div>';return}
+  el.innerHTML=d.plans.map((p,i)=>`
+    <article class="plan ${i===1?'featured':''}">
+      ${i===1?'<span class="tag">MAIS COMPLETO</span>':''}
+      <h2>${p.name}</h2>
+      <p style="color:#9eacbd">${p.description}</p>
+      <div class="price">R$ ${Number(p.price).toFixed(2).replace('.',',')} <small>/mês</small></div>
+      <ul><li>Acesso pelo celular, tablet e computador</li><li>Progresso sincronizado</li><li>Livros, e-books e audiobooks liberados conforme catálogo</li>${i>0?'<li>Cursos premium parceiros conforme disponibilidade</li>':''}</ul>
+      <button class="btn" onclick="subscribe('${p.code}')">ASSINAR AGORA</button>
+    </article>`).join('');
+}
+async function subscribe(code){
+  const username=prompt('Digite seu usuário ou e-mail da Multiplay Educação:');
+  const password=prompt('Digite sua senha:');
+  if(!username||!password)return;
+  const login=await fetch('/api/educacao/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password})});
+  const ld=await login.json();
+  if(!ld.success){alert(ld.message||'Login inválido.');return}
+  localStorage.setItem('mp_edu_token',ld.token);
+  const r=await fetch('/api/educacao/subscriptions/checkout',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+ld.token},body:JSON.stringify({plan_code:code})});
+  const d=await r.json();
+  if(!d.success){alert(d.message||'Não foi possível iniciar a assinatura.');return}
+  window.location.href=d.checkout_url;
+}
+const params=new URLSearchParams(location.search);
+if(params.get('status')==='retorno'){document.getElementById('status').style.display='block';document.getElementById('status').textContent='Retorno do pagamento recebido. Abra o app e sincronize sua assinatura para confirmar o acesso.'}
+loadPlans();
+</script>
+</body>
+</html>
