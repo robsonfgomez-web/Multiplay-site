@@ -55,35 +55,40 @@ public class MainActivity extends Activity {
     void loginScreen(){
         base();
         body.setGravity(Gravity.CENTER_HORIZONTAL);
-        body.setPadding(dp(24),dp(18),dp(24),dp(60));
+        body.setPadding(dp(20),dp(8),dp(20),dp(72));
 
         ImageView logo=new ImageView(this);
         logo.setImageResource(com.multiplay.educacao.R.drawable.ic_multiplay_edu);
         logo.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         logo.setBackground(bg(Color.rgb(7,24,46),Color.rgb(18,105,190),20));
-        LinearLayout.LayoutParams lpLogo=new LinearLayout.LayoutParams(dp(112),dp(112));
-        lpLogo.setMargins(0,dp(12),0,dp(10));
+        LinearLayout.LayoutParams lpLogo=new LinearLayout.LayoutParams(dp(92),dp(92));
+        lpLogo.setMargins(0,dp(4),0,dp(6));
         body.addView(logo,lpLogo);
 
-        TextView brand=txt("MULTIPLAY",25,true);
+        TextView brand=txt("MULTIPLAY",24,true);
         brand.setGravity(Gravity.CENTER);
-        body.addView(brand,new LinearLayout.LayoutParams(-1,dp(32)));
+        brand.setIncludeFontPadding(true);
+        brand.setPadding(0,dp(2),0,dp(2));
+        body.addView(brand,new LinearLayout.LayoutParams(-1,dp(40)));
 
         TextView edu=txt("EDUCAÇÃO",12,true);
         edu.setTextColor(Color.rgb(255,145,20));
         edu.setGravity(Gravity.CENTER);
-        body.addView(edu,new LinearLayout.LayoutParams(-1,dp(24)));
+        edu.setIncludeFontPadding(true);
+        body.addView(edu,new LinearLayout.LayoutParams(-1,dp(28)));
 
         TextView slogan=txt("Conhecimento para hoje.",18,true);
         slogan.setGravity(Gravity.CENTER);
-        slogan.setPadding(0,dp(2),0,dp(2));
-        body.addView(slogan,new LinearLayout.LayoutParams(-1,-2));
+        slogan.setIncludeFontPadding(true);
+        slogan.setPadding(0,dp(4),0,dp(4));
+        body.addView(slogan,new LinearLayout.LayoutParams(-1,dp(38)));
 
         TextView slogan2=txt("Mais oportunidades para sempre.",12,true);
         slogan2.setTextColor(Color.rgb(255,170,40));
         slogan2.setGravity(Gravity.CENTER);
-        slogan2.setPadding(0,dp(2),0,dp(2));
-        body.addView(slogan2,new LinearLayout.LayoutParams(-1,-2));
+        slogan2.setIncludeFontPadding(true);
+        slogan2.setPadding(0,dp(3),0,dp(3));
+        body.addView(slogan2,new LinearLayout.LayoutParams(-1,dp(32)));
 
         EditText user=new EditText(this);
         user.setHint("Usuário ou e-mail");
