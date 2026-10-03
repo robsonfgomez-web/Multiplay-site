@@ -2417,6 +2417,12 @@ app.patch('/api/admin/educacao/support/tickets/:id',exigirAdmin,async(req,res)=>
   try{const q=await pool.query("UPDATE edu_support_tickets SET status=COALESCE($1,status),priority=COALESCE($2,priority),updated_at=NOW() WHERE id=$3 RETURNING id,status,priority",[req.body?.status,req.body?.priority,Number(req.params.id)]);if(!q.rows.length)return res.status(404).json({success:false,message:'Chamado não encontrado.'});res.json({success:true,ticket:q.rows[0]});}catch(e){res.status(500).json({success:false,message:'Erro ao atualizar chamado.'});}
 });
 
+/* =========================================================
+   MULTIPLAY EDUCAÇÃO — ASSINATURAS
+========================================================= */
+const registerEducacaoAssinaturas = require('./educacao-assinaturas');
+registerEducacaoAssinaturas({ app, pool, fetch, exigirAlunoEducacao, exigirAdmin });
+
 /* =========================
    SERVIDOR
 ========================= */
