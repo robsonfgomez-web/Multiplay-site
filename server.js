@@ -45,6 +45,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req,res,next)=>{res.set('X-Multiplay-Version','educacao-v2026-10-02-final');next();});
+
 app.use(express.static(__dirname));
 
 /* =========================
@@ -110,7 +112,11 @@ app.get('/assinatura.html', (req, res) => {
 });
 
 app.get('/loja.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'loja.html'));
+  res.redirect(301, '/educacao.html');
+});
+
+app.get('/educacao', (req, res) => {
+  res.sendFile(path.join(__dirname, 'educacao.html'));
 });
 
 /* =========================
