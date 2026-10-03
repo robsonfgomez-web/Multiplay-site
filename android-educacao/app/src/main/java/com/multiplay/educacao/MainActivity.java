@@ -191,12 +191,12 @@ public class MainActivity extends Activity {
         stats.addView(statBox(String.valueOf(ebooks.size()),"E-BOOKS"),new LinearLayout.LayoutParams(0,dp(68),1));
         body.addView(stats);
 
-        Button assinatura=btn("⭐  ASSINATURA MULTIPLAY EDUCAÇÃO");
+        Button assinatura=btn("⭐  LOJA MULTIPLAY EDUCAÇÃO");
         assinatura.setTextSize(12);
         LinearLayout.LayoutParams ap=new LinearLayout.LayoutParams(-1,dp(50));
         ap.setMargins(0,dp(4),0,dp(8));
         body.addView(assinatura,ap);
-        assinatura.setOnClickListener(v->openCatalogWeb("https://multiplay-site.onrender.com/assinatura.html","Assinatura Multiplay Educação"));
+        assinatura.setOnClickListener(v->openCatalogWeb("https://multiplay-site.onrender.com/loja.html","Assinatura Multiplay Educação"));
 
         if(!recent.isEmpty()){
             body.addView(section("▶  Continuar estudando"));
