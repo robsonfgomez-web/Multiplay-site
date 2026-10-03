@@ -254,78 +254,76 @@ public class MainActivity extends Activity {
 
     void home(){
         base();
-        body.setPadding(dp(12),dp(10),dp(12),dp(82));
+        body.setPadding(dp(12),dp(8),dp(12),dp(86));
 
-        // HOME OFICIAL — fiel ao esboço aprovado da Multiplay Educação:
-        // logo compacta, chamada, busca, atalhos, indicadores e cursos.
-        LinearLayout brandBlock=new LinearLayout(this);
-        brandBlock.setOrientation(LinearLayout.VERTICAL);
-        brandBlock.setGravity(Gravity.CENTER_HORIZONTAL);
-        brandBlock.setPadding(0,dp(8),0,dp(4));
+        LinearLayout hero=new LinearLayout(this);
+        hero.setOrientation(LinearLayout.VERTICAL);
+        hero.setGravity(Gravity.CENTER_HORIZONTAL);
+        hero.setPadding(0,dp(4),0,dp(2));
 
         ImageView logo=new ImageView(this);
         logo.setImageResource(com.multiplay.educacao.R.drawable.ic_multiplay_edu);
         logo.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        logo.setBackground(bg(Color.rgb(7,24,46),Color.rgb(18,105,190),18));
-        LinearLayout.LayoutParams lpLogo=new LinearLayout.LayoutParams(dp(92),dp(92));
-        lpLogo.setMargins(0,0,0,dp(5));
-        brandBlock.addView(logo,lpLogo);
+        logo.setBackground(bg(Color.rgb(7,24,46),Color.rgb(18,105,190),22));
+        LinearLayout.LayoutParams lpLogo=new LinearLayout.LayoutParams(dp(112),dp(112));
+        lpLogo.setMargins(0,0,0,dp(6));
+        hero.addView(logo,lpLogo);
 
-        TextView brand=txt("MULTIPLAY",24,true);
+        TextView brand=txt("MULTIPLAY",27,true);
         brand.setGravity(Gravity.CENTER);
-        brand.setPadding(0,0,0,0);
-        brandBlock.addView(brand,new LinearLayout.LayoutParams(-1,dp(30)));
+        brand.setIncludeFontPadding(true);
+        brand.setPadding(0,dp(2),0,dp(2));
+        hero.addView(brand,new LinearLayout.LayoutParams(-1,dp(42)));
 
-        TextView edu=txt("EDUCAÇÃO",11,true);
+        TextView edu=txt("EDUCAÇÃO",13,true);
         edu.setTextColor(Color.rgb(255,145,20));
         edu.setGravity(Gravity.CENTER);
-        edu.setPadding(0,0,0,dp(3));
-        brandBlock.addView(edu,new LinearLayout.LayoutParams(-1,dp(22)));
+        edu.setIncludeFontPadding(true);
+        hero.addView(edu,new LinearLayout.LayoutParams(-1,dp(30)));
 
-        TextView slogan=txt("Conhecimento para hoje.",19,true);
+        TextView slogan=txt("Conhecimento para hoje.",20,true);
         slogan.setGravity(Gravity.CENTER);
-        slogan.setTextColor(Color.WHITE);
         slogan.setIncludeFontPadding(true);
-        slogan.setMinHeight(dp(42));
         slogan.setPadding(0,dp(4),0,dp(4));
-        brandBlock.addView(slogan,new LinearLayout.LayoutParams(-1,dp(42)));
+        hero.addView(slogan,new LinearLayout.LayoutParams(-1,dp(46)));
 
-        TextView slogan2=txt("Mais oportunidades para sempre.",13,true);
-        slogan2.setGravity(Gravity.CENTER);
+        TextView slogan2=txt("Mais oportunidades para sempre.",14,true);
         slogan2.setTextColor(Color.rgb(255,170,40));
+        slogan2.setGravity(Gravity.CENTER);
         slogan2.setIncludeFontPadding(true);
-        slogan2.setMinHeight(dp(32));
-        slogan2.setPadding(0,dp(3),0,dp(3));
-        brandBlock.addView(slogan2,new LinearLayout.LayoutParams(-1,dp(32)));
+        slogan2.setPadding(0,dp(3),0,dp(4));
+        hero.addView(slogan2,new LinearLayout.LayoutParams(-1,dp(38)));
 
-        body.addView(brandBlock,new LinearLayout.LayoutParams(-1,-2));
+        body.addView(hero,new LinearLayout.LayoutParams(-1,-2));
 
         EditText q=new EditText(this);
         q.setSingleLine(true);
         q.setHint("⌕  O que você quer aprender hoje?");
         q.setHintTextColor(Color.rgb(145,158,178));
         q.setTextColor(Color.rgb(20,30,45));
-        q.setTextSize(12);
-        q.setPadding(dp(14),0,dp(14),0);
-        q.setBackground(bg(Color.WHITE,0,14));
-        LinearLayout.LayoutParams qp=new LinearLayout.LayoutParams(-1,dp(50));
-        qp.setMargins(0,dp(7),0,dp(8));
+        q.setTextSize(15);
+        q.setGravity(Gravity.CENTER_VERTICAL);
+        q.setPadding(dp(18),0,dp(18),0);
+        q.setBackground(bg(Color.WHITE,0,16));
+        LinearLayout.LayoutParams qp=new LinearLayout.LayoutParams(-1,dp(62));
+        qp.setMargins(0,dp(8),0,dp(10));
         body.addView(q,qp);
         q.setOnEditorActionListener((v,action,event)->{
-            if(!q.getText().toString().trim().isEmpty()) searchScreen();
-            return true;
+            if(!q.getText().toString().trim().isEmpty()){searchScreen();return true;}
+            return false;
         });
 
         LinearLayout cats=new LinearLayout(this);
         cats.setGravity(Gravity.CENTER);
-        String[] names={"🎓 Cursos","📚 Livros","🎧 Audiobooks","📖 E-books","🏆 Certificados"};
+        String[] names={"🎓\\nCursos","📚\\nLivros","🎧\\nAudiobooks","📖\\nE-books","🏆\\nCertificados"};
         for(String n:names){
             Button x=btn(n);
-            x.setTextSize(8);
+            x.setTextSize(9);
+            x.setGravity(Gravity.CENTER);
             x.setPadding(dp(1),0,dp(1),0);
             x.setTextColor(Color.WHITE);
-            x.setBackground(bg(Color.rgb(7,154,235),Color.rgb(18,191,255),7));
-            LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,dp(48),1);
+            x.setBackground(bg(Color.rgb(7,154,235),Color.rgb(18,191,255),9));
+            LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,dp(60),1);
             p.setMargins(dp(2),0,dp(2),0);
             cats.addView(x,p);
             if(n.contains("Cursos"))x.setOnClickListener(v->catalog("CURSOS",courses));
@@ -337,31 +335,33 @@ public class MainActivity extends Activity {
         body.addView(cats);
 
         LinearLayout stats=new LinearLayout(this);
-        stats.setPadding(0,dp(9),0,dp(4));
-        stats.addView(statBox("900+","CURSOS"),new LinearLayout.LayoutParams(0,dp(68),1));
-        stats.addView(statBox(String.valueOf(books.size()),"LIVROS"),new LinearLayout.LayoutParams(0,dp(68),1));
-        stats.addView(statBox(String.valueOf(audios.size()),"AUDIOBOOKS"),new LinearLayout.LayoutParams(0,dp(68),1));
-        stats.addView(statBox(String.valueOf(ebooks.size()),"E-BOOKS"),new LinearLayout.LayoutParams(0,dp(68),1));
+        stats.setPadding(0,dp(10),0,dp(5));
+        String courseCount=courses.size()>900?"900+":String.valueOf(courses.size());
+        stats.addView(statBox(courseCount,"CURSOS"),new LinearLayout.LayoutParams(0,dp(82),1));
+        stats.addView(statBox(String.valueOf(books.size()),"LIVROS"),new LinearLayout.LayoutParams(0,dp(82),1));
+        stats.addView(statBox(String.valueOf(audios.size()),"AUDIOBOOKS"),new LinearLayout.LayoutParams(0,dp(82),1));
+        stats.addView(statBox(String.valueOf(ebooks.size()),"E-BOOKS"),new LinearLayout.LayoutParams(0,dp(82),1));
         body.addView(stats);
 
-        Button loja=btn("🛍  MINHA MULTIPLAY EDUCAÇÃO");
-        loja.setTextSize(12);
-        loja.setBackground(bg(Color.rgb(9,158,241),Color.rgb(29,198,255),5));
-        LinearLayout.LayoutParams lojaP=new LinearLayout.LayoutParams(-1,dp(52));
-        lojaP.setMargins(0,dp(4),0,dp(5));
+        Button loja=btn("🛍  MINHA MULTIPLAY EDUCAÇÃO   ›");
+        loja.setTextSize(14);
+        loja.setGravity(Gravity.CENTER);
+        loja.setBackground(bg(Color.rgb(9,158,241),Color.rgb(29,198,255),7));
+        LinearLayout.LayoutParams lojaP=new LinearLayout.LayoutParams(-1,dp(58));
+        lojaP.setMargins(0,dp(5),0,dp(8));
         body.addView(loja,lojaP);
         loja.setOnClickListener(v->openCatalogWeb(
             "https://multiplay-site.onrender.com/educacao.html",
             "Multiplay Educação"
         ));
 
+        body.addView(section("🔥  Cursos em destaque"));
+        horizontal(courses,6);
+
         if(!recent.isEmpty()){
             body.addView(section("▶  Continuar estudando"));
             horizontal(recent,4);
         }
-
-        body.addView(section("🔥  Cursos em destaque"));
-        horizontal(courses,6);
 
         body.addView(section("📚  Livros e e-books"));
         horizontal(books,5);
