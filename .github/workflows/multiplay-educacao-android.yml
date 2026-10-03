@@ -1,4 +1,4 @@
-name: Multiplay Educação Android 1.3.3
+name: Multiplay Educação Android 1.3.4
 on:
   push:
     paths:
@@ -31,17 +31,17 @@ jobs:
           BUILD_TOOLS="$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)"
           keytool -genkeypair -v -keystore /tmp/multiplay-educacao-test.jks -alias multiplay-edu -keyalg RSA -keysize 2048 -validity 10000 -storepass multiplaytest -keypass multiplaytest -dname "CN=Multiplay Educação, OU=Test, O=Multiplay, L=Curitiba, ST=PR, C=BR"
           "$BUILD_TOOLS/zipalign" -f 4 android-educacao/app/build/outputs/apk/release/app-release-unsigned.apk /tmp/multiplay-aligned.apk
-          "$BUILD_TOOLS/apksigner" sign --ks /tmp/multiplay-educacao-test.jks --ks-key-alias multiplay-edu --ks-pass pass:multiplaytest --key-pass pass:multiplaytest --out android-educacao/app/build/outputs/apk/release/Multiplay-Educacao-1.3.3.apk /tmp/multiplay-aligned.apk
+          "$BUILD_TOOLS/apksigner" sign --ks /tmp/multiplay-educacao-test.jks --ks-key-alias multiplay-edu --ks-pass pass:multiplaytest --key-pass pass:multiplaytest --out android-educacao/app/build/outputs/apk/release/Multiplay-Educacao-1.3.4.apk /tmp/multiplay-aligned.apk
 
       - name: Verify APK
         run: |
           set -euo pipefail
-          APK="android-educacao/app/build/outputs/apk/release/Multiplay-Educacao-1.3.3.apk"
+          APK="android-educacao/app/build/outputs/apk/release/Multiplay-Educacao-1.3.4.apk"
           test -s "$APK"
           "$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)/apksigner" verify --verbose "$APK"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Multiplay-Educacao-1.3.3-Android
-          path: android-educacao/app/build/outputs/apk/release/Multiplay-Educacao-1.3.3.apk
+          name: Multiplay-Educacao-1.3.4-Android
+          path: android-educacao/app/build/outputs/apk/release/Multiplay-Educacao-1.3.4.apk
           if-no-files-found: error
